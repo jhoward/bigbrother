@@ -1,0 +1,4 @@
+COMPONENT=InfraredC
+
+include $(MAKERULES)
+

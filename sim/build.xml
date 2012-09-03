@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<project name="ControlPanel" default="compile">
+    <target name="clean" description="remove intermediate files">
+        <delete dir="classes"/>
+    </target>
+    <target name="compile"
+     description="compile the Java source code to class files">
+        <mkdir dir="classes"/>
+        <javac srcdir="." destdir="classes">
+				</javac>
+    </target>
+    <target name="compileLivePanel"
+     description="compile the Java source code to class files">
+        <mkdir dir="classes"/>
+        <javac srcdir="../mote/BigBrother/java" destdir="classes">
+				</javac>
+        <javac srcdir="." destdir="classes">
+				</javac>
+    </target>
+    <target name="jar" depends="compile"
+     description="create a Jar file for the application">
+        <jar destfile="Sim.jar">
+            <fileset dir="classes" includes="**/*.class"/>
+						<zipfileset src="/opt/jdsl-2.1.1/lib/jdsl.jar" />
+						<zipfileset src="/root/My Downloads/xstream-1.2.1/lib/xstream-1.2.1.jar" />
+						<zipfileset src="/root/My Downloads/xstream-1.2.1/lib/xpp3_min-1.1.3.4.O.jar" />
+						<manifest>
+                <attribute name="Main-Class" value="sim"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="LivePanel" depends="compileLivePanel"
+     description="create a Jar file for the application">
+        <jar destfile="LivePanel.jar">
+            <fileset dir="classes" includes="**/*.class"/>
+						<zipfileset src="/opt/jdsl-2.1.1/lib/jdsl.jar" />
+						<zipfileset src="/root/My Downloads/xstream-1.2.1/lib/xstream-1.2.1.jar" />
+						<zipfileset src="/root/My Downloads/xstream-1.2.1/lib/xpp3_min-1.1.3.4.O.jar" />
+						<zipfileset src="../mote/BigBrother/java/bigbrother.jar" />
+						<zipfileset src="/opt/tinyos-2.x/support/sdk/java/tinyos.jar" />
+						<manifest>
+                <attribute name="Main-Class" value="LivePanel"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="Playback" depends="compile"
+     description="create a Jar file for the PlaybackPanel application">
+        <jar destfile="Playback.jar">
+            <fileset dir="classes" includes="**/*.class"/>
+						<zipfileset src="/opt/jdsl-2.1.1/lib/jdsl.jar" />
+						<zipfileset src="/root/My Downloads/xstream-1.2.1/lib/xstream-1.2.1.jar" />
+						<zipfileset src="/root/My Downloads/xstream-1.2.1/lib/xpp3_min-1.1.3.4.O.jar" />
+						<manifest>
+                <attribute name="Main-Class" value="PlaybackPanel"/>
+            </manifest>
+        </jar>
+    </target>
+</project>

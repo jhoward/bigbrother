@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment name="bb floor 2" divider="400" width="1325" height="727" zoom="1.0006655335205503" scroll-x="0" scroll-y="77" expand-description="false">
+  <mapfile name="/Users/jahoward/Documents/Code/bigbrother/images/bb_floor2_color.png"/>
+  <description>
+    <![CDATA[Environment Collector.]]>
+  </description>
+  <spots>
+    <role name="Data Collector" show-role="true" expand-description="false">
+      <project file="/Users/jahoward/Documents/Code/bigbrother/mote/sunspot/BBSpot"/>
+      <description>
+        <![CDATA[Hallway collection motes.]]>
+      </description>
+    <spot address="0014.4F01.0000.551B" collapsed="false" show-status="false">
+        <map-position x="195" y="313"/>
+      </spot>
+    <spot address="0014.4F01.0000.4A6F" collapsed="false" show-status="false">
+        <map-position x="274" y="311"/>
+      </spot>
+    <spot address="0014.4F01.0000.49DB" collapsed="false" show-status="false">
+        <map-position x="360" y="302"/>
+      </spot>
+    <spot address="0014.4F01.0000.4849" collapsed="false" show-status="false">
+        <map-position x="455" y="299"/>
+      </spot>
+    <spot address="0014.4F01.0000.405A" collapsed="false" show-status="false">
+        <map-position x="557" y="300"/>
+      </spot>
+    </role>
+  </spots>
+  <host-apps>
+  </host-apps>
+</deployment>

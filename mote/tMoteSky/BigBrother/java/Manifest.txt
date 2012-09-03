@@ -1,0 +1,4 @@
+Main-Class: BigBrother
+Class-Path: /opt/tinyos-2.x/support/sdk/java/tinyos.jar
+
+

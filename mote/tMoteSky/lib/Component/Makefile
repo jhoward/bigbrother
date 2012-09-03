@@ -1,0 +1,4 @@
+COMPONENT=ComponentC
+
+include $(MAKERULES)
+

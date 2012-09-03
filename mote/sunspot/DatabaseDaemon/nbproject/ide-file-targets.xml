@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="Telemetry-onDesktop host app">
+    <import file="../build.xml"/>
+
+    <!-- TODO: edit the following target according to your needs -->
+    <!-- (more info: http://www.netbeans.org/kb/41/freeform-config.html#debugj2se) -->
+
+    <target name="debug-nb"  depends="init,-set-selector-for-host-run,-do-find-spots,host-compile,-pre-host-run">
+        <nbjpdastart addressproperty="jpda.address" name="DatabaseDemo-onDesktop" transport="dt_socket">
+            <classpath path="${build.dir}${path.separator}${hostagent.run.classpath}"/>
+        </nbjpdastart>
+
+        <java classname="${main.class}" 
+              classpath="${build.dir}${path.separator}${hostagent.run.classpath}"
+              fork="true">
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xnoagent"/>
+            <jvmarg value="-Djava.compiler=none"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+	    <sysproperty key="spot.basestation.sharing" value="${multi.process.basestation.sharing}" />
+	    <sysproperty key="spotclient.addin.classes" value="${spotclient.all.addin.classes}" />
+            <jvmarg value="-Djava.library.path=${sunspot.lib}${path.separator}${user.library.path}"/>
+            <jvmarg value="-DSERIAL_PORT=${port}"/>
+            <jvmarg value="-Dremote.channel=${remote.channel}"/>
+            <jvmarg value="-Dremote.pan.id=${remote.pan.id}"/>
+	    <jvmarg value="-Dsquawk.startup.arguments=${squawk.startup.arguments}"/>
+            <jvmarg value="-Dspot.mesh.route.logging=${spot.mesh.route.logging}"/>
+            <jvmarg value="-Dspot.log.connections=${spot.log.connections}"/>
+            <jvmarg value="-Dspotclient.verbose=${spotclient.verbose}"/>
+	    <jvmarg value="-Derror.log=${error.log}"/>
+            <jvmarg line="${host.jvmargs}"/>
+            <arg line="${main.args}"/>
+        </java>
+    </target>
+
+</project>

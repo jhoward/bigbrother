@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="recorded" default="compile">
+	<property environment="env"/>
+    	<target name="clean" description="remove intermediate files">
+        	<delete dir="classes"/>
+    	</target>
+    	<target name="compile" description="compile the Java source code to class files">
+        	<mkdir dir="classes"/>
+        	<javac srcdir="../../include" destdir="classes"></javac>
+        	<javac srcdir="." destdir="classes"></javac>
+    	</target>
+    	<target name="jar" depends="compile" description="create a Jar file for the application for playing live data">
+        	<jar destfile="live.jar">
+            	<fileset dir="classes" includes="**/*.class"/>
+            	<fileset file="../../include/sensors.xml"/>
+            	<fileset file="../../include/new_map.bmp"/>
+		         <zipfileset src="${env.XSTREAMDIR}/lib/xstream-1.2.1.jar" />
+		         <zipfileset src="${env.XSTREAMDIR}/lib/xpp3_min-1.1.3.4.O.jar" />
+            	<zipfileset src="/opt/tinyos-2.x/support/sdk/java/tinyos.jar" />
+		         <manifest>
+                	<attribute name="Main-Class" value="Playback"/>
+            	</manifest>
+        	</jar>
+    	</target>
+</project>
