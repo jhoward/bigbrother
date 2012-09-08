@@ -6,7 +6,9 @@ counts = [];
 
 %Number of seconds to aggregate
 %Should make this evenly divisible by days
-aggregateAmount = 600;
+aggregateAmount = 600;\
+
+
 startDate = '01-09-2008 00:00:00';
 endDate = '06-07-2008 23:59:59';
 
