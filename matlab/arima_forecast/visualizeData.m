@@ -4,7 +4,7 @@ clear all;
 load('./data/brownData.mat');
 
 %Get all mondays
-dayIndex = find(dayOfWeek == 5);
+dayIndex = find(dayOfWeek == 3);
 data = agData(dayIndex, 20);
 numDays = floor(size(data, 1))/blocksInDay;
 
