@@ -2,23 +2,29 @@ clear all
 close all
 
 % This is number of day 1 (the first day of 2010)
-nDay1 = datenum('01/01/2010');
+nDay1 = datenum('01/01/2008');
+
+%if averagedays is 1, then compute the average day for that day of the week
+%and save to data.
+AVERAGEDAYS = 1;
+
+dataLocation = '../../data/traffic/denver/';
 
 % Make a list of all file names.  Note curly brackets for cell array, to
 % allow for strings of varying length in the array.
 allFileNames = {
     '006G283P.txt';
     '006G283S.txt';
-    '025A207P.txt';
-    '025A207S.txt';
+    %'025A207P.txt';
+    %'025A207S.txt';
     %'044A2P.txt';
     %'044A2S.txt';
-    '070A270P.txt';
-    '070A270S.txt';
-    '070A277P.txt';
-    '070A277S.txt';
-    '070A289P.txt';
-    '070A289S.txt';
+    %'070A270P.txt';
+    %'070A270S.txt';
+    %'070A277P.txt';
+    %'070A277S.txt';
+    %'070A289P.txt';
+    %'070A289S.txt';
     %'076A10P.txt';
     %'076A10S.txt';
     %'083A66P.txt';
@@ -63,18 +69,19 @@ In addition, there were two other locations that had incomplete counts:
     
 % Read text files and fill up the array D, size (d,365,24)
 d = length(allFileNames);     % Number of sensors
-D = zeros(d,365,24);
+sensors = [];
 
 for n=1:d
     
     fileName = allFileNames{n};
-    fid = fopen(fileName, 'r');
+    fid = fopen(strcat(dataLocation, fileName), 'r');
     if fid ~= -1
         fprintf('File %s: ', fileName);
+        sensors(n).fileName = fileName;
     else
         error('can''t open file');
     end
-            
+    
     nDaysRead = 0;      % Just out of curiousity, count #days read
     
     while ~feof(fid)
@@ -100,7 +107,7 @@ for n=1:d
         end
         
         % Get counts for each hour
-        [data,nc] = fscanf(fid, '%d', 24);
+        [lineData,nc] = fscanf(fid, '%d', 24);
         if nc~=24
             error('did''t read 24 hour counts');
         end
@@ -111,22 +118,70 @@ for n=1:d
             error('did''t read summary counts');
         end
         
-        D(n,nDay,:) = data;
+        data(nDay,:) = lineData;
         nDaysRead = nDaysRead + 1;
     end
     fclose(fid);
     
     fprintf('%s, %d days total\n', szDate, nDaysRead);
+
+
+    % Let's also make an array that holds the day number for each day of the
+    % year.  In Matlab, these are defined as the number of days since 
+    %  'Jan-1-0000 00:00:00'
+    dayNums = 0:size(data, 1) - 1;
+    dayNums = dayNums' + nDay1;
+    days = weekday(dayNums);
+    replacedDays = zeros(1, size(data, 1));
+    weekAvg = [];
+    
+    if AVERAGEDAYS == 1
+        emptySpots = find(data == 0);
+        emptyIndex = mod(emptySpots, size(data, 1));
+        emptyIndex = unique(emptyIndex);
+        replacedDays(emptyIndex) = 1;
+        fullIndex = dayNums(setdiff(1:length(dayNums), emptyIndex));
+        fullIndex = fullIndex - nDay1 + 1;
+        fullData = data(fullIndex, :);
+
+        %Average for each day of week
+        for i = 1:7
+            dayIndex = find(days(fullIndex) == i);
+            dayData = fullData(dayIndex, :);
+            weekAvg(i, :) = sum(dayData, 1)/size(dayData, 1);
+        end
+
+        %Replace data
+        for i = 1:length(emptySpots)
+            rDay = mod(emptySpots(i), size(data, 1));
+            rHour = floor(emptySpots(i)/size(data, 1)) + 1;
+            wDay = weekday(dayNums(rDay));
+            data(emptySpots(i)) = weekAvg(wDay, rHour);
+        end
+    end
+    
+    sensors(n).dayNums = dayNums;
+    sensors(n).dayOfWeek = days;
+    sensors(n).replacedDays = replacedDays';
+    sensors(n).data = data;
+    sensors(n).weekAvg = weekAvg;
+    sensors(n).fileName = fileName;
+end
+
+tmpData = sensors(1).data(find(days == 1), :);
+x = linspace(1, 24, 24);
+xflip = [x(1 : end - 1) fliplr(x)];
+
+
+for i = 1:length(tmpData)
+    y = tmpData(i, :);
+    
+    yflip = [y(1 : end - 1) fliplr(y)];
+    patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
+    hold on
 end
 
 
-% Let's also make an array that holds the day number for each day of the
-% year.  In Matlab, these are defined as the number of days since 
-%  'Jan-1-0000 00:00:00'
-dayNums = 0:364;
-dayNums = dayNums + nDay1;
-
-
-save countData allFileNames D dayNums
+save('./data/countData.mat', 'allFileNames', 'sensors')
 
 

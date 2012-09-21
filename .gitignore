@@ -163,7 +163,7 @@ pip-log.txt
 .DS_Store
 
 ################
-Directories
+#Directories
 ################
 /data/*
 /output/*
@@ -171,3 +171,8 @@ Directories
 /presentations
 /thesis
 /runs/*
+
+################
+#Matlab
+################
+*.asv
