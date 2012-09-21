@@ -1,0 +1,37 @@
+Mote Lifetime:
+
+- Initialize stuff
+- Ask user to enter binary code for mote with button one, ok with button two
+  - Show code in LEDs
+- Turn off LEDs
+- Main loop
+  always run:
+    - While button one is pressed show binary code on LEDs
+    - If time/date is XXXX, state is Data transmission ########## maybe wait for ping here instead, if battery life allows
+    - If time/date is XXXX + delta t, state is Normal operation
+  states:
+    - Normal operation
+      -
+    - Data transmission  ########## maybe flash an LED every few seconds while in this mode
+      - Wait for ping from computer
+      - Prepare data
+        - Battery voltage
+        - Mote binary code and static ID
+        - Event data
+      - Calculate MD5 hash of data before transmission
+      - Send MD5 hash
+      - Send data
+      - Wait for computer response
+      - If computer's MD5 does not match data's MD5, resend data
+      - If does match, erase event data from mote
+      - State is Normal transmission
+
+        
+        
+        
+Events and Data Storage:
+
+Event Model (~10 bytes)
+- timestamp : date/time
+- sensor type : byte
+- sensor data : int
