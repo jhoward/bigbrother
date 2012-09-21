@@ -1,120 +1,111 @@
 package sunspot;
 
-import com.sun.spot.sensorboard.EDemoBoard;
-import com.sun.spot.sensorboard.io.*;
+import com.sun.spot.resources.Resources;
+import com.sun.spot.resources.transducers.ISwitch;
+import com.sun.spot.resources.transducers.ISwitchListener;
+import com.sun.spot.resources.transducers.LEDColor;
+import com.sun.spot.resources.transducers.ITriColorLEDArray;
+import com.sun.spot.resources.transducers.SwitchEvent;
 import com.sun.spot.io.j2me.radiogram.*;
-import com.sun.spot.sensorboard.peripheral.ITriColorLED;
-import com.sun.spot.util.Utils;
-import java.util.Calendar;
-import java.util.Date;
+
+import java.io.*;
 import javax.microedition.io.*;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-public class Mote extends MIDlet {
-    private static final int DATA_SINK_PORT = 67;
+public class Mote extends MIDlet implements ISwitchListener {
+    private static final int CHANGE_COLOR = 1;
+    private static final int CHANGE_COUNT = 2;
+
+    private ITriColorLEDArray leds = (ITriColorLEDArray)Resources.lookup(ITriColorLEDArray.class);
+    private ISwitch sw1 = (ISwitch)Resources.lookup(ISwitch.class, "SW1");
+    private ISwitch sw2 = (ISwitch)Resources.lookup(ISwitch.class, "SW2");
+    private int count = -1;
+    private int color = 0;
+    private LEDColor[] colors = { LEDColor.RED, LEDColor.GREEN, LEDColor.BLUE };
+    private RadiogramConnection tx = null;
+    private Radiogram xdg;
     
-    protected void startApp() throws MIDletStateChangeException {
-        //Initialize everything.
-        RadiogramConnection rCon = null;
-        Datagram dg = null;
-        String ourAddress = System.getProperty("IEEE_ADDRESS");
-        long now = 0L;
-        long reset = 0L;
-        IScalarInput lightSensor =  EDemoBoard.getInstance().getLightSensor();
-        int reading = 0;
-        //This is in miliseconds.
-        int readInterval = 1000;
-        Calendar cal = Calendar.getInstance();
-        String ts = null;
-        ITriColorLED[] leds = EDemoBoard.getInstance().getLEDs();
-        IScalarInput[] aInputs = EDemoBoard.getInstance().getScalarInputs();
-        IIOPin[] ioPins = EDemoBoard.getInstance().getIOPins();
-
-        int[] boolValues = new int[5];
-        int[] floatValues = new int[5];
-
-        try {
-            rCon = (RadiogramConnection) Connector.open(
-                    "radiogram://broadcast:" + DATA_SINK_PORT);
-            dg = rCon.newDatagram(rCon.getMaximumLength());
-        } catch (Exception e) {
-            System.err.println("Caught " + e +
-                    " in connection initialization.");
-            System.exit(1);
-        }
-
-        reset = System.currentTimeMillis() + readInterval;
-
-        while (true) {
-            try {
-                now = System.currentTimeMillis();
-
-                if (now > reset) {
-
-                    reading = lightSensor.getValue();
-
-                    // Flash an LED to indicate a sampling event
-                    leds[7].setRGB(255, 255, 255);
-                    leds[7].setOn();
-                    Utils.sleep(50);
-                    leds[7].setOff();
-
-                    //Read sensor values.  If anything changed, send data.
-
-                    cal.setTime(new Date(now));
-                    ts = cal.get(Calendar.YEAR) + "-" +
-                            (1 + cal.get(Calendar.MONTH)) + "-" +
-                            cal.get(Calendar.DAY_OF_MONTH) + " " +
-                            cal.get(Calendar.HOUR_OF_DAY) + ":" +
-                            cal.get(Calendar.MINUTE) + ":" +
-                            cal.get(Calendar.SECOND);
-
-                    // Package our identifier, timestamp and sensor reading
-                    // into a radio datagram and send it.
-                    dg.reset();
-                    dg.writeUTF(ourAddress);
-                    dg.writeUTF(ts);
-                    dg.writeInt(reading);
-                       /*
-                    for(int i = 0; i < aInputs.length; i++) {
-                        dg.writeInt(aInputs[i].getValue());
-                    }
-                     */
-                    
-                    for(int i = 0; i < ioPins.length; i++) {
-                        int writeVal = 0;
-
-                        if(ioPins[i].isHigh() == true) {
-                            writeVal = 1;
-                        }
-
-                        if(ioPins[i].isOutput() == true) {
-                            writeVal = -1;
-                        }
-
-                        dg.writeInt(writeVal);
-                    }
-                    
-                    rCon.send(dg);
-
-                    // Go to sleep to conserve battery
-                    reset = now + readInterval;
-                }
-            } catch (Exception e) {
-                System.err.println("Caught " + e +
-                        " while running.");
-                e.printStackTrace();
+    private void showCount(int count, int color) {
+        for (int i = 7, bit = 1; i >= 0; i--, bit <<= 1) {
+            if ((count & bit) != 0) {
+                leds.getLED(i).setColor(colors[color]);
+                leds.getLED(i).setOn();
+            } else {
+                leds.getLED(i).setOff();
             }
         }
     }
     
+    private void showColor(int color) {
+        leds.setColor(colors[color]);
+        leds.setOn();
+    }
+    
+    protected void startApp() throws MIDletStateChangeException {
+        System.out.println("Broadcast Counter MIDlet");
+        showColor(color);
+        sw1.addISwitchListener(this);
+        sw2.addISwitchListener(this);
+        try {
+            tx = (RadiogramConnection)Connector.open("radiogram://broadcast:123");
+            xdg = (Radiogram)tx.newDatagram(20);
+            RadiogramConnection rx = (RadiogramConnection)Connector.open("radiogram://:123");
+            Radiogram rdg = (Radiogram)rx.newDatagram(20);
+            while (true) {
+                try {
+                    rx.receive(rdg);
+                    int cmd = rdg.readInt();
+                    int newCount = rdg.readInt();
+                    int newColor = rdg.readInt();
+                    if (cmd == CHANGE_COLOR) {
+                        System.out.println("Received packet from " + rdg.getAddress());
+                        showColor(newColor);
+                    } else {
+                        showCount(newCount, newColor);
+                    }
+                } catch (IOException ex) {
+                    System.out.println("Error receiving packet: " + ex);
+                    ex.printStackTrace();
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("Error opening connections: " + ex);
+            ex.printStackTrace();
+        }
+    }
+
     protected void pauseApp() {
         // This will never be called by the Squawk VM
     }
-    
+
     protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
         // Only called if startApp throws any exception other than MIDletStateChangeException
+    }
+
+    public void switchReleased(SwitchEvent evt) {
+        int cmd;
+        if (evt.getSwitch() == sw1) {
+            cmd = CHANGE_COLOR;
+            if (++color >= colors.length) { color = 0; }
+            count = -1;
+        } else {
+            cmd = CHANGE_COUNT;
+            count++;
+        }
+        try {
+            xdg.reset();
+            xdg.writeInt(cmd);
+            xdg.writeInt(count);
+            xdg.writeInt(color);
+            tx.send(xdg);
+        } catch (IOException ex)  {
+            System.out.println("Error sending packet: " + ex);
+            ex.printStackTrace();
+        }
+    }
+
+    public void switchPressed(SwitchEvent evt) {
     }
 }
