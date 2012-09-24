@@ -6,8 +6,7 @@ counts = [];
 
 %Number of seconds to aggregate
 %Should make this evenly divisible by days
-aggregateAmount = 600;\
-
+aggregateAmount = 600;
 
 startDate = '01-09-2008 00:00:00';
 endDate = '06-07-2008 23:59:59';
@@ -19,14 +18,14 @@ ed = datenum(endDate);
 sid = 86400;
 bid = sid/aggregateAmount;
 
-totalBlocks = (ed-sd)*bid;
+totalBlocks = floor((ed-sd)*bid);
 agData = zeros(totalBlocks, length(sensorlist));
 
 
 % Make the daynums variable
-secCounting = 0:aggregateAmount:totalBlocks*aggregateAmount;
+secCounting = 0:aggregateAmount:totalBlocks*aggregateAmount - 1;
 tmpVec = datevec(sd);
-tmpVec = repmat(tmpVec, totalBlocks + 1, 1);
+tmpVec = repmat(tmpVec, totalBlocks, 1);
 tmpVec(:, 6) = secCounting;
 dayNums = datenum(tmpVec);
 dayOfWeek = weekday(dayNums);
@@ -34,7 +33,7 @@ dayOfWeek = weekday(dayNums);
 for i = 1:length(sensorlist)
     fprintf(1, 'Sensor %i\n', sensorlist(i));
     tmpData = sensorcells{i};
-
+    tmpData = unique(tmpData);
     currentBlock = 1;
     currentBlockTotal = 0;
     for j = 1:length(tmpData)

@@ -125,7 +125,6 @@ for n=1:d
     
     fprintf('%s, %d days total\n', szDate, nDaysRead);
 
-
     % Let's also make an array that holds the day number for each day of the
     % year.  In Matlab, these are defined as the number of days since 
     %  'Jan-1-0000 00:00:00'
