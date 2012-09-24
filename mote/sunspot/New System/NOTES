@@ -1,3 +1,10 @@
+Todo:
+
+- Combine Jim's notes with mine
+
+
+
+
 Mote Lifetime:
 
 - Initialize stuff
@@ -35,3 +42,8 @@ Event Model (~10 bytes)
 - timestamp : date/time
 - sensor type : byte
 - sensor data : int
+
+
+
+TODO:
+- Add some sort of switch statement for state machine
