@@ -1,6 +1,37 @@
-Todo:
+STUFF SPECTRUM
+Todo
+||||
+vvvv
 
-- Combine Jim's notes with mine
+Software
+Read from sensors
+-	Test sensors
+  -	Sensing width
+  -	Sensing distance
+  -	Sensing frequency
+  - Sense direction
+-	Data transfer
+-	Test wireless programming of motes
+-	Create a transmit data command
+-	Create a delete local data command
+-	MD5 checksum
+-	Create data transfer pipeline
+-	(FUTURE) Check on mesh network, look into mote visualization and tasked sensing/data analysis
+
+Hardware
+- Test mote life per energy volume
+  - Construct / acquire battery packs
+  - Acquire / research enclosures
+
+
+- Integrate onboard temperature and light sensors
+
+
+- Sound intensity sensor integration
+
+^^^^^
+|||||
+Ideas
 
 
 
