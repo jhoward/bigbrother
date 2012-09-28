@@ -7,6 +7,8 @@ import com.sun.spot.resources.transducers.LEDColor;
 import com.sun.spot.resources.transducers.ITriColorLEDArray;
 import com.sun.spot.resources.transducers.SwitchEvent;
 import com.sun.spot.io.j2me.radiogram.*;
+import com.sun.spot.io.j2me.radiostream.RadiostreamConnection;
+import com.sun.spot.peripheral.NoRouteException;
 import com.sun.spot.util.Utils;
 
 import java.io.*;
@@ -29,6 +31,8 @@ public class Mote extends MIDlet implements ISwitchListener {
     private static final int STATE_TRANSMITTING = 2;
     private int state = STATE_INITIALIZING;
     private int motenum = -1;
+    //CONSTANTS
+    private static final String DEST_MOTE = "0014.4F01.0000.0007"; //Mote connected to computer for collecting data
     
     
     public void switchReleased(SwitchEvent evt) {
@@ -74,12 +78,24 @@ public class Mote extends MIDlet implements ISwitchListener {
                     
                     break;
                   
+                    
                 case STATE_SENSING:
                 
                     break;
             
+                    
                 case STATE_TRANSMITTING:
-                
+                    /*RadiostreamConnection conn = conn = (RadiostreamConnection)Connector.open("radiostream://"+DEST_MOTE+":100");
+                    DataOutputStream dos = conn.openDataOutputStream();
+                    try {
+                        dos.writeUTF("Hello");
+                        dos.flush();
+                    } catch (IOException e) {
+                        System.out.println ("Exception with connection to "+DEST_MOTE);
+                    } finally {
+                        dos.close();
+                        conn.close();
+                    }*/
                     break;
             }
         

@@ -3,6 +3,8 @@ Todo
 ||||
 vvvv
 
+- Be able to run Mote code on Sun SPOT
+
 Software
 Read from sensors
 -	Test sensors
@@ -32,6 +34,14 @@ Hardware
 ^^^^^
 |||||
 Ideas
+
+
+
+
+Documentation Locations:
+- Light/temp sensor, 58
+- Radio comm 61
+- USB comm 83
 
 
 
@@ -73,8 +83,3 @@ Event Model (~10 bytes)
 - timestamp : date/time
 - sensor type : byte
 - sensor data : int
-
-
-
-TODO:
-- Add some sort of switch statement for state machine
