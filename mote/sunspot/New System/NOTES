@@ -5,13 +5,13 @@ vvvv
 
 - Be able to run Mote code on Sun SPOT
 
+- Create program to test two sensor direction detection
+
 Software
 Read from sensors
--	Test sensors
-  -	Sensing width
-  -	Sensing distance
-  -	Sensing frequency
+-   Implement sensors in main program
   - Sense direction
+  - Sense distance
 -	Data transfer
 -	Test wireless programming of motes
 -	Create a transmit data command
@@ -25,11 +25,11 @@ Hardware
   - Construct / acquire battery packs
   - Acquire / research enclosures
 
-
 - Integrate onboard temperature and light sensors
 
-
 - Sound intensity sensor integration
+
+- Check on mesh network, look into mote visualization and tasked sensing/data analysis
 
 ^^^^^
 |||||
