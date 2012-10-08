@@ -1,4 +1,4 @@
-package sunspot;
+package org.sunspotworld.demo;
 
 import com.sun.spot.resources.Resources;
 import com.sun.spot.resources.transducers.ISwitch;
@@ -17,7 +17,7 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-public class Mote extends MIDlet implements ISwitchListener {
+public class Mote extends javax.microedition.midlet.MIDlet implements ISwitchListener {
 
     //MULTICOLOR LEDs
     private ITriColorLEDArray leds = (ITriColorLEDArray)Resources.lookup(ITriColorLEDArray.class);
@@ -70,11 +70,16 @@ public class Mote extends MIDlet implements ISwitchListener {
     }
     
     protected void startApp() throws MIDletStateChangeException {
+        
+        leds.setColor(colors[2]);
+        leds.setOn();
+//        Utils.sleep(1000);
+//        leds.setOff();
+        
         while (true) {
             switch (state) {
                 case STATE_INITIALIZING:
                     System.out.println("Initializing");
-                    
                     
                     break;
                   
