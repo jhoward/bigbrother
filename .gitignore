@@ -169,6 +169,7 @@ pip-log.txt
 /output/*
 /runs/*
 /matlab/simulation/data/*
+/matlab/arima_forecast/data/*
 
 
 ################
