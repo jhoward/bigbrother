@@ -1,0 +1,671 @@
+\def\filedate{08/27/01}
+
+% csmthesis.sty --- Adjustments to report style, 12pt option
+% to produce a Colorado School of Mines graduate thesis.
+% Craig Artley, Colorado School of Mines
+% Copyright 1992, Craig T. Artley
+
+% Modified by: Jerome H. Le Rousseau Fall 2001
+% Modified by: Kasper van Wijk, 2003/2004.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% begin changes to report.sty
+
+% \tableofcontents:
+\def\contentsname{Table of Contents}
+\def \@Chapapp{CHAPTER}
+%
+% \listoftables:
+\def\listplatename{List of Plates}
+%
+% \thebibliography: watch out for conflicts with reference packages
+\renewcommand{\bibname}{REFERENCES}
+
+%
+\def\titlepage{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+     \else \newpage \fi \thispagestyle{thesistitle}}
+
+% this is to redefine the listoffigure, listoftable standard of double
+% spaced to single spaced. KVW,07/22/04:
+\let\@oldstarttoc\@starttoc
+\def\@starttoc#1{\begin{singlespace}\@oldstarttoc{#1}\end{singlespace}}
+
+% modify the List of Figures
+% LIST OF FIGURES
+%
+\def\listoffigures{\@restonecolfalse
+  \if@twocolumn\@restonecoltrue\onecolumn\fi
+  \fchapter{\listfigurename\@mkboth{\uppercase{\listfigurename}}
+     {\uppercase{\listfigurename}}}\@starttoc{lof}\if@restonecol
+    \twocolumn\fi}
+\def\l@figure{\@dottedtocline{0}{0em}{2.3em}}
+
+% modify the List of Tables
+% LIST OF TABLES
+%
+\def\listoftables{\@restonecolfalse
+  \if@twocolumn\@restonecoltrue\onecolumn\fi
+  \fchapter{\listtablename\@mkboth{\uppercase{\listtablename}}%
+   {\uppercase{\listtablename}}}\@starttoc{lot}\if@restonecol
+  \twocolumn\fi}
+%\let\l@table\l@figure
+
+% add a List of Plates (like List of Tables)
+% LIST OF PLATES
+%
+\def\listofplates{\@restonecolfalse
+  \if@twocolumn\@restonecoltrue\onecolumn\fi
+  \fchapter{\listplatename\@mkboth{\uppercase{\listplatename}}%
+   {\uppercase{\listplatename}}}\@starttoc{lop}\if@restonecol
+  \twocolumn\fi}
+\def\l@plate{\@platetocline{1}{1.5em}{2.3em}}
+
+% following \@dottedtocline in latex.tex, make a similar toc line
+% for the List of Plates.  It simply lists the plate number and title.
+% There is no leaderfill and no page number, so it ignores #5.
+\def\@platetocline#1#2#3#4#5{\ifnum #1>\c@tocdepth \else
+  \vskip \z@ plus .2pt
+  {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
+    \parindent #2\relax\@afterindenttrue
+   \interlinepenalty\@M
+   \leavevmode 
+   \@tempdima #3\relax \advance\leftskip \@tempdima \hbox{}\hskip -\leftskip
+    #4\nobreak\hfill \nobreak \hfill\par}\fi}
+
+% define \plate{title} -- adds "title" to the List of Plates
+% modeled after \@caption in latex.tex
+\newcounter{plate}
+\def\theplate{\@arabic\c@plate}
+\long\def\plate#1{\refstepcounter{plate}\par
+ \addcontentsline{lop}{plate}{\protect\numberline{\theplate}{\ignorespaces #1}}
+ \addtocontents{lop}{\protect\addvspace{10pt}}}
+
+% change the format of the Figure number to match Geophysics
+\def\fnum@figure{{Figure}~\thefigure}
+
+% Change the caption so that . follows the fig/table number, rather than :
+% Also, center the caption if it fits on 1 or 2 lines (rather than just 1).
+\newdimen\twicehsize     % temporary dimension variable
+\long\def\@makecaption#1#2{%
+   \vskip 10\p@
+   \setbox\@tempboxa\hbox{#1. #2}%
+   \twicehsize=\hsize \multiply\twicehsize by 2
+   \ifdim \wd\@tempboxa >\twicehsize   % IF longer than two lines:
+       #1. #2\par                 %   THEN set as ordinary paragraph.
+     \else                        %   ELSE  center.
+       %\centering  %%% TURNED THIS OFF. KVW, 2004.
+       #1. #2\par 
+   \fi}
+
+%% end changes to report.sty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% begin changes to rep12.sty
+% SIDE MARGINS:
+\if@twoside               % Values for two-sided printing:
+   \oddsidemargin 0.5in   %   Left margin on odd-numbered pages.
+   \evensidemargin 0.0in  %   Left margin on even-numbered pages.
+   \marginparwidth 85pt   %   Width of marginal notes.
+\else                     % Values for one-sided printing:
+   \oddsidemargin 0.5in   %   Note that \oddsidemargin = \evensidemargin
+   \evensidemargin 0.5in
+   \marginparwidth 68pt 
+\fi
+\marginparsep 10pt        % Horizontal space between outer margin and 
+                          % marginal note
+
+% VERTICAL SPACING:        
+                         % Top of page:
+\topmargin -24pt         %    Nominal distance from top of page to top
+                         %    of box containing running head.
+\headheight 12pt         %    Height of box containing running head.
+\headsep 48pt            %    Space between running head and text.
+\topskip = 10pt          %    '\baselineskip' for first line of page.
+                         % Bottom of page:
+\footskip 25pt           %    Distance from baseline of box containing
+                         %    foot to baseline of last line of text.
+
+% DIMENSION OF TEXT:
+\textheight = 8.0in
+\advance\textheight by \topskip
+\textwidth 6.0in         % Width of text line.
+
+% FLOATS: (a float is something like a figure or table)
+\textfloatsep 30pt plus 2pt minus 4pt    % Space between main text and floats
+                                         % at top or bottom of page.
+\intextsep 22pt plus 4pt minus 4pt       % Space between in-text figures and 
+                                         % text.
+
+% PARAGRAPHING:
+\parindent 24pt                    % Width of paragraph indentation.
+
+% \@makechapterhead {TEXT} : Makes the heading for the \chapter command.
+
+\def\@makechapterhead#1{%           % Heading for \chapter command
+  \vspace*{\z@}%                    % Space at top of text page.
+  {\parindent \z@ \raggedright 
+    %\ifnum \c@secnumdepth >\m@ne    % IF secnumdepth > -1 THEN
+                                    % Print '\chaptername' and number.
+      \normalsize\bf\centering \@chapapp{} \thechapter
+      \par 
+      \vskip 20\p@ %\fi              % Space between number and title.
+    \normalsize \bf                 % Title.
+    \uppercase\expandafter{#1}\par 
+    \nobreak                        % TeX penalty to prevent page break.
+    \vskip 1\p@                    % Space between title and text.
+  }}
+% \@makechapterhead {TEXT} : Makes the heading for the \chapterfoot command.
+%
+\newcommand{\@makechapterfoothead}[2]{%    % Heading for \chapterfoot command
+  \vspace*{\z@}%                    % Space at top of text page.
+  {\parindent \z@ \raggedright 
+    \ifnum \c@secnumdepth >\m@ne    % IF secnumdepth > -1 THEN
+                                    % Print '\chaptername' and number.
+      \normalsize\bf\centering \@chapapp{} \thechapter
+      \par 
+      \vskip 10\p@ \fi              % Space between number and title.
+    \normalsize \bf                 % Title.
+    \uppercase\expandafter{#1}\footnote{\textmd{#2}} \par
+    \nobreak                        % TeX penalty to prevent page break.
+    \vskip 20\p@                    % Space between title and text.
+  }}
+% \@makeschapterhead {TEXT} : Makes the heading for the \chapter* command.
+%
+% \def\@makeschapterhead#1{%          % Heading for \chapter* command
+%   \vspace*{\z@}%                    % Space at top of page.
+%   {\parindent \z@ \raggedright 
+%     \normalsize \bf \centering      % Title.
+%     \uppercase\expandafter{#1}\par 
+%     \nobreak                        % TeX penalty to prevent page break.
+%     \vskip 40\p@                    % Space between title and text.
+%   }}
+\def\chapter{\clearpage      % Starts new page.
+  %\thispagestyle{plain}%    % Page style of chapter page is 'plain'
+   \global\@topnum\z@      % Prevents figures from going at top of page.
+   \@afterindenttrue       % Suppresses indent in first paragraph.
+   \secdef\@chapter\@schapter}   % Change to \@afterindenttrue to have
+                                 % indent.
+
+\def\chapterfoot{\clearpage      % Starts new page.
+  %\thispagestyle{plain}%    % Page style of chapter page is 'plain'
+   \global\@topnum\z@      % Prevents figures from going at top of page.
+   \@afterindenttrue       % Suppresses indent in first paragraph.
+   \secdef\@chapterfoot\@schapter}   % Change to \@afterindenttrue to have
+                                 % indent.
+
+\def\appendixchapter{\clearpage      % Starts new page.
+  %\thispagestyle{plain}%    % Page style of chapter page is 'plain'
+   \global\@topnum\z@      % Prevents figures from going at top of page.
+   \@afterindenttrue       % Suppresses indent in first paragraph.
+   \secdef\@appendixchapter\@schapter}   % Change to \@afterindenttrue to have
+
+                                 % indent.
+% \@startsection {NAME}{LEVEL}{INDENT}{BEFORESKIP}{AFTERSKIP}{STYLE} 
+%            optional * [ALTHEADING]{HEADING}
+%    Generic command to start a section.  
+%    NAME       : e.g., 'subsection'
+%    LEVEL      : a number, denoting depth of section -- e.g.,
+%                 chapter=1, section = 2, etc.  A section number will be
+%                 printed if and only if LEVEL < or = the value of the
+%                 secnumdepth counter.
+%    INDENT     : Indentation of heading from left margin
+%    BEFORESKIP : Absolute value = skip to leave above the heading.  
+%                 If negative, then paragraph indent of text following 
+%                 heading is suppressed.
+%    AFTERSKIP  : if positive, then skip to leave below heading,
+%                       else - skip to leave to right of run-in heading.
+%    STYLE      : commands to set style
+%  If '*' missing, then increments the counter.  If it is present, then
+%  there should be no [ALTHEADING] argument.  A sectioning command
+%  is normally defined to \@startsection + its first six arguments.
+
+\def\section{\ifnum \c@section =\z@ % if first section, add toc space
+    \addtocontents{toc}{\protect\addvspace{10pt}}\fi
+    \@startsection {section}{1}{\z@}{3.5ex plus 1ex minus 
+    .2ex}{2.3ex plus .2ex}{\normalsize\bf}}
+\def\subsection{\@startsection{subsection}{2}{\parindent}{3.25ex plus 1ex minus 
+    .2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\parindent}{3.25ex plus 
+   1ex minus .2ex}{-1em}{\normalsize\bf}}
+\def\paragraph{\@startsection
+     {paragraph}{4}{4em}{3.25ex plus 1ex minus .2ex}{-1em}{\normalsize\bf}}
+\def\subparagraph{\@startsection
+     {subparagraph}{4}{6em}{3.25ex plus 1ex minus .2ex}{-1em}{\normalsize\bf}}
+% alternate subsection: adds varible space to toc.  Has bugs.
+%\def\subsection{\ifnum \c@subsection =\z@ % if first section, add toc space
+%    \addtocontents{toc}{\protect\addvspace{10pt}}\fi
+%    \@startsection{subsection}{2}{\z@}{3.25ex plus 1ex minus 
+%    .2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+
+%% end rep12.sty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% begin changes to titlepag.sty
+\gdef\@date{}
+\def\thesisnumber#1{\gdef\@thesisnumber{#1}\markright{\@thesisnumber}}
+\def\degree#1{\gdef\@degree{#1}}
+%advisor
+\def\advisor{\@ifnextchar[{\@advisor}{\@advisor[Thesis Advisor]}}
+\def\@advisor[#1]#2#3{\gdef\@advisorname{#2}\gdef\@advisortitle{#3}
+        \gdef\@advisorfunction{#1}}
+% co-advisor
+\def\coadvisor{\@ifnextchar[{\@coadvisor}{\@coadvisor[Thesis Co-advisor]}}
+\def\@coadvisor[#1]#2#3{\gdef\@coadvisorname{#2}\gdef\@coadvisortitle{#3}
+       \gdef\@coadvisorfunction{#1}}
+% department head
+\def\dephead#1#2#3{\gdef\@headname{#1}\gdef\@headtitle{#2}\gdef\@headdep{#3}}
+
+\def\maketitle{\begin{titlepage}%
+ \let\footnotesize\small       % Local definitions to make \thanks
+ \let\footnoterule\relax       % produce \normalsize footnotes with no
+ \setcounter{page}{1}%         % separating rule.
+ \pagenumbering{roman}
+ \null
+ \vfill
+ \vskip \z@                    % To adjust centering.
+ \begin{center}%
+   {\Large\bf \@title \par}%   % Set title in \Large size.
+   \vfill                      % Vertical space after title.
+   {\large by \\}              % Set author in \large size.
+   {\large \@author}
+\end{center}\par
+\end{titlepage}%
+\setcounter{footnote}{0}%      % Footnotes start at zero again.
+\let\thanks\relax
+\gdef\@thanks{}\gdef\@title{}\let\maketitle\relax}    
+%% end changes to titlepag.sty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\submittalsheet{
+				\clearpage
+        A thesis submitted to the Faculty and the Board of Trustees
+        of the Colorado School of Mines in partial fulfillment of
+        the requirements for the degree of \@degree.
+\vspace{0.3in}
+\begin{singlespace}
+        \begin{flushleft}
+                Golden, Colorado\\[0.1in]
+                Date\ \ \underline{\hspace{1.5in}}
+        \end{flushleft}
+        \vspace{0.2in}
+        \begin{flushright}
+                Signed:\ 
+                \begin{minipage}[t]{2.5in}
+                        \underline{\hspace{2.5in}}\\ 
+                        \@author
+                \end{minipage}
+        \end{flushright}
+        \vspace{0.6in}
+        \begin{flushright}
+                Approved:\ 
+                \begin{minipage}[t]{2.5in}
+                        \underline{\hspace{2.5in}}\\ 
+                        \@advisorname\\
+                        \@advisortitle\\
+                        \@advisorfunction
+                \end{minipage}
+        \end{flushright}
+        \vspace{0.3in}
+        \begin{flushright}
+                Approved:\ 
+                \begin{minipage}[t]{2.5in}
+                        \underline{\hspace{2.5in}}\\ 
+                        \@coadvisorname\\
+                        \@coadvisortitle\\
+                        \@coadvisorfunction
+                \end{minipage}
+        \end{flushright}
+        \vspace{0.4in}
+        \begin{flushleft}
+                Golden, Colorado\\[0.1in]
+                Date\ \ \underline{\hspace{1.5in}}
+        \end{flushleft}
+        \vspace{0.2in}
+        \begin{flushright}
+                \begin{minipage}{2.5in}
+                        \underline{\hspace{2.5in}}\\
+                        \@headname\\
+                        \@headtitle\\
+                        \@headdep
+                \end{minipage}
+        \end{flushright}
+\end{singlespace}
+\par\vfil\null\newpage
+\gdef\@author{}
+\gdef\@advisorname{} \gdef\@advisortitle{} \gdef\@advisorfunction{}
+\gdef\@headname{} \gdef\@headtitle{} \gdef\@headdep{}
+\let\submittalsheet\relax}
+
+\def\begintext{
+\newpage\ps@thesistext %Here ----------
+%\markright{\@thesisnumber}
+\pagenumbering{arabic}
+\gdef\@thesisnumber{}
+\let\begintext\relax}
+
+
+% some local definitions
+\input epsf.sty              % read in epsf macros for figures
+\input setspace.sty          % thesis is double-spaced
+\doublespace
+\setstretch{1.6}             % well, not quite
+
+
+% Definitions of thesis page styles.
+% Modeled after 'myheadings' page style in report.sty. 
+%
+\def\ps@thesistitle{\let\@mkboth\@gobbletwo
+%\def\@oddhead{\hbox{}\rm\rightmark \hfil}% doesn't work on 1st page of doc!(?)
+\def\@oddhead{\hbox{}\rm\@thesisnumber \hfil}%
+\def\@oddfoot{}%
+\def\@evenhead{\hfil \rm\leftmark\hbox {}}%
+\def\@evenfoot{}%
+\def\chaptermark##1{}\def\sectionmark##1{}%
+\def\subsectionmark##1{}}
+
+\def\ps@thesisfront{\let\@mkboth\@gobbletwo
+\def\@oddhead{\hbox{}\rm\rightmark \hfil}%
+\def\@oddfoot{\hfil \rm\thepage \hfil}%
+\def\@evenhead{\hfil \rm\leftmark\hbox {}}%
+\def\@evenfoot{\hfil \rm\thepage \hfil}%
+\def\chaptermark##1{}\def\sectionmark##1{}%
+\def\subsectionmark##1{}}
+
+\def\ps@thesistext{\let\@mkboth\@gobbletwo
+\def\@oddhead{\hbox{}\rm\rightmark \hfil \rm\thepage}%
+\def\@oddfoot{}%
+\def\@evenhead{\rm \thepage\hfil\rm\leftmark\hbox {}}%
+\def\@evenfoot{}%
+\def\chaptermark##1{}\def\sectionmark##1{}%
+\def\subsectionmark##1{}}
+
+\ps@thesisfront                 % select page style for thesis frontmatter
+
+% macros swiped from sep.sty for references, brushing up
+% math spacing, and source code listing  -- Craig
+
+% reference macro, second ... lines are indented
+\newdimen\dtmp     % temporary dimension variable
+\def\reference#1{ \begin{singlespace}
+                  \baselineskip=.8\normalbaselineskip \dtmp=\hsize
+                \advance\dtmp by-\parindent \parshape 2 0in \hsize \parindent
+                \dtmp \noindent #1 \endgraf \baselineskip=\normalbaselineskip
+                \end{singlespace}
+}
+
+% try these modifications to displayed equations
+%\jot=12pt  % Extra space added between lines of an eqnarray environment
+           % default in plain.tex is 3pt
+%\abovedisplayskip 16pt
+%\belowdisplayskip \abovedisplayskip
+%\abovedisplayshortskip 12pt
+%\belowdisplayshortskip \abovedisplayshortskip
+
+% This macro is for printing out programs using TeX 
+%                               -- see DIRTY TRICKS in TeXbook
+%
+%       This version is designed to print source code at 9 point
+%       fitting an 80 column line into a 6 true inch width with 
+%       8 point line numbers before each line.
+%       It handles TAB (^I) characters almost the same as DEC
+%       
+%       usage: 
+%               \listing{file.ext}      % use dev:[dir] if you wish
+%
+%       B.H. Toby  8/86
+%       modified by Kamal 4/7/87
+%       modified by Craig Artley (CWP) to use Computer Modern font
+\font\Alisttt=cmtt9
+\def\uncatcodespecials{\def\do##1{\catcode`##1=12 }\dospecials}
+\def\listing#1{\par\bigskip\begingroup\parskip=0pt\setupverbatim\input#1%
+\endgroup\bigskip}
+\def\setupverbatim{
+  \Alisttt\baselineskip= 8.5pt\lineskip=1pt
+  \lineskiplimit=1pt\topskip=0pt
+  \def\par{\leavevmode\egroup\box0\endgraf} 
+  \obeylines \uncatcodespecials \obeyspaces
+  \catcode`\`=\active \catcode`\^^I=\active
+  \everypar{
+  \startbox}}
+\newdimen\w \setbox0=\hbox{\Alisttt\space} \w=8\wd0
+\def\startbox{\setbox0=\hbox\bgroup}
+{\catcode`\^^I=\active 
+  \gdef^^I{\leavevmode\egroup
+    \dimen0=\wd0
+    \divide\dimen0 by\w
+    \multiply\dimen0 by\w
+    \advance\dimen0 by\w
+    \wd0=\dimen0 \box0 \startbox}}
+{\obeyspaces\global\let =\ }
+{\catcode`\`=\active \gdef`{\relax\lq}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%today's kludges%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% from latex.tex -- redefined to add space between lot and lof entries
+\long\def\@caption#1[#2]#3{\par\addcontentsline{\csname
+  ext@#1\endcsname}{#1}{\protect\numberline{\csname 
+  the#1\endcsname}{\ignorespaces #2}}\addtocontents{\csname
+  ext@#1\endcsname}{\protect\addvspace{10pt}}\begingroup
+    \@parboxrestore
+    \normalsize
+    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
+  \endgroup}
+
+% from rep12.sty -- adjusting the \addvspace commands, toc entry in \uppercase
+% Could have put the \uppercase in \l@chapter instead, or leave it to user.
+% Put it here in case I decide to have "Chapter" printed in toc.  If I put
+% it in \l@chapter, then CHAPTER would be printed.
+% Putting "Chapter" in the toc takes more than putting \@chapapp in the 
+% \numberline command.  The box for the chapter number must also be enlarged
+% in the \l@chapter definition (\@tempdima).
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+        \refstepcounter{chapter}%
+        \typeout{\@chapapp\space\thechapter.}%
+        \addcontentsline{toc}{chapter}{\protect
+        \numberline{\@chapapp{}\ \thechapter}\textmd{\uppercase{#1}}}\else
+      \addcontentsline{toc}{chapter}{\uppercase{#1}}\fi
+   \chaptermark{#1}%
+   \addtocontents{lof}%
+       {\protect\addvspace{\z@}}% Adds between-chapter space
+   \addtocontents{lot}%
+       {\protect\addvspace{\z@}}% to lists of figs & tables
+   \addtocontents{lop}%
+       {\protect\addvspace{\z@}}% and plates.
+   \if@twocolumn                  % Tests for two-column mode.  
+           \@topnewpage[\@makechapterhead{#2}]%
+     \else \@makechapterhead{#2}%
+           \@afterheading         % Routine called after chapter and
+     \fi}                         % section heading.
+
+
+% this command allow to have footnote fot the chapter
+\newcommand{\@chapterfoot}[3][]{\ifnum \c@secnumdepth >\m@ne
+        \refstepcounter{chapter}%
+        \typeout{\@chapapp\space\thechapter.}%
+        \addcontentsline{toc}{chapter}{\protect
+        \numberline{\@chapapp{}\ \thechapter}\textmd{\uppercase{#1}}}\else
+      \addcontentsline{toc}{chapter}{\uppercase{#1}}\fi
+   \chaptermark{#1}%
+   \addtocontents{lof}%
+       {\protect\addvspace{\z@}}% Adds between-chapter space
+   \addtocontents{lot}%
+       {\protect\addvspace{\z@}}% to lists of figs & tables
+   \addtocontents{lop}%
+       {\protect\addvspace{\z@}}% and plates.
+   \if@twocolumn                  % Tests for two-column mode.  
+           \@topnewpage[\@makechapterfoothead{#2}{#3}]%
+     \else \@makechapterfoothead{#2}{#3}%
+           \@afterheading         % Routine called after chapter and
+     \fi}                         % section heading.
+
+
+% special chapter format for appendices (spacing in table of contents)
+\def\@appendixchapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+        \refstepcounter{chapter}%
+        \typeout{\@chapapp\space\thechapter.}%
+        \addcontentsline{toc}{appendix}{\protect
+        \numberline{\@chapapp{}\ \thechapter}\textmd{\uppercase{#1}}}\else
+      \addcontentsline{toc}{appendix}{\uppercase{#1}}\fi
+   \chaptermark{#1}%
+   \addtocontents{lof}%
+       {\protect\addvspace{\z@}}% Adds between-chapter space
+   \addtocontents{lot}%
+       {\protect\addvspace{\z@}}% to lists of figs & tables
+   \addtocontents{lop}%
+       {\protect\addvspace{\z@}}% and plates.
+   \if@twocolumn                  % Tests for two-column mode.  
+           \@topnewpage[\@makechapterhead{#2}]%
+     \else \@makechapterhead{#2}%
+           \@afterheading         % Routine called after chapter and
+     \fi}                         % section heading.
+
+% define counter for fchapter (front matter chapters---unnumbered but in toc
+\newcounter{fchapter}
+
+%from report.cls
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{5.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode 
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\leaders\hbox{$\m@th \mkern \@dotsep mu.\mkern \@dotsep 
+       mu$}\hfil \nobreak\hbox to\@pnumwidth{\hss #2}\par
+     \penalty\@highpenalty %% added 24 May 89, suggested by J. Leichter
+     \endgroup
+  \fi}
+
+\newcommand*\l@appendix[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{7.5em}% different form \l@chapter
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode 
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\leaders\hbox{$\m@th \mkern \@dotsep mu.\mkern \@dotsep 
+       mu$}\hfil \nobreak\hbox to\@pnumwidth{\hss #2}\par
+     \penalty\@highpenalty %% added 24 May 89, suggested by J. Leichter
+     \endgroup
+  \fi}
+
+
+% make a new sectioning command, \fchapter, for frontmatter (and backmatter)
+% \@makefchapterhead {TEXT} : Makes the heading for the \fchapter command.
+%       Same as \@makeschapterhead.  Do with \let?
+
+\def\@makefchapterhead#1{%          % Heading for \fchapter command
+  \vspace*{\z@}%                    % Space at top of page.
+  {\parindent \z@ \raggedright 
+    \normalsize \bf \centering      % Title.
+    \uppercase\expandafter{#1}\par 
+    \nobreak                        % TeX penalty to prevent page break.
+    \vskip 20\p@                    % Space between title and text.
+  }}
+
+% \@makesfchapterhead {TEXT} : Makes the heading for the \fchapter* command.
+%       Same as \@makeschapterhead.  Do with \let?
+
+% \def\@makesfchapterhead#1{%         % Heading for \fchapter* command
+%   \vspace*{\z@}%                    % Space at top of page.
+%   {\parindent \z@ \raggedright 
+%     \normalsize \bf \centering      % Title.
+%     \uppercase\expandafter{#1}\par 
+%     \nobreak                        % TeX penalty to prevent page break.
+%     \vskip 40\p@                    % Space between title and text.
+%   }}
+
+% \secdef{UNSTARCMDS}{STARCMDS} :
+%    When defining a \chapter or \section command without using
+%    \@startsection, you can use \secdef as follows:
+%       \def\chapter { ... \secdef \CMDA \CMDB }
+%       \def\CMDA    [#1]#2{ ...   % Command to define \chapter[...]{...}
+%       \def\CMDB    #1{ ...       % Command to define \chapter*{...}
+
+\def\fchapter{\clearpage     % Starts new page.
+ % \thispagestyle{plain}%    % Page style of chapter page is 'plain'
+   \global\@topnum\z@      % Prevents figures from going at top of page.
+   \@afterindentfalse       % Suppresses indent in first paragraph.
+   \secdef\@fchapter\@sfchapter} % Change to \@afterindenttrue to have
+                                 % indent.
+
+\def\@fchapter[#1]#2{
+      \addcontentsline{toc}{chapter}{\uppercase{#1}}
+   \fchaptermark{#1}%
+   \if@twocolumn                  % Tests for two-column mode.  
+           \@topnewpage[\@makefchapterhead{#2}]%
+     \else \@makefchapterhead{#2}%
+           \@afterheading         % Routine called after chapter and
+     \fi}                         % section heading.
+\def\@sfchapter#1{\if@twocolumn \@topnewpage[\@makeschapterhead{#1}]%
+        \else \@makesfchapterhead{#1}%
+              \@afterheading\fi}
+
+% Default initializations of \...mark commands.  (See below for their
+% us in defining page styles.
+%
+
+\def\fchaptermark#1{}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Bibliography/references changes
+
+% Fix the bibliography environment of report.sty to use \fchapter.
+\def\thebibliography#1{\fchapter{\bibname\@mkboth
+  {\uppercase{\bibname}}{\uppercase{\bibname}}}\list
+  {\@biblabel{\arabic{enumiv}}}{\settowidth\labelwidth{\@biblabel{#1}}%
+    \leftmargin\labelwidth
+    \advance\leftmargin\labelsep
+    \usecounter{enumiv}%
+    \let\p@enumiv\@empty
+    \def\theenumiv{\arabic{enumiv}}}%
+    \def\newblock{\hskip .11em plus.33em minus.07em}%
+    \sloppy\clubpenalty4000\widowpenalty4000
+    \sfcode`\.=\@m}
+
+
+% Call \authordatereferences before beginning thebibliography to suppress
+% the numbering of references.  The following is taken from apalike.sty.
+\def\authordatereferences{%
+\def\@cite##1##2{(##1\if@tempswa , ##2\fi)}
+\def\@biblabel##1{}
+
+% Set length of hanging indentation for bibliography entries
+\newlength{\bibhang}
+\setlength{\bibhang}{2em}
+
+\def\thebibliography##1{\fchapter{\bibname\@mkboth
+    {\uppercase{\bibname}}{\uppercase{\bibname}}}\list
+  {\relax}{\setlength{\labelsep}{0em}
+    \setlength{\itemindent}{-\bibhang}
+    \setlength{\leftmargin}{\bibhang}
+    \usecounter{enumiv}%                    % kludge!
+    \let\p@enumiv\@empty                    % kludge!
+    \def\theenumiv{\arabic{enumiv}}}%       % kludge!
+  \def\newblock{\hskip .11em plus .33em minus .07em}
+  \sloppy\clubpenalty4000\widowpenalty4000
+  \sfcode`\.=\@m}
+
+% `; ' goes between cites, and there's no \hbox around individual cites
+%
+\def\@citex[##1]##2{\if@filesw\immediate\write\@auxout{\string\citation{##2}}\f
+  \let\@citea\@empty
+  \@cite{\@for\@citeb:=##2\do
+    {\@citea\def\@citea{;\penalty\@m\ }%
+     \def\@tempa##1##2\@nil{\edef\@citeb{\if##1\space##2\else##1##2\fi}}%
+     \expandafter\@tempa\@citeb\@nil
+     \@ifundefined{b@\@citeb}{{\reset@font\bf ?}\@warning
+       {Citation `\@citeb' on page \thepage \space undefined}}%
+     {\csname b@\@citeb\endcsname}}}{##1}}
+}
+
+\renewcommand\appendixname{APPENDIX}    % new required style 4.14.98

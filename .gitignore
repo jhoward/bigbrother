@@ -167,10 +167,9 @@ pip-log.txt
 ################
 /data/*
 /output/*
-/papers
-/presentations
-/thesis
 /runs/*
+/matlab/simulation/data/*
+
 
 ################
 #Matlab

@@ -1,0 +1,15 @@
+\addvspace {\z@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Forecasting is based on activities and a background model\relax }}{3}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Total number of cars passing major highway sensors on Sundays in September and October 2010\relax }}{3}
+\addvspace {\z@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Residual counts of all Broncos afternoon home games from 2008 - 2010\relax }}{8}
+\addvspace {\z@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Pairwise sensor correlation\relax }}{16}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Counts and autocorrelation over a two week period.\relax }}{17}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces One week seasonal difference counts and autocorrelation over a two week period.\relax }}{18}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces One-step ahead prediction for a sample week. Black line is original data. Red line is forecasted data. Dotted box shows an example of mis-forecasting due to a broncos game.\relax }}{19}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces An example of training four HMMs to describe 200 observations of data.\relax }}{22}
+\addvspace {\z@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Mote locations on the second floor of the Colorado School of Mines Brown Building.\relax }}{28}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Traffic count sensor locations near the city of Denver.\relax }}{29}
+\addvspace {\z@ }
