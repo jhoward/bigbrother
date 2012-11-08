@@ -1,0 +1,16 @@
+For 11.12.2012
+Compare voltage curves to the datasheet
+Quantify field of view
+Test configurations of distance finders to see what is optimal
+Calculate the seperation of the distance finders required to see people
+
+OLD
+- give professor hoff list of stuff (i.e. oscilloscope probes, acroname sensors)
+- get code on SPOTs
+- test sensors in real environment
+- remind professor hoff about timesheets
+
+
+- Be able to run Mote code on Sun SPOT
+
+- Create program to test two sensor direction detection
