@@ -1,6 +1,6 @@
 %Aggregate Brown Building counts
 clear all
-load('..\..\data\building\sensor_data_01_01_08_to_06_09_08.mat');
+load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\sensor_data_01_01_08_to_06_09_08.mat');
 
 counts = [];
 
@@ -18,7 +18,7 @@ ed = datenum(endDate);
 sid = 86400;
 bid = sid/aggregateAmount;
 
-totalBlocks = floor((ed-sd)*bid);
+totalBlocks = round((ed-sd)*bid);
 agData = zeros(totalBlocks, length(sensorlist));
 
 
@@ -71,4 +71,4 @@ end
 
 blocksInDay = bid;
 
-save('./data/brownData.mat', 'agData', 'dayNums', 'dayOfWeek', 'blocksInDay');
+save('./data/brownData.mat', 'agData', 'dayNums', 'dayOfWeek', 'blocksInDay', 'startDate', 'endDate');
