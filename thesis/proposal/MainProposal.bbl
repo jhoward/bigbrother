@@ -1,0 +1,267 @@
+\begin{thebibliography}{10}
+
+\bibitem{DOE2010}
+US~DOE.
+\newblock {Building Energy Databook}, 2010.
+
+\bibitem{DOT2007}
+US~DOT.
+\newblock {National Traffic Signal Report Card}, 2007.
+
+\bibitem{Hyndman2006}
+R.J. Hyndman and A.B. Koehler.
+\newblock {Another look at measures of forecast accuracy}.
+\newblock {\em International Journal of Forecasting}, 22(4):679--688, 2006.
+
+\bibitem{Box2008}
+George Box, Gwilym Jenkings, and Gregory Reinsel.
+\newblock {\em {Time Series Analysis: Forecasting and Control}}.
+\newblock John Wiley \& Sons, Inc., 4th edition, 2008.
+
+\bibitem{Franses1998}
+Philip~Hans Franses.
+\newblock {\em {Time Series models for Business and Economic Forecasting}}.
+\newblock Cambridge University Press, 1st edition, 1998.
+
+\bibitem{Cryer2008}
+Jonathan~D. Cryer and Kung-Sik Chan.
+\newblock {\em {Time Series Analysis With Applications in R}}.
+\newblock Springer, 2nd editio edition, 2008.
+
+\bibitem{Williams2003}
+Billy~M. Williams and Lester~a. Hoel.
+\newblock {Modeling and Forecasting Vehicular Traffic Flow as a Seasonal ARIMA
+  Process: Theoretical Basis and Empirical Results}.
+\newblock {\em Journal of Transportation Engineering}, 129(6):664, 2003.
+
+\bibitem{Min2007}
+Wanli Min, Laura Wynter, and Yasuo Amemiya.
+\newblock {Road Traffic Prediction with Spatio-Temporal Correlations}.
+\newblock In {\em Sixth Triennial Symposium on Transportation Analysis}, pages
+  1--11, 2007.
+
+\bibitem{Kamarianakis2003}
+Yiannis Kamarianakis and Poulicos Prastacos.
+\newblock {Forecasting traffic flow conditions in an urban network: comparison
+  of multivariate and univariate approaches}.
+\newblock {\em Transportation Research Record: Journal of the Transportation
+  Research Board}, 1857:74--84, 2003.
+
+\bibitem{Xue1999}
+O.W.W. Yang, Fei Xue, Jiakun Liu, Yantai Shu, and Lianfang Zhang.
+\newblock {Traffic modeling based on FARIMA models}.
+\newblock In {\em Engineering Solutions for the Next Millennium. 1999 IEEE
+  Canadian Conference on Electrical and Computer Engineering (Cat.
+  No.99TH8411)}, volume~1, pages 162--167. Ieee, 1999.
+
+\bibitem{Fillatre2003}
+Lionel Fillatre, D.~Marakov, and S.~Vaton.
+\newblock {Forecasting seasonal traffic flows}, 2003.
+
+\bibitem{VanDerVoort1996}
+M.~{Van Der Voort}, Mark Dougherty, and Susan Watson.
+\newblock {Combining Kohonen maps with ARIMA time series models to forecast
+  traffic flow}.
+\newblock {\em Transportation Research Part C: Emerging Technologies},
+  4(5):307--318, 1996.
+
+\bibitem{Cho2003}
+Vincent Cho.
+\newblock {A comparison of three different approaches to tourist arrival
+  forecasting}.
+\newblock {\em Tourism Management}, 23(3):323--330, 2003.
+
+\bibitem{Zhang2009}
+Yang Zhang and Yuncai Liu.
+\newblock {Comparison of Parametric and Nonparametric Techniques for Non-peak
+  Traffic Forecasting}.
+\newblock {\em World Academy of Science, Engineering and Technology}, 51:8--14,
+  2009.
+
+\bibitem{Taylor2006}
+J~Taylor, L~Demenezes, and P~Mcsharry.
+\newblock {A comparison of univariate methods for forecasting electricity
+  demand up to a day ahead}.
+\newblock {\em International Journal of Forecasting}, 22(1):1--16, January
+  2006.
+
+\bibitem{Ishak2004}
+Sherif Ishak and Ciprian Alecsandru.
+\newblock {Optimizing Traffic Prediction Performance of Neural Networks under
+  Various Topological, Input, and Traffic Condition Settings}.
+\newblock {\em Transportation Engineering}, 130(4):452--464, 2004.
+
+\bibitem{Balke1994}
+N.S. Balke and T.B. Fomby.
+\newblock {Large shocks, small shocks, and economic fluctuations: outliers in
+  macroeconomic time series}.
+\newblock {\em Journal of Applied Econometrics}, 9(2):181--200, 1994.
+
+\bibitem{Zheng2006}
+Weizhong Zheng, Der-Horng Lee, and Qixin Shi.
+\newblock {Short-Term Freeway Traffic Flow Prediction: Bayesian Combined Neural
+  Network Approach}.
+\newblock {\em Journal of Transportation Engineering}, 132(2):114, 2006.
+
+\bibitem{Tseng2002}
+F~Tseng.
+\newblock {Combining neural network model with seasonal time series ARIMA
+  model}.
+\newblock {\em Technological Forecasting and Social Change}, 69(1):71--87,
+  January 2002.
+
+\bibitem{Kriegel2008}
+H.P. Kriegel, M.~Renz, M.~Schubert, and A~Zufle.
+\newblock {Statistical Density Prediction in Traffic Networks}.
+\newblock In {\em 8th SIAM Conference on Data Mining}. Citeseer, 2008.
+
+\bibitem{Smith2002}
+Brian~L. Smith, Billy~M. Williams, and R.~Keith Oswald.
+\newblock {Comparison of parametric and nonparametric models for traffic flow
+  forecasting}.
+\newblock {\em Transportation Research Part C: Emerging Technologies},
+  10(4):303--321, August 2002.
+
+\bibitem{Wang2009}
+Liang Wang, Tao Gu, Xianping Tao, and Jian Lu.
+\newblock {Sensor-based human activity recognition in a multi-user scenario}.
+\newblock {\em Ambient Intelligence}, pages 78--87, 2009.
+
+\bibitem{Bao2004}
+Ling Bao and S.S. Intille.
+\newblock {Activity recognition from user-annotated acceleration data}.
+\newblock {\em Pervasive Computing}, pages 1--17, 2004.
+
+\bibitem{Krishnan2008}
+N.C. Krishnan and S.~Panchanathan.
+\newblock {Analysis of low resolution accelerometer data for continuous human
+  activity recognition}.
+\newblock In {\em Acoustics, Speech and Signal Processing, 2008. ICASSP 2008.
+  IEEE International Conference on}, pages 3337--3340. IEEE, 2008.
+
+\bibitem{Lustrek2009}
+Mitja Lu\v{s}trek and Bo\v{s}tjan Kalu\v{z}a.
+\newblock {Fall detection and activity recognition with machine learning}.
+\newblock {\em Informatica}, 33(2):205--212, 2009.
+
+\bibitem{Oliver2002}
+N.~Oliver, E.~Horvitz, and A.~Garg.
+\newblock {Layered representations for human activity recognition}.
+\newblock In {\em Fourth IEEE International Conference on Multimodal
+  Interfaces}, pages 3--8. IEEE Comput. Soc, 2002.
+
+\bibitem{Huynh2008}
+T\^{a}m Huynh, Mario Fritz, and Bernt Schiele.
+\newblock {Discovery of activity patterns using topic models}.
+\newblock {\em Proceedings of the 10th international conference on Ubiquitous
+  computing - UbiComp '08}, page~10, 2008.
+
+\bibitem{Blei2003}
+David~M. Blei, Andrew~Y. Ng, and Michael~I. Jordan.
+\newblock {Latent Dirichlet Allocation}.
+\newblock {\em Journal of Machine Learning Research}, 3(4-5):993--1022, May
+  2003.
+
+\bibitem{Hamid2007}
+Raffay Hamid, Siddhartha Maddi, Aaron Bobick, and Irfan Essa.
+\newblock {Structure from statistics-unsupervised activity analysis using
+  suffix trees}.
+\newblock In {\em Internation Conference on Computer Vision (ICCV)}, Rio de
+  Janeiro, Brazil, 2007. IEEE.
+
+\bibitem{Freund1996}
+Yoav Freund and R.E. Schapire.
+\newblock {Experiments with a new boosting algorithm}.
+\newblock In {\em Machine Learning: Proceedings of the Thirteenth International
+  Conference}, pages 148--156. MORGAN KAUFMANN PUBLISHERS, INC., 1996.
+
+\bibitem{Hamid2006}
+Raffay Hamid, Siddhartha Maddi, Aaron Bobick, and Irfan Essa.
+\newblock {Unsupervised analysis of activity sequences using event-motifs}.
+\newblock In {\em The 4th ACM international workshop on Video surveillance and
+  sensor networks - VSSN '06}, page~71, New York, New York, USA, 2006. ACM
+  Press.
+
+\bibitem{Wren2003}
+Christopher~R. Wren and Srinivasa~G Rao.
+\newblock {Self-configuring , Lightweight Sensor Networks for Ubiquitous
+  Computing}.
+\newblock In {\em International Conference Ubiquitous Computing}, 2003.
+
+\bibitem{Wren2006a}
+Christopher~R. Wren, D.~C. Minnen, and S.~Rao.
+\newblock {Similarity-based analysis for large networks of ultra-low resolution
+  sensors}.
+\newblock {\em Pattern Recognition}, 39(10):1918--1931, October 2006.
+
+\bibitem{Minnen2004}
+D.C. Minnen and Christopher~R. Wren.
+\newblock {Finding temporal patterns by data decomposition}.
+\newblock In {\em Sixth IEEE International Conference on Automatic Face and
+  Gesture Recognition, 2004. Proceedings.}, pages 608--613. Ieee, 2004.
+
+\bibitem{Clarkson1999}
+B.~Clarkson and A.~Pentland.
+\newblock {Unsupervised clustering of ambulatory audio and video}.
+\newblock In {\em 1999 IEEE International Conference on Acoustics, Speech, and
+  Signal Processing.}, volume~6, pages 3037--3040. Ieee, 1999.
+
+\bibitem{Wren2006}
+Christopher~R. Wren and E.~Tapia.
+\newblock {Toward scalable activity recognition for sensor networks}.
+\newblock {\em Location-and Context-Awareness}, pages 168--185, 2006.
+
+\bibitem{Huynh2005}
+T\^{a}m Huynh and Bernt Schiele.
+\newblock {Analyzing Features for Activity Recognition}.
+\newblock In {\em The 2005 joint conference on Smart objects and ambient
+  intelligence innovative context-aware services: usages and technologies},
+  number october, pages 159--163, New York, New York, USA, 2005. ACM Press.
+
+\bibitem{Kwiatkowski1992}
+Denis Kwiatkowski, P.C.B. Phillips, P.~Schmidt, and Y.~Shin.
+\newblock {Testing the null hypothesis of stationarity against the alternative
+  of a unit root: How sure are we that economic time series have a unit root?}
+\newblock {\em Journal of econometrics}, 54(1-3):159--178, 1992.
+
+\bibitem{Akaike1974}
+Hirotsugu Akaike.
+\newblock {A New Look at the Statistical Model Identification}.
+\newblock {\em IEEE Transactions on Automatic Controll}, 19(6):716--723, 1974.
+
+\bibitem{Smith1997}
+Brian~L. Smith and Michael~J. Demetsky.
+\newblock {Traffic Flow Forecasting: Comparison of Modeling Approaches}.
+\newblock {\em Journal of Transportation Engineering}, 123(4)(August):261--266,
+  1997.
+
+\bibitem{Rabiner1989}
+L.~R. Rabiner.
+\newblock {A tutorial on hidden Markov models and selected applications in
+  speech recognition}.
+\newblock {\em Proceedings of the IEEE}, 77(2):257--286, 1989.
+
+\bibitem{Juang1991}
+B.~H. Juang and L.~R. Rabiner.
+\newblock {Hidden Markov Models for Speech Recognition}.
+\newblock {\em Technometrics}, 33(3):251, August 1991.
+
+\bibitem{Arthur2007}
+David Arthur and Sergei Vassilvitskii.
+\newblock {k-means ++ : The Advantages of Careful Seeding}.
+\newblock In {\em The eighteenth annual ACM-SIAM symposium on Discrete
+  algorithms}, 2007.
+
+\bibitem{Kaufman1990}
+L~Kaufman and P.~J. Rousseeuw.
+\newblock {\em {Finding Groups in Data: An Introduction to Cluster Analysis}}.
+\newblock John Wiley \& Sons, Inc., Hoboken, NJ, 1990.
+
+\bibitem{Petridis2001}
+V~Petridis, A~Kehagias, L~Petrou, A~Bakirtzis, S~Kiartzis, H~Panagiotou, and
+  N~Maslaris.
+\newblock {A Bayesian multiple models combination method for time series
+  prediction}.
+\newblock {\em Journal of intelligent and robotic systems}, 31(1):69--89, 2001.
+
+\end{thebibliography}

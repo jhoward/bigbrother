@@ -1,0 +1,106 @@
+ % PhD Thesis School Format, Kasper van Wijk (after Le Rouseau and Artley)
+ %
+ %
+ % Thesis proposal of Jim Howard
+
+
+\documentclass[12pt,oneside]{report} %Print this first
+%\documentclass[12pt,twoside]{report} %Print this second
+
+% for bibtex options such as \citep and \citet:
+\usepackage{natbib}
+\usepackage{CSMthesis}
+\usepackage{CSMabstract}
+\usepackage{url}
+\usepackage{ifthen}
+\usepackage{tocloft}
+
+% package to import (zipped!) postscript files: 
+\usepackage{graphicx,color}
+
+\DeclareGraphicsRule{.JPG}{jpg}{*}{}
+\usepackage{appendix}
+
+
+% math stuff:
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{leftidx}
+\usepackage{acronym} 
+\usepackage{longtable}
+\usepackage[intoc]{nomentbl}
+\usepackage{graphicx,psfrag}
+\usepackage{floatflt}
+
+\usepackage[lofdepth,lotdepth]{subfig}
+\usepackage{wrapfig}
+
+\graphicspath{{./images/}}
+
+% Here are the acronym definitions
+\acrodef{HMM}{Hidden Markov Model}
+\def\nomAname{Variables}%
+\makenomenclature
+
+\begin{document}
+\setboolean{@twoside}{false}
+\author{James Howard}
+\degree{Doctor of Philosophy (Computer Science)}
+\title{\uppercase{\large Combined Seasonal ARIMA and Activity Recognition Algorithms for use in Traffic Forecasting}}
+
+\advisor{Dr.~William~Hoff}{Associate Professor}
+\coadvisor{Dr.~Dinesh~Metha}{Professor}
+\dephead{Dr.~Tracy~Camp}{Professor and Head,}{Department of Computer Science}
+\thesisnumber{}
+\maketitle
+
+%\input abstract
+
+%-------------------------------------------------------------------------
+% table of contents and figures
+\clearpage
+\renewcommand{\cfttoctitlefont}{\hfill\large\bfseries}
+\renewcommand\contentsname{TABLE OF CONTENTS}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand\listfigurename{LIST OF FIGURES}
+\renewcommand{\cftloftitlefont}{\hfill\large\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill}
+\setlength{\cftchapnumwidth}{5.5em}
+\addtocontents{toc}{\protect\contentsline {chapter}{\uppercase {list of figures}}{iv}}
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+
+
+% Main text
+\setboolean{@twoside}{true} 
+\setcounter{chapter}{0}
+\begintext
+
+%\cleardoublepage 
+\input ch1Introduction
+%\cleardoublepage 
+\input ch2LitReview
+%\newpage 
+%\cleardoublepage  
+\input ch3Approach
+%\newpage 
+%\cleardoublepage 
+\input ch4Testbeds
+%\newpage 
+%\cleardoublepage 
+\input ch5Timeline
+%\newpage 
+%\input variable_list
+
+%Thesis bibliography
+\pagestyle{empty}
+\begin{singlespace}
+\bibliography{Thesis}
+\bibliographystyle{unsrt} 
+\end{singlespace}
+
+\end{document}

@@ -167,10 +167,10 @@ pip-log.txt
 ################
 /data/*
 /output/*
-/papers
-/presentations
-/thesis
 /runs/*
+/matlab/simulation/data/*
+/matlab/arima_forecast/data/*
+
 
 ################
 #Matlab

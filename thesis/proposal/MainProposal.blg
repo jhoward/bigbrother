@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2010)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: MainProposal.aux
+The style file: unsrt.bst
+Database file #1: Thesis.bib
+Warning--there's a number but no series in Huynh2005
+You've used 45 entries,
+            1791 wiz_defined-function locations,
+            762 strings with 11671 characters,
+and the built_in function-call counts, 11204 in all, are:
+= -- 1066
+> -- 419
+< -- 16
++ -- 157
+- -- 112
+* -- 721
+:= -- 1666
+add.period$ -- 142
+call.type$ -- 45
+change.case$ -- 44
+chr.to.int$ -- 0
+cite$ -- 46
+duplicate$ -- 535
+empty$ -- 1131
+format.name$ -- 112
+if$ -- 2588
+int.to.chr$ -- 0
+int.to.str$ -- 45
+missing$ -- 46
+newline$ -- 225
+num.names$ -- 45
+pop$ -- 148
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 278
+stack$ -- 0
+substring$ -- 776
+swap$ -- 157
+text.length$ -- 16
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 119
+width$ -- 47
+write$ -- 500
+(There was 1 warning)
