@@ -1,0 +1,6 @@
+MIDlet-Name: SunSpotApplicationTemplate
+MIDlet-Version: 1.0.0
+MIDlet-Vendor: Oracle
+MIDlet-1: Sun SPOT Application Template, , org.sunspotworld.demo.SunSpotApplication
+MicroEdition-Profile: IMP-1.0
+MicroEdition-Configuration: CLDC-1.1
