@@ -3,10 +3,7 @@
 %extracted and then clustered.
 %%%%
 clear all
-load './data/countData.mat'
-
-data = sensors(1).data;
-days = sensors(1).days;
+load './data/brownData.mat'
 
 ar = 1;
 diff = 0;
