@@ -312,7 +312,7 @@ if isE0specified      % Did the user specify presample e(t) observations?
 
    E            = zeros(numPaths,T);
    E(:,1:maxPQ) = e0';
-
+    
 else
 
 %
@@ -329,13 +329,11 @@ else
       E            = zeros(numPaths,T);
       E(:,1:maxPQ) = residuals((end - maxPQ + 1):end,:)';
       isE0Inferred = true;
-
    else
 %
 %     Insufficient observations of the input series y(t) have been specified,
 %     so initialize any required presample observations with the unconditional 
 %     mean of zero.
-
       E            = zeros(numPaths,T);   % Unconditional mean of e(t)
       isE0Inferred = false;
 
@@ -345,7 +343,7 @@ end
 
 
 if any(strcmpi('Y0', varargin(1:2:end)))  % Did the user specify presample y(t)?
-
+    fprintf(1, 'Here');
 %
 %  Check user-specified presample data for the residuals e(t).
 %
@@ -392,7 +390,7 @@ end
 %
 
 coefficients = [constant  AR  MA]';
-
+keyboard
 I = ones(numPaths,1);
 
 for t = (maxPQ + 1):T
@@ -405,7 +403,7 @@ if nargout > 1     % Compute additional outputs only if necessary
 %  Forecast the conditional variances.
 %
    if isa(variance, 'internal.econ.LagIndexableTimeSeries')    % Conditional variance model
-
+        fprintf(1, 'I dont think this is run.\n');
       isV0specified = any(strcmpi('V0', varargin(1:2:end)));
 
       if isE0specified && isV0specified
