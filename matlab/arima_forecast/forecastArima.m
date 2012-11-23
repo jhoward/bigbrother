@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function [Y,YMSE,V] = forecastArima(OBJ, numPeriods, varargin)
 %FORECAST Forecast ARIMA model responses and conditional variances
 %
@@ -472,3 +473,41 @@ end
 Y = Y(:,(maxPQ + 1):end)';
 
 end
+=======
+clear all;
+load('./data/simulatedRun.mat');
+
+
+start = 2160;
+ahead = 1;
+total = 288;
+mcast = zeros(total, 1);
+ecast = zeros(total, 1);
+icast = zeros(total, 1);
+e0 = zeros(total, 1);
+
+tic
+for i = 1:total
+    tmp = forecast(model,ahead, 'Y0', data(1:start - ahead - 1 + i));
+    mcast(i) = tmp(ahead);
+end
+toc
+
+tic
+for i = 1:total
+    tmp = forecast(model, ahead, 'Y0', data(1:start - ahead - 1 + i), 'E0', e0);
+    ecast(i) = tmp(ahead);
+end
+toc
+
+tic
+for i = 1:total
+    tmp = aForecast(model, ahead, 'Y0', data(1:start - ahead - 1 + i), 'E0', e0);
+    icast(i) = tmp(ahead);
+end
+toc
+
+
+x = linspace(1, total, total);
+plot(x, [data(start:start + total - 1) mcast(1:total) ecast(1:total) icast(1:total)]);
+>>>>>>> Working on Forecasting.

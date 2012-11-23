@@ -1,3 +1,8 @@
+For 11.19.2012
+JIM:
+Look into distance required to get accurate reading on doorways.
+
+
 For 11.12.2012
 Compare voltage curves to the datasheet
 Quantify field of view

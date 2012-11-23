@@ -1,8 +1,8 @@
 package sunspot;
 
+import com.sun.spot.io.j2me.radiogram.*;
 import com.sun.spot.sensorboard.EDemoBoard;
 import com.sun.spot.sensorboard.io.*;
-import com.sun.spot.io.j2me.radiogram.*;
 import com.sun.spot.sensorboard.peripheral.ITriColorLED;
 import com.sun.spot.util.Utils;
 import java.util.Calendar;
@@ -22,8 +22,10 @@ public class SensorSampler extends MIDlet {
         String ourAddress = System.getProperty("IEEE_ADDRESS");
         long now = 0L;
         long reset = 0L;
-        IScalarInput lightSensor =  EDemoBoard.getInstance().getLightSensor();
+        IScalarInput lightSensor;
+        lightSensor = EDemoBoard.getInstance().getLightSensor();
         int reading = 0;
+        
         //This is in miliseconds.
         int readInterval = 1000;
         Calendar cal = Calendar.getInstance();
@@ -35,6 +37,8 @@ public class SensorSampler extends MIDlet {
         int[] boolValues = new int[5];
         int[] floatValues = new int[5];
 
+        /*
+        
         try {
             rCon = (RadiogramConnection) Connector.open(
                     "radiogram://broadcast:" + DATA_SINK_PORT);
@@ -45,6 +49,8 @@ public class SensorSampler extends MIDlet {
             System.exit(1);
         }
 
+*       */
+        
         reset = System.currentTimeMillis() + readInterval;
 
         while (true) {
@@ -63,6 +69,8 @@ public class SensorSampler extends MIDlet {
 
                     //Read sensor values.  If anything changed, send data.
 
+                    //System.out.println("Our radio address = " + reading);
+                    
                     cal.setTime(new Date(now));
                     ts = cal.get(Calendar.YEAR) + "-" +
                             (1 + cal.get(Calendar.MONTH)) + "-" +
@@ -73,16 +81,20 @@ public class SensorSampler extends MIDlet {
 
                     // Package our identifier, timestamp and sensor reading
                     // into a radio datagram and send it.
-                    dg.reset();
+                    /*dg.reset();
                     dg.writeUTF(ourAddress);
                     dg.writeUTF(ts);
                     dg.writeInt(reading);
-                       /*
-                    for(int i = 0; i < aInputs.length; i++) {
-                        dg.writeInt(aInputs[i].getValue());
-                    }
-                     */
+                    */  
                     
+                    System.out.println("-------------");
+                    for(int i = 0; i < aInputs.length; i++) {
+                        System.out.println(aInputs[i].getValue());
+                        //aInputs[i].getValue();
+                    }
+                    System.out.println("-------------");
+                     
+                    /*
                     for(int i = 0; i < ioPins.length; i++) {
                         int writeVal = 0;
 
@@ -98,9 +110,10 @@ public class SensorSampler extends MIDlet {
                     }
                     
                     rCon.send(dg);
-
+                    */
                     // Go to sleep to conserve battery
                     reset = now + readInterval;
+                   
                 }
             } catch (Exception e) {
                 System.err.println("Caught " + e +
