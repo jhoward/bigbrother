@@ -78,7 +78,7 @@ public class Main extends MIDlet {
         //This is in miliseconds.
         int readInterval = 500;
         int counter = 0;
-        boolean rightSensor, leftSensor;
+        boolean rightSensorEmpty, leftSensorEmpty;
         // ITriColorLED[] leds = EDemoBoard.getInstance().getLEDs();
         IIOPin[] ioPins = EDemoBoard.getInstance().getIOPins();
         leds.getLED(7).setRGB(255, 255, 255);
@@ -113,40 +113,40 @@ public class Main extends MIDlet {
                         }
                     }
 
-                    rightSensor = ioPins[0].getState();
-                    leftSensor = ioPins[1].getState();
+                    rightSensorEmpty = ioPins[0].getState();
+                    leftSensorEmpty = ioPins[1].getState();
 
 
 
-                    if (rightSensor && leftSensor) {
+                    if (rightSensorEmpty && leftSensorEmpty) {
                         if (walkState == WALK_WAITING) {
                             System.out.println("Reset");
-                            walkState = WALK_WAITING;
+                            walkState = WALK_NOTHING;
                             rsCount = 0;
                             lsCount = 0;
                         }
                     }
 
                     if (walkState == WALK_NOTHING) {
-                        if (!rightSensor && leftSensor) {
+                        if (!rightSensorEmpty && leftSensorEmpty) {
                             lsCount = lagTime;
                             //System.out.println("WalkState 1");
                             walkState = WALK_LEFT;
                         }
-                        if (!leftSensor && rightSensor) {
+                        if (!leftSensorEmpty && rightSensorEmpty) {
                             //System.out.println("WalkState 2");
                             rsCount = lagTime;
                             walkState = WALK_RIGHT;
                         }
 
-                        if (!leftSensor && !rightSensor) {
+                        if (!leftSensorEmpty && !rightSensorEmpty) {
                             walkState = WALK_WAITING;
                             System.out.println("Too fast walk detected.");
                         }
                     }
 
                     if (walkState == WALK_LEFT) {
-                        if (!leftSensor) {
+                        if (!leftSensorEmpty) {
                             System.out.println("Walked left detected.");
                             walkState = WALK_WAITING;
                             lsCount = 0;
@@ -154,7 +154,7 @@ public class Main extends MIDlet {
                     }
 
                     if (walkState == WALK_RIGHT) {
-                        if (!rightSensor) {
+                        if (!rightSensorEmpty) {
                             System.out.println("Walked right detected.");
                             walkState = WALK_WAITING;
                             rsCount = 0;
