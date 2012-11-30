@@ -12,8 +12,11 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 public class Main extends MIDlet {
+    //IO PINS
+    private IIOPin[] ioPins = EDemoBoard.getInstance().getIOPins();
+    private static final int IO_LEFT_SENSOR = 1;
+    private static final int IO_RIGHT_SENSOR = 0;
     //MULTICOLOR LEDs
-
     private ITriColorLEDArray leds = (ITriColorLEDArray) Resources.lookup(ITriColorLEDArray.class);
     private LEDColor[] colors = {LEDColor.RED, LEDColor.GREEN, LEDColor.BLUE};
     //BUTTONS
@@ -24,12 +27,14 @@ public class Main extends MIDlet {
     private static final int STATE_SENSING = 1;
     private static final int STATE_TRANSMITTING = 2;
     private int state = STATE_INITIALIZING;
+    //MOTE DIFFERENTIATION
     private int motenum = -1;
     //WALK STATES
     private static final int WALK_NOTHING = 0;
     private static final int WALK_LEFT = 1;
     private static final int WALK_RIGHT = 2;
     private static final int WALK_WAITING = 5; //wait for reset
+    private int walkState = WALK_NOTHING;
     //CONSTANTS
     private static final String DEST_MOTE = "0014.4F01.0000.0007"; //Mote connected to computer for collecting data
 
@@ -78,10 +83,6 @@ public class Main extends MIDlet {
         //This is in miliseconds.
         int readInterval = 500;
         boolean rightSensorEmpty, leftSensorEmpty;
-        // ITriColorLED[] leds = EDemoBoard.getInstance().getLEDs();
-        IIOPin[] ioPins = EDemoBoard.getInstance().getIOPins();
-        leds.getLED(7).setRGB(255, 255, 255);
-        int walkState = WALK_NOTHING; // 0 = nothing, 1 = walkLeft 2 = walkRight 5 = wait for reset.
         int lagTime = 8;
         int lsCount, rsCount;
         rsCount = 0;
@@ -101,8 +102,8 @@ public class Main extends MIDlet {
 
                 case STATE_SENSING:
 
-                    rightSensorEmpty = ioPins[0].getState();
-                    leftSensorEmpty = ioPins[1].getState();
+                    rightSensorEmpty = ioPins[IO_RIGHT_SENSOR].getState();
+                    leftSensorEmpty = ioPins[IO_LEFT_SENSOR].getState();
 
 
 
