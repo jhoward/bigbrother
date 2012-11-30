@@ -6,7 +6,7 @@ clear all
 load './data/simulatedData.mat'
 
 ar = 1;
-diff = 1;
+diff = 0;
 ma = 1;
 sar = 0;
 sdiff = blocksInDay;

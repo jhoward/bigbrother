@@ -177,3 +177,4 @@ pip-log.txt
 ################
 *.asv
 /mote/sunspot/New System/AirText/nbproject/private/
+*.m~

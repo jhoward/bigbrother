@@ -1,25 +1,23 @@
-function [Y,YMSE,V] = aForecast(OBJ, numPeriods, varargin)
+function [Y,YMSE,V] = aForecast(OBJ, fSteps, Y0, varargin)
 
 
-if nargin < 2
+if nargin < 3
    error(message('econ:arima:forecast:NonEnoughInputs'))
 end
 
 parser = inputParser;
 parser.CaseSensitive = true;
 parser.addRequired  ('numPeriods',    @(x) validateattributes(x, {'double'}, {'scalar' 'integer' '>' 0}, '', 'forecast horizon'));
-parser.addParamValue('Y0'        , 0, @(x) validateattributes(x, {'double'}, {}, '', 'presample responses'));
 parser.addParamValue('E0'        , 0, @(x) validateattributes(x, {'double'}, {}, '', 'presample residuals'));
 parser.addParamValue('V0'        , 0, @(x) validateattributes(x, {'double'}, {}, '', 'presample variances'));
 
 try 
-  parser.parse(numPeriods, varargin{:});
+  parser.parse(fSteps, varargin{:});
 catch exception
   exception.throwAsCaller();
 end
 
 horizon = parser.Results.numPeriods;
-Y0      = parser.Results.Y0;
 E0      = parser.Results.E0;
 V0      = parser.Results.V0;
 
@@ -164,56 +162,12 @@ else
 
       E            = zeros(numPaths,T);   % Unconditional mean of e(t)
       isE0Inferred = false;
-
    end
-
 end
 
 
-if any(strcmpi('Y0', varargin(1:2:end)))  % Did the user specify presample y(t)?
-    %fprintf(1, 'Here\n');
+Y = [Y0'  zeros(numPaths,horizon)];
 
-%
-%  Check user-specified presample data for the residuals e(t).
-%
-
-   Y0 = internal.econ.LagIndexableTimeSeries.checkPresampleData(zeros(maxPQ,numPaths), 'Y0', Y0, OBJ.P);
-
-%
-%  Size the responses y(t) and initialize with specified data.
-%
-
-   Y = [Y0'  zeros(numPaths,horizon)];
-
-else
-
-        %fprintf(1, 'Not here.\n');
-%
-%  The user did not specify presample y(t) observations. 
-%
-
-   if isARstable && (sum(AR) ~= 1)
-%
-%     The model is AR-stable, so compute the unconditional (i.e., long-run) 
-%     mean of the y(t) process directly from the parameters of the model and 
-%     use it to initialize any required presample observations.
-%
-      average = constant / (1 - sum(AR));
-      Y       = repmat([average(ones(1,maxPQ)) zeros(1,horizon)], numPaths, 1);
-
-   else
-%
-%     The model is not AR-stable, and so a long-run mean of the y(t) process 
-%     cannot be calculated from the model. The following simply assumes zeros 
-%     for any required presample observations for y(t).
-%
-      Y  = zeros(numPaths,T);
-
-   end
-
-end
-
-keyboard
 
 %
 % Apply iterative expectations one forecast step at a time. Such forecasts
@@ -221,86 +175,93 @@ keyboard
 % with a symmetric conditional probability distribution (see [1], pp. 94-95).
 %
 
+startValue = max([LagsAR LagsMA]) + 1;
+endValue = size(Y0, 1) - fSteps;
+
 coefficients = [constant  AR  MA]';
+errors = zeros(size(Y0));
+errors = errors';
 
 I = ones(numPaths,1);
 
-for t = (maxPQ + 1):T
-    data   = [I  Y(:,t - LagsAR)  E(:,t - LagsMA)];
+for t = startValue:endValue
+
+    data   = [I  Y0(t - LagsAR,:)'  errors(:,t - LagsMA)];
     Y(:,t) = data * coefficients;
+    errors = [Y(1, t) - Y0(t, 1) errors];
 end
 
-if nargout > 1     % Compute additional outputs only if necessary
-%
-%  Forecast the conditional variances.
-%
-   if isa(variance, 'internal.econ.LagIndexableTimeSeries')    % Conditional variance model
-
-      isV0specified = any(strcmpi('V0', varargin(1:2:end)));
-
-      if isE0specified && isV0specified
-
-         V = forecast(variance, horizon, 'Y0', E0, 'V0', V0);
-
-      elseif isE0specified
-
-         V = forecast(variance, horizon, 'Y0', E0);
-
-      elseif isV0specified
-
-         if isE0Inferred
-            V = forecast(variance, horizon, 'V0', V0, 'Y0', residuals);
-         else
-            V = forecast(variance, horizon, 'V0', V0);
-         end
-
-      else
-
-         if isE0Inferred
-            V = forecast(variance, horizon, 'Y0', residuals);
-         else
-            V = forecast(variance, horizon);
-         end
-
-     end
-
-   else                              % Constant variance model
-
-     V = variance(ones(horizon,numPaths));
-
-   end
-
-%
-%  Compute variances of forecasts errors of y(t).
-%
-
-   wState  = warning;                           % Save warning state
-   cleanUp = onCleanup(@() warning(wState));    % Restore warning state
-   
-   warning('off', 'econ:LagOp:mldivide:WindowNotOpen')   
-   warning('off', 'econ:LagOp:mldivide:WindowIncomplete')
-
-%
-%  Compute the coefficients of the truncated infinite-degree MA
-%  representation of the ARIMA model.
-%
-
-   MA   = mldivide(getLagOp(OBJ, 'Compound AR'), ...
-                   getLagOp(OBJ, 'Compound MA'), ...
-                  'Degree', horizon - 1, 'RelTol', 0, 'AbsTol', 0);
-
-   MA   = cell2mat(toCellArray(MA));
-   MA   = [MA  zeros(1, horizon - numel(MA))];
-   YMSE = toeplitz(MA.^2, [1 zeros(1, horizon - 1)]) * V;
-
-end
-
-%
-% Remove the first max(P,Q) values used to initialize the variance forecast 
-% such that the t-th row of V(t) is the t-period-ahead forecast of the 
-% conditional variance, and transpose to a conventional time series format.
-%
-
-Y = Y(:,(maxPQ + 1):end)';
-
-end
+% if nargout > 1     % Compute additional outputs only if necessary
+% %
+% %  Forecast the conditional variances.
+% %
+%    if isa(variance, 'internal.econ.LagIndexableTimeSeries')    % Conditional variance model
+% 
+%       isV0specified = any(strcmpi('V0', varargin(1:2:end)));
+% 
+%       if isE0specified && isV0specified
+% 
+%          V = forecast(variance, horizon, 'Y0', E0, 'V0', V0);
+% 
+%       elseif isE0specified
+% 
+%          V = forecast(variance, horizon, 'Y0', E0);
+% 
+%       elseif isV0specified
+% 
+%          if isE0Inferred
+%             V = forecast(variance, horizon, 'V0', V0, 'Y0', residuals);
+%          else
+%             V = forecast(variance, horizon, 'V0', V0);
+%          end
+% 
+%       else
+% 
+%          if isE0Inferred
+%             V = forecast(variance, horizon, 'Y0', residuals);
+%          else
+%             V = forecast(variance, horizon);
+%          end
+% 
+%      end
+% 
+%    else                              % Constant variance model
+% 
+%      V = variance(ones(horizon,numPaths));
+% 
+%    end
+% 
+% %
+% %  Compute variances of forecasts errors of y(t).
+% %
+% 
+%    wState  = warning;                           % Save warning state
+%    cleanUp = onCleanup(@() warning(wState));    % Restore warning state
+%    
+%    warning('off', 'econ:LagOp:mldivide:WindowNotOpen')   
+%    warning('off', 'econ:LagOp:mldivide:WindowIncomplete')
+% 
+% %
+% %  Compute the coefficients of the truncated infinite-degree MA
+% %  representation of the ARIMA model.
+% %
+% 
+%    MA   = mldivide(getLagOp(OBJ, 'Compound AR'), ...
+%                    getLagOp(OBJ, 'Compound MA'), ...
+%                   'Degree', horizon - 1, 'RelTol', 0, 'AbsTol', 0);
+% 
+%    MA   = cell2mat(toCellArray(MA));
+%    MA   = [MA  zeros(1, horizon - numel(MA))];
+%    YMSE = toeplitz(MA.^2, [1 zeros(1, horizon - 1)]) * V;
+% 
+% end
+% keyboard
+% %
+% % Remove the first max(P,Q) values used to initialize the variance forecast 
+% % such that the t-th row of V(t) is the t-period-ahead forecast of the 
+% % conditional variance, and transpose to a conventional time series format.
+% %
+% 
+% Y = Y(:,(maxPQ + 1):end)';
+% 
+% end
