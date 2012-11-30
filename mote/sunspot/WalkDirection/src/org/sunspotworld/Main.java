@@ -77,7 +77,6 @@ public class Main extends MIDlet {
 
         //This is in miliseconds.
         int readInterval = 500;
-        int counter = 0;
         boolean rightSensorEmpty, leftSensorEmpty;
         // ITriColorLED[] leds = EDemoBoard.getInstance().getLEDs();
         IIOPin[] ioPins = EDemoBoard.getInstance().getIOPins();
@@ -101,17 +100,6 @@ public class Main extends MIDlet {
 
 
                 case STATE_SENSING:
-
-
-
-                    //Constant LED to indicate running
-                    if (counter % 10 == 0) {
-                        if (leds.getLED(7).isOn()) {
-                            leds.getLED(7).setOff();
-                        } else {
-                            leds.getLED(7).setOn();
-                        }
-                    }
 
                     rightSensorEmpty = ioPins[0].getState();
                     leftSensorEmpty = ioPins[1].getState();
@@ -178,7 +166,6 @@ public class Main extends MIDlet {
 
                     // Go to sleep to conserve battery
                     Utils.sleep(100);
-                    counter += 1;
                     break;
 
 
