@@ -7,8 +7,10 @@ nDay1 = datenum('01/01/2008');
 %if averagedays is 1, then compute the average day for that day of the week
 %and save to data.
 AVERAGEDAYS = 1;
+superSampleAmount = 4; %value of one will keep data the same
 
-dataLocation = '../../data/traffic/denver/';
+
+dataLocation = '../../../../Dropbox/Projects/bigbrother/data/traffic/denver/';
 
 % Make a list of all file names.  Note curly brackets for cell array, to
 % allow for strings of varying length in the array.
@@ -159,28 +161,49 @@ for n=1:d
         end
     end
     
-    sensors(n).dayNums = dayNums;
+    %Supersample the data.
+    %Also convert data to one long time span and create times array;
+    %First resize
+    nData = reshape(data', size(data, 1) * size(data, 2), 1);
+    tmpData = zeros((size(data, 1)) * size(data, 2) * superSampleAmount, 1);
+    count = 1;
+
+    if superSampleAmount > 1
+        for i = 1:size(nData, 1) - 1;
+            tmp = linspace(nData(i, 1), nData(i + 1, 1), superSampleAmount + 1);
+            tmpData(count:count+superSampleAmount - 1) = tmp(1:end - 1)';
+            count = count + superSampleAmount;
+        end
+        
+        tmp = linspace(nData(end), nData(end), superSampleAmount);
+        tmpData(count:end) = tmp';
+    end
+    
+    
+    
+    sensors(n).times = dayNums;
     sensors(n).dayOfWeek = days;
     sensors(n).replacedDays = replacedDays';
-    sensors(n).data = data;
+    sensors(n).data = tmpData;
     sensors(n).weekAvg = weekAvg;
     sensors(n).fileName = fileName;
-end
+    end
 
-tmpData = sensors(1).data(find(days == 1), :);
-x = linspace(1, 24, 24);
-xflip = [x(1 : end - 1) fliplr(x)];
+% 
+% tmpData = sensors(1).data(find(days == 1), :);
+% x = linspace(1, 24, 24);
+% xflip = [x(1 : end - 1) fliplr(x)];
+% 
+% 
+% for i = 1:length(tmpData)
+%     y = tmpData(i, :);
+%     
+%     yflip = [y(1 : end - 1) fliplr(y)];
+%     patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
+%     hold on
+% end
 
 
-for i = 1:length(tmpData)
-    y = tmpData(i, :);
-    
-    yflip = [y(1 : end - 1) fliplr(y)];
-    patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
-    hold on
-end
-
-
-save('./data/countData.mat', 'allFileNames', 'sensors')
+save('./data/denverCounts.mat', 'allFileNames', 'sensors')
 
 

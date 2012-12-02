@@ -1,6 +1,6 @@
 %Aggregate Brown Building counts
 clear all
-load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\sensor_data_01_01_08_to_06_09_08.mat');
+load('../../../../Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
 
 counts = [];
 
@@ -71,4 +71,4 @@ end
 
 blocksInDay = bid;
 
-save('./data/brownData.mat', 'agData', 'dayNums', 'dayOfWeek', 'blocksInDay', 'startDate', 'endDate');
+save('./data/brownData.mat', 'data', 'times', 'dayOfWeek', 'blocksInDay', 'startDate', 'endDate');

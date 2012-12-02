@@ -2,19 +2,19 @@ function [data, times, actTimes, blocksInDay] = simulateData()
 %Create simulated data.
     dayLength = 144;
     numDays = 30;
-    bgSize = 1;
-    bgStd = 0.0;
+    bgSize = 10;
+    bgStd = 0.45;
     numActs = 12;
-    actLength = 12;
-    actSize = 0.35;
-    actStd = 0.00;
+    actLength = 18;
+    actSize = 2.0;
+    actStd = 0.0;
     
     [data, times, actTimes] = createSimulatedData(numDays, dayLength, ...
                     bgSize, bgStd, numActs, actLength, actSize, actStd);
     
     blocksInDay = dayLength;
     
-    save('./data/simulatedData.mat', 'data', 'times', 'actTimes', 'blocksInDay');
+    save('./data/simulatedCounts.mat', 'data', 'times', 'actTimes', 'blocksInDay');
 end
 
 function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize, bgStd, ...

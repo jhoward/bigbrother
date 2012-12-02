@@ -3,7 +3,7 @@
 %extracted and then clustered.
 %%%%
 clear all
-load './data/brownData.mat'
+load './data/brownCounts.mat'
 
 sensor = 22;
 
@@ -38,18 +38,18 @@ myForecast = myForecast(2:145);
 fcast = zeros(144, 1);
 fcast2 = zeros(144, 1);
 tmp = zeros(length(dayData), 1);
-
-tic
-for i = 1:144
-    fcast(i, 1) = forecast(model, 1, 'Y0', dayData(1:287 + i, 1), 'E0', tmp(1:287 + i, 1));
-end
-toc
-
-tic
-for i = 1:144
-    icast(i, 1) = forecastArima(model, 1, 'Y0', dayData(1:287 + i, 1));
-end
-toc
+% 
+% tic
+% for i = 1:144
+%     fcast(i, 1) = forecast(model, 1, 'Y0', dayData(1:287 + i, 1), 'E0', tmp(1:287 + i, 1));
+% end
+% toc
+% 
+% tic
+% for i = 1:144
+%     icast(i, 1) = forecastArima(model, 1, 'Y0', dayData(1:287 + i, 1));
+% end
+% toc
 
 %Compute residuals
 realData = dayData(288:288 + 143);
