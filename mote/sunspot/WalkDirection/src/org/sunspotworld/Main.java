@@ -23,7 +23,7 @@ public class Main extends MIDlet {
     private static final int IO_RIGHT_SENSOR = 0;
     //MULTICOLOR LEDs
     private ITriColorLEDArray leds = (ITriColorLEDArray) Resources.lookup(ITriColorLEDArray.class);
-    private LEDColor[] colors = {LEDColor.RED, LEDColor.GREEN, LEDColor.BLUE};
+    private LEDColor[] colors = {LEDColor.RED, LEDColor.GREEN, LEDColor.BLUE, LEDColor.CYAN, LEDColor.MAGENTA, LEDColor.WHITE};
     //BUTTONS
     private ISwitch sw1 = (ISwitch) Resources.lookup(ISwitch.class, "SW1");
     private ISwitch sw2 = (ISwitch) Resources.lookup(ISwitch.class, "SW2");
@@ -151,7 +151,9 @@ public class Main extends MIDlet {
                             if (DEBUG) {
                                 System.out.println("Too fast walk detected.");
                                 flashColor(2);
-                                flashColor(2);
+                                Utils.sleep(100);
+                                flashColor(0);
+                                Utils.sleep(100);
                                 flashColor(2);
                             }
                         }
@@ -161,7 +163,7 @@ public class Main extends MIDlet {
                         if (!leftSensorEmpty) {
                             if (DEBUG) {
                                 System.out.println("Walked left detected.");
-                                flashColor(1);
+                                flashColor(3);
                             }
                             walkState = WALK_WAITING;
                             lsCount = 0;
@@ -172,7 +174,7 @@ public class Main extends MIDlet {
                         if (!rightSensorEmpty) {
                             if (DEBUG) {
                                 System.out.println("Walked right detected.");
-                                flashColor(0);
+                                flashColor(4);
                             }
                             walkState = WALK_WAITING;
                             rsCount = 0;
@@ -191,7 +193,9 @@ public class Main extends MIDlet {
                         if (DEBUG) {
                             System.out.print("Bad Event detected:  ");
                             flashColor(2);
-                            flashColor(2);
+                            Utils.sleep(200);
+                            flashColor(0);
+                            Utils.sleep(200);
                             flashColor(2);
                         }
                         System.out.print("Bad Event detected:  ");
