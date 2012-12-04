@@ -150,7 +150,9 @@ public class Main extends MIDlet {
                             walkState = WALK_WAITING;
                             if (DEBUG) {
                                 System.out.println("Too fast walk detected.");
-                                flashColor(0);
+                                flashColor(2);
+                                flashColor(2);
+                                flashColor(2);
                             }
                         }
                     }
@@ -170,7 +172,7 @@ public class Main extends MIDlet {
                         if (!rightSensorEmpty) {
                             if (DEBUG) {
                                 System.out.println("Walked right detected.");
-                                flashColor(2);
+                                flashColor(0);
                             }
                             walkState = WALK_WAITING;
                             rsCount = 0;
@@ -186,6 +188,12 @@ public class Main extends MIDlet {
                     }
 
                     if (rsCount == 0 && lsCount == 0 && (walkState == WALK_LEFT || walkState == WALK_RIGHT)) {
+                        if (DEBUG) {
+                            System.out.print("Bad Event detected:  ");
+                            flashColor(2);
+                            flashColor(2);
+                            flashColor(2);
+                        }
                         System.out.print("Bad Event detected:  ");
                         System.out.println(walkState);
                         walkState = WALK_WAITING;
