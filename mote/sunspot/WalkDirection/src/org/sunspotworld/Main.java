@@ -12,6 +12,11 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 public class Main extends MIDlet {
+    
+    
+    private static final boolean DEBUG = true; //set to true for flashing LED for direction events
+    
+    
     //IO PINS
     private IIOPin[] ioPins = EDemoBoard.getInstance().getIOPins();
     private static final int IO_LEFT_SENSOR = 1;
@@ -71,6 +76,19 @@ public class Main extends MIDlet {
         leds.setColor(LEDColor.GREEN);
         leds.setOn();
     }
+    
+    private void flashColor(int color) {
+        leds.setColor(colors[color]);
+        leds.setOn();
+        Utils.sleep(100);
+        leds.setOff();
+    }
+    
+    
+    private void saveEvent() {
+        ////////////////////////////////////////////////////////////////////////
+    }
+    
 
     protected void startApp() throws MIDletStateChangeException {
         leds.setColor(colors[2]);
@@ -130,13 +148,19 @@ public class Main extends MIDlet {
 
                         if (!leftSensorEmpty && !rightSensorEmpty) {
                             walkState = WALK_WAITING;
-                            System.out.println("Too fast walk detected.");
+                            if (DEBUG) {
+                                System.out.println("Too fast walk detected.");
+                                flashColor(0);
+                            }
                         }
                     }
 
                     if (walkState == WALK_LEFT) {
                         if (!leftSensorEmpty) {
-                            System.out.println("Walked left detected.");
+                            if (DEBUG) {
+                                System.out.println("Walked left detected.");
+                                flashColor(1);
+                            }
                             walkState = WALK_WAITING;
                             lsCount = 0;
                         }
@@ -144,7 +168,10 @@ public class Main extends MIDlet {
 
                     if (walkState == WALK_RIGHT) {
                         if (!rightSensorEmpty) {
-                            System.out.println("Walked right detected.");
+                            if (DEBUG) {
+                                System.out.println("Walked right detected.");
+                                flashColor(2);
+                            }
                             walkState = WALK_WAITING;
                             rsCount = 0;
                         }
