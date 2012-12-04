@@ -10,6 +10,10 @@ import com.sun.spot.sensorboard.io.*;
 import com.sun.spot.util.Utils;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
+import javax.microedition.rms.RecordStore;
+import javax.microedition.rms.RecordStoreException;
+import javax.microedition.rms.RecordStoreFullException;
+import javax.microedition.rms.RecordStoreNotFoundException;
 
 public class Main extends MIDlet {
     
@@ -73,7 +77,7 @@ public class Main extends MIDlet {
     }
 
     private void showColor(int color) {
-        leds.setColor(LEDColor.GREEN);
+        leds.setColor(colors[color]);
         leds.setOn();
     }
     
@@ -86,9 +90,78 @@ public class Main extends MIDlet {
     
     
     private void saveEvent() {
-        ////////////////////////////////////////////////////////////////////////
+        try {
+            
+            RecordStore rms = RecordStore.openRecordStore("Events", true);
+            byte[] inputData = new byte[]{12,13,14,15,16}; /////this should be our sensor data
+            rms.addRecord(inputData, 0, inputData.length);
+            rms.closeRecordStore();
+            
+        } catch (RecordStoreException ex) {
+            System.out.print("----- Record store exception");
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+        }
     }
     
+    private void printEvents() {
+        try {
+            
+            RecordStore rms = RecordStore.openRecordStore("Events", true);
+            int records = rms.getNumRecords();
+            byte[] outputData = rms.getRecord(records);
+            rms.closeRecordStore();
+            ///////actually do what I want to do
+            
+        } catch (RecordStoreException ex) {
+            System.out.print("----- Record store exception");
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+        }
+    }
+    
+    private void eraseEvents() {
+        try {
+            
+            if (DEBUG)
+                showColor(5);
+            
+            RecordStore rms = RecordStore.openRecordStore("Events", true);
+            int records = rms.getNumRecords();
+            rms.deleteRecord(records); //loop through and remove all records
+            rms.closeRecordStore();
+            ///////actually do what I want to do
+            
+            if (DEBUG)
+                leds.setOff();
+            
+        } catch (RecordStoreException ex) {
+            System.out.print("----- Record store exception");
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+        }
+    }
 
     protected void startApp() throws MIDletStateChangeException {
         leds.setColor(colors[2]);
@@ -149,7 +222,7 @@ public class Main extends MIDlet {
                         if (!leftSensorEmpty && !rightSensorEmpty) {
                             walkState = WALK_WAITING;
                             if (DEBUG) {
-                                System.out.println("Too fast walk detected.");
+                                System.out.println("----- Too fast walk detected.");
                                 flashColor(2);
                                 Utils.sleep(100);
                                 flashColor(0);
@@ -191,14 +264,14 @@ public class Main extends MIDlet {
 
                     if (rsCount == 0 && lsCount == 0 && (walkState == WALK_LEFT || walkState == WALK_RIGHT)) {
                         if (DEBUG) {
-                            System.out.print("Bad Event detected:  ");
+                            System.out.print("----- Bad Event detected:  ");
                             flashColor(2);
                             Utils.sleep(200);
                             flashColor(0);
                             Utils.sleep(200);
                             flashColor(2);
                         }
-                        System.out.print("Bad Event detected:  ");
+                        System.out.print("----- Bad Event detected:  ");
                         System.out.println(walkState);
                         walkState = WALK_WAITING;
                     }
