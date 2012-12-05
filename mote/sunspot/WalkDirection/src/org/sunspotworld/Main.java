@@ -1,6 +1,7 @@
 package org.sunspotworld;
 
 import com.sun.spot.peripheral.IAT91_PowerManager;
+import com.sun.spot.peripheral.Spot;
 import com.sun.spot.resources.Resources;
 import com.sun.spot.resources.transducers.ISwitch;
 import com.sun.spot.resources.transducers.ITriColorLEDArray;
@@ -21,7 +22,8 @@ public class Main extends MIDlet {
     
     private static final boolean DEBUG = true; //set to true for flashing LED for direction events
     
-    
+    //PMS
+    IAT91_PowerManager pm = Spot.getInstance().getAT91_PowerManager();
     //IO PINS
     private IIOPin[] ioPins = EDemoBoard.getInstance().getIOPins();
     private static final int IO_LEFT_SENSOR = 1;
@@ -100,11 +102,12 @@ public class Main extends MIDlet {
         leds.setOff();
 
 
-
+//////////////MOVE THS AWAY FROM HERE
         //This is in miliseconds.
         int readInterval = 500;
         boolean rightSensorEmpty, leftSensorEmpty;
         int lagTime = 8;
+        int spikeMaxTime = 50;
         int lsCount, rsCount;
         rsCount = 0;
         lsCount = 0;
@@ -124,24 +127,24 @@ public class Main extends MIDlet {
                     
                     
                     //Uncomment to test out low-energy "modes"
-                   // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_9_MHZ);
+                    pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_9_MHZ);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_18_MHZ);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_45_MHZ);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_NORMAL);
                     
                     
                     state = STATE_SENSING;
+                    System.out.println("SENSING");
                     break;
 
 
                 case STATE_SENSING:
-                    System.out.println("SENSING");
-
+                    
                     rightSensorEmpty = ioPins[IO_RIGHT_SENSOR].getState();
                     leftSensorEmpty = ioPins[IO_LEFT_SENSOR].getState();
 
 
-
+                    
                     if (rightSensorEmpty && leftSensorEmpty) {
                         if (walkState == WALK_WAITING) {
                             if (DEBUG)
@@ -209,7 +212,7 @@ public class Main extends MIDlet {
 
                     if (rsCount == 0 && lsCount == 0 && (walkState == WALK_LEFT || walkState == WALK_RIGHT)) {
                         if (DEBUG) {
-                            System.out.println("----- Bad Event detected");
+                            System.out.println("----- Bad Event");
                             flashColor(2);
                             Utils.sleep(200);
                             flashColor(0);
@@ -268,7 +271,7 @@ public class Main extends MIDlet {
             rms.closeRecordStore();
             
         } catch (RecordStoreException ex) {
-            System.out.print("----- Record store exception");
+            System.out.println("----- Record store exception");
             flashColor(2);
             Utils.sleep(100);
             flashColor(0);
@@ -294,7 +297,7 @@ public class Main extends MIDlet {
             }
             
         } catch (RecordStoreException ex) {
-            System.out.print("----- Record store exception");
+            System.out.println("----- Record store exception");
             flashColor(2);
             Utils.sleep(100);
             flashColor(0);
@@ -318,7 +321,7 @@ public class Main extends MIDlet {
             ///////actually do what I want to do
             
         } catch (RecordStoreException ex) {
-            System.out.print("----- Record store exception");
+            System.out.println("----- Record store exception");
             flashColor(2);
             Utils.sleep(100);
             flashColor(0);
@@ -348,7 +351,7 @@ public class Main extends MIDlet {
                 leds.setOff();
             
         } catch (RecordStoreException ex) {
-            System.out.print("----- Record store exception");
+            System.out.println("----- Record store exception");
             flashColor(2);
             Utils.sleep(100);
             flashColor(0);
