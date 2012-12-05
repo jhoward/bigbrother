@@ -76,11 +76,13 @@ public class Main extends MIDlet {
         }
     }
 
+    /************ Set LEDs to specified color ************/
     private void showColor(int color) {
         leds.setColor(colors[color]);
         leds.setOn();
     }
     
+    /************ Flash LEDs with specified color ************/
     private void flashColor(int color) {
         leds.setColor(colors[color]);
         leds.setOn();
@@ -89,7 +91,7 @@ public class Main extends MIDlet {
     }
     
     
-
+    /************ Main ************/
     protected void startApp() throws MIDletStateChangeException {
         leds.setColor(colors[2]);
         leds.setOn();
@@ -112,13 +114,19 @@ public class Main extends MIDlet {
         while (true) {
             switch (state) {
                 case STATE_INITIALIZING:
-                    System.out.println("Initializing");
+                    System.out.println("INITIALIZING");
+                    
+                    if (DEBUG) {
+                        flashNumberOfEvents();
+                        eraseEvents();
+                    }
                     
                     state = STATE_SENSING;
                     break;
 
 
                 case STATE_SENSING:
+                    System.out.println("SENSING");
 
                     rightSensorEmpty = ioPins[IO_RIGHT_SENSOR].getState();
                     leftSensorEmpty = ioPins[IO_LEFT_SENSOR].getState();
@@ -210,6 +218,7 @@ public class Main extends MIDlet {
 
 
                 case STATE_TRANSMITTING:
+                    System.out.println("TRANSMITTING");
                     /*RadiostreamConnection conn = conn = (RadiostreamConnection)Connector.open("radiostream://"+DEST_MOTE+":100");
                      DataOutputStream dos = conn.openDataOutputStream();
                      try {
@@ -233,4 +242,120 @@ public class Main extends MIDlet {
     protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
         // Only called if startApp throws any exception other than MIDletStateChangeException
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    /************ Saves an event to flash ************/
+    private void saveEvent() {
+        try {
+            
+            RecordStore rms = RecordStore.openRecordStore("Events", true);
+            byte[] inputData = new byte[]{12,13,14,15,16}; /////this should be our sensor data
+            rms.addRecord(inputData, 0, inputData.length);
+            rms.closeRecordStore();
+            
+        } catch (RecordStoreException ex) {
+            System.out.print("----- Record store exception");
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+        }
+    }
+    
+    /************ Flash number of events on LEDs ************/
+    private void flashNumberOfEvents() {
+        try {
+            
+            RecordStore rms = RecordStore.openRecordStore("Events", true);
+            int records = rms.getNumRecords();
+            rms.closeRecordStore();
+            for (int i = 0; i < records; i++) {
+                flashColor(5);
+                Utils.sleep(150);
+            }
+            
+        } catch (RecordStoreException ex) {
+            System.out.print("----- Record store exception");
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+        }
+    }
+    
+    /************ Print events stored on flash ************/
+    private void printEvents() {
+        try {
+            
+            RecordStore rms = RecordStore.openRecordStore("Events", true);
+            int records = rms.getNumRecords();
+            byte[] outputData = rms.getRecord(records);
+            rms.closeRecordStore();
+            ///////actually do what I want to do
+            
+        } catch (RecordStoreException ex) {
+            System.out.print("----- Record store exception");
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+        }
+    }
+    
+    /************ Clear all events from flash ************/
+    private void eraseEvents() {
+        try {
+            
+            if (DEBUG)
+                showColor(5);
+            
+            RecordStore rms = RecordStore.openRecordStore("Events", true);
+            int records = rms.getNumRecords();
+            rms.deleteRecord(records); //loop through and remove all records
+            rms.closeRecordStore();
+            ///////actually do what I want to do
+            
+            if (DEBUG)
+                leds.setOff();
+            
+        } catch (RecordStoreException ex) {
+            System.out.print("----- Record store exception");
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+            Utils.sleep(100);
+            flashColor(0);
+            Utils.sleep(100);
+            flashColor(2);
+        }
+    }
+    
+    
+    
+    
+    
+    
 }
