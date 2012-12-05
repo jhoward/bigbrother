@@ -1,5 +1,6 @@
 package org.sunspotworld;
 
+import com.sun.spot.peripheral.IAT91_PowerManager;
 import com.sun.spot.resources.Resources;
 import com.sun.spot.resources.transducers.ISwitch;
 import com.sun.spot.resources.transducers.ITriColorLEDArray;
@@ -121,6 +122,14 @@ public class Main extends MIDlet {
                         eraseEvents();
                     }
                     
+                    
+                    //Uncomment to test out low-energy "modes"
+                   // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_9_MHZ);
+                   // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_18_MHZ);
+                   // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_45_MHZ);
+                   // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_NORMAL);
+                    
+                    
                     state = STATE_SENSING;
                     break;
 
@@ -135,7 +144,7 @@ public class Main extends MIDlet {
 
                     if (rightSensorEmpty && leftSensorEmpty) {
                         if (walkState == WALK_WAITING) {
-                            System.out.println("Reset");
+                            System.out.println("----- Reset");
                             walkState = WALK_NOTHING;
                             rsCount = 0;
                             lsCount = 0;
