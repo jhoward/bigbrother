@@ -144,7 +144,8 @@ public class Main extends MIDlet {
 
                     if (rightSensorEmpty && leftSensorEmpty) {
                         if (walkState == WALK_WAITING) {
-                            System.out.println("----- Reset");
+                            if (DEBUG)
+                                System.out.println("----- Reset");
                             walkState = WALK_NOTHING;
                             rsCount = 0;
                             lsCount = 0;
@@ -179,7 +180,7 @@ public class Main extends MIDlet {
                     if (walkState == WALK_LEFT) {
                         if (!leftSensorEmpty) {
                             if (DEBUG) {
-                                System.out.println("Walked left detected.");
+                                System.out.println("Left - LLLLLLLLLLLLLL");
                                 flashColor(3);
                             }
                             walkState = WALK_WAITING;
@@ -190,7 +191,7 @@ public class Main extends MIDlet {
                     if (walkState == WALK_RIGHT) {
                         if (!rightSensorEmpty) {
                             if (DEBUG) {
-                                System.out.println("Walked right detected.");
+                                System.out.println("Right - RRRRRRRRRRRRR");
                                 flashColor(4);
                             }
                             walkState = WALK_WAITING;
@@ -208,15 +209,13 @@ public class Main extends MIDlet {
 
                     if (rsCount == 0 && lsCount == 0 && (walkState == WALK_LEFT || walkState == WALK_RIGHT)) {
                         if (DEBUG) {
-                            System.out.print("----- Bad Event detected:  ");
+                            System.out.println("----- Bad Event detected");
                             flashColor(2);
                             Utils.sleep(200);
                             flashColor(0);
                             Utils.sleep(200);
                             flashColor(2);
                         }
-                        System.out.print("----- Bad Event detected:  ");
-                        System.out.println(walkState);
                         walkState = WALK_WAITING;
                     }
 
