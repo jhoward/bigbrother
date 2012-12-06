@@ -127,7 +127,8 @@ public class Main extends MIDlet {
                     
                     
                     //Uncomment to test out low-energy "modes"
-                    pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_9_MHZ);
+                    pm.disablePeripheralClock(1);
+                   // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_9_MHZ);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_18_MHZ);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_45_MHZ);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_NORMAL);
@@ -271,7 +272,8 @@ public class Main extends MIDlet {
             rms.closeRecordStore();
             
         } catch (RecordStoreException ex) {
-            System.out.println("----- Record store exception");
+            System.out.print("----- Record store exception: ");
+            System.out.println(ex.getMessage());
             flashColor(2);
             Utils.sleep(100);
             flashColor(0);
@@ -297,7 +299,8 @@ public class Main extends MIDlet {
             }
             
         } catch (RecordStoreException ex) {
-            System.out.println("----- Record store exception");
+            System.out.print("----- Record store exception: ");
+            System.out.println(ex.getMessage());
             flashColor(2);
             Utils.sleep(100);
             flashColor(0);
@@ -321,7 +324,8 @@ public class Main extends MIDlet {
             ///////actually do what I want to do
             
         } catch (RecordStoreException ex) {
-            System.out.println("----- Record store exception");
+            System.out.print("----- Record store exception: ");
+            System.out.println(ex.getMessage());
             flashColor(2);
             Utils.sleep(100);
             flashColor(0);
@@ -351,7 +355,8 @@ public class Main extends MIDlet {
                 leds.setOff();
             
         } catch (RecordStoreException ex) {
-            System.out.println("----- Record store exception");
+            System.out.print("----- Record store exception: ");
+            System.out.println(ex.getMessage());
             flashColor(2);
             Utils.sleep(100);
             flashColor(0);
