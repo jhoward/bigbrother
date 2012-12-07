@@ -118,6 +118,7 @@ public class Main extends MIDlet {
         while (true) {
             switch (state) {
                 case STATE_INITIALIZING:
+                    System.out.print("\n\n\n");
                     System.out.println("INITIALIZING");
                     
                     if (DEBUG) {
@@ -128,6 +129,7 @@ public class Main extends MIDlet {
                     
                     //Uncomment to test out low-energy "modes"
                     pm.disablePeripheralClock(1);
+                    pm.setUsartEnable(false);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_9_MHZ);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_18_MHZ);
                    // pm.setShallowSleepClockMode(IAT91_PowerManager.SHALLOW_SLEEP_CLOCK_MODE_45_MHZ);
@@ -135,7 +137,7 @@ public class Main extends MIDlet {
                     
                     
                     state = STATE_SENSING;
-                    System.out.println("SENSING");
+                    System.out.println("\nSENSING");
                     break;
 
 
