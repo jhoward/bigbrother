@@ -14,7 +14,13 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     
     blocksInDay = dayLength;
     
-    save('./data/simulatedCounts.mat', 'data', 'times', 'actTimes', 'blocksInDay');
+    sd.data = data;
+    sd.times = times;
+    sd.actTimes = actTimes';
+    sd.blocksInDay = blocksInDay;
+    sd.sensors = [1];
+    
+    save('./data/simulatedData.mat', 'sd');
 end
 
 function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize, bgStd, ...
@@ -22,7 +28,10 @@ function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize,
     
     data = [];
     actTimes = [];
-    times = [];
+    
+    %Create times array
+    times = linspace(0, numDays, numDays*dayLength);
+    times = times';
                         
     for i = 1:numDays
         dayData = createBackgroundOneDay(dayLength, bgSize, bgStd);

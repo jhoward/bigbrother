@@ -7,7 +7,6 @@
 package org.sunspotworld;
 
 import com.sun.spot.resources.transducers.IIOPin;
-import com.sun.spot.resources.transducers.IInputPin;
 import com.sun.spot.resources.transducers.IInputPinListener;
 import com.sun.spot.resources.transducers.InputPinEvent;
 import com.sun.spot.sensorboard.EDemoBoard;

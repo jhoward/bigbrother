@@ -1,14 +1,14 @@
 clear all
 close all
 
-% This is number of day 1 (the first day of 2010)
+% This is number of day 1 
 nDay1 = datenum('01/01/2008');
 
 %if averagedays is 1, then compute the average day for that day of the week
 %and save to data.
 AVERAGEDAYS = 1;
 superSampleAmount = 4; %value of one will keep data the same
-
+blocksInDay = superSampleAmount * 24;
 
 dataLocation = '../../../../Dropbox/Projects/bigbrother/data/traffic/denver/';
 
@@ -72,6 +72,10 @@ In addition, there were two other locations that had incomplete counts:
 % Read text files and fill up the array D, size (d,365,24)
 d = length(allFileNames);     % Number of sensors
 sensors = [];
+sd.replacedDays = [];
+sd.data = [];
+sd.weekAvg = [];
+sd.fileNames = [];
 
 for n=1:d
     
@@ -181,13 +185,17 @@ for n=1:d
     
     
     
-    sensors(n).times = dayNums;
-    sensors(n).dayOfWeek = days;
-    sensors(n).replacedDays = replacedDays';
-    sensors(n).data = tmpData;
-    sensors(n).weekAvg = weekAvg;
-    sensors(n).fileName = fileName;
-    end
+    
+    sd.replacedDays = [sd.replacedDays replacedDays'];
+    sd.data = [sd.data tmpData];
+    sd.weekAvg = [sd.weekAvg weekAvg]; %Clean up weekAverages
+    sd.fileNames = [sd.fileNames fileName];
+end
+
+tmpTimes = linspace(dayNums(1), dayNums(end) + (blocksInDay - 1)/blocksInDay, length(dayNums) * blocksInDay);
+sd.times = tmpTimes';
+sd.dayOfWeek = days;
+sd.blocksInDay = blocksInDay;
 
 % 
 % tmpData = sensors(1).data(find(days == 1), :);
@@ -204,6 +212,6 @@ for n=1:d
 % end
 
 
-save('./data/denverCounts.mat', 'allFileNames', 'sensors')
+save('./data/denverData.mat', 'sd')
 
 
