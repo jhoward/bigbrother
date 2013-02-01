@@ -179,3 +179,8 @@ pip-log.txt
 /mote/sunspot/New System/AirText/nbproject/private/
 *.m~
 /mote/sunspot/TestFunctions/nbproject/private/
+/mote/sunspot/WalkDirection/WalkDirection-OnDesktop/nbproject/private
+/mote/sunspot/TestFIQ/nbproject/private
+/mote/sunspot/TestButtonSleep/nbproject/private/
+/mote/sunspot/TestDeepSleep/nbproject/private/
+/mote/sunspot/SunSpotApplication/nbproject/private/

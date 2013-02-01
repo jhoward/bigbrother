@@ -1,17 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--
-
-    This is a sample netbeans project file for a Sun Spot Application project.
-    You may edit it freely, it doesn't affect the ant-powered build.
-
- --><project xmlns="http://www.netbeans.org/ns/project/1">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://www.netbeans.org/ns/project/1">
     <type>org.netbeans.modules.ant.freeform</type>
     <configuration>
         <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <!--Do not use Project Properties customizer when editing this file manually.-->
             <name>WalkDirection-OnDesktop</name>
             <properties>
                 <property-file>${user.home}/.sunspot.properties</property-file>
                 <property-file>build.properties</property-file>
                 <property-file>${sunspot.home}/default.properties</property-file>
+                <property-file>${netbeans.user}/build.properties</property-file>
             </properties>
             <folders>
                 <source-folder>
@@ -22,24 +19,40 @@
             </folders>
             <ide-actions>
                 <action name="build">
-                    <target>jar-app</target>
+                    <target>host-compile</target>
+                </action>
+                <action name="run">
+                    <target>host-run</target>
                 </action>
                 <action name="clean">
                     <target>clean</target>
                 </action>
-                <action name="run">
-                    <target>deploy</target>
-                    <target>run</target>
-                </action>
                 <action name="rebuild">
                     <target>clean</target>
-                    <target>jar-app</target>
+                    <target>host-compile</target>
+                </action>
+                <action name="debug">
+                    <script>nbproject/ide-file-targets.xml</script>
+                    <target>debug-nb</target>
+                </action>
+                <action name="debug.fix">
+                    <script>nbproject/ide-file-targets.xml</script>
+                    <target>debug-fix</target>
+                    <context>
+                        <property>fix.file</property>
+                        <folder>${src.dir}</folder>
+                        <pattern>\.java$</pattern>
+                        <format>relative-path-noext</format>
+                        <arity>
+                            <one-file-only/>
+                        </arity>
+                    </context>
                 </action>
             </ide-actions>
             <export>
                 <type>folder</type>
                 <location>build</location>
-                <build-target>jar-app</build-target>
+                <build-target>host-compile</build-target>
             </export>
             <view>
                 <items>
@@ -53,18 +66,10 @@
                 </items>
                 <context-menu>
                     <ide-action name="build"/>
-                    <ide-action name="clean"/>
                     <ide-action name="run"/>
+                    <ide-action name="clean"/>
                     <ide-action name="rebuild"/>
-                    <action>
-                        <label>Build Project + Deploy to Sun SPOT</label>
-                        <target>deploy</target>
-                    </action>
-                    <action>
-                        <label>Deploy to Sun SPOT</label>
-                        <target>jar-deploy</target>
-                    </action>
-                    <separator/>
+                    <ide-action name="debug"/>
                 </context-menu>
             </view>
             <subprojects/>
@@ -72,10 +77,9 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src</package-root>
-                <classpath mode="boot">${sunspot.bootclasspath}</classpath>
-                <classpath mode="compile">${sunspot.classpath}</classpath>
+                 <classpath mode="compile">${hostagent.compile.classpath}</classpath>
                 <built-to>build</built-to>
-                <source-level>1.4</source-level>
+                <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
     </configuration>

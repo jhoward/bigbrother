@@ -29,3 +29,4 @@ for i = 1:size(sensorData.actTimes, 2)
 end
 
 %save('./data/simulatedRun.mat', 'data', 'times', 'actTimes', 'blocksInDay', 'model', 'res');
+

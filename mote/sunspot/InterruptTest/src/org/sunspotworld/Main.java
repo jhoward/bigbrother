@@ -16,10 +16,6 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-
-    
-
-
 /**
  * The startApp method of this class is called by the VM to start the
  * application.

@@ -38,6 +38,7 @@ class RData {
    }
     
    public static long[] deserialize(byte[] data) {
+       //This code is wrong.  See RecordData class in WalkDirection
        long ltime = 0;
        long ltype;
        

@@ -28,9 +28,11 @@ class ClientConnection extends Thread {
     public String addr;
     public int payload;
     public RadiogramConnection rConn;
+    public Datagram dg;
     
     public ClientConnection(Datagram dg) {
         try {
+            this.dg = dg;
             this.payload = dg.readInt();
             this.addr = dg.getAddress();
         } catch (Exception e) {
