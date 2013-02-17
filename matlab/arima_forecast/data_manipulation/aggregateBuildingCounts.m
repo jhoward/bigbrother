@@ -71,4 +71,4 @@ end
 
 blocksInDay = bid;
 
-save('./data/brownData.mat', 'data', 'times', 'dayOfWeek', 'blocksInDay', 'startDate', 'endDate');
+save('../data/brownData.mat', 'data', 'times', 'dayOfWeek', 'blocksInDay', 'startDate', 'endDate');

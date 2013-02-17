@@ -10,7 +10,7 @@ AVERAGEDAYS = 1;
 superSampleAmount = 4; %value of one will keep data the same
 blocksInDay = superSampleAmount * 24;
 
-dataLocation = '../../../../Dropbox/Projects/bigbrother/data/traffic/denver/';
+dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/traffic/denver/';
 
 % Make a list of all file names.  Note curly brackets for cell array, to
 % allow for strings of varying length in the array.
@@ -83,7 +83,7 @@ for n=1:d
     fid = fopen(strcat(dataLocation, fileName), 'r');
     if fid ~= -1
         fprintf('File %s: ', fileName);
-        sensors(n).fileName = fileName;
+        sensors(n).fileName = fileName; %#ok<SAGROW>
     else
         error('can''t open file');
     end
@@ -124,7 +124,7 @@ for n=1:d
             error('did''t read summary counts');
         end
         
-        data(nDay,:) = lineData;
+        data(nDay,:) = lineData; %#ok<SAGROW>
         nDaysRead = nDaysRead + 1;
     end
     fclose(fid);
@@ -184,11 +184,9 @@ for n=1:d
     end
     
     
-    
-    
     sd.replacedDays = [sd.replacedDays replacedDays'];
     sd.data = [sd.data tmpData];
-    sd.weekAvg = [sd.weekAvg weekAvg]; %Clean up weekAverages
+    sd.weekAvg = cat(3, sd.weekAvg, weekAvg); %Clean up weekAverages
     sd.fileNames = [sd.fileNames fileName];
 end
 
@@ -211,7 +209,7 @@ sd.blocksInDay = blocksInDay;
 %     hold on
 % end
 
-
-save('./data/denverData.mat', 'sd')
+data = sd;
+save('./data/denverData.mat', 'data')
 
 

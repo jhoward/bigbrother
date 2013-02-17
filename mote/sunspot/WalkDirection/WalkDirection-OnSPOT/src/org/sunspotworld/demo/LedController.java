@@ -58,6 +58,10 @@ class LedController implements Runnable {
         //System.out.println("Added command:" + errors.size());
     }
     
+    public void addCommand(int[] command) {
+        errors.put(command);
+    }
+    
     private void blinkPins(int[] data) {
         int lights = data[0];
         int blinks = data[1];
@@ -66,8 +70,7 @@ class LedController implements Runnable {
         
         //System.out.println("In Blink Pins   " + lights + "  " + blinks + "  " + delay + "  " + coolDown);
         
-        //Don't blink wait on the turn off
-        for(int i = 0; i < (2 * blinks) - 1; i++) {
+        for(int i = 0; i < (2 * blinks); i++) {
             if((i % 2) == 0) { 
                 if(lights == 1) {
                     ioPins[3].setLow();
@@ -105,7 +108,6 @@ class LedController implements Runnable {
         
         //System.out.println("In Blink LEDS   " + lights + "  " + blinks + "  " + delay + "  " + coolDown);
         
-        //Don't blink wait on the turn off
         for(int i = 0; i < (2 * blinks); i++) {
             if((i % 2) == 0) { 
                 if(lights == 1) {

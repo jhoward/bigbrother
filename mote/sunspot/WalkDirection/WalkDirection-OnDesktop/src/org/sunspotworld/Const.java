@@ -7,6 +7,8 @@ public class Const {
     public static short         EXIT                        = 2; // front to b
     public static short         ROOM_COUNT                  = 3;
     public static short         DATA_DUMP                   = 4;
+    public static short         DELETE_RECORDS              = 5;
+    public static short         BROADCAST                   = 6;
     public static short         EOF                         = 16;
     
     //sensors
@@ -17,7 +19,6 @@ public class Const {
     //network stuff
     public static int           LOCAL_PORT                  = 100;
     public static int           BROADCAST_PORT              = 200;  
-    public static int           BROADCAST_DATA              = 1337;
     
     //mote stuff
     public static int           DOWN_SENSORS_RESET_TIMEOUT  = 1000;
@@ -36,5 +37,8 @@ public class Const {
     public static int           BLUE_LED                    = 4;
     
     public static String        RECORD_NAME                 = "data";
-    public static String        DATA_DIRECTORY              = "./data/";
+    public static String        DATA_DIRECTORY              = "/Users/jahoward/Documents/Dropbox/data/people/new_brown_hall/";
+    
+    public static int[]         LED_ERROR                   = {3, 3, 150, 0};
+    public static int[]         LED_DATA                    = {1, 1, 20, 0};
 }

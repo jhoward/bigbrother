@@ -6,8 +6,10 @@
 
 package org.sunspotworld;
 
+import com.sun.spot.resources.Resources;
 import com.sun.spot.resources.transducers.IIOPin;
 import com.sun.spot.resources.transducers.IInputPinListener;
+import com.sun.spot.resources.transducers.ITriColorLEDArray;
 import com.sun.spot.resources.transducers.InputPinEvent;
 import com.sun.spot.sensorboard.EDemoBoard;
 import com.sun.spot.sensorboard.EDemoController;
@@ -16,24 +18,22 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-/**
- * The startApp method of this class is called by the VM to start the
- * application.
- * 
- * The manifest specifies this class as MIDlet-1, which means it will
- * be selected for execution.
- */
 public class Main extends MIDlet {
-    
     IIOPin[] ioPins = EDemoBoard.getInstance().getIOPins();
     EDemoController edc = EDemoBoard.getInstance().getEDemoController();
+    ITriColorLEDArray leds = (ITriColorLEDArray) Resources.lookup(ITriColorLEDArray.class);
     
     public class PinListener implements IInputPinListener {
+        
         public void pinSetHigh(InputPinEvent evt) {
+            leds.getLED(0).setOn();
+            leds.getLED(2).setOn();
             System.out.println("LOW TO HIGH");
         }
         
         public void pinSetLow(InputPinEvent evt) {
+            leds.getLED(0).setOff();
+            leds.getLED(2).setOn();
             System.out.println("HIGH TO LOW");
         }
     }
@@ -41,12 +41,14 @@ public class Main extends MIDlet {
     PinListener pl = new PinListener(); 
    
     protected void startApp() throws MIDletStateChangeException {
-
+        leds.getLED(0).setRGB(255, 0, 0);
+        leds.getLED(1).setRGB(0, 255, 0);
+        
+        leds.getLED(1).setOn();    
         ioPins[0].addIInputPinListener(pl);
-        //edc.enablePinChangeInterrupts((IInputPin)ioPins[0]);
         
         while(true) {
-            System.out.println(ioPins[0].getState());
+            System.out.println(ioPins[0].getState() + "   " + ioPins[1].getState() + "   " + ioPins[4].getState());            
             Utils.sleep(1000);
         }
 

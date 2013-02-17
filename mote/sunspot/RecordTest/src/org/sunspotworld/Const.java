@@ -1,5 +1,4 @@
-package org.sunspotworld.demo;
-
+package org.sunspotworld;
 
 public class Const {
     //activities

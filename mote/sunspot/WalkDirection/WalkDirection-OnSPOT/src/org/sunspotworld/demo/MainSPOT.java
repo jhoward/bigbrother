@@ -30,13 +30,31 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 
 class PinListener implements IInputPinListener {
-    //TODO FIX
+    
+    Queue q;
+    int pin;
+    
+    public PinListener(Queue q, int pin) {
+        this.q = q;
+        this.pin = pin;
+    }
+    
+    public PinListener(Queue q) {
+        this.q = q;
+        this.pin = 10;
+    }
+    
     public void pinSetHigh(InputPinEvent evt) {
         System.out.println("Pin " + evt.getInputPin() + "  to high.");
     }
 
     public void pinSetLow(InputPinEvent evt) {
-        System.out.println("Pin " + evt.getInputPin() + "  to low.");
+        System.out.println("Test.");
+        
+        if(this.q.isEmpty()) {
+            System.out.println("Pin " + evt.getInputPin() + "  to low.");
+        }
+        q.put(new Integer(pin));
     }
 }
 
@@ -85,6 +103,8 @@ public class MainSPOT extends MIDlet {
     private Thread          ledThread;
     private ISleepManager   sleepManager;
     private RecordHandler   records;
+    //private PinListener     pinListenerFront;
+    //private PinListener     pinListenerBack;
     private PinListener     pinListener;
     private Thread          midSensorThread;
     private MidSensorReader msr;
@@ -99,73 +119,73 @@ public class MainSPOT extends MIDlet {
         System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
         setup();
         
-        records.deleteRecords(Const.RECORD_NAME);
+        handleNetworkCommands();
         
-        //Write 10 dummy packets
-        for(int i = 0; i < 10; i++) {
-            records.addRecord((short)i, i * 20);
-        }
-        
-        try {
-            System.out.println("Total records:" + records.rms.getNumRecords());
-        } catch (Exception e) {
-        }
-        
-        ledc.addCommand(1, 2, 500, 1);
-        
-        Utils.sleep(2000);
-        dataDump();
-        /*
         int timeoutCounter = 0;
         boolean fs, bs;
         
-        while(true) {
-           int trigger = ((Integer)triggers.get()).intValue();
+        try {
+            while(true) {
+                System.out.println("Waiting for trigger.");
+               int trigger = ((Integer)triggers.get()).intValue();
 
-           if(trigger == Const.BACK_SENSOR) {
-               state = Const.BACK_TRIGGER_STATE;
-           } else if(trigger == Const.FRONT_SENSOR) {
-               state = Const.FRONT_TRIGGER_STATE;
-           }
+               if(trigger == Const.BACK_SENSOR) {
+                   state = Const.BACK_TRIGGER_STATE;
+               } else if(trigger == Const.FRONT_SENSOR) {
+                   state = Const.FRONT_TRIGGER_STATE;
+               }
 
-           while(state != Const.WAITING_STATE) {
+               while(state != Const.WAITING_STATE) {
 
-               fs = frontSensor.getState();
-               bs = backSensor.getState();               
-               
-               if ((timeoutCounter >= Const.DOWN_SENSORS_RESET_TIMEOUT) && 
-                       (state != Const.COOLDOWN_STATE)) {
-                   state = Const.COOLDOWN_STATE;
-                   //TODO blink error code
-               }
-               
-               if((state == Const.COOLDOWN_STATE) && fs && bs) {
-                   state = Const.WAITING_STATE;
-               }
-               
-               if((state == Const.BACK_TRIGGER_STATE) && (fs == false)) {
-                   state = Const.COOLDOWN_STATE;
-                   records.addRecord(Const.EXIT, 0);
-                   //TODO add blink
-               }
-               
-               if((state == Const.FRONT_TRIGGER_STATE) && (bs == false)) {
-                   state = Const.COOLDOWN_STATE;
-                   records.addRecord(Const.ENTER, 0);
-                   //TODO add blink
-               }
-               
-               Utils.sleep(Const.DOWN_SENSORS_POLL_FREQUENCY);
-               timeoutCounter += Const.DOWN_SENSORS_POLL_FREQUENCY;
+                   fs = frontSensor.getState();
+                   bs = backSensor.getState();               
 
-           }
-           
-           timeoutCounter = 0;
-           triggers.empty();
-            
+                   if ((timeoutCounter >= Const.DOWN_SENSORS_RESET_TIMEOUT) && 
+                           (state != Const.COOLDOWN_STATE)) {
+                       state = Const.COOLDOWN_STATE;
+                       System.out.println("Movement timeout");
+                       //TODO blink error code
+                   }
+
+                   if((state == Const.COOLDOWN_STATE) && fs && bs) {
+                       state = Const.WAITING_STATE;
+                   }
+
+                   if((state == Const.BACK_TRIGGER_STATE) && (fs == false)) {
+                       state = Const.COOLDOWN_STATE;
+                       records.addRecord(Const.EXIT, 0);
+                       ledc.addCommand(Const.LED_EXIT);
+                       System.out.println("Exit");
+                       //TODO add blink
+                   }
+
+                   if((state == Const.FRONT_TRIGGER_STATE) && (bs == false)) {
+                       state = Const.COOLDOWN_STATE;
+                       records.addRecord(Const.ENTER, 0);
+                       ledc.addCommand(Const.LED_ENTER);
+                       System.out.println("Enter");
+                       //TODO add blink
+                   }
+
+                   Utils.sleep(Const.DOWN_SENSORS_POLL_FREQUENCY);
+                   timeoutCounter += Const.DOWN_SENSORS_POLL_FREQUENCY;
+               }
+
+               timeoutCounter = 0;
+               triggers.empty();
+               ledc.addCommand(Const.LED_RESET);
+               System.out.println("Reset");
+            }
+        } catch(Exception e) {
+            //Crash state.  Mote needs to be reset.
+            while(true) {
+                ledc.addCommand(Const.LED_CRASH);
+                Utils.sleep(10000);
+            }
         }
-        */
-        Utils.sleep(1000);
+        
+        
+        
         //notifyDestroyed();                      // cause the MIDlet to exit
     }
     
@@ -190,27 +210,29 @@ public class MainSPOT extends MIDlet {
 
             records = new RecordHandler(Const.RECORD_NAME);
             
-            pinListener = new PinListener();
+            triggers = new Queue();
+            state = Const.WAITING_STATE;
+            
+            pinListener = new PinListener(triggers);//, Const.FRONT_SENSOR);
+            //pinListenerBack = new PinListener(triggers, Const.BACK_SENSOR);
             frontSensor.addIInputPinListener(pinListener);
             backSensor.addIInputPinListener(pinListener);
             
             msr = new MidSensorReader(records, ioPins[Const.MID_SENSOR], ledc);
             midSensorThread = new Thread(msr);
-            
-            triggers = new Queue();
-            state = Const.WAITING_STATE;
                         
             System.out.println("Saved mote records " + records.getNumRecords());
-        } catch (Exception ex) {
+        } catch (Exception e) {
             System.out.println("Setup error.");
-            //Call the led error creator here.
+            System.out.println(e);
+            ledc.addCommand(Const.LED_SETUP_ERROR);
         }
     }
     
-    public void dataDump() {     
+    public void handleNetworkCommands() {     
         
         RadiogramConnection inConn = null;
-        Datagram dg = null;
+        Datagram dg;
         
         broadcast();
         
@@ -219,23 +241,26 @@ public class MainSPOT extends MIDlet {
             System.out.println("Waiting for response.");
             inConn = (RadiogramConnection) Connector.open("radiogram://:" + Const.LOCAL_PORT);
             dg = inConn.newDatagram(inConn.getMaximumLength());
-            inConn.setTimeout(1000);
+            inConn.setTimeout(2000);
             inConn.receive(dg);
-            short action = dg.readShort();
-            
-            ledc.addCommand(2, 1, 500, 0);
+            RecordData tmpData = RecordData.deserialize(dg);
             
             //dump data
-            if (action == Const.DATA_DUMP) {
+            if (tmpData.type == Const.DATA_DUMP) {
                 if (transmitData(inConn, dg)) {
-                    System.out.println("Deleting record.");
-                    records.deleteRecords(Const.RECORD_NAME);
-                    System.out.println("Records deleted.");
+                    if (recieveDeleteData(inConn, dg)) {
+                        System.out.println("Deleting records.");
+                        records.deleteRecords(Const.RECORD_NAME);
+                    }
+                } else {
+                    System.out.println("Data did not transmit fully.");
                 }
             }
         } catch (Exception e) {
             System.out.println("Timeout.");
+            System.out.println(e);
         }
+
         
         //Now close and turn off radio
         try {
@@ -249,15 +274,33 @@ public class MainSPOT extends MIDlet {
     }
     
     
+    public boolean recieveDeleteData(RadiogramConnection inConn, Datagram dg) {
+        try {
+            //Wait for delete
+            dg.reset();
+            inConn.setTimeout(20000);
+            System.out.println("Waiting for response to delete records.");
+            inConn.receive(dg);
+            RecordData rd = RecordData.deserialize(dg);
+            
+            if (rd.type == Const.DELETE_RECORDS) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Must have been a timeout.");
+        }
+        return false;
+    }
+    
+    
     public boolean transmitData(RadiogramConnection inConn, Datagram dg) {
         int counter = 0;
         records.rebuildEnumerator();
         byte[] tmp = records.getNextRecord();
-        ledc.addCommand(3, 1, 250, 0);
         
         try {
             while(tmp != null) {
-                ledc.addCommand(1, 1, 75, 0);
+                ledc.addCommand(Const.LED_DATA);
                 dg.reset();
                 dg.write(tmp);
                 inConn.send(dg);
@@ -287,7 +330,8 @@ public class MainSPOT extends MIDlet {
             System.out.println("Broadcasting");
             outConn = (RadiogramConnection) Connector.open("radiogram://broadcast:" + Const.BROADCAST_PORT);
             dg = outConn.newDatagram(outConn.getMaximumLength());
-            dg.writeInt(Const.BROADCAST_DATA);
+            RecordData broadCommand = new RecordData(Const.BROADCAST, (short)0);
+            dg.write(broadCommand.serialize());
             
             //Send three times due to unreliable broadcasts
             //outConn.send(dg);
