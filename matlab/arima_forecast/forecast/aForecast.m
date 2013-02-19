@@ -168,7 +168,6 @@ end
 
 Y = [Y0'  zeros(numPaths,horizon)];
 
-
 %
 % Apply iterative expectations one forecast step at a time. Such forecasts
 % require that the process e(t) is a serially uncorrelated, zero-mean process 
@@ -184,12 +183,32 @@ errors = errors';
 
 I = ones(numPaths,1);
 
-for t = startValue:endValue
+% for t = startValue:endValue
+% 
+%     data   = [I  Y0(t - LagsAR,:)'  errors(:,t - LagsMA)];
+%     Y(:,t) = data * coefficients;
+%     errors = [Y(1, t) - Y0(t, 1) errors];
+% end
 
-    data   = [I  Y0(t - LagsAR,:)'  errors(:,t - LagsMA)];
-    Y(:,t) = data * coefficients;
+mar = max(LagsAR);
+mma = max(LagsMA);
+
+for t = startValue:endValue
+    
+    ystar = Y0(t - mar:t + fSteps, :);
+    estar = errors(:, t - mma: t + fSteps);
+
+    for j = 1:fSteps
+        data = [I  ystar(mar + j - LagsAR,:)'  estar(:,mma  + j - LagsMA)];
+        ystar(mar + j, :) = data * coefficients;
+        %Finish this - estar after t should be 0
+        %estar = [Y(1, t) - Y0(t, 1) errors];
+    end
+    
+    Y(:, t + fSteps - 1) = ystar(mar + fSteps, :);
     errors = [Y(1, t) - Y0(t, 1) errors];
 end
+
 
 % if nargout > 1     % Compute additional outputs only if necessary
 % %

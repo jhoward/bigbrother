@@ -3,10 +3,10 @@
 %extracted and then clustered.
 %%%%
 clear all
-load './data/denverData.mat'
+load './data/simulatedData.mat'
 
 %Generate a training and testing set.
-trainSplit = data.blocksInDay*7*20;
+trainSplit = data.blocksInDay*7*2;
 sensorNumber = 1;
 
 trainData = data.data(1:trainSplit, sensorNumber);
@@ -38,5 +38,5 @@ data.trainSplit = trainSplit;
 %     hold on
 % end
 
-save('./data/denverRun.mat', 'data');
+save('./data/simulatedRun.mat', 'data');
 

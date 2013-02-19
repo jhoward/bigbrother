@@ -19,8 +19,8 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     sd.actTimes = actTimes';
     sd.blocksInDay = blocksInDay;
     sd.sensors = [1];
-    
-    save('./data/simulatedData.mat', 'sd');
+    data = sd;
+    save('./data/simulatedData.mat', 'data');
 end
 
 function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize, bgStd, ...
