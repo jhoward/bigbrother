@@ -1,12 +1,12 @@
 %Aggregate Brown Building counts
 clear all
-load('../../../../Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
+load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\sensor_data_01_01_08_to_06_09_08.mat');
 
 counts = [];
 
 %Number of seconds to aggregate
 %Should make this evenly divisible by days
-aggregateAmount = 600;
+aggregateAmount = 900;
 
 startDate = '01-09-2008 00:00:00';
 endDate = '06-07-2008 23:59:59';
@@ -20,7 +20,6 @@ bid = sid/aggregateAmount;
 
 totalBlocks = round((ed-sd)*bid);
 agData = zeros(totalBlocks, length(sensorlist));
-
 
 % Make the daynums variable
 secCounting = 0:aggregateAmount:totalBlocks*aggregateAmount - 1;

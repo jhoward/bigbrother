@@ -187,7 +187,7 @@ for n=1:d
     sd.replacedDays = [sd.replacedDays replacedDays'];
     sd.data = [sd.data tmpData];
     sd.weekAvg = cat(3, sd.weekAvg, weekAvg); %Clean up weekAverages
-    sd.fileNames = [sd.fileNames fileName];
+    sd.fileNames = [sd.fileNames; fileName];
 end
 
 tmpTimes = linspace(dayNums(1), dayNums(end) + (blocksInDay - 1)/blocksInDay, length(dayNums) * blocksInDay);
@@ -210,6 +210,18 @@ sd.blocksInDay = blocksInDay;
 % end
 
 data = sd;
+data.data = data.data';
+data.replacedDays = data.replacedDays';
+data.times = data.times';
+data.dayOfWeek = data.dayOfWeek';
+
+for i = 1:size(data.weekAvg, 3)
+    tmpArray(i, :, :) = data.weekAvg(:, :, i); %#ok<SAGROW>
+end
+
+data.weekAvg = tmpArray;
+
+
 save('./data/denverData.mat', 'data')
 
 

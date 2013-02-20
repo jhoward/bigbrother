@@ -2,8 +2,8 @@ clear all;
 load('./data/simulatedRun.mat');
 
 ahead = 2;
-total = 288;
-start = 288;
+total = 60;
+start = 60;
 mcast = zeros(total, 1);
 aecast = zeros(total, 1);
 ecast = zeros(total, 1);
@@ -12,12 +12,12 @@ icast2 = zeros(total, 1);
 e0 = zeros(total, 1);
 errors = zeros(start - ahead, 1);
 
-tic
-for i = 1:total
-    tmp = forecast(data.model,ahead, 'Y0', data.data(1:start - ahead - 1 + i));
-    mcast(i) = tmp(ahead);
-end
-toc
+% tic
+% for i = 1:total
+%     tmp = forecast(data.model,ahead, 'Y0', data.data(1:start - ahead - 1 + i));
+%     mcast(i) = tmp(ahead);
+% end
+% toc
 % 
 % tic
 % for i = 1:total
@@ -39,12 +39,12 @@ toc
 % end
 % toc
 
-tic
-for i = 1:total
-    tmp = forecast(data.model, ahead, 'Y0', data.data(1:start - ahead - 1 + i), 'E0', e0);
-    ecast(i) = tmp(ahead);
-end
-toc
+% tic
+% for i = 1:total
+%     tmp = forecast(data.model, ahead, 'Y0', data.data(1:start - ahead - 1 + i), 'E0', e0);
+%     ecast(i) = tmp(ahead);
+% end
+% toc
 
 tic
 icast = aForecast(data.model, ahead, data.data);

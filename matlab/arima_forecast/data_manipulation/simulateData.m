@@ -1,10 +1,19 @@
 function [data, times, actTimes, blocksInDay] = simulateData()
 %Create simulated data.
-    dayLength = 144;
+%     dayLength = 144;
+%     numDays = 30;
+%     bgSize = 10;
+%     bgStd = 0.45;
+%     numActs = 12;
+%     actLength = 18;
+%     actSize = 2.0;
+%     actStd = 0.0;
+    
+    dayLength = 20;
     numDays = 30;
     bgSize = 10;
-    bgStd = 0.45;
-    numActs = 12;
+    bgStd = 0;
+    numActs = 0;
     actLength = 18;
     actSize = 2.0;
     actStd = 0.0;
@@ -14,12 +23,13 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     
     blocksInDay = dayLength;
     
-    sd.data = data;
-    sd.times = times;
+    sd.data = data';
+    sd.times = times';
     sd.actTimes = actTimes';
     sd.blocksInDay = blocksInDay;
     sd.sensors = [1];
     data = sd;
+    data.actTimes = data.actTimes'
     save('./data/simulatedData.mat', 'data');
 end
 

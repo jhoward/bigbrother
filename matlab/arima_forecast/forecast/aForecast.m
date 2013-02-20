@@ -165,7 +165,6 @@ else
    end
 end
 
-
 Y = [Y0'  zeros(numPaths,horizon)];
 
 %
@@ -208,6 +207,8 @@ for t = startValue:endValue
     Y(:, t + fSteps - 1) = ystar(mar + fSteps, :);
     errors = [Y(1, t) - Y0(t, 1) errors];
 end
+
+Y = Y(1:end - fSteps);
 
 
 % if nargout > 1     % Compute additional outputs only if necessary

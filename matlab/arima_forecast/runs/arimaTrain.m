@@ -9,8 +9,8 @@ load './data/simulatedData.mat'
 trainSplit = data.blocksInDay*7*2;
 sensorNumber = 1;
 
-trainData = data.data(1:trainSplit, sensorNumber);
-testData = data.data(trainSplit + 1:end, sensorNumber);
+trainData = data.data(sensorNumber, 1:trainSplit);
+testData = data.data(sensorNumber, trainSplit + 1:end);
 
 ar = 1;
 diff = 0;
@@ -22,14 +22,14 @@ sma = 1;
 arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
             'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
 
-model = estimate(arimaModel, trainData, 'print', false);
-res = infer(model, trainData);
+model = estimate(arimaModel, trainData', 'print', false);
+res = infer(model, trainData');
 %fitdist(res, 'normal');
 
 data.trainData = trainData;
 data.testData = testData;
 data.model = model;
-data.res = res;
+data.res = res';
 data.trainSplit = trainSplit;
 
 %Plot activities
