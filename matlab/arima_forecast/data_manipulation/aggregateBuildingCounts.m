@@ -59,7 +59,16 @@ for i = 1:length(sensorlist)
     end
 end
 
-x = linspace(1, 144, 144);
+data.data = agData';
+data.times = dayNums';
+data.startTime = sd;
+data.endTime = ed;
+data.dayOfWeek = dayOfWeek';
+data.blocksInDay = bid;
+
+save('./data/brownData.mat', 'data');
+
+x = linspace(1, 96, 96);
 xflip = [x(1 : end - 1) fliplr(x)];
 for i = 1:(ed-sd)
     y = agData((i-1)*bid + 1:i*bid, 20)';
@@ -68,6 +77,3 @@ for i = 1:(ed-sd)
     hold on
 end
 
-blocksInDay = bid;
-
-save('../data/brownData.mat', 'data', 'times', 'dayOfWeek', 'blocksInDay', 'startDate', 'endDate');

@@ -17,8 +17,8 @@ dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\
 allFileNames = {
     '006G283P.txt';
     '006G283S.txt';
-    %'025A207P.txt';
-    %'025A207S.txt';
+    '025A207P.txt';
+    '025A207S.txt';
     %'044A2P.txt';
     %'044A2S.txt';
     %'070A270P.txt';

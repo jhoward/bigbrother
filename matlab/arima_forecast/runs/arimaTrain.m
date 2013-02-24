@@ -3,20 +3,33 @@
 %extracted and then clustered.
 %%%%
 clear all
-load './data/simulatedData.mat'
+
+%fileName = 'simulated';
+%fileName = 'brown';
+fileName = 'denver';
+
+load(strcat('./data/', fileName, 'Data.mat'));
+
+%weeksTrain = 2;
+%weeksTrain = 10;
+%weeksTrain = 50;
 
 %Generate a training and testing set.
-trainSplit = data.blocksInDay*7*2;
-sensorNumber = 1;
+%trainSplit = data.blocksInDay*7*weeksTrain;
+sensorNumber = 3;
+
+trainRatio = 0.7;
+trainSplit = floor((size(data.data, 2) / data.blocksInDay)*trainRatio);
+trainSplit = trainSplit * data.blocksInDay;
 
 trainData = data.data(sensorNumber, 1:trainSplit);
 testData = data.data(sensorNumber, trainSplit + 1:end);
 
 ar = 1;
-diff = 0;
+diff = 1;
 ma = 1;
 sar = 0;
-sdiff = data.blocksInDay;
+sdiff = data.blocksInDay * 7;
 sma = 1;
 
 arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
@@ -38,5 +51,4 @@ data.trainSplit = trainSplit;
 %     hold on
 % end
 
-save('./data/simulatedRun.mat', 'data');
-
+save(strcat('./data/',fileName,'Run.mat'), 'data');
