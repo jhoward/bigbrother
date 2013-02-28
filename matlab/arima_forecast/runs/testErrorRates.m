@@ -26,10 +26,24 @@ errperf(icast2, data.testData(1, :), 'mape')
 % plot(x, [data.testData(1, start:start + width); icast(start:start + width); icast2(1, start:start + width)]);
 % legend('raw', 'one ahead', '11 ahead');
 
+
+% errorData = data.testData - icast;
+% 
+% x = linspace(1, data.blocksInDay, data.blocksInDay);
+% bid = data.blocksInDay;
+% xflip = [x(1 : end - 1) fliplr(x)];
+% for i = 1:size(errorData,2)/data.blocksInDay
+%     y = errorData(1, (i-1)*bid + 1:i*bid);
+%     yflip = [y(1 : end - 1) fliplr(y)];
+%     patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
+%     hold on
+% end
+
+
+
 for i = 1:10
     start = windows(i) - data.blocksInDay;
     width = data.blocksInDay*2;
-
     x = linspace(1, width, width + 1);
     plot(x, [data.testData(1, start:start + width); icast(start:start + width); icast2(1, start:start + width)]);
     legend('raw', 'one ahead', '6 ahead');
