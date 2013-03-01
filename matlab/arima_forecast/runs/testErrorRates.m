@@ -17,7 +17,7 @@ toc
 errperf(icast, data.testData(1, :), 'mape')
 errperf(icast2, data.testData(1, :), 'mape')
 
-[windows, values] = maxDevWindows(icast2, data.testData, 6);
+[windows, values] = maxDevWindows(icast2, data.testData, 10);
 
 % start = randi(size(data.testData, 2));
 % width = data.blocksInDay*3;
