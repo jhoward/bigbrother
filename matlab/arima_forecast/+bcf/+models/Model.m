@@ -1,6 +1,9 @@
 classdef Model
     %Model object - used for representing timeseries
     properties
+        %forecast noise is presumed to be multivariate gaussian
+        fnMu
+        fnSigma
     end
     
     methods
@@ -9,8 +12,8 @@ classdef Model
             tmpVar = 0;
             total = 0;
             
-            obj.noiseMean = 0;
-            obj.noiseStd = 1;
+            obj.fnMu = 0;
+            obj.fnSigma = 1;
         end
     end
     
