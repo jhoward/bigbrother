@@ -1,9 +1,9 @@
 clear all;
 
 m1 = 1;
-m2 = 3;
-std1 = 0.01;
-std2 = 0.01;
+m2 = 2;
+std1 = 0.1;
+std2 = 0.1;
 
 data = zeros(1, 200);
 
@@ -14,7 +14,7 @@ for i = 1:10
         case 0
            data(index:index + 19) = m1 + std1*randn(1, 20);
         case 1
-            data(index:index + 19) = m2 + std2*randn(1, 20);
+           data(index:index + 19) = m2 + std2*randn(1, 20);
     end
 end
 
@@ -22,12 +22,17 @@ end
 model1 = bcf.models.Gaussian(m1, std1);
 model2 = bcf.models.Gaussian(m2, std2);
 
+model1.fnMu = 0;
+model1.fnSigma = std1;
+model2.fnMu = 0;
+model2.fnSigma = std2;
+
 models = [model1 model2];
 
 forecaster = bcf.BayesianForecaster(models);
-% [yprime, probs, ~] = forecaster.forecast(data, 10, 8, 'aggregate');
-% x = linspace(1, 200, 200);
-% plot(x, [data; yprime; probs]);
+[yprime, probs, ~] = forecaster.forecast(data, 3, 3, 'aggregate');
+x = linspace(1, 200, 200);
+plot(x, [data; yprime; probs]);
 
 % [yprimeBest, ~, ~, ~, ~] = forecaster.windowForecast(data, 1, 20, 5, 'best');
 % [yprime, ~, ~] = forecaster.forecast(data, 10, 5, 'best');
@@ -81,21 +86,21 @@ forecaster = bcf.BayesianForecaster(models);
 % 
 %=======================================================
 %Make result of forecast error vs forecast ahead and window size
-mAhead = 30;
-windowSizes = [3 6 9 12 15 20];
-
-values = zeros(size(windowSizes, 2), mAhead);
-
-for i = 1:mAhead
-    for j = 1:size(windowSizes, 2)
-        [yprime, ~, ~] = forecaster.forecast(data, j, i, 'aggregate');
-        values(j, i) = errperf(yprime(:, j:end - i), data(:, j:end - i), 'mape');
-    end
-end
-
-x = linspace(1, mAhead, mAhead);
-plot(x, values);
-legend(num2str(windowSizes'));
+% mAhead = 30;
+% windowSizes = [3 6 9 12 15 20];
+% 
+% values = zeros(size(windowSizes, 2), mAhead);
+% 
+% for i = 1:mAhead
+%     for j = 1:size(windowSizes, 2)
+%         [yprime, ~, ~] = forecaster.forecast(data, j, i, 'aggregate');
+%         values(j, i) = errperf(yprime(:, j:end - i), data(:, j:end - i), 'mape');
+%     end
+% end
+% 
+% x = linspace(1, mAhead, mAhead);
+% plot(x, values);
+% legend(num2str(windowSizes'));
 %=======================================================
 
 

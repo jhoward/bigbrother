@@ -2,9 +2,9 @@
 
 clear all
 
-%fileName = 'simulated';
+fileName = 'simulated';
 %fileName = 'brown';
-fileName = 'denver';
+%fileName = 'denver';
 
 load(strcat('./data/', fileName, 'Run.mat'));
 
@@ -13,12 +13,12 @@ d = 8;
 s = 1;
 
 y = data.trainData;
-p = y(d+1:end-s); % inputs
-t = y(d+1+s:end); % targets
+p = y(d+1:end); % inputs
+t = y(d+1:end); % targets
 p = num2cell(p);
 t = num2cell(t);
-testP = data.testData(d + 1:end-s);
-testT = data.testData(d + 1 + s:end);
+testP = data.testData(d + 1:end);
+testT = data.testData(d + 1:end);
 testP = num2cell(testP);
 testT = num2cell(testT);
 

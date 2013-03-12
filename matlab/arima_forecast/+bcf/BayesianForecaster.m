@@ -24,13 +24,13 @@ classdef BayesianForecaster < handle
         end
         
         function [pmodel] = ...
-                    updatepmodel(obj, data, pmodel, ahead) 
+                    updatepmodel(obj, data, pmodel) 
             %Update the probabilities for all models
 
             probs = zeros(size(pmodel));
             
             for k = 1:size(pmodel, 2)
-                probs(1, k) = mvnpdf(data(:, end) - obj.models(k).forecast(data(:, 1:(end - ahead)), ahead), ...
+                probs(1, k) = mvnpdf(data(:, end) - obj.models(k).forecast(data(:, 1:(end - 1)), 1), ...
                                     obj.models(k).fnMu, obj.models(k).fnSigma);
             end
 
@@ -48,18 +48,18 @@ classdef BayesianForecaster < handle
         function [f] = forecastSingle(obj, data, pmodel, ahead, ftype)
             %Forecast a single point in a time series.  The point may be
             %steps ahead
-            tmp = obj.models(1).forecast(data(:, end - ahead));
+            tmp = obj.models(1).forecast(data(:, end - 1));
             f = zeros(size(tmp));
             
             if strcmp(ftype, 'aggregate')
                 for k = 1:size(pmodel, 2)
-                    f = f + pmodel(k).*obj.models(k).forecast(data(:, 1:end - ahead));
+                    f = f + pmodel(k).*obj.models(k).forecast(data(:, 1:end), ahead);
                 end
             end
             
             if strcmp(ftype, 'best')
                 [~, ind] = max(pmodel);
-                f = obj.models(ind).forecast(data(:, 1:end - ahead));
+                f = obj.models(ind).forecast(data(:, 1:end), ahead);
             end            
         end
         
@@ -77,13 +77,14 @@ classdef BayesianForecaster < handle
             fdata = data;
             
             for i = windowLen + 1:size(data, 2) - ahead
-                pmodels = probs(:, i)';
-                [f] = obj.forecastSingle(data(i - windowLen:i + ahead), ...
-                                           pmodels, ahead, ftype);                
+                pmodels = probs(:, i - 1)';
+                probs(:, i) = obj.updatepmodel(data(i - windowLen:i), pmodels);
+
+                [f] = obj.forecastSingle(data(i - windowLen:i), ...
+                                           probs(:, i)', ahead, ftype);
                 [~, ind] = max(pmodels);
                 models(1, i) = ind;
                 fdata(:, i + ahead) = f;
-                probs(:, i + ahead) = obj.updatepmodel(data(i - windowLen:i + ahead), pmodels, ahead);
             end
         end
         
@@ -119,8 +120,6 @@ classdef BayesianForecaster < handle
                 %Get the best probability
                 [~, i1] = max(max(probs(:, :, i), [], 2));
                 [~, i2] = max(max(probs(:, :, i), [], 1));
-                i1
-                i2
                 fdata(:, i + ahead) = forecasts(:, i + ahead, i1);
                 windows(1, i + ahead) = i1;
             end

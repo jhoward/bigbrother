@@ -7,14 +7,16 @@ classdef Model
     end
     
     methods
-        function trainNoise(obj, data, history)
-            tmpMean = 0;
-            tmpVar = 0;
-            total = 0;
-            
-            obj.fnMu = 0;
-            obj.fnSigma = 1;
-        end
+        %Methods that should be in every model, since I don't know matlabs
+        %function overloading precedence I am just commenting them and
+        %including them manually in each class.  This sucks I know, but for
+        %now it is good enough
+        
+        %function trainNoise(obj, data, history)
+        %end
+        
+        %function val = forecast(obj, data, ahead)
+        %end
     end
     
 end
