@@ -14,7 +14,6 @@ import com.sun.spot.peripheral.ISleepManager;
 import com.sun.spot.peripheral.Spot;
 import com.sun.spot.peripheral.radio.IRadioPolicyManager;
 import com.sun.spot.peripheral.radio.RadioFactory;
-import com.sun.spot.resources.Resources;
 import com.sun.spot.resources.transducers.IIOPin;
 import com.sun.spot.resources.transducers.IInputPinListener;
 import com.sun.spot.resources.transducers.ITriColorLEDArray;
@@ -45,16 +44,17 @@ class PinListener implements IInputPinListener {
     }
     
     public void pinSetHigh(InputPinEvent evt) {
-        System.out.println("Pin " + evt.getInputPin() + "  to high.");
+        //System.out.println("Pin " + evt.getInputPin() + "  to high.");
     }
 
     public void pinSetLow(InputPinEvent evt) {
-        System.out.println("Test.");
+        //System.out.println("Test.");
         
         if(this.q.isEmpty()) {
-            System.out.println("Pin " + evt.getInputPin() + "  to low.");
+            //System.out.println("Pin " + evt.getInputPin() + "  to low.");
         }
-        q.put(new Integer(pin));
+        
+        q.put(new Integer(this.pin));
     }
 }
 
@@ -103,9 +103,9 @@ public class MainSPOT extends MIDlet {
     private Thread          ledThread;
     private ISleepManager   sleepManager;
     private RecordHandler   records;
-    //private PinListener     pinListenerFront;
-    //private PinListener     pinListenerBack;
-    private PinListener     pinListener;
+    //private PinListener     pinListener;
+    private PinListener     pinListenerFront;
+    private PinListener     pinListenerBack;
     private Thread          midSensorThread;
     private MidSensorReader msr;
     private Queue           triggers;
@@ -118,27 +118,30 @@ public class MainSPOT extends MIDlet {
         long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
         System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
         setup();
-        
         handleNetworkCommands();
         
         int timeoutCounter = 0;
         boolean fs, bs;
         
+        ledc.addCommand(Const.LED_PROGRAM_READY);
+        
         try {
             while(true) {
-                System.out.println("Waiting for trigger.");
+               System.out.println("Waiting for trigger.");
                int trigger = ((Integer)triggers.get()).intValue();
+               System.out.println("Trigger:" + trigger);
 
                if(trigger == Const.BACK_SENSOR) {
                    state = Const.BACK_TRIGGER_STATE;
                } else if(trigger == Const.FRONT_SENSOR) {
                    state = Const.FRONT_TRIGGER_STATE;
-               }
-
+               }               
+               
                while(state != Const.WAITING_STATE) {
-
+                   //System.out.println("In while loop.");
                    fs = frontSensor.getState();
-                   bs = backSensor.getState();               
+                   bs = backSensor.getState();   
+                   //System.out.println(fs + " " + bs + "\n");
 
                    if ((timeoutCounter >= Const.DOWN_SENSORS_RESET_TIMEOUT) && 
                            (state != Const.COOLDOWN_STATE)) {
@@ -156,7 +159,6 @@ public class MainSPOT extends MIDlet {
                        records.addRecord(Const.EXIT, 0);
                        ledc.addCommand(Const.LED_EXIT);
                        System.out.println("Exit");
-                       //TODO add blink
                    }
 
                    if((state == Const.FRONT_TRIGGER_STATE) && (bs == false)) {
@@ -164,7 +166,6 @@ public class MainSPOT extends MIDlet {
                        records.addRecord(Const.ENTER, 0);
                        ledc.addCommand(Const.LED_ENTER);
                        System.out.println("Enter");
-                       //TODO add blink
                    }
 
                    Utils.sleep(Const.DOWN_SENSORS_POLL_FREQUENCY);
@@ -178,6 +179,7 @@ public class MainSPOT extends MIDlet {
             }
         } catch(Exception e) {
             //Crash state.  Mote needs to be reset.
+            System.out.println("Crashed!!!!");
             while(true) {
                 ledc.addCommand(Const.LED_CRASH);
                 Utils.sleep(10000);
@@ -202,9 +204,9 @@ public class MainSPOT extends MIDlet {
             sleepManager = Spot.getInstance().getSleepManager();
             sleepManager.enableDeepSleep();
             
-            leds = (ITriColorLEDArray) Resources.lookup(ITriColorLEDArray.class);
-            //ledc = new LedController(ioPins);
-            ledc = new LedController(leds);
+            //leds = (ITriColorLEDArray) Resources.lookup(ITriColorLEDArray.class);
+            ledc = new LedController(ioPins);
+            //ledc = new LedController(leds);
             ledThread = new Thread(ledc);
             ledThread.start();
 
@@ -213,10 +215,10 @@ public class MainSPOT extends MIDlet {
             triggers = new Queue();
             state = Const.WAITING_STATE;
             
-            pinListener = new PinListener(triggers);//, Const.FRONT_SENSOR);
-            //pinListenerBack = new PinListener(triggers, Const.BACK_SENSOR);
-            frontSensor.addIInputPinListener(pinListener);
-            backSensor.addIInputPinListener(pinListener);
+            pinListenerFront = new PinListener(triggers, Const.FRONT_SENSOR);
+            pinListenerBack = new PinListener(triggers, Const.BACK_SENSOR);
+            frontSensor.addIInputPinListener(pinListenerFront);
+            backSensor.addIInputPinListener(pinListenerBack);
             
             msr = new MidSensorReader(records, ioPins[Const.MID_SENSOR], ledc);
             midSensorThread = new Thread(msr);

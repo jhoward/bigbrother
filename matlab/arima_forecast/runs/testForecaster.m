@@ -2,8 +2,8 @@ clear all;
 
 m1 = 1;
 m2 = 3;
-std1 = 0.1;
-std2 = 0.1;
+std1 = 0.01;
+std2 = 0.01;
 
 data = zeros(1, 200);
 
@@ -25,17 +25,21 @@ model2 = bcf.models.Gaussian(m2, std2);
 models = [model1 model2];
 
 forecaster = bcf.BayesianForecaster(models);
-[yprimeBest, ~, ~, ~, ~] = forecaster.windowForecast(data, 1, 20, 5, 'best');
-[yprime, ~, ~] = forecaster.forecast(data, 10, 5, 'best');
+% [yprime, probs, ~] = forecaster.forecast(data, 10, 8, 'aggregate');
+% x = linspace(1, 200, 200);
+% plot(x, [data; yprime; probs]);
 
-x = linspace(1, 200, 200);
-plot(x, [data; yprime; yprimeBest]);
-legend('data', 'window', 'bestWindow');
-
-
+% [yprimeBest, ~, ~, ~, ~] = forecaster.windowForecast(data, 1, 20, 5, 'best');
+% [yprime, ~, ~] = forecaster.forecast(data, 10, 5, 'best');
 % 
-% %=======================================================
-% %Make result of forecast error vs windowsize
+% x = linspace(1, 200, 200);
+% plot(x, [data; yprime; yprimeBest]);
+% legend('data', 'window', 'bestWindow');
+
+
+
+%=======================================================
+%Make result of forecast error vs windowsize
 % mWindowSize = 80;
 % 
 % bvalues = zeros(1, mWindowSize);
@@ -51,11 +55,11 @@ legend('data', 'window', 'bestWindow');
 % x = linspace(1, mWindowSize, mWindowSize);
 % plot(x, [bvalues; avalues]);
 % legend('best', 'aggregate');
-% %=======================================================
+%=======================================================
 
-% 
-% %=======================================================
-% %Make result of forecast error vs forecast ahead value
+
+%=======================================================
+%Make result of forecast error vs forecast ahead value
 % mAhead = 20;
 % windowSize = 5;
 % 
@@ -72,27 +76,27 @@ legend('data', 'window', 'bestWindow');
 % x = linspace(1, mAhead, mAhead);
 % plot(x, [bvalues; avalues]);
 % legend('best', 'aggregate');
-% %=======================================================
+%=======================================================
 % 
 % 
-% %=======================================================
-% %Make result of forecast error vs forecast ahead and window size
-% mAhead = 30;
-% windowSizes = [3 6 9 12 15 20];
-% 
-% values = zeros(size(windowSizes, 2), mAhead);
-% 
-% for i = 1:mAhead
-%     for j = 1:size(windowSizes, 2)
-%         [yprime, ~, ~] = forecaster.forecast(data, j, i, 'aggregate');
-%         values(j, i) = errperf(yprime(:, j:end - i), data(:, j:end - i), 'mape');
-%     end
-% end
-% 
-% x = linspace(1, mAhead, mAhead);
-% plot(x, values);
-% legend(num2str(windowSizes'));
-% %=======================================================
+%=======================================================
+%Make result of forecast error vs forecast ahead and window size
+mAhead = 30;
+windowSizes = [3 6 9 12 15 20];
+
+values = zeros(size(windowSizes, 2), mAhead);
+
+for i = 1:mAhead
+    for j = 1:size(windowSizes, 2)
+        [yprime, ~, ~] = forecaster.forecast(data, j, i, 'aggregate');
+        values(j, i) = errperf(yprime(:, j:end - i), data(:, j:end - i), 'mape');
+    end
+end
+
+x = linspace(1, mAhead, mAhead);
+plot(x, values);
+legend(num2str(windowSizes'));
+%=======================================================
 
 
 

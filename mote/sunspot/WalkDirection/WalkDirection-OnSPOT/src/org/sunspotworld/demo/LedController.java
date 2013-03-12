@@ -73,27 +73,27 @@ class LedController implements Runnable {
         for(int i = 0; i < (2 * blinks); i++) {
             if((i % 2) == 0) { 
                 if(lights == 1) {
-                    ioPins[3].setLow();
+                    ioPins[Const.RED_LED].setLow();
                 } else if (lights == 2) {
-                    ioPins[4].setLow();
+                    ioPins[Const.BLUE_LED].setLow();
                 } else if (lights == 3) {
-                    ioPins[3].setLow();
-                    ioPins[4].setLow();
+                    ioPins[Const.RED_LED].setLow();
+                    ioPins[Const.BLUE_LED].setLow();
                 }
             } else {
                 if(lights == 1) {
-                    ioPins[3].setHigh();
+                    ioPins[Const.RED_LED].setHigh();
                 } else if (lights == 2) {
-                    ioPins[4].setHigh();
+                    ioPins[Const.BLUE_LED].setHigh();
                 } else if (lights == 3) {
-                    ioPins[3].setHigh();
-                    ioPins[4].setHigh();
+                    ioPins[Const.RED_LED].setHigh();
+                    ioPins[Const.BLUE_LED].setHigh();
                 }
             }
                 Utils.sleep(delay);
         }
-        ioPins[3].setHigh();
-        ioPins[4].setHigh();
+        ioPins[Const.RED_LED].setHigh();
+        ioPins[Const.BLUE_LED].setHigh();
         
         Utils.sleep(coolDown);
     }

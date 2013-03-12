@@ -76,14 +76,14 @@ classdef BayesianForecaster < handle
             models = zeros(1, size(data, 2));
             fdata = data;
             
-            for i = 1:size(data, 2) - ahead - windowLen
-                pmodels = probs(:, i + windowLen)';
-                [f] = obj.forecastSingle(data(i:i + windowLen + ahead), ...
+            for i = windowLen + 1:size(data, 2) - ahead
+                pmodels = probs(:, i)';
+                [f] = obj.forecastSingle(data(i - windowLen:i + ahead), ...
                                            pmodels, ahead, ftype);                
                 [~, ind] = max(pmodels);
                 models(1, i) = ind;
-                fdata(:, i + windowLen + ahead) = f;
-                probs(:, i + windowLen + ahead) = obj.updatepmodel(data(i:i+windowLen + ahead), pmodels, ahead);
+                fdata(:, i + ahead) = f;
+                probs(:, i + ahead) = obj.updatepmodel(data(i - windowLen:i + ahead), pmodels, ahead);
             end
         end
         

@@ -14,7 +14,7 @@ public class Const {
     //sensors
     public static int           BACK_SENSOR                 = 0;
     public static int           FRONT_SENSOR                = 1;
-    public static int           MID_SENSOR                  = 2;
+    public static int           MID_SENSOR                  = 4;
     
     //network stuff
     public static int           LOCAL_PORT                  = 100;
@@ -34,18 +34,19 @@ public class Const {
     public static int           COOLDOWN_STATE              = 3;
     
     //leds
-    public static int           RED_LED                     = 3;
-    public static int           BLUE_LED                    = 4;
+    public static int           RED_LED                     = 2;
+    public static int           BLUE_LED                    = 3;
     
     public static String        RECORD_NAME                 = "data";
     public static String        DATA_DIRECTORY              = "/Users/jahoward/Documents/Dropbox/data/people/new_brown_hall/";
     
-    //LED Commands
+    //LED Commands - 1 = Red.  2 = Blue. 3 = Both
     public static int[]         LED_ERROR                   = {3, 3, 150, 0};
     public static int[]         LED_DATA                    = {1, 1, 20, 0};
     public static int[]         LED_CRASH                   = {3, 10, 150, 0};
-    public static int[]         LED_SETUP_ERROR             = {2, 10, 200, 0};
-    public static int[]         LED_EXIT                    = {1, 1, 200, 0};
-    public static int[]         LED_ENTER                   = {2, 1, 200, 0};
+    public static int[]         LED_SETUP_ERROR             = {2, 10, 150, 0};
+    public static int[]         LED_EXIT                    = {1, 3, 200, 0};
+    public static int[]         LED_ENTER                   = {2, 3, 200, 0};
     public static int[]         LED_RESET                   = {3, 1, 200, 0};
+    public static int[]         LED_PROGRAM_READY           = {3, 3, 500, 0};
 }
