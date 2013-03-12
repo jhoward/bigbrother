@@ -150,8 +150,10 @@ public class MainSPOT extends MIDlet {
                        //TODO blink error code
                    }
 
-                   if((state == Const.COOLDOWN_STATE) && fs && bs) {
+                  // if((state == Const.COOLDOWN_STATE) && fs && bs) {  COMMENTED OUT - KOLTEN
+                   if(state == Const.COOLDOWN_STATE){//ADDED - KOLTEN
                        state = Const.WAITING_STATE;
+                       break; // ADDED - KOLTEN
                    }
 
                    if((state == Const.BACK_TRIGGER_STATE) && (fs == false)) {
@@ -174,7 +176,7 @@ public class MainSPOT extends MIDlet {
 
                timeoutCounter = 0;
                triggers.empty();
-               ledc.addCommand(Const.LED_RESET);
+              // ledc.addCommand(Const.LED_RESET);
                System.out.println("Reset");
             }
         } catch(Exception e) {

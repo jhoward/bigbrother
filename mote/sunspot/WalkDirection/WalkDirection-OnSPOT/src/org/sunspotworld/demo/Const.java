@@ -22,7 +22,7 @@ public class Const {
     
     
     //mote stuff
-    public static int           DOWN_SENSORS_RESET_TIMEOUT  = 1000;
+    public static int           DOWN_SENSORS_RESET_TIMEOUT  = 500; //CHANGED FROM 1000 - KOLTEN
     public static int           DOWN_SENSORS_POLL_FREQUENCY = 50;
     public static int           MID_SENSOR_POLL_FREQUENCY   = 5000;   //5 sec
     public static int           MID_SENSOR_COUNT_TIME       = 300000; //5 mins
@@ -45,8 +45,8 @@ public class Const {
     public static int[]         LED_DATA                    = {1, 1, 20, 0};
     public static int[]         LED_CRASH                   = {3, 10, 150, 0};
     public static int[]         LED_SETUP_ERROR             = {2, 10, 150, 0};
-    public static int[]         LED_EXIT                    = {1, 3, 200, 0};
-    public static int[]         LED_ENTER                   = {2, 3, 200, 0};
+    public static int[]         LED_EXIT                    = {1, 2, 40, 0};   //CHANGED BOTH EXIT AND ENTER TO SHORT AND FAST - KOLTEN
+    public static int[]         LED_ENTER                   = {2, 2, 40, 0};
     public static int[]         LED_RESET                   = {3, 1, 200, 0};
     public static int[]         LED_PROGRAM_READY           = {3, 3, 500, 0};
 }
