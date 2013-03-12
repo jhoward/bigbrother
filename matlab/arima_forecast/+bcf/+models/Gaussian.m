@@ -27,7 +27,7 @@ classdef Gaussian < bcf.models.Model
 %             res = -1*(res.^2)./(2*obj.std^2);
 %             e = exp(res);
 %             val = nc*e;
-                val = 1;
+              val = 1;
         end
     end
 end
