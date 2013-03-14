@@ -99,6 +99,7 @@ classdef BayesianForecaster < handle
             %TODO change this to handle 1 step and multi step forecasts.
             %Only handles one step now
             fcasts = repmat(data, [1 1 size(obj.models, 2)]);
+            fdata = data;
             dexpand = repmat(data, [1 1 size(obj.models, 2)]);
             for k = 1:size(obj.models, 2)
                 fcasts(:, :, k) = obj.models(k).forecast(data, 1);
@@ -111,9 +112,33 @@ classdef BayesianForecaster < handle
             %batch update pmodels
             aPmodels = obj.updatePModelsBatch(diffs, initial);
             
+            %Forecast - perform either best or aggregate.
+            if strcmp(ftype, 'best')
+                [~, ind] = max(aPmodels);
+
+                %In know this way sucks but I can't figure out a direct
+                %indexing way to do this for now
+                for i = 2:size(data, 2)
+                    fdata(:, i) = fcasts(:, i, ind(i - 1));
+                end
+            end
+            
+            if strcmp(ftype, 'aggregate')
+                %This is an absurd way to do this.  There must be a better
+                %way
+                y = reshape(aPmodels', [1 size(aPmodels')]);
+                y = repmat(y, [size(data, 1) 1 1]);
+                fdata = zeros(size(data));
+                fdata(:, 1) = data(:, 1);
+                
+                for k = 1:size(obj.models, 2)
+                    fdata(:, 2:end) = fdata(:, 2:end) + fcasts(:, 2:end, k) .* y(:, 1:end - 1, k); 
+                end
+            end
+            
+            %TODO fill in prob models here
             probs = [];
             models = [];
-            fdata = aPmodels;
         end
         
         function aPmodels = updatePModelsBatch(obj, diffs, pmodels)
@@ -133,23 +158,22 @@ classdef BayesianForecaster < handle
                 pks(k, :) = obj.models(k).probabilityNoise(diffs(:, :, k)');
             end
 
-            
-            
-                %Reset values
+            %Reset values
             pks(pks <= obj.minProb) = obj.minProb;
             pks(pks >= obj.maxProb) = obj.maxProb;
             
-            
             for i = 2:size(diffs, 2)
+                %First compute the normalizing constant
+                nc = aPmodels(:, i - 1)' * pks(:, i);
+                aPmodels(:, i) = (aPmodels(:, i - 1) .* pks(:, i)) ./ nc;
                 
-                %Compute the normalizing constant
-                nc = aPmodels .* pks;
-
-                %Finish this tomorrow.
-            
-            
-                aPmodels(:, i) = (aPmodels(:, i - 1) .* pks) ./ nc;
+                aPmodels(aPmodels(:, i) <= obj.minProb, i) = obj.minProb;
+                aPmodels(aPmodels(:, i) >= obj.maxProb, i) = obj.maxProb;
+                
+                %Renormalize
+                aPmodels(:, i) = aPmodels(:, i) ./ sum(aPmodels(:, i), 1);
             end
+            
         end
         
       
