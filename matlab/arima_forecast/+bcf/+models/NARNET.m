@@ -21,5 +21,7 @@ classdef NARNET < bcf.models.Model
             end
             val = cell2num(val);
         end
-    end 
+    end
+    
 end
+

@@ -88,6 +88,71 @@ classdef BayesianForecaster < handle
             end
         end
         
+        function [fdata probs models] = forecastStatic(obj, data, ftype)
+            %Perform a complete forecast for a dataset.  Initial model
+            %probabilities are set to 1/numModels
+            
+            %This method works with static window and ahead forecasters.
+            %Such as neural networks
+            
+            %First make a forecast for each model.
+            %TODO change this to handle 1 step and multi step forecasts.
+            %Only handles one step now
+            fcasts = repmat(data, [1 1 size(obj.models, 2)]);
+            dexpand = repmat(data, [1 1 size(obj.models, 2)]);
+            for k = 1:size(obj.models, 2)
+                fcasts(:, :, k) = obj.models(k).forecast(data, 1);
+            end
+         
+            diffs = fcasts - dexpand;
+            initial = ones(size(obj.models));
+            initial = initial ./ size(obj.models, 2);
+
+            %batch update pmodels
+            aPmodels = obj.updatePModelsBatch(diffs, initial);
+            
+            probs = [];
+            models = [];
+            fdata = aPmodels;
+        end
+        
+        function aPmodels = updatePModelsBatch(obj, diffs, pmodels)
+            %Diffs is presumed to be a N by M by numModels matrix where
+            %data is of length M with dimensionality N
+            
+            %pmodels is of size 1 by numModels
+            %aPmodels will be of size numModels by M
+            %pks (probability of model k given forecasting noise) is
+            %numModels by M
+            
+            aPmodels = ones(size(obj.models, 2), size(diffs, 2));
+            aPmodels(:, 1) = pmodels';
+            pks = ones(size(pmodels, 2), size(diffs, 2));
+            
+            for k = 1:size(obj.models, 2)
+                pks(k, :) = obj.models(k).probabilityNoise(diffs(:, :, k)');
+            end
+
+            
+            
+                %Reset values
+            pks(pks <= obj.minProb) = obj.minProb;
+            pks(pks >= obj.maxProb) = obj.maxProb;
+            
+            
+            for i = 2:size(diffs, 2)
+                
+                %Compute the normalizing constant
+                nc = aPmodels .* pks;
+
+            
+            
+            
+                aPmodels(:, i) = (aPmodels(:, i - 1) .* pks) ./ nc;
+            end
+        end
+        
+      
         function [fdata probs models windows forecasts] = ...
                 windowForecast(obj, data, minWindow, maxWindow, ahead, ftype)
         

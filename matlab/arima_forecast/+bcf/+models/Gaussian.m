@@ -24,6 +24,10 @@ classdef Gaussian < bcf.models.Model
             %TODO Change this later
             val = 1;
         end
+        
+        function prob = probabilityNoise(obj, data)
+            prob = mvnpdf(data, obj.fnMu, obj.fnSigma);
+        end
     end
 end
 

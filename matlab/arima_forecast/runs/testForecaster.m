@@ -29,10 +29,24 @@ model2.fnSigma = std2;
 
 models = [model1 model2];
 
+
 forecaster = bcf.BayesianForecaster(models);
-[yprime, probs, ~] = forecaster.forecast(data, 3, 3, 'aggregate');
-x = linspace(1, 200, 200);
-plot(x, [data; yprime; probs]);
+[yprime, probs, ~] = forecaster.forecastStatic(data, 'aggregate');
+%x = linspace(1, 200, 200);
+%plot(x, [data; yprime; probs]);
+
+% d = 8;
+% s = 1;
+% 
+% y = data;
+% y = num2cell(y);
+% net = narnet(1:d, 10);
+% [Xs, Xi, Ai, Ts] = preparets(net, {}, {}, y);
+
+
+
+
+
 
 % [yprimeBest, ~, ~, ~, ~] = forecaster.windowForecast(data, 1, 20, 5, 'best');
 % [yprime, ~, ~] = forecaster.forecast(data, 10, 5, 'best');
