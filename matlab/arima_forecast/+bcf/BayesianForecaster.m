@@ -145,7 +145,7 @@ classdef BayesianForecaster < handle
                 %Compute the normalizing constant
                 nc = aPmodels .* pks;
 
-            
+                %Finish this tomorrow.
             
             
                 aPmodels(:, i) = (aPmodels(:, i - 1) .* pks) ./ nc;
