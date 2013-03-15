@@ -1,6 +1,6 @@
 %Aggregate Brown Building counts
 clear all
-load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\sensor_data_01_01_08_to_06_09_08.mat');
+load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
 
 counts = [];
 
@@ -68,10 +68,11 @@ data.blocksInDay = bid;
 
 save('./data/brownData.mat', 'data');
 
+
 x = linspace(1, 96, 96);
 xflip = [x(1 : end - 1) fliplr(x)];
 for i = 1:(ed-sd)
-    y = agData((i-1)*bid + 1:i*bid, 20)';
+    y = agData((i-1)*bid + 1:i*bid, 19)';
     yflip = [y(1 : end - 1) fliplr(y)];
     patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
     hold on

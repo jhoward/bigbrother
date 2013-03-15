@@ -28,15 +28,16 @@ testData = data.data(sensorNumber, trainSplit + 1:end);
 ar = 1;
 diff = 1;
 ma = 1;
-sar = 0;
+sar = 1;
 sdiff = data.blocksInDay * 7;
 sma = 1;
 
 arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
             'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
-
+arimaModel.estimate(trainData');
+        
 model = estimate(arimaModel, trainData', 'print', false);
-res = infer(model, trainData');
+res = infer(model, trainData);
 %fitdist(res, 'normal');
 
 data.trainData = trainData;
