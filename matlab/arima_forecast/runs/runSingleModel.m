@@ -5,28 +5,27 @@ clear all
 
 %fileName = 'simulated';
 %fileName = 'brown';
+
+%DENVER
 fileName = 'denver';
 
 load(strcat('./data/', fileName, 'Data.mat'));
 
+plotSize = data.blocksInDay;
+sensorNumber = 3;
+
+maxInput = data.blocksInDay * 150; %6 months or so
+outputRange = data.blocksInDay * 14; %2 weeks of output
+plotStart = data.blocksInDay * 12;
+input = data.data(sensorNumber, 1:maxInput);
+output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
 
 %====================================================
 %one dimensional nonlinear neural network
 %====================================================
-% plotSize = 200;
-% 
-% 
-% %Pick a site to forecast from
-% %DENVER
-% plotStart = data.blocksInDay * 3;
-% sensorNumber = 3;
+
 % timeDelay = 3;
 % hiddenNodes = 10;
-% maxInput = data.blocksInDay * 150; %6 months or so
-% outputRange = data.blocksInDay * 14; %2 weeks of output
-% 
-% input = data.data(sensorNumber, 1:maxInput);
-% output = data.data(sensorNumber, maxInput + 1:maxInput + 1 + outputRange);
 % cinput = tonndata(input, true, false);
 % coutput = tonndata(output, true, false);
 % 
@@ -53,17 +52,11 @@ load(strcat('./data/', fileName, 'Data.mat'));
 %====================================================
 
 
+
+
 %====================================================
 %Seasonal ARIMA model
 %====================================================
-plotSize = 200;
-
-%Pick a site to forecast from
-%DENVER
-plotStart = data.blocksInDay * 3;
-sensorNumber = 3;
-timeDelay = 3;
-
 ar = 1;
 diff = 1;
 ma = 1;
@@ -71,14 +64,13 @@ sar = 0;
 sdiff = data.blocksInDay * 7;
 sma = 1;
 
-maxInput = data.blocksInDay * 150; %6 months or so
-outputRange = data.blocksInDay * 14; %2 weeks of output
-
-input = data.data(sensorNumber, 1:maxInput);
-output = data.data(sensorNumber, maxInput + 1:maxInput + 1 + outputRange);
-
 arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
             'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
 
 model = estimate(arimaModel, input', 'print', false);
-res = infer(model, input);
+res = infer(model, input');
+
+predoutput = bcf.forecast.arimaForecast(model, 10, output');
+
+x = linspace(1, plotSize, plotSize);
+plot(x, [output(:, plotStart:plotStart + plotSize - 1); predoutput(:, plotStart:plotStart + plotSize - 1)]);

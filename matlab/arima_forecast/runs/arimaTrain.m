@@ -34,7 +34,7 @@ sma = 1;
 
 arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
             'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
-arimaModel.estimate(trainData');
+%arimaModel.estimate(trainData');
         
 model = estimate(arimaModel, trainData', 'print', false);
 res = infer(model, trainData);
