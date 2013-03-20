@@ -11,12 +11,15 @@ fileName = 'denver';
 
 load(strcat('./data/', fileName, 'Data.mat'));
 
-plotSize = data.blocksInDay;
+plotSize = data.blocksInDay * 2;
 sensorNumber = 3;
+ahead = 1;
+windowSize = 10;
+numErrorWindows = 10;
 
 maxInput = data.blocksInDay * 150; %6 months or so
-outputRange = data.blocksInDay * 14; %2 weeks of output
-plotStart = data.blocksInDay * 12;
+outputRange = data.blocksInDay * 100; %3 weeks of output
+plotStart = data.blocksInDay * 17;
 input = data.data(sensorNumber, 1:maxInput);
 output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
 
@@ -68,9 +71,18 @@ arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
             'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
 
 model = estimate(arimaModel, input', 'print', false);
-res = infer(model, input');
+predoutput = bcf.forecast.arimaForecast(model, ahead + 1, output');
 
-predoutput = bcf.forecast.arimaForecast(model, 10, output');
+%Determine forecasting score.
+mape = errperf(predoutput(:, sdiff:end), output(:, sdiff:end), 'mape');
+mse = errperf(predoutput(:, sdiff:end), output(:, sdiff:end), 'mse');
+rmse = errperf(predoutput(:, sdiff:end), output(:, sdiff:end), 'rmse');
 
+fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
+
+%plot a typical window
 x = linspace(1, plotSize, plotSize);
 plot(x, [output(:, plotStart:plotStart + plotSize - 1); predoutput(:, plotStart:plotStart + plotSize - 1)]);
+
+plotMaxErrorWindows(output, predoutput, windowSize, numErrorWindows);
+
