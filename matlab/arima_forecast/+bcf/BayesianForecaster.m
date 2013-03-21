@@ -88,7 +88,7 @@ classdef BayesianForecaster < handle
             end
         end
         
-        function [fdata probs models] = forecastStatic(obj, data, ftype)
+        function [fdata probs models] = forecastBatch(obj, data, ftype)
             %Perform a complete forecast for a dataset.  Initial model
             %probabilities are set to 1/numModels
             
@@ -102,7 +102,7 @@ classdef BayesianForecaster < handle
             fdata = data;
             dexpand = repmat(data, [1 1 size(obj.models, 2)]);
             for k = 1:size(obj.models, 2)
-                fcasts(:, :, k) = obj.models(k).forecast(data, 1);
+                fcasts(:, :, k) = obj.models(k).forecastAll(data, 1);
             end
          
             diffs = fcasts - dexpand;

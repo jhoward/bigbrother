@@ -1,49 +1,109 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf340
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww21600\viewh15080\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+{\rtf1\ansi\deff3\adeflang1025
+{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\fswiss\fprq0\fcharset0 Helvetica{\*\falt Arial};}{\f4\fnil\fprq2\fcharset0 Mangal;}{\f5\fnil\fprq0\fcharset128 Mangal;}{\f6\fnil\fprq2\fcharset0 Microsoft YaHei;}}
+{\colortbl;\red0\green0\blue0;\red128\green128\blue128;}
+{\stylesheet{\s0\snext0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033 Default;}
+{\s15\sbasedon0\snext16{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb240\sa120\keepn\cf0\kerning1\hich\af4\langfe2052\dbch\af6\loch\f2\fs28\lang1033 Heading;}
+{\s16\sbasedon0\snext16{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning1\hich\af3\langfe2052\dbch\af3\loch\f3\fs24\lang1033 Text body;}
+{\s17\sbasedon16\snext17{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning1\hich\af5\langfe2052\dbch\af3\loch\f3\fs24\lang1033 List;}
+{\s18\sbasedon0\snext18{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb120\sa120\cf0\i\kerning1\hich\af5\langfe2052\dbch\af3\ai\loch\f3\fs24\lang1033 Caption;}
+{\s19\sbasedon0\snext19{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af5\langfe2052\dbch\af3\loch\f3\fs24\lang1033 Index;}
+}{\info{\creatim\yr0\mo0\dy0\hr0\min0}{\revtim\yr0\mo0\dy0\hr0\min0}{\printim\yr0\mo0\dy0\hr0\min0}{\comment OpenOffice.org}{\vern3410}}\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720
 
-\f0\fs24 \cf0 TODO\
-\
-finish runSingleModel for more neural network models - especially exogenous ones\
-run ARIMA with exogenous variables\
-calculate forecast error for each run\
-\
-run forecast on just arima and neural network alone\
-run with bayesian combined prediction\
-\
-begin the process of extraction\
-add 10 references to references section\
-\
-apply whole thing to brown building\
-\
-Figure out a potential loss function\
-Probably going to be a different one for short term and long term\
-Identify more long term applications\
-\
-\
-\
-\
-WORK DIARY:\
-\
-03.15.2013\
-Implement the framework for a general forecasting function\
-Code bayesian combined forecasting\
-Test neural networks with approach on simulated data\
-\
-\
-03.16.2013\
-reinstall all of matlab\
-figure out what is wrong with ARIMA forecasting.\
-runSIngleModel for aroma is finished.\
-\
-\
-\
-\
-\
-
-\b IDEAS:\
-
-\b0 Look into 3m algorithm for dynamic model switching.  Use machine learning to learn optimal switches.  Perform semi-supervised learning to classify models.\
+{\*\pgdsctbl
+{\pgdsc0\pgdscuse195\pgwsxn12240\pghsxn15840\marglsxn1800\margrsxn1800\margtsxn1440\margbsxn1440\pgdscnxt0 Default;}}
+\formshade{\*\pgdscno0}\paperh15840\paperw12240\margl1800\margr1800\margt1440\margb1440\sectd\sbknone\sectunlocked1\pgndec\pgwsxn12240\pghsxn15840\marglsxn1800\margrsxn1800\margtsxn1440\margbsxn1440\ftnbj\ftnstart1\ftnrstcont\ftnnar\aenddoc\aftnrstcont\aftnstart1\aftnnrlc
+\pgndec\pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\b\ab\rtlch \ltrch\loch\lang9
+TODO}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
 }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+finish runSingleModel for more neural network models - especially exogenous ones}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+run ARIMA with exogenous variables}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+run forecast on just arima and neural network alone}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+add noise computation to models and results of arima and NN alone.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+run with bayesian combined prediction}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+begin the process of extraction}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+add 10 references to references section}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+apply whole thing to brown building}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+Figure out a potential loss function}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+Probably going to be a different one for short term and long term}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+Identify more long term applications}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+WORK DIARY:}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\b\ab\rtlch \ltrch\loch\lang9
+03.15.2013}{\rtlch \ltrch\loch\lang9
+ (7 hours)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+Implement the framework for a general forecasting function}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+Code bayesian combined forecasting}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+Test neural networks with approach on simulated data}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\b\ab\rtlch \ltrch\loch\lang9
+03.16.2013 }{\rtlch \ltrch\loch\lang9
+(7 hours)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+reinstall all of matlab}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+figure out what is wrong with ARIMA forecasting.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+runSIngleModel for aroma is finished.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\b\ab\rtlch \ltrch\loch\lang9
+03.20.2013 }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+calculate forecast error for each run}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+display the top n largest errors}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+nar neural network forecasting working.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+Arima forecasting in model shell}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\b\ab\rtlch \ltrch\loch\lang9
+IDEAS:}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640{\rtlch \ltrch\loch\lang9
+Look into 3m algorithm for dynamic model switching.  Use machine learning to learn optimal switches.  Perform semi-supervised learning to classify models.}
+\par }

@@ -18,6 +18,10 @@ classdef Gaussian < bcf.models.Model
         function val = forecast(obj, data, ahead)
             val = obj.mu;
         end
+        
+        function output = forecastAll(obj, data, ahead)
+            output = ones(size(data)) .* obj.mu;
+        end
             
         function val = probability(obj, data)
             %Forecast for a model the probability of each observation

@@ -31,8 +31,8 @@ models = [model1 model2];
 
 
 forecaster = bcf.BayesianForecaster(models);
-[yprime, probs, ms] = forecaster.forecastStatic(data, 'aggregate');
-[yprime2, probs, ms] = forecaster.forecastStatic(data, 'best');
+[yprime, probs, ms] = forecaster.forecastBatch(data, 'aggregate');
+[yprime2, probs, ms] = forecaster.forecastBatch(data, 'best');
 x = linspace(1, 200, 200);
 plot(x, [data; yprime; yprime2]);
 
