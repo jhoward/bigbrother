@@ -1,4 +1,4 @@
-function [output] = narForecast(obj, data, ahead)
+function [output] = tdnnForecast(obj, data, ahead)
 %Forecast some number of steps ahead for an entire data file.
     cobj = closeloop(obj);
     output = data;
@@ -18,7 +18,14 @@ function [output] = narForecast(obj, data, ahead)
         end
         
         yini = data(:, i - off : i + ahead);
-        [xs, xi, ai] = preparets(cobj, {}, {}, yini);
+        
+%         datacut = data(:, i - off : i + ahead);
+%         
+%         yini = zeros(size(datacut));
+%         yini = tonndata(yini, true, false);
+%         yini(:, 1:size(datacut, 2) - ahead) = data(:, i - off : i);
+        
+        [xs, xi, ai] = preparets(cobj, yini, yini);
         predict = cobj(xs, xi, ai);
         
         predict = cell2mat(predict);
