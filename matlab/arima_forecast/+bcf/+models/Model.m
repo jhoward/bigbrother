@@ -1,9 +1,9 @@
-classdef Model
+classdef Model < handle
     %Model object - used for representing timeseries
     properties
         %forecast noise is presumed to be multivariate gaussian
-        fnMu
-        fnSigma
+        noiseMu
+        noiseSigma
     end
     
     methods

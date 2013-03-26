@@ -1,13 +1,16 @@
-classdef NARNET < bcf.models.Model
+classdef TDNN < bcf.models.Model
     %TDNNMODEL time delayed neural network model
     properties
-        net
-        
+        netAhead
+        net1
+        ahead
     end
     
     methods        
-        function obj = NARNET(net)
-            obj.net = net;
+        function obj = TDNN(net1, netAhead, ahead)
+            obj.net1 = net1;
+            obj.netAhead = netAhead;
+            obj.ahead = ahead;
         end
         
         function val = forecast(obj, data, ahead)
@@ -20,6 +23,18 @@ classdef NARNET < bcf.models.Model
                 val = obj.net(xs, xi);
             end
             val = cell2num(val);
+        end
+        
+        function output = forecastAll(obj, data, ahead)
+            if ahead == 1
+                net = obj.net1;
+            elseif ahead == obj.ahead 
+                net = obj.netAhead;
+            else
+                fprintf(1, 'No trained forecaster for this value of ahead\n');
+                1/0;
+            end
+            output = bcf.forecast.tdnnForecast(net, data, ahead);
         end
     end 
 end
