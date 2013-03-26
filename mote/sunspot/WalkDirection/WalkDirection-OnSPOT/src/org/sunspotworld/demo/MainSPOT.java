@@ -123,19 +123,22 @@ public class MainSPOT extends MIDlet {
         int timeoutCounter = 0;
         boolean fs, bs;
         
+        boolean reportLength = false;   //ADDED for printing out the delay time for cooldown state
+        
         ledc.addCommand(Const.LED_PROGRAM_READY);
         
         try {
             while(true) {
-               System.out.println("Waiting for trigger.");
+              // System.out.println("Waiting for trigger.");
                int trigger = ((Integer)triggers.get()).intValue();
-               System.out.println("Trigger:" + trigger);
+             //  System.out.println("Trigger:" + trigger);
 
                if(trigger == Const.BACK_SENSOR) {
                    state = Const.BACK_TRIGGER_STATE;
                } else if(trigger == Const.FRONT_SENSOR) {
                    state = Const.FRONT_TRIGGER_STATE;
                }               
+               
                
                while(state != Const.WAITING_STATE) {
                    //System.out.println("In while loop.");
@@ -146,28 +149,49 @@ public class MainSPOT extends MIDlet {
                    if ((timeoutCounter >= Const.DOWN_SENSORS_RESET_TIMEOUT) && 
                            (state != Const.COOLDOWN_STATE)) {
                        state = Const.COOLDOWN_STATE;
-                       System.out.println("Movement timeout");
+                //       System.out.println("Movement timeout");
                        //TODO blink error code
                    }
 
-                  // if((state == Const.COOLDOWN_STATE) && fs && bs) {  COMMENTED OUT - KOLTEN
-                   if(state == Const.COOLDOWN_STATE){//ADDED - KOLTEN
+                  if((state == Const.COOLDOWN_STATE) && fs && bs) {
                        state = Const.WAITING_STATE;
+                       if (reportLength){
+                        System.out.println(timeoutCounter); //if an enter or exit state triggered, print 'length'
+                        reportLength = false;
+                       }
                        break; // ADDED - KOLTEN
                    }
 
                    if((state == Const.BACK_TRIGGER_STATE) && (fs == false)) {
-                       state = Const.COOLDOWN_STATE;
-                       records.addRecord(Const.EXIT, 0);
-                       ledc.addCommand(Const.LED_EXIT);
-                       System.out.println("Exit");
+                       if (timeoutCounter == 0) {  //added if-else - KOLTEN
+                   //        System.out.println("TOO FAST WALK");
+                           state = Const.WAITING_STATE;
+                           break;
+                       }
+                       else {
+                           state = Const.COOLDOWN_STATE;
+                            records.addRecord(Const.EXIT, 0);
+                            ledc.addCommand(Const.LED_EXIT);
+                            System.out.println("Exit");
+                            Utils.sleep(Const.WAIT_AFTER_WALK);
+                            reportLength = true;
+                       }
                    }
 
                    if((state == Const.FRONT_TRIGGER_STATE) && (bs == false)) {
-                       state = Const.COOLDOWN_STATE;
-                       records.addRecord(Const.ENTER, 0);
-                       ledc.addCommand(Const.LED_ENTER);
-                       System.out.println("Enter");
+                       if (timeoutCounter == 0) {  //added if-else - kolten
+                   //        System.out.println("TOO FAST WALK");
+                           state = Const.WAITING_STATE;
+                           break;
+                       }
+                       else{
+                            state = Const.COOLDOWN_STATE;
+                            records.addRecord(Const.ENTER, 0);
+                            ledc.addCommand(Const.LED_ENTER);
+                            System.out.println("Enter");
+                            Utils.sleep(Const.WAIT_AFTER_WALK);
+                            reportLength = true;
+                       }
                    }
 
                    Utils.sleep(Const.DOWN_SENSORS_POLL_FREQUENCY);
@@ -177,7 +201,7 @@ public class MainSPOT extends MIDlet {
                timeoutCounter = 0;
                triggers.empty();
               // ledc.addCommand(Const.LED_RESET);
-               System.out.println("Reset");
+           //    System.out.println("Reset");
             }
         } catch(Exception e) {
             //Crash state.  Mote needs to be reset.

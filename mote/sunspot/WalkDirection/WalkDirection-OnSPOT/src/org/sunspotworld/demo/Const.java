@@ -45,8 +45,11 @@ public class Const {
     public static int[]         LED_DATA                    = {1, 1, 20, 0};
     public static int[]         LED_CRASH                   = {3, 10, 150, 0};
     public static int[]         LED_SETUP_ERROR             = {2, 10, 150, 0};
-    public static int[]         LED_EXIT                    = {1, 2, 40, 0};   //CHANGED BOTH EXIT AND ENTER TO SHORT AND FAST - KOLTEN
-    public static int[]         LED_ENTER                   = {2, 2, 40, 0};
+    public static int[]         LED_EXIT                    = {1, 1, 200, 0};   //CHANGED BOTH EXIT AND ENTER - KOLTEN
+    public static int[]         LED_ENTER                   = {2, 1, 200, 0};
     public static int[]         LED_RESET                   = {3, 1, 200, 0};
     public static int[]         LED_PROGRAM_READY           = {3, 3, 500, 0};
+    
+    //KOLTEN
+    public static int           WAIT_AFTER_WALK             = 1000;
 }
