@@ -136,7 +136,7 @@ net1 = train(net, xs, ts, xi, ai);
 
 modelTDNN3 = bcf.models.TDNN(net1, netAhead, ahead);
 modelTDNN3.calculateNoiseDistribution(input(1, 1:end));
-td3predoutput = modelTDNN2.forecastAll(output, 1);
+td3predoutput = modelTDNN3.forecastAll(output, 1);
 
 mape = errperf(td3predoutput(:, sdiff:end), output(:, sdiff:end), 'mape');
 mse = errperf(td3predoutput(:, sdiff:end), output(:, sdiff:end), 'mse');
@@ -146,14 +146,11 @@ fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rm
 
 
 
-
-
-
 %Combine and forecast
 models = {modelArima modelTDNN2};
 models = {modelArima modelTDNN};
 %models = {modelArima modelArima modelTDNN modelTDNN2 modelArima modelArima modelArima modelArima modelArima modelArima modelArima modelArima modelArima modelArima modelArima modelArima};
-models = {modelTDNN2 modelTDNN };
+models = {modelTDNN2 modelTDNN modelTDNN3};
 
 forecaster = bcf.BayesianForecaster(models);
 [yprime, probs, ms] = forecaster.forecastAll(output, 'aggregate');
