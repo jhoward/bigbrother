@@ -2,7 +2,6 @@ classdef NARNET < bcf.models.Model
     %TDNNMODEL time delayed neural network model
     properties
         net
-        
     end
     
     methods        
@@ -10,16 +9,27 @@ classdef NARNET < bcf.models.Model
             obj.net = net;
         end
         
+        function val = forecast(obj, data, ahead)
+            val = 1;
+        end
+        
         function output = forecastAll(obj, data, ahead)
-            output = bcf.forecast.narForecast(obj, data, ahead);
+            if ~iscell(data)
+                data = num2cell(data);
+            end
+            output = bcf.forecast.narForecast(obj.net, data, ahead);
         end
         
         function calculateNoiseDistribution(obj, data)
-            out = forecastAll(data, 1);
+            out = obj.forecastAll(data, 1);
             res = data - out;
-            pd =  fitdist(res, 'Normal');
+            pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
             obj.noiseSigma = pd.std;
+        end
+        
+        function prob = probabilityNoise(obj, data)
+            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
         end
     end
     

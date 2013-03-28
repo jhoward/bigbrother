@@ -4,24 +4,41 @@
 clear all
 
 %fileName = 'simulated';
-%fileName = 'brown';
 
-%DENVER
-fileName = 'denver';
+%BROWN
+fileName = 'brown';
 
 load(strcat('./data/', fileName, 'Data.mat'));
 
 plotSize = data.blocksInDay * 2;
 sensorNumber = 3;
-ahead = 3;
+ahead = 1;
 windowSize = 10;
 numErrorWindows = 10;
 
-maxInput = data.blocksInDay * 150; %6 months or so
+maxInput = data.blocksInDay * 90; %3 months or so
 outputRange = data.blocksInDay * 21; %3 weeks of output
-plotStart = data.blocksInDay * 17;
+plotStart = data.blocksInDay * 15;
 input = data.data(sensorNumber, 1:maxInput);
 output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
+
+
+%DENVER
+% fileName = 'denver';
+% 
+% load(strcat('./data/', fileName, 'Data.mat'));
+% 
+% plotSize = data.blocksInDay * 2;
+% sensorNumber = 3;
+% ahead = 3;
+% windowSize = 10;
+% numErrorWindows = 10;
+% 
+% maxInput = data.blocksInDay * 150; %6 months or so
+% outputRange = data.blocksInDay * 21; %3 weeks of output
+% plotStart = data.blocksInDay * 17;
+% input = data.data(sensorNumber, 1:maxInput);
+% output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
 
 %====================================================
 %one dimensional nonlinear neural network
@@ -40,9 +57,11 @@ output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
 % net.divideParam.testRatio = 15/100;
 % 
 % [xs, xi, ai, ts] = preparets(net, {}, {}, cinput(:, 1:end));
-% net = train(net, xs, ts, xi, ai);
 % 
-% predoutput = bcf.forecast.narForecast(net, output, ahead);
+% net = train(net, xs, ts, xi, ai);
+% myModel = bcf.models.NARNET(net);
+% myModel.calculateNoiseDistribution(input(1, 1:floor(end*.1)));
+% predoutput = myModel.forecastAll(output, ahead);
 % toc
 % 
 % %Determine forecasting score.
@@ -74,13 +93,19 @@ output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
 % net.divideParam.testRatio = 15/100;
 % 
 % [xs, xi, ai, ts] = preparets(net, cinput(:, 1:end - ahead), cinput(:, ahead + 1:end));
-% net = train(net, xs, ts, xi, ai);
+% netAhead = train(net, xs, ts, xi, ai);
+% [xs, xi, ai, ts] = preparets(net, cinput(:, 1:end - 1), cinput(:, 1 + 1:end));
+% net1 = train(net, xs, ts, xi, ai);
 % 
-% predoutput = bcf.forecast.tdnnForecast(net, output, ahead);
+% myModel = bcf.models.TDNN(net1, netAhead, ahead);
+% myModel.calculateNoiseDistribution(input(1, 1:floor(end*.1)));
+% 
+% predoutput = myModel.forecastAll(output, ahead);
 % toc
 % 
 % %Determine forecasting score.
-% mape = errperf(predoutput(:, timeDelay:end), output(:, timeDelay:end), 'mape');
+% %mape = errperf(predoutput(:, timeDelay:end), output(:, timeDelay:end), 'mape');
+% mape = 0;
 % mse = errperf(predoutput(:, timeDelay:end), output(:, timeDelay:end), 'mse');
 % rmse = errperf(predoutput(:, timeDelay:end), output(:, timeDelay:end), 'rmse');
 % 
@@ -96,10 +121,10 @@ output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
 %Seasonal ARIMA model
 %====================================================
 ar = 1;
-diff = 1;
+diff = 0;
 ma = 1;
 sar = 0;
-sdiff = data.blocksInDay * 7;
+sdiff = 7*data.blocksInDay;
 sma = 1;
 
 arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
@@ -109,11 +134,13 @@ model = estimate(arimaModel, input', 'print', false);
 
 myModel = bcf.models.Arima(model);
 myModel.calculateNoiseDistribution(input);
-predoutput = myModel.ForecastAll(model, ahead + 1, output);
+predoutput = myModel.forecastAll(output, ahead);
 
+%bcf.forecast.arimaForecast(model, ahead, output');
 
 %Determine forecasting score.
-mape = errperf(predoutput(:, sdiff:end), output(:, sdiff:end), 'mape');
+%mape = errperf(predoutput(:, sdiff:end), output(:, sdiff:end), 'mape');
+mape = 0
 mse = errperf(predoutput(:, sdiff:end), output(:, sdiff:end), 'mse');
 rmse = errperf(predoutput(:, sdiff:end), output(:, sdiff:end), 'rmse');
 

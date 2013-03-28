@@ -11,12 +11,12 @@ classdef Arima < bcf.models.Model
             obj.model = model;
         end
         
-%         function val = forecast(obj, data, ahead)
-%             val = obj.mu;
-%         end
+        function val = forecast(obj, data, ahead)
+            val = obj.mu;
+        end
         
-        function output = forcastAll(obj, data, ahead)
-            output = bcf.forecast.arimaForecast(obj.model, data', ahead);
+        function output = forecastAll(obj, data, ahead)
+            output = bcf.forecast.arimaForecast(obj.model, ahead, data');
         end
             
 %         function val = probability(obj, data)
@@ -26,12 +26,13 @@ classdef Arima < bcf.models.Model
 %         end
         
         function prob = probabilityNoise(obj, data)
-            prob = mvnpdf(data, obj.fnMu, obj.fnSigma);
+            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
         end
         
         function calculateNoiseDistribution(obj, data)
-            res = infer(obj.model, data');
-            pd =  fitdist(res, 'Normal');
+            out = obj.forecastAll(data, 1);
+            res = data - out;
+            pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
             obj.noiseSigma = pd.std;
         end

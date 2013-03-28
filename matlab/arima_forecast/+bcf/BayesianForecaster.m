@@ -3,7 +3,7 @@ classdef BayesianForecaster < handle
     %   Detailed explanation goes here
     
     properties
-        models = [];
+        models = {};
         minProb;
         maxProb;
     end
@@ -30,8 +30,8 @@ classdef BayesianForecaster < handle
             probs = zeros(size(pmodel));
             
             for k = 1:size(pmodel, 2)
-                probs(1, k) = mvnpdf(data(:, end) - obj.models(k).forecast(data(:, 1:(end - 1)), 1), ...
-                                    obj.models(k).fnMu, obj.models(k).fnSigma);
+                probs(1, k) = mvnpdf(data(:, end) - obj.models{k}.forecast(data(:, 1:(end - 1)), 1), ...
+                                    obj.models{k}.fnMu, obj.models{k}.fnSigma);
             end
 
             nc = pmodel * probs';
@@ -53,7 +53,7 @@ classdef BayesianForecaster < handle
             
             if strcmp(ftype, 'aggregate')
                 for k = 1:size(pmodel, 2)
-                    f = f + pmodel(k).*obj.models(k).forecast(data(:, 1:end), ahead);
+                    f = f + pmodel(k).*obj.models{k}.forecast(data(:, 1:end), ahead);
                 end
             end
             
@@ -88,7 +88,7 @@ classdef BayesianForecaster < handle
             end
         end
         
-        function [fdata probs models] = forecastBatch(obj, data, ftype)
+        function [fdata probs models] = forecastAll(obj, data, ftype)
             %Perform a complete forecast for a dataset.  Initial model
             %probabilities are set to 1/numModels
             
@@ -102,15 +102,16 @@ classdef BayesianForecaster < handle
             fdata = data;
             dexpand = repmat(data, [1 1 size(obj.models, 2)]);
             for k = 1:size(obj.models, 2)
-                fcasts(:, :, k) = obj.models(k).forecastAll(data, 1);
+                fcasts(:, :, k) = obj.models{k}.forecastAll(data, 1);
             end
+            
          
             diffs = fcasts - dexpand;
             initial = ones(size(obj.models));
             initial = initial ./ size(obj.models, 2);
 
             %batch update pmodels
-            aPmodels = obj.updatePModelsBatch(diffs, initial);
+            aPmodels = obj.updatePModelsAll(diffs, initial);
             
             %Forecast - perform either best or aggregate.
             if strcmp(ftype, 'best')
@@ -141,7 +142,7 @@ classdef BayesianForecaster < handle
             models = [];
         end
         
-        function aPmodels = updatePModelsBatch(obj, diffs, pmodels)
+        function aPmodels = updatePModelsAll(obj, diffs, pmodels)
             %Diffs is presumed to be a N by M by numModels matrix where
             %data is of length M with dimensionality N
             
@@ -155,7 +156,7 @@ classdef BayesianForecaster < handle
             pks = ones(size(pmodels, 2), size(diffs, 2));
             
             for k = 1:size(obj.models, 2)
-                pks(k, :) = obj.models(k).probabilityNoise(diffs(:, :, k)');
+                pks(k, :) = obj.models{k}.probabilityNoise(diffs(:, :, k)');
             end
 
             %Reset values
