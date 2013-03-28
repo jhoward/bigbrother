@@ -125,6 +125,8 @@ public class MainSPOT extends MIDlet {
         
         boolean reportLength = false;   //ADDED for printing out the delay time for cooldown state
         
+        System.out.println("***PROGRAM READY***");
+        
         ledc.addCommand(Const.LED_PROGRAM_READY);
         
         try {
@@ -144,7 +146,7 @@ public class MainSPOT extends MIDlet {
                    //System.out.println("In while loop.");
                    fs = frontSensor.getState();
                    bs = backSensor.getState();   
-                   //System.out.println(fs + " " + bs + "\n");
+                   System.out.println(fs + " " + bs + "\n");
 
                    if ((timeoutCounter >= Const.DOWN_SENSORS_RESET_TIMEOUT) && 
                            (state != Const.COOLDOWN_STATE)) {
