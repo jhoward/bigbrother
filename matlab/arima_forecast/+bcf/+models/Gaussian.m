@@ -30,7 +30,15 @@ classdef Gaussian < bcf.models.Model
         end
         
         function prob = probabilityNoise(obj, data)
-            prob = mvnpdf(data, obj.fnMu, obj.fnSigma);
+            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
+        end
+        
+        function calculateNoiseDistribution(obj, data)
+            out = obj.forecastAll(data, 1);
+            res = data - out;
+            pd =  fitdist(res', 'Normal');
+            obj.noiseMu = pd.mean;
+            obj.noiseSigma = pd.std^2;
         end
     end
 end

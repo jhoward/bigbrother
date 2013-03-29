@@ -22,17 +22,14 @@ end
 model1 = bcf.models.Gaussian(m1, std1);
 model2 = bcf.models.Gaussian(m2, std2);
 
-model1.fnMu = 0;
-model1.fnSigma = std1;
-model2.fnMu = 0;
-model2.fnSigma = std2;
+model1.calculateNoiseDistribution(data)
+model2.calculateNoiseDistribution(data)
 
-models = [model1 model2];
-
+models = {model1 model2};
 
 forecaster = bcf.BayesianForecaster(models);
-[yprime, probs, ms] = forecaster.forecastBatch(data, 'aggregate');
-[yprime2, probs, ms] = forecaster.forecastBatch(data, 'best');
+[yprime, probs, ms] = forecaster.forecastAll(data, 'aggregate');
+[yprime2, probs, ms] = forecaster.forecastAll(data, 'best');
 x = linspace(1, 200, 200);
 plot(x, [data; yprime; yprime2]);
 

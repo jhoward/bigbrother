@@ -42,7 +42,7 @@ classdef TDNN < bcf.models.Model
             res = data - out;
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
-            obj.noiseSigma = pd.std;
+            obj.noiseSigma = pd.std^2;
         end
         
         function prob = probabilityNoise(obj, data)

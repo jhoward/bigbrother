@@ -11,8 +11,8 @@ classdef BayesianForecaster < handle
     methods
         function obj = BayesianForecaster(models)
             obj.models = models;
-            obj.minProb = 0.01;
-            obj.maxProb = 0.99;
+            obj.minProb = 0.0001;
+            obj.maxProb = 0.9999;
             %obj.stds = ones(1, size(models, 2));
             %obj.means = zeros(1, size(models, 2));
         end
@@ -109,14 +109,14 @@ classdef BayesianForecaster < handle
             diffs = fcasts - dexpand;
             initial = ones(size(obj.models));
             initial = initial ./ size(obj.models, 2);
-
+           
             %batch update pmodels
             aPmodels = obj.updatePModelsAll(diffs, initial);
             
             %Forecast - perform either best or aggregate.
             if strcmp(ftype, 'best')
                 [~, ind] = max(aPmodels);
-
+                %aPmodels
                 %In know this way sucks but I can't figure out a direct
                 %indexing way to do this for now
                 for i = 2:size(data, 2)
@@ -133,7 +133,7 @@ classdef BayesianForecaster < handle
                 fdata(:, 1) = data(:, 1);
                 
                 for k = 1:size(obj.models, 2)
-                    fdata(:, 2:end) = fdata(:, 2:end) + fcasts(:, 2:end, k) .* y(:, 1:end - 1, k); 
+                   fdata(:, 2:end) = fdata(:, 2:end) + fcasts(:, 2:end, k) .* y(:, 1:end - 1, k); 
                 end
             end
             
@@ -158,7 +158,7 @@ classdef BayesianForecaster < handle
             for k = 1:size(obj.models, 2)
                 pks(k, :) = obj.models{k}.probabilityNoise(diffs(:, :, k)');
             end
-
+            
             %Reset values
             pks(pks <= obj.minProb) = obj.minProb;
             pks(pks >= obj.maxProb) = obj.maxProb;
