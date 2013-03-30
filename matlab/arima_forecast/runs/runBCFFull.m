@@ -192,8 +192,6 @@ rmse = errperf(ybest2(:, sdiff:end), output(:, sdiff:end), 'rmse');
 
 fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
 
-
-
 x = linspace(1, plotSize, plotSize);
 plot(x, [output(:, plotStart:plotStart + plotSize - 1); yagg(:, plotStart:plotStart + plotSize - 1); ybest2(:, plotStart:plotStart + plotSize - 1)]);
 
