@@ -42,6 +42,7 @@ function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize,
     %Create times array
     times = linspace(0, numDays, numDays*dayLength);
     times = times';
+    
                         
     for i = 1:numDays
         dayData = createBackgroundOneDay(dayLength, bgSize, bgStd);
