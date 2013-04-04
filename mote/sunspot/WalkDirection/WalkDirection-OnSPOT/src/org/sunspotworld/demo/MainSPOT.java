@@ -146,7 +146,7 @@ public class MainSPOT extends MIDlet {
                    //System.out.println("In while loop.");
                    fs = frontSensor.getState();
                    bs = backSensor.getState();   
-                   System.out.println(fs + " " + bs + "\n");
+                   //System.out.println(fs + " " + bs + "\n"); debugging line for sensor statess
 
                    if ((timeoutCounter >= Const.DOWN_SENSORS_RESET_TIMEOUT) && 
                            (state != Const.COOLDOWN_STATE)) {

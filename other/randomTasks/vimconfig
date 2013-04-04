@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+say -v Good "La la la li li li lo lo lo lo lo la"
+
+while [ 1 -eq 1 ]; do
+	sleep 1
+	say -v Victoria "You are such a bitch\!"
+	say -v Vicki "No you. Are a bitch\!"
+done
+
