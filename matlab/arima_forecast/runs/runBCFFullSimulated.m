@@ -40,7 +40,7 @@ rmse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'rmse');
 fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
 
 %TYPICAL PLOTS FOR EDIFICATION
-plotStart = 2250;
+plotStart = 3670;
 
 %plot a typical window
 x = linspace(1, plotSize, plotSize);
@@ -52,7 +52,7 @@ res = predinput - input;
 dTimes = data.actTimes(data.actTimes < maxInput & data.actTimes > sdiff);
 x = linspace(1, 16, 16);
 
-for i = 1:size(d, 2)
+for i = 1:size(dTimes, 2)
     plot(x, res(dTimes(i) + data.blocksInDay:dTimes(i) + 15 + data.blocksInDay));
     waitforbuttonpress;
 end

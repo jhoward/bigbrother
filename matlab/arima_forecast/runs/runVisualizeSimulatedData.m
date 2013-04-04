@@ -39,7 +39,8 @@ mse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'mse');
 rmse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'rmse');
 
 fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
-plotStart = 3100;
+
+splotStart = 3100;
 
 %plot a typical window
 x = linspace(1, plotSize, plotSize);
