@@ -138,7 +138,7 @@ classdef BayesianForecaster < handle
             end
             
             %TODO fill in prob models here
-            probs = [];
+            probs = aPmodels;
             models = [];
         end
         

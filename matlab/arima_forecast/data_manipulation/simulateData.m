@@ -1,13 +1,14 @@
 function [data, times, actTimes, blocksInDay] = simulateData()
 %Create simulated data.
-    dayLength = 144;
-    numDays = 30;
+    dayLength = 96;
+    numDays = 200;
     bgSize = 10;
-    bgStd = 0.45;
-    numActs = 12;
-    actLength = 18;
-    actSize = 2.0;
-    actStd = 0.0;
+    bgStd = 0.1;
+    bgAdjust = 1.0;
+    numActs = 100;
+    actLength = 15;
+    actSize = 1.5;
+    actStd = 0.05;
     
 %     dayLength = 20;
 %     numDays = 30;
@@ -19,7 +20,7 @@ function [data, times, actTimes, blocksInDay] = simulateData()
 %     actStd = 0.0;
     
     [data, times, actTimes] = createSimulatedData(numDays, dayLength, ...
-                    bgSize, bgStd, numActs, actLength, actSize, actStd);
+                    bgSize, bgStd, numActs, actLength, actSize, actStd, bgAdjust);
     
     blocksInDay = dayLength;
     
@@ -34,7 +35,7 @@ function [data, times, actTimes, blocksInDay] = simulateData()
 end
 
 function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize, bgStd, ...
-                            numActs, actLength, actSize, actStd)
+                            numActs, actLength, actSize, actStd, bgAdjust)
     
     data = [];
     actTimes = [];
@@ -45,7 +46,7 @@ function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize,
     
                         
     for i = 1:numDays
-        dayData = createBackgroundOneDay(dayLength, bgSize, bgStd);
+        dayData = createBackgroundOneDay(dayLength, bgSize, bgStd, bgAdjust);
         data = [data; dayData]; %#ok<AGROW>
     end
 
@@ -59,14 +60,14 @@ function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize,
     end
 end
 
-function dayData = createBackgroundOneDay(dayLength, size, std)
+function dayData = createBackgroundOneDay(dayLength, size, std, adjust)
     
     dayData = linspace(0, pi, dayLength);
     dayData = size * sin(dayData');
     
     %add Noise
     noiseData = random('norm', 0, std, [dayLength, 1]);
-    dayData = dayData + noiseData;
+    dayData = dayData + noiseData + rand * adjust;
 end
 
 function actData = createActivity(actLength, size, std, type)

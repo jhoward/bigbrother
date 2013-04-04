@@ -130,6 +130,7 @@ sma = 1;
 arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
             'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
 
+<<<<<<< HEAD
 model = estimate(arimaModel, input', 'print', false);
 
 myModel = bcf.models.Arima(model);
@@ -147,6 +148,27 @@ fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rm
 %plot a typical window
 x = linspace(1, plotSize, plotSize);
 plot(x, [output(:, plotStart:plotStart + plotSize - 1); predoutput(:, plotStart:plotStart + plotSize - 1)]);
+=======
+% myModel = bcf.models.TDNN(net1, netAhead, ahead);
+% myModel.calculateNoiseDistribution(input(1, 1:floor(end*.1)));
+% 
+% predoutput = myModel.forecastAll(output, ahead);
+% toc
+% 
+% %Determine forecasting score.
+% %mape = errperf(predoutput(:, timeDelay:end), output(:, timeDelay:end), 'mape');
+% mape = 0;
+% mse = errperf(predoutput(:, timeDelay:end), output(:, timeDelay:end), 'mse');
+% rmse = errperf(predoutput(:, timeDelay:end), output(:, timeDelay:end), 'rmse');
+% 
+% fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
+% 
+% x = linspace(1, plotSize, plotSize);
+% plot(x, [output(:, plotStart:plotStart + plotSize - 1); predoutput(:, plotStart:plotStart + plotSize - 1)]);
+%  
+% plotMaxErrorWindows(output, predoutput, windowSize, numErrorWindows);
+
+>>>>>>> End of Day
 
 % plotMaxErrorWindows(output, predoutput, windowSize, numErrorWindows);
 
