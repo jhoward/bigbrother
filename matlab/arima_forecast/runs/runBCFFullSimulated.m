@@ -58,11 +58,10 @@ for i = 1:size(dTimes, 2)
 end
 
 
-
 %TRAIN TDNN
 trainData = [];
 %Build a dataset
-for i = 1:size(d, 2)
+for i = 1:size(dTimes, 2)
     trainData = [trainData res(dTimes(i) + data.blocksInDay:dTimes(i) + 14 + data.blocksInDay)]; %#ok<AGROW>
 end
 
