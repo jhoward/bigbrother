@@ -59,11 +59,12 @@ end
 
 
 %TRAIN TDNN
-trainData = [];
+trainData = {};
 %Build a dataset
 for i = 1:size(dTimes, 2)
     trainData = [trainData res(dTimes(i) + data.blocksInDay:dTimes(i) + 14 + data.blocksInDay)]; %#ok<AGROW>
 end
+
 
 timeDelay = 6;
 hiddenNodes = 20;
