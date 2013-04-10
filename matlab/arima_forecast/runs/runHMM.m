@@ -1,22 +1,39 @@
-%%%%
-%Train hidden markov models from a set residuals
-%%%%
-clear all
+O = 1; %Number of dimensions
+T = 10; %Time series length
+nex = 20; %Number of examples
+x = linspace(0, pi, T);
+data = sin(x);
+data = repmat(data, [1 1 nex]);
+noise = randn(O, T, nex) * 0.05;
 
-ahead = 1;
+data = data + noise;
 
-%fileName = 'simulated';
-%fileName = 'brown';
-fileName = 'denver';
+M = 5; %Number of Gaussians
+Q = 2; %Number of states
+left_right = 0;
 
-load(strcat('./data/', fileName, 'Run.mat'));
+prior0 = normalise(rand(Q,1));
+transmat0 = mk_stochastic(rand(Q,Q));
 
-%Remove residuals
-icast = aForecast(data.model, ahead, data.testData(1, :)');
-[windows, values] = maxDevWindows(icast2, data.testData, 6);
+[mu0, Sigma0] = mixgauss_init(Q*M, reshape(data, [O T*nex]), 'full');?
+mu0 = reshape(mu0, [O Q M]);
+Sigma0 = reshape(Sigma0, [O O Q M]);
+mixmat0 = mk_stochastic(rand(Q,M));
 
-%Perform hidden markov model clustering on the windows
-clusters = trainHMMClusters();
+%Plot data
+for i = 1:size(data, 3)
+    plot(data(1, :, i));
+    hold on
+end
 
-%test the value of the clusters
-%Run a silhouette test on the clusters
+[LL, prior1, transmat1, mu1, Sigma1, mixmat1] = ...
+    mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 10);
+
+[B, B2] = mixgauss_prob(data(:,:,10), mu1, Sigma1, mixmat1);
+[path] = viterbi_path(prior1, transmat1, B);
+
+x2 = linspace(0, 1, 10);
+x3 = sin(x);
+
+mhmm_logprob(x2, prior1, transmat1, mu1, Sigma1, mixmat1)
+mhmm_logprob(x3, prior1, transmat1, mu1, Sigma1, mixmat1)

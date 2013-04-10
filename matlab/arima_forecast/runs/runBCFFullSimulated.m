@@ -40,7 +40,7 @@ rmse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'rmse');
 fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
 
 %TYPICAL PLOTS FOR EDIFICATION
-plotStart = 3670;
+plotStart = 2700;
 
 %plot a typical window
 x = linspace(1, plotSize, plotSize);
@@ -49,26 +49,29 @@ plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:pl
 %Generate a residual set
 res = predinput - input;
 %d = data.actTimes(data.actTimes > maxInput + sdiff);
-dTimes = data.actTimes(data.actTimes < maxInput & data.actTimes > sdiff);
-x = linspace(1, 16, 16);
+dTimes = data.actTimes(data.actTimes < (maxInput - data.blocksInDay - data.actLength) & data.actTimes > sdiff);
+x = linspace(1, data.actLength + 1, data.actLength + 1);
 
 for i = 1:size(dTimes, 2)
-    plot(x, res(dTimes(i) + data.blocksInDay:dTimes(i) + 15 + data.blocksInDay));
-    waitforbuttonpress;
+    plot(x, res(dTimes(i) + data.blocksInDay:dTimes(i) + data.actLength + data.blocksInDay));
+    hold on;
 end
 
 
 %TRAIN TDNN
-trainData = {};
-%Build a dataset
+%Create sample set - I can do this better later.
+tmpData = ones(size(res, 1), size(dTimes, 2) * data.actLength);
+
 for i = 1:size(dTimes, 2)
-    trainData = [trainData res(dTimes(i) + data.blocksInDay:dTimes(i) + 14 + data.blocksInDay)]; %#ok<AGROW>
+    tmpData(:, (i - 1) * data.actLength + 1:i * data.actLength) = res(dTimes(i) + data.blocksInDay:dTimes(i) + data.blocksInDay + data.actLength - 1);
 end
 
+trainData = mat2cell(tmpData, size(tmpData, 1), ones(size(dTimes, 2), 1) * data.actLength);
 
 timeDelay = 6;
 hiddenNodes = 20;
-cinput = tonndata(trainData, true, false);
+%cinput = tonndata(trainData, true, false);
+cinput = trainData;
 
 net = timedelaynet(1:timeDelay, hiddenNodes);
 
@@ -82,23 +85,22 @@ netAhead = train(net, xs, ts, xi, ai);
 net1 = train(net, xs, ts, xi, ai);
 
 modelTDNN = bcf.models.TDNN(net1, netAhead, ahead);
-modelTDNN.calculateNoiseDistribution(input(1, 1:end));
-tdpredoutput = modelTDNN.forecastAll(trainData, 1);
-
-mape = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'mape');
-mse = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'mse');
-rmse = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'rmse');
-
-fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
-
+modelTDNN.calculateNoiseDistribution(tmpData);
+tdpredoutput = modelTDNN.forecastAll(tmpData, 1);
+% 
+% mape = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'mape');
+% mse = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'mse');
+% rmse = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'rmse');
+% 
+% fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
+% 
 
 x = linspace(1, 100, 100);
-plot(x, [trainData(1:100); tdpredoutput(1:100)]);
+plot(x, [tmpData(1:100); tdpredoutput(1:100)]);
 
 %Train models
 modelGaussian = bcf.models.Gaussian(myModel.noiseMu, myModel.noiseSigma);
 modelGaussian.calculateNoiseDistribution(res);
-
 
 models = {modelGaussian modelTDNN};
 
@@ -120,6 +122,21 @@ fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rm
 
 x = linspace(1, plotSize, plotSize);
 plot(x, [res(:, plotStart:plotStart + plotSize - 1); yprime(:, plotStart:plotStart + plotSize - 1)]);
+
+
+plotStart = 2650
+
+total = predinput + yprime;
+
+mape = errperf(total(:, sdiff:end), input(:, sdiff:end), 'mape');
+mse = errperf(total(:, sdiff:end), input(:, sdiff:end), 'mse');
+rmse = errperf(total(:, sdiff:end), input(:, sdiff:end), 'rmse');
+
+fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
+
+x = linspace(1, plotSize, plotSize);
+plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1);]);
+
 
 
 tdpredoutput2 = modelTDNN.forecastAll(res(1, 3084:3098), 1);

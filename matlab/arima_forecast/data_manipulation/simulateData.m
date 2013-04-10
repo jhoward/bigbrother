@@ -3,12 +3,12 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     dayLength = 96;
     numDays = 200;
     bgSize = 10;
-    bgStd = 0.1;
+    bgStd = 0.001;
     bgAdjust = 1.0;
     numActs = 100;
-    actLength = 15;
-    actSize = 2.5;
-    actStd = 0.05;
+    actLength = 25;
+    actSize = 2.0;
+    actStd = 0.001;
     
 %     dayLength = 20;
 %     numDays = 30;
@@ -29,6 +29,7 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     sd.actTimes = actTimes';
     sd.blocksInDay = blocksInDay;
     sd.sensors = [1];
+    sd.actLength = actLength;
     data = sd;
     data.actTimes = data.actTimes'
     save('./data/simulatedData.mat', 'data');
