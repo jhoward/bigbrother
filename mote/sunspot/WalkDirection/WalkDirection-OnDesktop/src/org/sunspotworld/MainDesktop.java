@@ -21,6 +21,9 @@ class ClientConnection extends Thread {
     }
      
     public void run() {
+        
+        boolean dataMode = false;
+        
         ArrayList data;
         Scanner input=new Scanner(System.in);
         
@@ -30,20 +33,30 @@ class ClientConnection extends Thread {
             //If my payload is leet then unicode connection and data dump
             if(payload.type == Const.BROADCAST) {
                 if (connectUnicast()) {
-                    sendRequestDataCommand();
-                    data = recieveData();
-                    writeData(data);                       
+                    if (dataMode){
+                        sendRequestDataCommand();
+                        data = recieveData();
+                        writeData(data);                       
+                    }
+                    else {
+                        sendTimeOffset();
+                    }
+                }
+                else { // kolten - added
+                    System.out.println("Exiting...");
+                    return;
                 }
             }
             
+            if (dataMode){
+                System.out.println("Do you want to delete buffered data? (y/n)");
+                String ans = input.next();
             
-            System.out.println("Do you want to delete buffered data? (y/n)");
-            String ans = input.next();
-            
-            if("y".equals(ans)) {
-                sendDeleteCommand();
-            } else {
-             //Do something here
+                if("y".equals(ans)) {
+                    sendDeleteCommand();
+                } else {
+                    sendNoDeleteCommand();
+                }
             }
             
             System.out.println("Closing " + this.addr + " connection");
@@ -95,6 +108,19 @@ class ClientConnection extends Thread {
         }
     }
     
+    private void sendTimeOffset() {
+        try {
+            System.out.println("Sending system time offset to mote...");
+            Datagram dg = this.rConn.newDatagram(this.rConn.getMaximumLength());
+            RecordData rd = new RecordData(System.currentTimeMillis(),Const.TIME_DUMP, (short)0);
+            dg.write(rd.serialize());
+            this.rConn.send(dg);
+            System.out.println("Sent time offset to mote");
+        } catch (Exception e) {
+            System.out.println("sendPing failed.");
+        }
+    }
+    
     private void sendDeleteCommand() {
         try {
             Datagram dg = this.rConn.newDatagram(this.rConn.getMaximumLength());
@@ -103,6 +129,18 @@ class ClientConnection extends Thread {
             this.rConn.send(dg);
         } catch(Exception e) {
             System.out.println("Problems with send delete command");
+            System.out.println(e);
+        }
+    }
+    
+    private void sendNoDeleteCommand() {
+        try {
+            Datagram dg = this.rConn.newDatagram(this.rConn.getMaximumLength());
+            RecordData tmpData = new RecordData(Const.NO_DELETE_RECORDS, (short)0);
+            dg.write(tmpData.serialize());
+            this.rConn.send(dg);
+        } catch(Exception e) {
+            System.out.println("Problems with send no delete command");
             System.out.println(e);
         }
     }

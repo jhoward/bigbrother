@@ -113,12 +113,19 @@ public class MainSPOT extends MIDlet {
     private IIOPin          frontSensor, backSensor;
     private ITriColorLEDArray leds;
     
-    protected void startApp() throws MIDletStateChangeException {
+    private long timeOffset = 0; //ADDED - KOLTEN - To correct sunspot system onboard time when writing records
     
+    
+    protected void startApp() throws MIDletStateChangeException {
+        
         long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
         System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
         setup();
-        handleNetworkCommands();
+        
+        if (handleNetworkCommands()){
+            System.out.println("Data collection finished, exiting..."); // ADDED kolten
+            return;
+        }
         
         int timeoutCounter = 0;
         boolean fs, bs;
@@ -259,21 +266,23 @@ public class MainSPOT extends MIDlet {
         }
     }
     
-    public void handleNetworkCommands() {     
+    public boolean handleNetworkCommands() {     
         
         RadiogramConnection inConn = null;
         Datagram dg;
         
         broadcast();
         
+        boolean data = false;
+        
         //Now wait for a response and perform the specified action
         try {
             System.out.println("Waiting for response.");
             inConn = (RadiogramConnection) Connector.open("radiogram://:" + Const.LOCAL_PORT);
             dg = inConn.newDatagram(inConn.getMaximumLength());
-            inConn.setTimeout(2000);
-            inConn.receive(dg);
-            RecordData tmpData = RecordData.deserialize(dg);
+           //inConn.setTimeout(2000); //time out for if broadcast response recieved
+           inConn.receive(dg);
+           RecordData tmpData = RecordData.deserialize(dg);
             
             //dump data
             if (tmpData.type == Const.DATA_DUMP) {
@@ -285,6 +294,11 @@ public class MainSPOT extends MIDlet {
                 } else {
                     System.out.println("Data did not transmit fully.");
                 }
+                data = true;
+            }
+            else if (tmpData.type == Const.TIME_DUMP){
+                timeOffset = tmpData.time;
+                System.out.println("The recieved system time was:" + timeOffset);
             }
         } catch (Exception e) {
             System.out.println("Timeout.");
@@ -301,6 +315,8 @@ public class MainSPOT extends MIDlet {
         } catch(Exception e) {
             System.out.println("Closing radio error.");
         }
+        
+        return data;
     }
     
     
@@ -316,11 +332,15 @@ public class MainSPOT extends MIDlet {
             if (rd.type == Const.DELETE_RECORDS) {
                 return true;
             }
+            if (rd.type == Const.NO_DELETE_RECORDS) {
+                return false;
+            }
         } catch (Exception e) {
             System.out.println("Must have been a timeout.");
         }
         return false;
     }
+
     
     
     public boolean transmitData(RadiogramConnection inConn, Datagram dg) {

@@ -11,6 +11,9 @@ public class Const {
     public static short         EOF                         = 16;
     public static short         BROADCAST                   = 6;
     
+    public static short         TIME_DUMP                   = 7;
+    public static short         NO_DELETE_RECORDS           = 8;
+    
     //sensors
     public static int           BACK_SENSOR                 = 0;
     public static int           FRONT_SENSOR                = 1;
@@ -51,5 +54,5 @@ public class Const {
     public static int[]         LED_PROGRAM_READY           = {3, 3, 500, 0};
     
     //KOLTEN
-    public static int           WAIT_AFTER_WALK             = 1000;
+    public static int           WAIT_AFTER_WALK             = 1000;               
 }

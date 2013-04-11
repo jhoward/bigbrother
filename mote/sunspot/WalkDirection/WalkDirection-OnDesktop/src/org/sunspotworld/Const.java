@@ -11,6 +11,9 @@ public class Const {
     public static short         BROADCAST                   = 6;
     public static short         EOF                         = 16;
     
+    public static short         TIME_DUMP                   = 7;
+    public static short         NO_DELETE_RECORDS           = 8;
+    
     //sensors
     public static int           BACK_SENSOR                 = 0;
     public static int           FRONT_SENSOR                = 1;
