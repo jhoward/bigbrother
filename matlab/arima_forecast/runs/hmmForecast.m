@@ -19,6 +19,9 @@ function output = hmmForecast(prior, transmat, mu, sigma, mixmat, data, ahead)
     out = currentState .* eVals;
     output = [sum(out, 2) output];
     
+    %Move forward in state by one.
+    transmat(i, j)
+    
     %Step given output
     obslik = mixgauss_prob(output, mu, sigma, mixmat);
     [alpha, beta, gamma, ll] = fwdback(currentState, transmat, obslik, 'fwd_only', 1);
