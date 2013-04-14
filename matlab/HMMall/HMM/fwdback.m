@@ -119,6 +119,7 @@ for t=2:T
    m = trans' * alpha(:,t-1);
  end
  alpha(:,t) = m(:) .* obslik(:,t);
+ %fprintf(1, 'Just multiplied by obslik\n');
  if scaled
    %[alpha(:,t), scale(t)] = normaliseC(alpha(:,t));
    [alpha(:,t), scale(t)] = normalise(alpha(:,t));

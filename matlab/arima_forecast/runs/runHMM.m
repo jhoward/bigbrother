@@ -8,7 +8,7 @@ noise = randn(O, T, nex) * 0.05;
 
 data = data + noise;
 
-M = 2; %Number of Gaussians
+M = 1; %Number of Gaussians
 Q = 50; %Number of states
 left_right = 0;
 
@@ -26,7 +26,7 @@ mixmat0 = mk_stochastic(rand(Q,M));
 [B, B2] = mixgauss_prob(data(:,:,10), mu1, Sigma1, mixmat1);
 [path] = viterbi_path(prior1, transmat1, B);
 
-x2 = linspace(0, 1, 10);
+x2 = linspace(3, 1, 10);
 x3 = sin(x);
 
 mhmm_logprob(x2, prior1, transmat1, mu1, Sigma1, mixmat1)
@@ -37,22 +37,30 @@ samples = mhmm_sample(3 * T, nex, prior1, transmat1, mu1, Sigma1, mixmat1);
 %Plot data
 for i = 1:size(data, 3)
     %plot(x, [data(1, :, i); samples(1, :, i)]);
-    plot(samples(1, :, i));
+    plot(data(1, :, i));
     hold on
 end
 
 
 d2 = num2cell(data, [1 2]); % each elt of the 3rd dim gets its own cell
-obslik = mixgauss_prob(d2{1}, mu1, Sigma1, mixmat1);
+obslik = mixgauss_prob(data(:, :, 1), mu1, Sigma1, mixmat1);
 
-[alpha, beta, gamma, ll] = fwdback(prior1, transmat1, obslik, 'fwd_only', 1);
-% 
-% new = zeros(size(transmat1, 1));
-% 
-% for i = 1:size(transmat1, 1)
-%     for j = 1:size(transmat1, 2)
-%         
-%     end
-% end
-% 
-% %o = hmmForecast(alpha(:, 1)', transmat1, mu1, Sigma1, mixmat1, ones(1, 2), 1)
+[alpha, beta, gamma, ll] = fwdback(prior1, transmat1, obslik, 'fwd_only', 1, 'scaled', 1);
+
+
+output = data;
+for i = 1:size(data, 3)
+    output(:, :, i) = hmmForecast(prior1, transmat1, mu1, Sigma1, mixmat1, data(:, :, i), 1);
+    obslik2 = mixgauss_prob(data(:, :, i), mu1, Sigma1, mixmat1);
+end
+
+obslik2 = mixgauss_prob(x2, mu1, Sigma1, mixmat1);
+[alpha2, beta, gamma, ll] = fwdback(prior1, transmat1, obslik2, 'fwd_only', 1, 'scaled', 1);
+o = hmmForecast(prior1, transmat1, mu1, Sigma1, mixmat1, x2, 1);
+
+
+for i = 1:size(data, 3)
+    %plot(x, [data(1, :, i); samples(1, :, i)]);
+    plot(output(1, :, i));
+    hold on
+end
