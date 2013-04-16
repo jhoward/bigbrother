@@ -95,11 +95,11 @@ class RecordHandler {
         }
     }
     
-    public int addRecord(short recordType, int value){
+    public int addRecord(long time, short recordType, int value){  //modified to use time also - KOLTEN
         int tmpRecord = 0;
         
         try {
-            RecordData tmpData = new RecordData(recordType, (short)value);
+            RecordData tmpData = new RecordData(time, recordType, (short)value);  //modified to use constructor with time - KOLTEN
             byte[] data = tmpData.serialize();
             tmpRecord = rms.addRecord(data, 0, data.length);
         } catch(Exception e) {

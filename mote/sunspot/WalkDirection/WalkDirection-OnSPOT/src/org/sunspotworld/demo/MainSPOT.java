@@ -84,7 +84,7 @@ class MidSensorReader implements Runnable {
             sleepSum += Const.MID_SENSOR_POLL_FREQUENCY;
             
             if(sleepSum >= Const.MID_SENSOR_COUNT_TIME) {
-                records.addRecord(Const.ROOM_COUNT, counts);
+                //records.addRecord(Const.ROOM_COUNT, counts); commented out because doesnt comply with new addrecord function
                 counts = 0;
                 sleepSum = 0;
             }
@@ -114,6 +114,7 @@ public class MainSPOT extends MIDlet {
     private ITriColorLEDArray leds;
     
     private long timeOffset = 0; //ADDED - KOLTEN - To correct sunspot system onboard time when writing records
+    private boolean useOffset;  //ADDED to control when to use the offset
     
     
     protected void startApp() throws MIDletStateChangeException {
@@ -131,6 +132,7 @@ public class MainSPOT extends MIDlet {
         boolean fs, bs;
         
         boolean reportLength = false;   //ADDED for printing out the delay time for cooldown state
+        int CONSOLWIDTH = 80;           //ADDED for formatting output to screen for pretty display
         
         System.out.println("***PROGRAM READY***");
         
@@ -165,7 +167,13 @@ public class MainSPOT extends MIDlet {
                   if((state == Const.COOLDOWN_STATE) && fs && bs) {
                        state = Const.WAITING_STATE;
                        if (reportLength){
-                        System.out.println(timeoutCounter); //if an enter or exit state triggered, print 'length'
+                        System.out.print("   TIMEOUT: "+timeoutCounter); //if an enter or exit state triggered, print 'length'
+                        System.out.print("*\n");
+                        for(int i = 0; i < CONSOLWIDTH ; i++) {
+                                System.out.print("*");
+                            }
+                        System.out.println("");
+                        System.out.println("");
                         reportLength = false;
                        }
                        break; // ADDED - KOLTEN
@@ -178,10 +186,30 @@ public class MainSPOT extends MIDlet {
                            break;
                        }
                        else {
-                           state = Const.COOLDOWN_STATE;
-                            records.addRecord(Const.EXIT, 0);
+                            state = Const.COOLDOWN_STATE;
+                            //records.addRecord(Const.EXIT, 0);   removed to add a record class with time offset
+                            if (useOffset){
+                                records.addRecord(System.currentTimeMillis()+timeOffset,Const.EXIT,0);
+                            }
+                            else {
+                                records.addRecord(System.currentTimeMillis(), Const.EXIT, 0);
+                            }
                             ledc.addCommand(Const.LED_EXIT);
-                            System.out.println("Exit");
+                            //System.out.println("Exit");
+                            
+                            for(int i = 0; i < CONSOLWIDTH ; i++) {
+                                System.out.print("*");
+                            }
+                            System.out.print("\n");
+                            long outputTime;
+                            if (useOffset){
+                                outputTime = System.currentTimeMillis()+timeOffset;
+                            }
+                            else {
+                                outputTime = System.currentTimeMillis();
+                            }
+                            System.out.print("*RECORD TYPE: EXIT    TIMESTAMP: "+outputTime);
+                            
                             Utils.sleep(Const.WAIT_AFTER_WALK);
                             reportLength = true;
                        }
@@ -195,9 +223,31 @@ public class MainSPOT extends MIDlet {
                        }
                        else{
                             state = Const.COOLDOWN_STATE;
-                            records.addRecord(Const.ENTER, 0);
+                            //records.addRecord(Const.ENTER, 0); removed to add a record class with time offset
+                            if (useOffset){
+                                records.addRecord(System.currentTimeMillis()+timeOffset, Const.ENTER, 0);
+                            }
+                            else {
+                                records.addRecord(System.currentTimeMillis(), Const.ENTER, 0);
+                            }
                             ledc.addCommand(Const.LED_ENTER);
-                            System.out.println("Enter");
+                            //System.out.println("Enter");
+                            
+                            
+                            for(int i = 0; i < CONSOLWIDTH ; i++) {
+                                System.out.print("*");
+                            }
+                            System.out.print("\n");
+                            long outputTime;
+                            if (useOffset){
+                                outputTime = System.currentTimeMillis()+timeOffset;
+                            }
+                            else {
+                                outputTime = System.currentTimeMillis();
+                            }
+                            System.out.print("*RECORD TYPE: ENTER   TIMESTAMP: "+outputTime);
+                            
+                            
                             Utils.sleep(Const.WAIT_AFTER_WALK);
                             reportLength = true;
                        }
@@ -298,7 +348,16 @@ public class MainSPOT extends MIDlet {
             }
             else if (tmpData.type == Const.TIME_DUMP){
                 timeOffset = tmpData.time;
-                System.out.println("The recieved system time was:" + timeOffset);
+                System.out.println("The recieved system time was: " + timeOffset);
+                System.out.println("The internal mote time is: " + System.currentTimeMillis());
+                if (System.currentTimeMillis()/100 > 315360000){ //if on board time is greater than a year dont use offset
+                    System.out.println("The offset will be used");
+                    useOffset = true;
+                }
+                else {
+                    System.out.println("The offset will not be used");
+                    useOffset = false;
+                }
             }
         } catch (Exception e) {
             System.out.println("Timeout.");

@@ -5,10 +5,11 @@ function output = hmmForecast(prior, transmat, mu, sigma, mixmat, data, ahead)
     output = data;
     
     %Compute the expected value for each state
-    tmpMix = reshape(mixmat, [1 size(mixmat)]);
-    tmpMix = repmat(tmpMix, [size(mu, 1) 1 1]);
-    tmpMu = mu .* tmpMix;
-    eVals = sum(tmpMu, 3);
+%     tmpMix = reshape(mixmat, [1 size(mixmat)]);
+%     tmpMix = repmat(tmpMix, [size(mu, 1) 1 1]);
+%     tmpMu = mu .* tmpMix;
+%     eVals = sum(tmpMu, 3);
+    eVals = mu;
         
     %Set the obeservation likelihoods for the whole dataset
     obslik = mixgauss_prob(data, mu, sigma, mixmat);
@@ -16,10 +17,13 @@ function output = hmmForecast(prior, transmat, mu, sigma, mixmat, data, ahead)
 
     %fitdist(obslik(:, 5), 'normal')
     %fitdist(alpha(:, 5), 'normal')
+    %currentState = alpha(:, 1);
+    %futureState = transmat' * currentState;
+    %output(:, 2) = sum(futureState' .* eVals, 2);
     
     for t = 1:size(data, 2) - ahead
         %Get the current state
-        currentState = alpha(:, t + ahead);
+        currentState = alpha(:, t);
         currentState(currentState < 0.0001) = 0.0001;
         currentState = currentState / sum(currentState);
         
@@ -27,7 +31,7 @@ function output = hmmForecast(prior, transmat, mu, sigma, mixmat, data, ahead)
         
         for i = 1:ahead
             %Step ahead in states
-            futureState = transmat * futureState;
+            futureState = transmat' * futureState;
             futureState(futureState < 0.0001) = 0.0001;
             futureState = futureState / sum(futureState);
         end
