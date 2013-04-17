@@ -8,7 +8,7 @@ noise = randn(O, T, nex) * 0.05;
 
 data = data + noise;
 
-M = 1; %Number of Gaussians
+M = 2; %Number of Gaussians
 Q = 50; %Number of states
 left_right = 0;
 
@@ -20,6 +20,10 @@ mu0 = reshape(mu0, [O Q M]);
 Sigma0 = reshape(Sigma0, [O O Q M]);
 mixmat0 = mk_stochastic(rand(Q,M));
 
+if M == 1
+    mixmat0 = ones(Q, 1);
+end
+
 [LL, prior1, transmat1, mu1, Sigma1, mixmat1] = ...  
     mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 10);
 
@@ -27,7 +31,8 @@ mixmat0 = mk_stochastic(rand(Q,M));
 [path] = viterbi_path(prior1, transmat1, B);
 
 x2 = linspace(3, 1, 10);
-x3 = sin(x);
+x3 = linspace(0, 1, 5);
+
 
 mhmm_logprob(x2, prior1, transmat1, mu1, Sigma1, mixmat1)
 mhmm_logprob(x3, prior1, transmat1, mu1, Sigma1, mixmat1)
@@ -54,9 +59,9 @@ for i = 1:size(data, 3)
     obslik2 = mixgauss_prob(data(:, :, i), mu1, Sigma1, mixmat1);
 end
 
-obslik2 = mixgauss_prob(x2, mu1, Sigma1, mixmat1);
+obslik2 = mixgauss_prob(x3, mu1, Sigma1, mixmat1);
 [alpha2, beta, gamma, ll] = fwdback(prior1, transmat1, obslik2, 'fwd_only', 1, 'scaled', 1);
-o = hmmForecast(prior1, transmat1, mu1, Sigma1, mixmat1, x2, 3);
+o = hmmForecast(prior1, transmat1, mu1, Sigma1, mixmat1, x3, 3);
 
 
 tmpMix = reshape(mixmat1, [1 size(mixmat1)]);

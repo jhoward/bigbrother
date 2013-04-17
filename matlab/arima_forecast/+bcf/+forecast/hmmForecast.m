@@ -1,4 +1,5 @@
-function output = hmmForecast(prior, transmat, mu, sigma, mixmat, data, ahead)
+function output = hmmForecast(obj, data, ahead)
+(prior, transmat, mu, sigma, mixmat, data, ahead)
     %prior should be a 1 by numStates
     %mu = sizeDimensions by States by numMixtures
     
@@ -13,7 +14,7 @@ function output = hmmForecast(prior, transmat, mu, sigma, mixmat, data, ahead)
     %Set the obeservation likelihoods for the whole dataset
     obslik = mixgauss_prob(data, mu, sigma, mixmat);
     [alpha, ~, gamma, ~] = fwdback(prior, transmat, obslik, 'fwd_only', 1);
-
+    
     for t = 1:size(data, 2) - ahead
         %Get the current state
         currentState = alpha(:, t);
@@ -32,6 +33,5 @@ function output = hmmForecast(prior, transmat, mu, sigma, mixmat, data, ahead)
         %Compute the output from the future state.
         output(:, t + ahead) = sum(futureState' .* eVals, 2);
     end
-    
-    %plot(output)
 end
+
