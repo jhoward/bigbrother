@@ -27,7 +27,7 @@ model.prior = normalize(model.prior);
 
 output = data(:, :, trainSplit + 1:end);
 for i = 1:size(output, 3)
-    output(:, :, i) = model.forecastAll(output(:, :, i), 1, 'window', 4);
+    output(:, :, i) = model.forecastAll(output(:, :, i), 1, 'window', 3);
 end
 
 for i = 1:size(output, 3)

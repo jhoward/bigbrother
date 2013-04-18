@@ -3,11 +3,11 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     dayLength = 96;
     numDays = 200;
     bgSize = 10;
-    bgStd = 0.001;
+    bgStd = 0.1;
     bgAdjust = 1.0;
     numActs = 100;
-    actLength = 25;
-    actSize = 4.0;
+    actLength = 12;
+    actSize = 3.0;
     actStd = 0.001;
     
 %     dayLength = 20;

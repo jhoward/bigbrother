@@ -41,7 +41,7 @@ classdef HMM < bcf.models.Model
             end
 
             [~, prior1, transmat1, mu1, Sigma1, mixmat1] = ...  
-                mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 30);
+                mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 40);
             
             obj.mu = mu1;
             obj.sigma = Sigma1;
@@ -57,7 +57,7 @@ classdef HMM < bcf.models.Model
             %spots before.
             parser = inputParser;
             parser.CaseSensitive = true;
-            parser.addOptional('window', 2, @isnumeric);
+            parser.addOptional('window', 4, @isnumeric);
             parser.parse(varargin{:});
             window = parser.Results.window;
             
@@ -83,7 +83,7 @@ classdef HMM < bcf.models.Model
             res = [];
             for i = 1:size(data, 3)
                 out = obj.forecastAll(data(:, :, i), 1, 'window', 0);
-                res = [res (data(:, :, i) - out)]; %#ok<AGROW>
+                res = [res (data(:, 2:end, i) - out(:, 2:end))]; %#ok<AGROW>
             end
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;

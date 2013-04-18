@@ -16,10 +16,10 @@ classdef Gaussian < bcf.models.Model
         end
         
         function val = forecast(obj, data, ahead)
-            val = obj.mu;ß
+            val = obj.mu;
         end
         
-        function output = forecastAll(obj, data, ahead, vararßgin)
+        function output = forecastAll(obj, data, ahead, varargin)
             output = ones(size(data)) .* obj.mu;
         end
             
