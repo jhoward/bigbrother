@@ -20,12 +20,14 @@ model.train(data(:, :, 1:trainSplit));
 model.calculateNoiseDistribution(data(:, :, trainSplit));
 
 %Modify and test transition matrix
-%model.transmat(model.transmat < 0.01) = 0.01;
+%model.transmat(model.transmat < 0.005) = 0.005;
 %model.transmat = normalize(model.transmat, 2);
+model.prior(model.prior < 0.01) = 0.01;
+model.prior = normalize(model.prior);
 
 output = data(:, :, trainSplit + 1:end);
 for i = 1:size(output, 3)
-    output(:, :, i) = model.forecastAll(output(:, :, i), 1, 'window', 3);
+    output(:, :, i) = model.forecastAll(output(:, :, i), 1, 'window', 4);
 end
 
 for i = 1:size(output, 3)
@@ -34,9 +36,9 @@ for i = 1:size(output, 3)
 end
 
 %Test noisy data
-noisy = sin(x);
-noisy = noisy + randn(O, T, 1) * 0.3;
-
-noisyOut = model.forecastAll(noisy, 1);
-
-plot(x, [noisy; noisyOut]);
+% noisy = sin(x);
+% noisy = noisy + randn(O, T, 1) * 0.3;
+% 
+% noisyOut = model.forecastAll(noisy, 1);
+% 
+% plot(x, [noisy; noisyOut]);
