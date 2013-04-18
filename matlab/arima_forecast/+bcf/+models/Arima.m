@@ -15,7 +15,7 @@ classdef Arima < bcf.models.Model
             val = obj.mu;
         end
         
-        function output = forecastAll(obj, data, ahead)
+        function output = forecastAll(obj, data, ahead, varargin)
             output = bcf.forecast.arimaForecast(obj.model, ahead, data');
         end
             

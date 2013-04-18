@@ -1,70 +1,42 @@
-%Simple program to test the forecasting accuracy of our hidden markov model
+clear all;
 
 O = 1; %Number of dimensions
-T = 5; %Time series length
-nex = 20; %Number of examples
-%x = linspace(0, pi, T);
-x = linspace(0, 1, T);
-%data = sin(x);
-data = linspace(0, 1, T);
+T = 10; %Time series length
+nex = 40; %Number of examples
+x = linspace(0, pi, T);
+data = sin(x);
 data = repmat(data, [1 1 nex]);
-noise = randn(O, T, nex) * 0.2;
+noise = randn(O, T, nex) * 0.05;
+trainSplit = 20;
 
 data = data + noise;
-M = 1; %Number of Gaussians
-Q = 4; %Number of states
-left_right = 0;
 
-prior0 = normalise(rand(Q,1));
-transmat0 = mk_stochastic(rand(Q,Q));
+M = 2; %Number of Gaussians
+Q = 20; %Number of states
 
-[mu0, Sigma0] = mixgauss_init(Q*M, reshape(data, [O T*nex]), 'full');
-mu0 = reshape(mu0, [O Q M]);
-Sigma0 = reshape(Sigma0, [O O Q M]);
-mixmat0 = mk_stochastic(rand(Q,M));
+model = bcf.models.HMM(Q, M);
+model.train(data(:, :, 1:trainSplit));
 
-[LL, prior1, transmat1, mu1, Sigma1, mixmat1] = ...  
-    mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 10);
+model.calculateNoiseDistribution(data(:, :, trainSplit));
 
-[B, B2] = mixgauss_prob(data(:,:,10), mu1, Sigma1, mixmat1);
-[path] = viterbi_path(prior1, transmat1, B);
+%Modify and test transition matrix
+%model.transmat(model.transmat < 0.01) = 0.01;
+%model.transmat = normalize(model.transmat, 2);
 
-x2 = linspace(3, 1, T);
-x3 = sin(x);
-
-mhmm_logprob(x2, prior1, transmat1, mu1, Sigma1, mixmat1)
-mhmm_logprob(x3, prior1, transmat1, mu1, Sigma1, mixmat1)
-
-samples = mhmm_sample(3 * T, nex, prior1, transmat1, mu1, Sigma1, mixmat1);
-
-
-%Plot data
-% for i = 1:size(data, 3)
-%     %plot(x, [data(1, :, i); samples(1, :, i)]);
-%     plot(data(1, :, i));
-%     hold on
-% end
-
-
-d2 = num2cell(data, [1 2]); % each elt of the 3rd dim gets its own cell
-obslik = mixgauss_prob(data(:, :, 1), mu1, Sigma1, mixmat1);
-outpu
-[alpha, beta, gamma, ll] = fwdback(prior1, transmat1, obslik, 'fwd_only', 1, 'scaled', 1);
-o = hmmForecast(prior1, transmat1, mu1, Sigma1, mixmat1, data(:, :, 1), 1);
-
-output = data;
-for i = 1:size(data, 3)
-    output(:, :, i) = hmmForecast(prior1, transmat1, mu1, Sigma1, mixmat1, data(:, :, i), 1);
-    obslik2 = mixgauss_prob(data(:, :, i), mu1, Sigma1, mixmat1);
+output = data(:, :, trainSplit + 1:end);
+for i = 1:size(output, 3)
+    output(:, :, i) = model.forecastAll(output(:, :, i), 1, 'window', 3);
 end
 
-obslik2 = mixgauss_prob(x2, mu1, Sigma1, mixmat1);
-[alpha2, beta, gamma, ll] = fwdback(prior1, transmat1, obslik2, 'fwd_only', 1, 'scaled', 1);
-o2 = hmmForecast(prior1, transmat1, mu1, Sigma1, mixmat1, x2, 1);
-
-
-for i = 1:size(data, 3)
-    %plot(x, [data(1, :, i); samples(1, :, i)]);
-    plot(x, [data(1, :, i); output(1, :, i)]);
+for i = 1:size(output, 3)
+    plot(x, [data(:, :, trainSplit + i); output(:, :, i)]);
     hold on
 end
+
+%Test noisy data
+noisy = sin(x);
+noisy = noisy + randn(O, T, 1) * 0.3;
+
+noisyOut = model.forecastAll(noisy, 1);
+
+plot(x, [noisy; noisyOut]);

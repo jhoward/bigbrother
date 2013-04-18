@@ -25,7 +25,7 @@ classdef TDNN < bcf.models.Model
             val = cell2num(val);
         end
         
-        function output = forecastAll(obj, data, ahead)
+        function output = forecastAll(obj, data, ahead, varargin)
             if ahead == 1
                 net = obj.net1;
             elseif ahead == obj.ahead 

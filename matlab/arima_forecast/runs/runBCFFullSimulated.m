@@ -1,3 +1,4 @@
+clear all;
 %Visualize Simulated Data.
 load('./data/simulatedData.mat');
 
@@ -32,12 +33,12 @@ myModel = bcf.models.Arima(model);
 myModel.calculateNoiseDistribution(input);
 predinput = myModel.forecastAll(input, ahead);
 
-%Determine forecasting score.
-mape = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'mape');
-mse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'mse');
-rmse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'rmse');
-
-fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
+% %Determine forecasting score.
+% mape = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'mape');
+% mse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'mse');
+% rmse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'rmse');
+% 
+% fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
 
 %TYPICAL PLOTS FOR EDIFICATION
 plotStart = 2700;
@@ -58,55 +59,52 @@ for i = 1:size(dTimes, 2)
 end
 
 
-%TRAIN TDNN
-%Create sample set - I can do this better later.
-tmpData = ones(size(res, 1), size(dTimes, 2) * data.actLength);
+%Train HMM
+tmpData = ones(size(res, 1), data.actLength, size(dTimes, 2));
 
 for i = 1:size(dTimes, 2)
-    tmpData(:, (i - 1) * data.actLength + 1:i * data.actLength) = res(dTimes(i) + data.blocksInDay:dTimes(i) + data.blocksInDay + data.actLength - 1);
+    tmpData(:, :, i) = res(dTimes(i) + data.blocksInDay:dTimes(i) + data.blocksInDay + data.actLength - 1);
 end
 
-trainData = mat2cell(tmpData, size(tmpData, 1), ones(size(dTimes, 2), 1) * data.actLength);
-
-timeDelay = 6;
-hiddenNodes = 20;
-%cinput = tonndata(trainData, true, false);
-cinput = trainData;
-
-net = timedelaynet(1:timeDelay, hiddenNodes);
-
-net.divideParam.trainRatio = 70/100;
-net.divideParam.valRatio = 15/100;
-net.divideParam.testRatio = 15/100;
-
-[xs, xi, ai, ts] = preparets(net, cinput(:, 1:end - ahead), cinput(:, ahead + 1:end));
-netAhead = train(net, xs, ts, xi, ai);
-[xs, xi, ai, ts] = preparets(net, cinput(:, 1:end - 1), cinput(:, 1 + 1:end));
-net1 = train(net, xs, ts, xi, ai);
-
-modelTDNN = bcf.models.TDNN(net1, netAhead, ahead);
-modelTDNN.calculateNoiseDistribution(tmpData);
-tdpredoutput = modelTDNN.forecastAll(tmpData, 1);
-% 
-% mape = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'mape');
-% mse = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'mse');
-% rmse = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'rmse');
-% 
-% fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
-% 
-
-x = linspace(1, 100, 100);
-plot(x, [tmpData(1:100); tdpredoutput(1:100)]);
+modelHMM = bcf.models.HMM(data.actLength + 5, 2);
+modelHMM.train(tmpData);
+modelHMM.calculateNoiseDistribution(tmpData);
 
 %Train models
 modelGaussian = bcf.models.Gaussian(myModel.noiseMu, myModel.noiseSigma);
 modelGaussian.calculateNoiseDistribution(res);
 
-models = {modelGaussian modelTDNN};
+%Determine naive forecasting scores
+% %Determine forecasting score.
+
+
+gaussOut = modelGaussian.forecastAll(res, 1);
+
+rmse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'rmse');
+fprintf(1, 'Input data Error rates -- rmse:%f\n', rmse);
+
+rmse = errperf(gaussOut(:, sdiff:end), res(:, sdiff:end), 'rmse');
+fprintf(1, 'Gauss fit res data Error rates -- rmse:%f\n', rmse);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+models = {modelGaussian modelHMM};
+
 
 forecaster = bcf.BayesianForecaster(models);
 [yprime, probs, ms] = forecaster.forecastAll(res, 'aggregate');
-[yprime2, probs, ms] = forecaster.forecastAll(res, 'best');
+[yprime, probs, ms] = forecaster.forecastAll(res, 'best');
 
 mape = errperf(yprime(:, sdiff:end), res(:, sdiff:end), 'mape');
 mse = errperf(yprime(:, sdiff:end), res(:, sdiff:end), 'mse');
@@ -114,17 +112,10 @@ rmse = errperf(yprime(:, sdiff:end), res(:, sdiff:end), 'rmse');
 
 fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
 
-% mape = errperf(yprime2(:, sdiff:end), output(:, sdiff:end), 'mape');
-% mse = errperf(yprime2(:, sdiff:end), output(:, sdiff:end), 'mse');
-% rmse = errperf(yprime2(:, sdiff:end), output(:, sdiff:end), 'rmse');
-% 
-% fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
-
 x = linspace(1, plotSize, plotSize);
 plot(x, [res(:, plotStart:plotStart + plotSize - 1); yprime(:, plotStart:plotStart + plotSize - 1)]);
 
-
-plotStart = 2650
+plotStart = 2250
 
 total = predinput + yprime;
 
@@ -139,10 +130,58 @@ plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:pl
 
 
 
-tdpredoutput2 = modelTDNN.forecastAll(res(1, 3084:3098), 1);
-x = linspace(1, 15, 15);
-plot(x, [res(1, 3084:3098); tdpredoutput2(1, 1:15)]);
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+%Forecasting for other functions
+% %TRAIN TDNN
+% %Create sample set - I can do this better later.
+% tmpData = ones(size(res, 1), size(dTimes, 2) * data.actLength);
+% 
+% for i = 1:size(dTimes, 2)
+%     tmpData(:, (i - 1) * data.actLength + 1:i * data.actLength) = res(dTimes(i) + data.blocksInDay:dTimes(i) + data.blocksInDay + data.actLength - 1);
+% end
+% 
+% trainData = mat2cell(tmpData, size(tmpData, 1), ones(size(dTimes, 2), 1) * data.actLength);
+% 
+% timeDelay = 6;
+% hiddenNodes = 20;
+% %cinput = tonndata(trainData, true, false);
+% cinput = trainData;
+% 
+% net = timedelaynet(1:timeDelay, hiddenNodes);
+% 
+% net.divideParam.trainRatio = 70/100;
+% net.divideParam.valRatio = 15/100;
+% net.divideParam.testRatio = 15/100;
+% 
+% [xs, xi, ai, ts] = preparets(net, cinput(:, 1:end - ahead), cinput(:, ahead + 1:end));
+% netAhead = train(net, xs, ts, xi, ai);
+% [xs, xi, ai, ts] = preparets(net, cinput(:, 1:end - 1), cinput(:, 1 + 1:end));
+% net1 = train(net, xs, ts, xi, ai);
+% 
+% modelTDNN = bcf.models.TDNN(net1, netAhead, ahead);
+% modelTDNN.calculateNoiseDistribution(tmpData);
+% tdpredoutput = modelTDNN.forecastAll(tmpData, 1);
+% % 
+% % mape = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'mape');
+% % mse = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'mse');
+% % rmse = errperf(tdpredoutput(:, sdiff:end), trainData(:, sdiff:end), 'rmse');
+% % 
+% % fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
+% % 
+% 
+% x = linspace(1, 100, 100);
+% plot(x, [tmpData(1:100); tdpredoutput(1:100)]);

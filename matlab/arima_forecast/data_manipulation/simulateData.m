@@ -7,7 +7,7 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     bgAdjust = 1.0;
     numActs = 100;
     actLength = 25;
-    actSize = 2.0;
+    actSize = 4.0;
     actStd = 0.001;
     
 %     dayLength = 20;

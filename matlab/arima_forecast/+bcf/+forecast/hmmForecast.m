@@ -1,19 +1,12 @@
 function output = hmmForecast(obj, data, ahead)
-(prior, transmat, mu, sigma, mixmat, data, ahead)
     %prior should be a 1 by numStates
     %mu = sizeDimensions by States by numMixtures
     
     output = data;
-    
-    %Compute the expected value for each state
-    tmpMix = reshape(mixmat, [1 size(mixmat)]);
-    tmpMix = repmat(tmpMix, [size(mu, 1) 1 1]);
-    tmpMu = mu .* tmpMix;
-    eVals = sum(tmpMu, 3);
         
     %Set the obeservation likelihoods for the whole dataset
-    obslik = mixgauss_prob(data, mu, sigma, mixmat);
-    [alpha, ~, gamma, ~] = fwdback(prior, transmat, obslik, 'fwd_only', 1);
+    obslik = mixgauss_prob(data, obj.mu, obj.sigma, obj.mixmat);
+    [alpha, ~, gamma, ~] = fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1);
     
     for t = 1:size(data, 2) - ahead
         %Get the current state
@@ -25,13 +18,13 @@ function output = hmmForecast(obj, data, ahead)
         
         for i = 1:ahead
             %Step ahead in states
-            futureState = transmat' * futureState;
+            futureState = obj.transmat' * futureState;
             futureState(futureState < 0.0001) = 0.0001;
             futureState = futureState / sum(futureState);
         end
         
         %Compute the output from the future state.
-        output(:, t + ahead) = sum(futureState' .* eVals, 2);
+        output(:, t + ahead) = sum(futureState' .* obj.stateEVal, 2);
     end
 end
 
