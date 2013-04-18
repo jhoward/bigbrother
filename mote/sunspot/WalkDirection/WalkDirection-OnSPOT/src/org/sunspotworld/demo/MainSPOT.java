@@ -133,7 +133,9 @@ public class MainSPOT extends MIDlet {
         
         boolean reportLength = false;   //ADDED for printing out the delay time for cooldown state
         int CONSOLWIDTH = 80;           //ADDED for formatting output to screen for pretty display
-        
+
+        sleepManager.disableDeepSleep();
+        System.out.println("Disabled deep sleep");
         System.out.println("***PROGRAM READY***");
         
         ledc.addCommand(Const.LED_PROGRAM_READY);
@@ -350,7 +352,7 @@ public class MainSPOT extends MIDlet {
                 timeOffset = tmpData.time;
                 System.out.println("The recieved system time was: " + timeOffset);
                 System.out.println("The internal mote time is: " + System.currentTimeMillis());
-                if (System.currentTimeMillis()/100 > 315360000){ //if on board time is greater than a year dont use offset
+                if (System.currentTimeMillis()/100 < 315360000){ //if on board time is less than a year dont use offset
                     System.out.println("The offset will be used");
                     useOffset = true;
                 }
