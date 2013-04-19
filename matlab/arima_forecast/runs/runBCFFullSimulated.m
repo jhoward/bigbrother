@@ -100,7 +100,6 @@ modelHMM2.calculateNoiseDistribution(tmpDataDay);
 modelHMM2.prior(modelHMM.prior < 0.01) = 0.01;
 modelHMM2.prior = normalize(modelHMM.prior);
 
-
 %Test the forecast
 output = tmpData;
 
@@ -190,10 +189,14 @@ plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:pl
 %Print out all the forecasts in dTimes
 x = linspace(1, plotSize, plotSize);
 for i = 1:size(dTimes, 2)
-    plotStart = dTimes(i) + data.blocksInDay - 30;
+    dTimes(i)
+    %plotStart = dTimes(i) + data.blocksInDay - 30;
+    plotStart = dTimes(i) - 30;
     plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1)]);
     waitforbuttonpress
 end
+
+
 
 
 
