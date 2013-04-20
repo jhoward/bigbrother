@@ -183,9 +183,6 @@ fprintf(1, 'Anomaly error rates adjusted -- rmse:%f\n', rmse);
 rmse = errperf(aData(:, sdiff:end), aForecast(:, sdiff:end), 'rmse');
 fprintf(1, 'Anomaly error rates base -- rmse:%f\n', rmse);
 
-x = linspace(1, plotSize, plotSize);
-plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1)]);
-
 %Print out all the forecasts in dTimes
 x = linspace(1, plotSize, plotSize);
 for i = 1:size(dTimes, 2)
@@ -195,6 +192,10 @@ for i = 1:size(dTimes, 2)
     plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1)]);
     waitforbuttonpress
 end
+
+plotStart = 1740
+x = linspace(1, plotSize, plotSize);
+plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1)]);
 
 
 

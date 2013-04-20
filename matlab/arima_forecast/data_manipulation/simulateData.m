@@ -3,10 +3,10 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     dayLength = 96;
     numDays = 200;
     bgSize = 10;
-    bgStd = 0.1;
+    bgStd = 0.03;
     bgAdjust = 1.0;
     numActs = 100;
-    actLength = 12;
+    actLength = 15;
     actSize = 3.0;
     actStd = 0.001;
     
@@ -19,7 +19,7 @@ function [data, times, actTimes, blocksInDay] = simulateData()
 %     actSize = 2.0;
 %     actStd = 0.0;
     
-    [data, times, actTimes] = createSimulatedData(numDays, dayLength, ...
+    [data, times, actTimes, actTypes] = createSimulatedData(numDays, dayLength, ...
                     bgSize, bgStd, numActs, actLength, actSize, actStd, bgAdjust);
     
     blocksInDay = dayLength;
@@ -30,16 +30,18 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     sd.blocksInDay = blocksInDay;
     sd.sensors = [1];
     sd.actLength = actLength;
+    sd.actTypes = actTypes;
     data = sd;
     data.actTimes = data.actTimes'
     save('./data/simulatedData.mat', 'data');
 end
 
-function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize, bgStd, ...
+function [data times actTimes actTypes] = createSimulatedData(numDays, dayLength, bgSize, bgStd, ...
                             numActs, actLength, actSize, actStd, bgAdjust)
     
     data = [];
     actTimes = [];
+    actTypes = [];
     
     %Create times array
     times = linspace(0, numDays, numDays*dayLength);
@@ -53,9 +55,15 @@ function [data times actTimes] = createSimulatedData(numDays, dayLength, bgSize,
 
     possibleStartLocation = size(data, 1);
     for i = 1:numActs
-        actData = createActivity(actLength, actSize, actStd, 0);
+        if mod(i, 2) == 0
+            atype = 0;
+        else
+            atype = 4;
+        end
+        actData = createActivity(actLength, actSize, actStd, atype);
         sl = floor(rand * (possibleStartLocation - actLength));
         actTimes = [actTimes sl]; %#ok<AGROW>
+        actTypes = [actTypes atype]; %#ok<AGROW>
         fprintf(1, 'Activity started at %i\n', sl);
         data(sl:sl + actLength - 1, 1) = data(sl:sl + actLength - 1, 1) + actData;
     end
@@ -91,6 +99,11 @@ function actData = createActivity(actLength, size, std, type)
     elseif type == 3
         actData = linspace(0, -1 * size, actLength);
         actData = actData';
+    elseif type == 4
+        actData = linspace(0, pi, actLength);
+        actData = size * sin(actData');
+        tmp = linspace(actData(5), -1, actLength - 5);
+        actData(6:end) = tmp';
     end
     
     noiseData = random('norm', 0, std, [actLength, 1]);
