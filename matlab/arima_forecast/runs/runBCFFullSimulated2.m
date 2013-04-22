@@ -1,20 +1,19 @@
 clear all;
-%Visualize Simulated Data.
 load('./data/simulatedData.mat');
 
 %SETUP DATA
-plotSize = data.blocksInDay * 2;
+plotSize = data.blocksInDay;
 sensorNumber = 1;
 ahead = 1;
 windowSize = 10;
-numErrorWindows = 10;
 
-maxInput = data.blocksInDay * 70; %6 months or so
-outputRange = data.blocksInDay * 129; %3 weeks of output
-plotStart = data.blocksInDay * 17;
-input = data.data(sensorNumber, 1:maxInput);
-output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
+trainPercent = 0.7;
 
+inputMax = floor((size(data.data, 2) / data.blocksInDay) * trainPercent) * data.blocksInDay;
+input = data.data(sensorNumber, 1:inputMax);
+output = data.data(sensorNumber, inputMax + 1:end);
+
+%=======================ARIMA==========================
 
 %SETUP ARIMA MODEL
 ar = 1;
@@ -31,26 +30,43 @@ model = estimate(arimaModel, input', 'print', false);
 
 myModel = bcf.models.Arima(model);
 myModel.calculateNoiseDistribution(input);
-predinput = myModel.forecastAll(input, ahead);
+predInput = myModel.forecastAll(input, ahead);
+predOutput = myModel.forecastAll(output, ahead);
+resInput = predInput - input;
+resOutput = predOutput - output;
 
-% %Determine forecasting score.
-% mape = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'mape');
-% mse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'mse');
-% rmse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'rmse');
-% 
-% fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rmse);
 
-%TYPICAL PLOTS FOR EDIFICATION
-plotStart = 2700;
+%Arima model accuracy
+trainRmse = errperf(input(sensorNumber, sdiff:end), predInput(sensorNumber, sdiff:end), 'rmse');
+testRmse = errperf(output(sensorNumber, sdiff:end), predOutput(sensorNumber, sdiff:end), 'rmse');
+fprintf(1, 'Arima fit Error rates -- train rmse:%f      test rmse %f\n', trainRmse, testRmse);
 
-%plot a typical window
-x = linspace(1, plotSize, plotSize);
-plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1)]);
+%=========================END ARIMA=========================
 
-%Generate a residual set
-res = predinput - input;
-%d = data.actTimes(data.actTimes > maxInput + sdiff);
-dTimes = data.actTimes(data.actTimes < (maxInput - data.blocksInDay - data.actLength) & data.actTimes > sdiff);
+%Setup the times.
+iIndex = find(data.actTimes < (inputMax - data.blocksInDay - data.actLength) & data.actTimes > sdiff);
+iTimes = data.actTimes(iIndex);
+iTypes = data.actTypes(iIndex);
+oIndex = find(data.actTimes > (inputMax + sdiff + 1) & data.actTimes < (size(data.data, 2) - data.blocksInDay - data.actLength));
+oTimes = data.actTimes(oIndex);
+oTypes = data.actTypes(oIndex);
+oTimes = oTimes - inputMax;
+
+
+%Get all residual activities from this and the next day
+actTypes = unique(data.actTypes);
+for i = 1:size(actTypes)
+    tmpIndex = find(iTypes == actTypes(i));
+    for j = 1:size(tmpIndex, 2)
+        iTypes(iTypes = actTYpes(i))
+end
+
+
+
+
+
+
+
 x = linspace(1, data.actLength + 3, data.actLength + 3);
 
 %Plot day ahead
@@ -65,6 +81,8 @@ for i = 1:size(dTimes, 2)
     hold on;
 end
 
+
+%TODO FINISH THIS PART
 %Train HMM on day after
 tmpData = ones(size(res, 1), data.actLength + 3, size(dTimes, 2));
 tmpData2 = ones(size(res, 1), data.actLength, size(dTimes, 2));
