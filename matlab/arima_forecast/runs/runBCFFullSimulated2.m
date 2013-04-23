@@ -65,8 +65,6 @@ end
 
 
 
-
-
 x = linspace(1, data.actLength + 3, data.actLength + 3);
 
 %Plot day ahead
