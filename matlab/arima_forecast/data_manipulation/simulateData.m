@@ -1,17 +1,17 @@
 function [data, times, actTimes, blocksInDay] = simulateData()
 %Create simulated data.
     dayLength = 96;
-    numDays = 100;
-    bgSize = 10;
-    bgStd = 0.1;
+    numDays = 200;
+    bgSize = 1.5;
+    bgStd = 0.01;
     bgAdjust = 1.0;
     numActs = 0;
     actLength = 15;
-    actSize = 3.0;
+    actSize = 1.5;
     actStd = 0.001;
-    numDayActs = 10;
+    numDayActs = 20;
     dayActsSize = 3.0;
-    dayActsStd = 0.001;
+    dayActsStd = 0.01;
     
 %     dayLength = 20;
 %     numDays = 30;
@@ -22,8 +22,9 @@ function [data, times, actTimes, blocksInDay] = simulateData()
 %     actSize = 2.0;
 %     actStd = 0.0;
     
-    [data, times, actTimes, actTypes] = createSimulatedData(numDays, dayLength, ...
-                    bgSize, bgStd, numActs, actLength, actSize, actStd, bgAdjust);
+    [data, times, actTimes, actTypes actDays] = createSimulatedData(numDays, dayLength, ...
+                    bgSize, bgStd, numActs, actLength, actSize, actStd, bgAdjust, dayActsSize, ...
+                    dayActsStd, numDayActs);
     
     blocksInDay = dayLength;
     
@@ -35,16 +36,19 @@ function [data, times, actTimes, blocksInDay] = simulateData()
     sd.actLength = actLength;
     sd.actTypes = actTypes;
     data = sd;
-    data.actTimes = data.actTimes'
+    data.actTimes = data.actTimes';
+    data.actDays = actDays;
+    data.dayTypes = zeros(1, numDayActs);
     save('./data/simulatedData.mat', 'data');
 end
 
-function [data times actTimes actTypes] = createSimulatedData(numDays, dayLength, bgSize, bgStd, ...
-                            numActs, actLength, actSize, actStd, bgAdjust)
+function [data times actTimes actTypes actDays] = createSimulatedData(numDays, dayLength, bgSize, bgStd, ...
+                            numActs, actLength, actSize, actStd, bgAdjust, dayActSize, dayActStd, numDayActs)
     
     data = [];
     actTimes = [];
     actTypes = [];
+    actDays = [];
     
     %FINSIH THIS TOMORROW
     
@@ -59,7 +63,11 @@ function [data times actTimes actTypes] = createSimulatedData(numDays, dayLength
     end
 
     for i = 1:numDayActs
-        createDayAct(dayActSize, dayActStd, dayType);
+        %Pick a random day
+        tmpDay = floor(rand * numDays);
+        dayData = createDayAct(dayLength, dayActSize, dayActStd, 0, bgAdjust);
+        data(tmpDay * dayLength + 1:tmpDay*dayLength + dayLength, :) = dayData; 
+        actDays = [actDays (tmpDay * dayLength)];
     end
     
     
@@ -81,14 +89,33 @@ function [data times actTimes actTypes] = createSimulatedData(numDays, dayLength
 
 end
 
-function dayData = createBackgroundOneDay(dayLength, size, std, adjust)
-    
+function dayData = createDayAct(dayLength, dayActSize, dayActStd, dayType, dayAdjust)
     dayData = linspace(0, pi, dayLength);
-    dayData = size * sin(dayData');
+    dayData = dayActSize * sin(dayData');
+    
+    noiseData = random('norm', 0, dayActStd, [dayLength, 1]);
+    dayData = dayData + noiseData + dayAdjust;
+end
+
+function dayData = createBackgroundOneDay(dayLength, daySize, std, adjust)
+    
+    %First 25 percent and last
+    dayData = linspace(0, pi, dayLength);
+    dayData = daySize * sin(dayData');
+    
+    %mid 50 percent
+    index = floor(dayLength / 4);
+    d = linspace(dayData(index)^0.5, (dayData(index)^0.5) / 1.2, floor(dayLength / 4));
+    d2 = linspace((dayData(index)^0.5) / 1.2, dayData(index)^0.5, floor(dayLength / 4));
+    d = [d d2];
+    d = bsxfun(@times, d, d);
+    dayData(index:index + size(d, 2) - 1, 1) = d';
+    
+    
     
     %add Noise
     noiseData = random('norm', 0, std, [dayLength, 1]);
-    dayData = dayData + noiseData + rand * adjust;
+    dayData = dayData + noiseData + adjust;
 end
 
 function actData = createActivity(actLength, size, std, type)
