@@ -1,14 +1,17 @@
 function [data, times, actTimes, blocksInDay] = simulateData()
 %Create simulated data.
     dayLength = 96;
-    numDays = 200;
+    numDays = 100;
     bgSize = 10;
     bgStd = 0.1;
     bgAdjust = 1.0;
-    numActs = 35;
+    numActs = 0;
     actLength = 15;
     actSize = 3.0;
     actStd = 0.001;
+    numDayActs = 10;
+    dayActsSize = 3.0;
+    dayActsStd = 0.001;
     
 %     dayLength = 20;
 %     numDays = 30;
@@ -53,6 +56,11 @@ function [data times actTimes actTypes] = createSimulatedData(numDays, dayLength
         data = [data; dayData]; %#ok<AGROW>
     end
 
+    for i = 1:numDayActs
+        createDayAct(dayActSize, dayActStd, dayType);
+    end
+    
+    
     possibleStartLocation = size(data, 1);
     for i = 1:numActs
         if mod(i, 2) == 0
@@ -67,6 +75,8 @@ function [data times actTimes actTypes] = createSimulatedData(numDays, dayLength
         fprintf(1, 'Activity started at %i\n', sl);
         data(sl:sl + actLength - 1, 1) = data(sl:sl + actLength - 1, 1) + actData;
     end
+    
+
 end
 
 function dayData = createBackgroundOneDay(dayLength, size, std, adjust)

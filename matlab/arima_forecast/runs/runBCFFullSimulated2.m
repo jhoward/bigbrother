@@ -35,7 +35,6 @@ predOutput = myModel.forecastAll(output, ahead);
 resInput = predInput - input;
 resOutput = predOutput - output;
 
-
 %Arima model accuracy
 trainRmse = errperf(input(sensorNumber, sdiff:end), predInput(sensorNumber, sdiff:end), 'rmse');
 testRmse = errperf(output(sensorNumber, sdiff:end), predOutput(sensorNumber, sdiff:end), 'rmse');
@@ -52,163 +51,179 @@ oTimes = data.actTimes(oIndex);
 oTypes = data.actTypes(oIndex);
 oTimes = oTimes - inputMax;
 
+iActs = {};
+oActs = {};
+
+al = data.actLength + 3;
+x = linspace(1, al, al);
+
+%Get all residual activities from this and the next day
+%TODO MAKE THIS MULTIVARIATE
+actTypes = unique(data.actTypes);
+for i = 1:size(actTypes, 2)
+    tmpIndex = find(iTypes == actTypes(1, i));
+    iActs{2 * i - 1} = ones(1 ,al, size(tmpIndex, 2));
+    iActs{2 * i} = ones(1, al, size(tmpIndex, 2));
+    for j = 1:size(tmpIndex, 2)
+        iActs{2 * i - 1}(1, :, j) = resInput(1, iTimes(tmpIndex(j)):iTimes(tmpIndex(j)) + al - 1);
+        iActs{2 * i}(1, :, j) = resInput(1, iTimes(tmpIndex(j)) + data.blocksInDay:iTimes(tmpIndex(j)) + data.blocksInDay + al - 1);
+    end
+end
 
 %Get all residual activities from this and the next day
 actTypes = unique(data.actTypes);
-for i = 1:size(actTypes)
-    tmpIndex = find(iTypes == actTypes(i));
+for i = 1:size(actTypes, 2)
+    tmpIndex = find(oTypes == actTypes(1, i));
+    oActs{2 * i - 1} = ones(1, al, size(tmpIndex, 2));
+    oActs{2 * i} = ones(1, al, size(tmpIndex, 2));
     for j = 1:size(tmpIndex, 2)
-        iTypes(iTypes = actTYpes(i))
+        oActs{2 * i - 1}(1, :, j) = resOutput(1, oTimes(tmpIndex(j)):oTimes(tmpIndex(j)) + al - 1);
+        oActs{2 * i}(1, :, j) = resOutput(1, oTimes(tmpIndex(j)) + data.blocksInDay:oTimes(tmpIndex(j)) + data.blocksInDay + al - 1);
+    end
 end
 
-
-
-
-
-x = linspace(1, data.actLength + 3, data.actLength + 3);
-
-%Plot day ahead
-for i = 1:size(dTimes, 2)
-    plot(x, res(dTimes(i) + data.blocksInDay:dTimes(i) + data.actLength + data.blocksInDay + 2));
-    hold on;
+%================================PLOTTING==============================
+%Plot the input activities
+for i = 1:length(oActs)
+    tmpData = oActs{i};
+    for j = 1:size(tmpData, 3)
+        plot(x, tmpData(1, :, j));
+        hold on;
+    end
+    hold off
+    waitforbuttonpress;
 end
 
-%Plot day of
-for i = 1:size(dTimes, 2)
-    plot(x, res(dTimes(i):dTimes(i) + data.actLength + 2));
-    hold on;
+%===============================END PLOTTING===========================
+
+
+% =========================TRAIN MODELS===================================
+
+modelHMMS = {};
+
+for i = 1:length(oActs)    
+    modelHMMS{i} = bcf.models.HMM(al + 22, 2);
+    modelHMMS{i}.train(oActs{i});
+    modelHMMS{i}.calculateNoiseDistribution(oActs{i});
+
+    modelHMMS{i}.prior(modelHMMS{i}.prior < 0.01) = 0.01;
+    modelHMMS{i}.prior = normalize(modelHMMS{i}.prior);
 end
 
-
-%TODO FINISH THIS PART
-%Train HMM on day after
-tmpData = ones(size(res, 1), data.actLength + 3, size(dTimes, 2));
-tmpData2 = ones(size(res, 1), data.actLength, size(dTimes, 2));
-
-for i = 1:size(dTimes, 2)
-    tmpData(:, :, i) = res(dTimes(i) + data.blocksInDay:dTimes(i) + data.blocksInDay + data.actLength + 2);
-end
-
-
-for i = 1:size(dTimes, 2)
-    tmpData2(:, :, i) = res(dTimes(i) + data.blocksInDay - 2:dTimes(i) + data.blocksInDay + data.actLength - 3);
-end
-
-modelHMM = bcf.models.HMM(data.actLength + 15, 2);
-modelHMM.train(tmpData);
-modelHMM.calculateNoiseDistribution(tmpData);
-
-modelHMM.prior(modelHMM.prior < 0.01) = 0.01;
-modelHMM.prior = normalize(modelHMM.prior);
-
-
-%%Train HMM on day of error
-tmpDataDay = ones(size(res, 1), data.actLength + 3, size(dTimes, 2));
-
-for i = 1:size(dTimes, 2)
-    tmpDataDay(:, :, i) = res(dTimes(i):dTimes(i) + data.actLength + 2);
-end
-
-modelHMM2 = bcf.models.HMM(data.actLength + 15, 2);
-modelHMM2.train(tmpDataDay);
-modelHMM2.calculateNoiseDistribution(tmpDataDay);
-
-modelHMM2.prior(modelHMM.prior < 0.01) = 0.01;
-modelHMM2.prior = normalize(modelHMM.prior);
-
-%Test the forecast
-output = tmpData;
-
-x = linspace(1, size(tmpData, 2), size(tmpData, 2));
-for i = 1:size(output, 3)
-    output(:, :, i) = modelHMM.forecastAll(output(:, :, i), 1, 'window', 4);
-end
-
-for i = 1:size(output, 3)
-    plot(x, [tmpData(:, :, i); output(:, :, i)]);
-    hold on
-end
-
-%Test the forecast for day of
-output = tmpDataDay;
-
-x = linspace(1, size(tmpDataDay, 2), size(tmpDataDay, 2));
-for i = 1:size(output, 3)
-    output(:, :, i) = modelHMM2.forecastAll(output(:, :, i), 1, 'window', 4);
-end
-
-for i = 1:size(output, 3)
-    plot(x, [tmpDataDay(:, :, i); output(:, :, i)]);
-    hold on
-end
-
-%Train models
 modelGaussian = bcf.models.Gaussian(myModel.noiseMu, myModel.noiseSigma);
-modelGaussian.calculateNoiseDistribution(res);
+modelGaussian.calculateNoiseDistribution(resInput);
+%==========================END TRAIN===================================
 
-%Determine naive forecasting scores
-% %Determine forecasting score.
 
-gaussOut = modelGaussian.forecastAll(res, 1);
+%=============================PLOT Forecasts on Models==================
+for i = 1:length(oActs)
+    for j = 1:size(oActs{i}, 3)
+        tmpForecast = modelHMMS{i}.forecastAll(oActs{i}(:, :, j), 1, 'window', 4);
+        plot(x, [oActs{i}(1, :, j); tmpForecast(1, :)]);
+        hold on
+    end
+    hold off
+    waitforbuttonpress;
+end
+%=============================END PLOT===================================
 
-rmse = errperf(predinput(:, sdiff:end), input(:, sdiff:end), 'rmse');
-fprintf(1, 'Input data Error rates -- rmse:%f\n', rmse);
 
-rmse = errperf(gaussOut(:, sdiff:end), res(:, sdiff:end), 'rmse');
-fprintf(1, 'Gauss fit res data Error rates -- rmse:%f\n', rmse);
+%=============================PERFORM FORECASTS========================
 
-models = {modelGaussian modelHMM modelHMM2};
-
-plotStart = 2250 + data.blocksInDay;
-plotSize = 100;
-rOut = res(:, plotStart:plotStart + plotSize - 1);
-
-fOut = modelHMM.forecastAll(rOut, 1, 'window', 3);
+models = modelHMMS;
+models{length(models) + 1} = modelGaussian;
 
 forecaster = bcf.BayesianForecaster(models);
-[yprime, probs, ms] = forecaster.forecastAll(res, 'aggregate');
-%[yprime, probs, ms] = forecaster.forecastAll(rOut, 'aggregate');
-%[yprime, probs, ms] = forecaster.forecastAll(res, 'best');
+[fInput, probsInput, ms] = forecaster.forecastAll(resInput, 'aggregate');
+[fOutput, probsOutput, ms] = forecaster.forecastAll(resOutput, 'aggregate');
 
-x = linspace(1, plotSize, plotSize);
-plot(x, [rOut(1, :); yprime(1, :)]);
-plot(x, [rOut(1, :); fOut(1, :)]);
+gaussInput = modelGaussian.forecastAll(resInput, ahead);
+gaussOutput = modelGaussian.forecastAll(resOutput, ahead);
 
-plot(x, [res(1, plotStart:plotStart + plotSize - 1); yprime(1, plotStart:plotStart + plotSize - 1)]);
+totalInput = predInput - fInput;
+totalOutput = predOutput - fOutput;
 
-rmse = errperf(yprime(:, sdiff:end), res(:, sdiff:end), 'rmse');
-fprintf(1, 'Residual Error rates Combined -- rmse:%f\n', rmse);
+%============================END FORECASTS=============================
 
-total = predinput - yprime;
 
-rmse = errperf(total(:, sdiff:end), input(:, sdiff:end), 'rmse');
-fprintf(1, 'New Error rates -- rmse:%f\n', rmse);
+%=============================DETERMINE SCORES=========================
 
-%Calculate residual during the new forecast spots
-yForecast = [];
-aData = [];
-aForecast = [];
-for i = 1:size(dTimes, 2)
-    st = dTimes(i);
-    yForecast = [yForecast total(st + data.blocksInDay - 5:st + data.blocksInDay + data.actLength + 5)]; 
-    aData = [aData input(st + data.blocksInDay - 5:st + data.blocksInDay + data.actLength + 5)];
-    aForecast = [aForecast predinput(st + data.blocksInDay - 5:st + data.blocksInDay + data.actLength + 5)];
-end
-rmse = errperf(aData(:, sdiff:end), yForecast(:, sdiff:end), 'rmse');
-fprintf(1, 'Anomaly error rates adjusted -- rmse:%f\n', rmse);
-rmse = errperf(aData(:, sdiff:end), aForecast(:, sdiff:end), 'rmse');
-fprintf(1, 'Anomaly error rates base -- rmse:%f\n', rmse);
+rmse = errperf(predInput(:, sdiff:end), input(:, sdiff:end), 'rmse');
+fprintf(1, 'Arima Input data Error rates -- rmse:%f\n', rmse);
 
-%Print out all the forecasts in dTimes
-x = linspace(1, plotSize, plotSize);
-for i = 1:size(dTimes, 2)
-    dTimes(i)
-    %plotStart = dTimes(i) + data.blocksInDay - 30;
-    plotStart = dTimes(i) - 30;
-    plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1)]);
-    waitforbuttonpress
+rmse = errperf(gaussInput(:, sdiff:end), resInput(:, sdiff:end), 'rmse');
+fprintf(1, 'Gauss fit res data Error rates -- rmse:%f\n', rmse);
+
+rmse = errperf(fInput(:, sdiff:end), resInput(:, sdiff:end), 'rmse');
+fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
+ 
+rmse = errperf(predOutput(:, sdiff:end), output(:, sdiff:end), 'rmse');
+fprintf(1, 'Arima Input data Error rates -- rmse:%f\n', rmse);
+
+rmse = errperf(gaussOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
+fprintf(1, 'Gauss fit res data Error rates -- rmse:%f\n', rmse);
+
+rmse = errperf(fOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
+fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
+ 
+%==============================PLOT RESULTS===============================
+
+
+xPlot = linspace(1, 100, 100);
+for i = 1:size(oTimes, 2)
+    t = oTimes(i);
+    plot(xPlot, [output(t - 20:t + 79); predOutput(t - 20: t + 79); totalOutput(t - 20: t + 79)]);
 end
 
-plotStart = 1740
-x = linspace(1, plotSize, plotSize);
-plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1)]);
+
+
+% plotStart = 2250 + data.blocksInDay;
+% plotSize = 100;
+% rOut = res(:, plotStart:plotStart + plotSize - 1);
+% 
+% fOut = modelHMM.forecastAll(rOut, 1, 'window', 3);
+% 
+
+% 
+% x = linspace(1, plotSize, plotSize);
+% plot(x, [rOut(1, :); yprime(1, :)]);
+% plot(x, [rOut(1, :); fOut(1, :)]);
+% 
+% plot(x, [res(1, plotStart:plotStart + plotSize - 1); yprime(1, plotStart:plotStart + plotSize - 1)]);
+% 
+% rmse = errperf(yprime(:, sdiff:end), res(:, sdiff:end), 'rmse');
+% fprintf(1, 'Residual Error rates Combined -- rmse:%f\n', rmse);
+% 
+% total = predinput - yprime;
+% 
+% rmse = errperf(total(:, sdiff:end), input(:, sdiff:end), 'rmse');
+% fprintf(1, 'New Error rates -- rmse:%f\n', rmse);
+% 
+% %Calculate residual during the new forecast spots
+% yForecast = [];
+% aData = [];
+% aForecast = [];
+% for i = 1:size(dTimes, 2)
+%     st = dTimes(i);
+%     yForecast = [yForecast total(st + data.blocksInDay - 5:st + data.blocksInDay + data.actLength + 5)]; 
+%     aData = [aData input(st + data.blocksInDay - 5:st + data.blocksInDay + data.actLength + 5)];
+%     aForecast = [aForecast predinput(st + data.blocksInDay - 5:st + data.blocksInDay + data.actLength + 5)];
+% end
+% rmse = errperf(aData(:, sdiff:end), yForecast(:, sdiff:end), 'rmse');
+% fprintf(1, 'Anomaly error rates adjusted -- rmse:%f\n', rmse);
+% rmse = errperf(aData(:, sdiff:end), aForecast(:, sdiff:end), 'rmse');
+% fprintf(1, 'Anomaly error rates base -- rmse:%f\n', rmse);
+% 
+% %Print out all the forecasts in dTimes
+% x = linspace(1, plotSize, plotSize);
+% for i = 1:size(dTimes, 2)
+%     dTimes(i)
+%     %plotStart = dTimes(i) + data.blocksInDay - 30;
+%     plotStart = dTimes(i) - 30;
+%     plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1)]);
+%     waitforbuttonpress
+% end
+% 
+% plotStart = 1740
+% x = linspace(1, plotSize, plotSize);
+% plot(x, [input(:, plotStart:plotStart + plotSize - 1); predinput(:, plotStart:plotStart + plotSize - 1); total(:, plotStart:plotStart + plotSize - 1)]);
