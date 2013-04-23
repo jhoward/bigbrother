@@ -46,6 +46,8 @@ function [data times actTimes actTypes] = createSimulatedData(numDays, dayLength
     actTimes = [];
     actTypes = [];
     
+    %FINSIH THIS TOMORROW
+    
     %Create times array
     times = linspace(0, numDays, numDays*dayLength);
     times = times';
