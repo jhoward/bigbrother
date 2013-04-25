@@ -11,7 +11,7 @@ classdef Arima < bcf.models.Model
             obj.model = model;
         end
         
-        function val = forecast(obj, data, ahead)
+        function val = forecastSingle(obj, data, ahead)
             val = obj.mu;
         end
         

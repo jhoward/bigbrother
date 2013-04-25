@@ -28,8 +28,9 @@ model2.calculateNoiseDistribution(data)
 models = {model1 model2};
 
 forecaster = bcf.BayesianForecaster(models);
-[yprime, probs, ms] = forecaster.forecastAll(data, 'aggregate');
+%[yprime, probs, ms] = forecaster.forecastAll(data, 'aggregate');
 [yprime2, probs, ms] = forecaster.forecastAll(data, 'best');
+[yprime, probs, ~] = forecaster.windowForecast(data, 3, 5, 1, 'aggregate');
 x = linspace(1, 200, 200);
 plot(x, [data; yprime; yprime2]);
 

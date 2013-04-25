@@ -18,12 +18,7 @@ classdef HMM < bcf.models.Model
             obj.M = M;
             
         end
-        
-        function val = forecast(obj, data, ahead)
-            %Perform this later
-            val = 1;
-        end
-        
+
         function train(obj, data) 
             %TODO Add in other options here to pre specify the matricies or
             %format them.
@@ -70,6 +65,10 @@ classdef HMM < bcf.models.Model
             else
                 output = bcf.forecast.hmmForecast(obj, data, ahead);
             end
+        end
+        
+        function output = forecastSingle(obj, data, ahead, varargin)
+            output = bcf.forecast.hmmForecastSingle(obj, data, ahead);
         end
             
         function prob = probabilityNoise(obj, data)

@@ -2,6 +2,9 @@ classdef BayesianForecaster < handle
     %BAYESIANFORECASTER Summary of this class goes here
     %   Detailed explanation goes here
     
+    %TODO FIX BAYESIAN FORECASTER.  PROBS DON'T COMPUTE CORRECTLY WITH HMMS
+    %right now.
+    
     properties
         models = {};
         minProb;
@@ -11,8 +14,8 @@ classdef BayesianForecaster < handle
     methods
         function obj = BayesianForecaster(models)
             obj.models = models;
-            obj.minProb = 0.0001;
-            obj.maxProb = 0.9999;
+            obj.minProb = 0.001;
+            obj.maxProb = 0.999;
             %obj.stds = ones(1, size(models, 2));
             %obj.means = zeros(1, size(models, 2));
         end
@@ -181,37 +184,76 @@ classdef BayesianForecaster < handle
         function [fdata probs models windows forecasts] = ...
                 windowForecast(obj, data, minWindow, maxWindow, ahead, ftype)
         
-            %TODO implement modles array
+            %Its fine to do this slowly for now
+            fdata = data;
             numWindows = maxWindow - minWindow + 1;
-            windows = ones(1, size(data, 2));
-            probs = ones(numWindows, size(obj.models, 2), size(data, 2));
-            probs = probs ./ size(obj.models, 2);
+            probs = ones(size(obj.models, 2), size(data, 2));
+            probs = probs ./ size(obj.models, 1);
+            
+            windows = zeros(size(obj.models, 2), size(data, 2)); %best window for each model
             models = [];
             
-            fdata = data;
-            forecasts = repmat(data, [1 1 numWindows]);
-            
+            forecasts = zeros(size(data, 1), size(obj.models, 2));            
+            wforecasts = zeros(size(data, 1), numWindows);
             %Array sizes
-            %probs          numWindows X numModels X lenghtData
-            %forecasts      dimData X lenghtData X numWindows
-            %i = time location in data
-            %j = window size
+            %probs                  numModels X lenghtData
+            %t = time location in data
+            %w = window size
             
-            for i = maxWindow + 1:size(data, 2) - ahead                
-                for j = minWindow:maxWindow
-                    winIndex = j - minWindow + 1;
-                    p = probs(winIndex, :, i); %size: 1 X numModels                    
-                    [f] = obj.forecastSingle(data(:, i - j:i + ahead), p, ahead, ftype);                    
+            %Loop over all data
+            for t = maxWindow + 1:size(data, 2) - ahead
+                
+                if mod(t, 1000) == 0
+                    fprintf(1, '%i\n', t);
+                end
+                %Loop over all models
+                for k = 1:size(obj.models, 2)
                     
-                    forecasts(:, i + ahead, winIndex) = f;
-                    probs(winIndex, :, i + ahead) = obj.updatepmodel(data(:, i - j:i + ahead), p, ahead);                    
+                    %Loop over all windows
+                    for w = minWindow:maxWindow
+                        wforecasts(:, w - minWindow + 1) = obj.models{k}.forecastSingle(data(:, t - w:t-1), 1);
+                    end
+                    
+                    %Remove the real data
+                    wres = bsxfun(@minus, wforecasts, data(:, t));
+                    
+                    %compute the prob of each residual for the noise dist
+                    pTmp = zeros(1, size(obj.models, 2));
+                    for w = 1:numWindows
+                        pTmp(1, w) = obj.models{k}.probabilityNoise(wres(:, w));
+                    end
+                    
+                    %Select the best window length
+                    [val, ind] = max(pTmp);
+                    
+                    windows(k, t) = ind + minWindow - 1;
+                    probs(k, t) = val;
                 end
                 
-                %Get the best probability
-                [~, i1] = max(max(probs(:, :, i), [], 2));
-                [~, i2] = max(max(probs(:, :, i), [], 1));
-                fdata(:, i + ahead) = forecasts(:, i + ahead, i1);
-                windows(1, i + ahead) = i1;
+                %Update probabilities and normalize.
+                probs(:, t) = probs(:, t-1) .* probs(:, t);
+                tmpP = probs(:, t);
+                tmpP(tmpP <= obj.minProb) = obj.minProb;
+                tmpP(tmpP >= obj.maxProb) = obj.maxProb;
+                tmpP = tmpP ./ sum(tmpP);
+                probs(:, t) = tmpP;
+               
+                if strcmp(ftype, 'aggregate')
+                    %Perform forecast based on current probabilities
+                    for k = 1:size(obj.models, 2)
+                        forecasts(:, k) = obj.models{k}.forecastSingle(data(:, t - windows(k, t) + 1:t), ahead);
+                    end
+                    tmp = sum(bsxfun(@times, forecasts, probs(:, t)'), 2);
+                    
+                    %Weight the forecasts by the probability
+                    fdata(:, t + ahead) = tmp;
+                end
+                
+                if strcmp(ftype, 'best')
+                    %Perform forecast based on current probabilities
+                    [v, ind] = max(probs(:, t));
+                    fdata(:, t + ahead) = obj.models{k}.forecastSingle(data(:, t - windows(ind, t) + 1:t), ahead);
+                end
             end
         end
     end

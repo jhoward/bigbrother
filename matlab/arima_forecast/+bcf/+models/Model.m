@@ -8,8 +8,8 @@ classdef Model < handle
     
     methods(Abstract)
         output = forecastAll(obj, data, ahead, varargin)
+        output = forecastSingle(obj, data, ahead, varargin)
         calculateNoiseDistribution(obj, data)
-        val = forecast(obj, data, ahead)
         val = probabilityNoise(obj, data)
     end    
 end

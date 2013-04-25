@@ -115,8 +115,8 @@ for i = 1:length(oActs)
     modelHMMS{i}.train(oActs{i});
     modelHMMS{i}.calculateNoiseDistribution(oActs{i});
 
-    %modelHMMS{i}.prior(modelHMMS{i}.prior < 0.001) = 0.001;
-    %modelHMMS{i}.prior = normalize(modelHMMS{i}.prior);
+    modelHMMS{i}.prior(modelHMMS{i}.prior < 0.0001) = 0.0001;
+    modelHMMS{i}.prior = normalize(modelHMMS{i}.prior);
 end
 
 modelGaussian = bcf.models.Gaussian(myModel.noiseMu, myModel.noiseSigma);
@@ -145,8 +145,8 @@ models{length(models) + 1} = modelGaussian;
 forecaster = bcf.BayesianForecaster(models);
 %[fInput, probsInput, ms] = forecaster.forecastAll(resInput, 'aggregate');
 %[fOutput, probsOutput, ms] = forecaster.forecastAll(resOutput(oTimes(1, 1)- 100:oTimes(1, 1) + 199), 'aggregate');
-[fOutput, probsOutput, ms] = forecaster.forecastAll(resOutput, 'aggregate');
-
+%[fOutput, probsOutput, ms] = forecaster.forecastAll(resOutput, 'aggregate');
+[fOutput, probsOutput, ms] = forecaster.windowForecast(resOutput, 3, 10, ahead, 'aggregate');
 
 %gaussInput = modelGaussian.forecastAll(resInput, ahead);
 gaussOutput = modelGaussian.forecastAll(resOutput, ahead);

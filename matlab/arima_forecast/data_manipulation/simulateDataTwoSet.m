@@ -1,7 +1,7 @@
 function [data, times, actTimes, blocksInDay] = simulateDataTwoSet()
 %Create simulated data from two processes.
     dayLength = 96;
-    numDays = 100;
+    numDays = 30;
     p1Size = 10;
     p2Size = 5;
     p1Std = 0.5;
