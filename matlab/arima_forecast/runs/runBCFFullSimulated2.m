@@ -4,7 +4,7 @@ load('./data/simulatedData.mat');
 %SETUP DATA
 plotSize = data.blocksInDay;
 sensorNumber = 1;
-ahead = 5;
+ahead = 10;
 windowSize = 10;
 
 trainPercent = 0.7;
@@ -104,30 +104,72 @@ xd = linspace(1, 250, 250);
 plot(xd, [data.data(iTimes(1) - 30:iTimes(1) + 219); predInput(iTimes(1) - 30:iTimes(1) + 219)]);
 
 %===============================END PLOTTING===========================
+iActs = {};
+inActs = {};
+oActs = {};
 
+%Get all residual activities from this and the next day
+%TODO MAKE THIS MULTIVARIATE
+actTypes = unique(data.actTypes);
+for i = 1:size(actTypes, 2)
+    tmpIndex = find(iTypes == actTypes(1, i));
+    iActs{2 * i - 1} = [];
+    iActs{2 * i} = [];
+    for j = 1:size(tmpIndex, 2)
+        iActs{2 * i - 1} = [iActs{2 * i - 1} resInput(1, iTimes(tmpIndex(j)):iTimes(tmpIndex(j)) + al - 1)];
+        iActs{2 * i} = [iActs{2 * i} resInput(1, iTimes(tmpIndex(j)) + data.blocksInDay:iTimes(tmpIndex(j)) + data.blocksInDay + al - 1)];
+    end
+end
+
+%normalTimes = linspace(1, size(input, 2)/data.blocksInDay, size(input, 2)/data.blocksInDay) * data.blocksInDay;
+
+% tmp = ismember(normalTimes, iTimes);
+% tmp = tmp - 1;
+% tmp = tmp * -1;
+% normalTimes = normalTimes(tmp == 1);
+% 
+% iActs{size(iActs, 2) + 1} = [];
+% for i = 1:size(normalTimes, 2) - 1
+%     iActs{size(iActs, 2)} = [iActs{size(iActs, 2)} resInput(1, normalTimes(1, i):normalTimes(1, i) + data.blocksInDay - 1)];
+% end
 
 % =========================TRAIN MODELS===================================
 
-modelHMMS = {};
+% modelHMMS = {};
+% 
+% for i = 1:length(iActs)    
+%     modelHMMS{i} = bcf.models.HMM(50, 2);
+%     modelHMMS{i}.train(iActs{i});
+%     modelHMMS{i}.calculateNoiseDistribution(iActs{i});
+% 
+%     modelHMMS{i}.prior(modelHMMS{i}.prior < 0.0001) = 0.0001;
+%     modelHMMS{i}.prior = normalize(modelHMMS{i}.prior);
+% end
+% 
+% modelGaussian = bcf.models.Gaussian(myModel.noiseMu, myModel.noiseSigma);
+% modelGaussian.calculateNoiseDistribution(resInput);
+%==========================END TRAIN===================================
 
-for i = 1:length(oActs)    
-    modelHMMS{i} = bcf.models.HMM(al + 100, 2);
-    modelHMMS{i}.train(oActs{i});
-    modelHMMS{i}.calculateNoiseDistribution(oActs{i});
 
-    modelHMMS{i}.prior(modelHMMS{i}.prior < 0.0001) = 0.0001;
-    modelHMMS{i}.prior = normalize(modelHMMS{i}.prior);
+models = {};
+
+for i = 1:length(iActs)
+    arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
+            'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
+
+    model = estimate(arimaModel, iActs{i}', 'print', false);
+
+    models{i} = bcf.models.Arima(model);
+    models{i}.calculateNoiseDistribution(iActs{i});
 end
 
 modelGaussian = bcf.models.Gaussian(myModel.noiseMu, myModel.noiseSigma);
 modelGaussian.calculateNoiseDistribution(resInput);
-%==========================END TRAIN===================================
-
 
 %=============================PLOT Forecasts on Models==================
 for i = 1:length(oActs)
     for j = 1:size(oActs{i}, 3)
-        tmpForecast = modelHMMS{i}.forecastAll(oActs{i}(:, :, j), ahead, 'window', 0);
+        tmpForecast = modelHMMS{i}.forecastAll(oActs{i}(:, :, j), 5, 'window', 19);
         plot(x, [oActs{i}(1, :, j); tmpForecast(1, :)]);
         hold on
     end
@@ -136,23 +178,32 @@ for i = 1:length(oActs)
 end
 %=============================END PLOT===================================
 
+%Only plot from a limited amount of time
+lStart = 672;
+lEnd = 1248;
+rOut = resOutput(:, lStart:lEnd);
 
 %=============================PERFORM FORECASTS========================
 
-models = modelHMMS;
+%models = modelHMMS;
 models{length(models) + 1} = modelGaussian;
 
+tic
 forecaster = bcf.BayesianForecaster(models);
 %[fInput, probsInput, ms] = forecaster.forecastAll(resInput, 'aggregate');
-%[fOutput, probsOutput, ms] = forecaster.forecastAll(resOutput(oTimes(1, 1)- 100:oTimes(1, 1) + 199), 'aggregate');
-%[fOutput, probsOutput, ms] = forecaster.forecastAll(resOutput, 'aggregate');
-[fOutput, probsOutput, ms] = forecaster.windowForecast(resOutput, 3, 10, ahead, 'aggregate');
+%[fOutput, probsOutput, ms] = forecaster.forecastAll(rOut, ahead, 'aggregate');
+[fOutput, probsOutput, ms] = forecaster.forecastAll(resOutput, ahead, 'aggregate');
+%[fOutput, probsOutput, ms] = forecaster.windowForecast(resOutput, 3, 10, ahead, 'aggregate');
+%[fOutput, probsOutput, ms, windows, forecasts] = forecaster.windowForecast(rOut, 5, 15, ahead, 'aggregate');
+toc
 
-%gaussInput = modelGaussian.forecastAll(resInput, ahead);
+gaussInput = modelGaussian.forecastAll(resInput, ahead);
 gaussOutput = modelGaussian.forecastAll(resOutput, ahead);
+%gaussOutput = modelGaussian.forecastAll(rOut, ahead);
 
 %totalInput = predInput - fInput;
 totalOutput = predOutput - fOutput;
+%totalOutput = predOutput(:, lStart:lEnd) - fOutput;
 %totalOutput(oTimes(1, 1)-100:oTimes(1, 1) + 199) = predOutput(:, oTimes(1, 1) - 100:oTimes(1, 1) + 199) - fOutput;
 
 %============================END FORECASTS=============================
@@ -169,13 +220,19 @@ totalOutput = predOutput - fOutput;
 % rmse = errperf(fInput(:, sdiff:end), resInput(:, sdiff:end), 'rmse');
 % fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
  
-rmse = errperf(predOutput(:, sdiff:end), output(:, sdiff:end), 'rmse');
+% rmse = errperf(predOutput(:, sdiff:end), output(:, sdiff:end), 'rmse');
+% fprintf(1, 'Arima Input data Error rates -- rmse:%f\n', rmse);
+% 
+% rmse = errperf(gaussOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
+% fprintf(1, 'Gauss fit res data Error rates -- rmse:%f\n', rmse);
+% 
+% rmse = errperf(fOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
+% fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
+
+rmse = errperf(predOutput(:, lStart + sdiff:lEnd), output(:, lStart + sdiff:lEnd), 'rmse');
 fprintf(1, 'Arima Input data Error rates -- rmse:%f\n', rmse);
 
-rmse = errperf(gaussOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
-fprintf(1, 'Gauss fit res data Error rates -- rmse:%f\n', rmse);
-
-rmse = errperf(fOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
+rmse = errperf(fOutput(:, sdiff:end), rOut(:, sdiff:end), 'rmse');
 fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
  
 %==============================PLOT RESULTS===============================
@@ -187,6 +244,9 @@ fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
 %     plot(xPlot, [output(t - 20:t + 179); predOutput(t - 20: t + 179); totalOutput(t - 20: t + 179)]);
 % end
 
-xPlot = linspace(1, 200, 200);
-t = oTimes(1, 1);
-plot(xPlot, [output(t - 20:t + 179); predOutput(t - 20: t + 179); totalOutput(t - 20: t + 179)]);
+xPlot = linspace(1, 220, 220);
+for i = 1:100:size(totalOutput, 2) - 220
+    plot(xPlot, [output(lStart + i:lStart + i + 219); predOutput(lStart + i:lStart + i + 219); totalOutput(:, i:i + 219)]);
+    xlim([1 220]);
+    waitforbuttonpress;
+end

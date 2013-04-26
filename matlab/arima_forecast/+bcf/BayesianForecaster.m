@@ -91,7 +91,7 @@ classdef BayesianForecaster < handle
             end
         end
         
-        function [fdata probs models] = forecastAll(obj, data, ftype)
+        function [fdata probs models] = forecastAll(obj, data, ahead, ftype)
             %Perform a complete forecast for a dataset.  Initial model
             %probabilities are set to 1/numModels
             
@@ -99,14 +99,21 @@ classdef BayesianForecaster < handle
             %Such as neural networks
             
             %First make a forecast for each model.
-            %TODO change this to handle 1 step and multi step forecasts.
-            %Only handles one step now
             fcasts = repmat(data, [1 1 size(obj.models, 2)]);
             fdata = data;
             dexpand = repmat(data, [1 1 size(obj.models, 2)]);
             for k = 1:size(obj.models, 2)
                 fprintf(1, 'Forcast for model %i\n', k);
-                fcasts(:, :, k) = obj.models{k}.forecastAll(data, 1, 'window', 0);
+                fcasts(:, :, k) = obj.models{k}.forecastAll(data, 1, 'window', 10);
+            end
+            
+            if ahead > 1
+                for k = 1:size(obj.models, 2)
+                    fprintf(1, 'Forcast for model %i\n', k);
+                    fcastsAhead(:, :, k) = obj.models{k}.forecastAll(data, ahead, 'window', 10);
+                end
+            else
+                fcastsAhead = fcasts;
             end
                      
             diffs = fcasts - dexpand;
@@ -120,10 +127,10 @@ classdef BayesianForecaster < handle
             if strcmp(ftype, 'best')
                 [~, ind] = max(aPmodels);
                 %aPmodels
-                %In know this way sucks but I can't figure out a direct
+                %I know this way sucks but I can't figure out a direct
                 %indexing way to do this for now
-                for i = 2:size(data, 2)
-                    fdata(:, i) = fcasts(:, i, ind(i - 1));
+                for i = 1 + ahead:size(data, 2)
+                    fdata(:, i) = fcastsAhead(:, i, ind(i - ahead));
                 end
             end
             
@@ -136,7 +143,7 @@ classdef BayesianForecaster < handle
                 fdata(:, 1) = data(:, 1);
                 
                 for k = 1:size(obj.models, 2)
-                   fdata(:, 2:end) = fdata(:, 2:end) + fcasts(:, 2:end, k) .* y(:, 1:end - 1, k); 
+                   fdata(:, 1 + ahead:end) = fdata(:, 1 + ahead:end) + fcastsAhead(:, 1 + ahead:end, k) .* y(:, 1:end - ahead, k); 
                 end
             end
             
@@ -181,7 +188,7 @@ classdef BayesianForecaster < handle
         end
         
       
-        function [fdata probs models windows forecasts] = ...
+        function [fdata probs models windows modelForecasts] = ...
                 windowForecast(obj, data, minWindow, maxWindow, ahead, ftype)
         
             %Its fine to do this slowly for now
@@ -190,6 +197,7 @@ classdef BayesianForecaster < handle
             probs = ones(size(obj.models, 2), size(data, 2));
             probs = probs ./ size(obj.models, 1);
             
+            modelForecasts = ones(size(probs)); %Only hits the first dimension for now
             windows = zeros(size(obj.models, 2), size(data, 2)); %best window for each model
             models = [];
             
@@ -232,6 +240,7 @@ classdef BayesianForecaster < handle
                 
                 %Update probabilities and normalize.
                 probs(:, t) = probs(:, t-1) .* probs(:, t);
+                probs(:, t) = probs(:, t) ./ sum(probs(:, t));
                 tmpP = probs(:, t);
                 tmpP(tmpP <= obj.minProb) = obj.minProb;
                 tmpP(tmpP >= obj.maxProb) = obj.maxProb;
@@ -242,6 +251,7 @@ classdef BayesianForecaster < handle
                     %Perform forecast based on current probabilities
                     for k = 1:size(obj.models, 2)
                         forecasts(:, k) = obj.models{k}.forecastSingle(data(:, t - windows(k, t) + 1:t), ahead);
+                        modelForecasts(k, t) = forecasts(1, k);
                     end
                     tmp = sum(bsxfun(@times, forecasts, probs(:, t)'), 2);
                     
