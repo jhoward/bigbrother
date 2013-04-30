@@ -40,7 +40,7 @@ public class Const {
     public static int           BLUE_LED                    = 4;
     
     public static String        RECORD_NAME                 = "data";
-    public static String        DATA_DIRECTORY              = "/Users/jahoward/Documents/Dropbox/data/people/new_brown_hall/";
+    public static String        DATA_DIRECTORY              = "/Users/santiagogonzalez/new_brown_hall/";
     
     public static int[]         LED_ERROR                   = {3, 3, 150, 0};
     public static int[]         LED_DATA                    = {1, 1, 20, 0};
