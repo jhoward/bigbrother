@@ -220,20 +220,20 @@ totalOutput = predOutput - fOutput;
 % rmse = errperf(fInput(:, sdiff:end), resInput(:, sdiff:end), 'rmse');
 % fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
  
-% rmse = errperf(predOutput(:, sdiff:end), output(:, sdiff:end), 'rmse');
-% fprintf(1, 'Arima Input data Error rates -- rmse:%f\n', rmse);
-% 
-% rmse = errperf(gaussOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
-% fprintf(1, 'Gauss fit res data Error rates -- rmse:%f\n', rmse);
-% 
-% rmse = errperf(fOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
-% fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
-
-rmse = errperf(predOutput(:, lStart + sdiff:lEnd), output(:, lStart + sdiff:lEnd), 'rmse');
+rmse = errperf(predOutput(:, sdiff:end), output(:, sdiff:end), 'rmse');
 fprintf(1, 'Arima Input data Error rates -- rmse:%f\n', rmse);
 
-rmse = errperf(fOutput(:, sdiff:end), rOut(:, sdiff:end), 'rmse');
+rmse = errperf(gaussOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
+fprintf(1, 'Gauss fit res data Error rates -- rmse:%f\n', rmse);
+
+rmse = errperf(fOutput(:, sdiff:end), resOutput(:, sdiff:end), 'rmse');
 fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
+
+% rmse = errperf(predOutput(:, lStart + sdiff:lEnd), output(:, lStart + sdiff:lEnd), 'rmse');
+% fprintf(1, 'Arima Input data Error rates -- rmse:%f\n', rmse);
+% 
+% rmse = errperf(fOutput(:, sdiff:end), rOut(:, sdiff:end), 'rmse');
+% fprintf(1, 'Combined fit res input data Error rates -- rmse:%f\n', rmse);
  
 %==============================PLOT RESULTS===============================
 
