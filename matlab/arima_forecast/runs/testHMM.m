@@ -1,5 +1,6 @@
 clear all;
 
+%Output data
 O = 1; %Number of dimensions
 T = 10; %Time series length
 nex = 40; %Number of examples
@@ -10,6 +11,13 @@ noise = randn(O, T, nex) * 0.05;
 trainSplit = 20;
 
 data = data + noise;
+
+%plot data
+for i = 1:nex
+    plot(x, data(1, :, i));
+    hold on
+end
+xlim([0, pi]);
 
 M = 2; %Number of Gaussians
 Q = 20; %Number of states

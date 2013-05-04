@@ -13,7 +13,7 @@ classdef TDNN < bcf.models.Model
             obj.ahead = ahead;
         end
         
-        function val = forecast(obj, data, ahead)
+        function val = forecastSingle(obj, data, ahead, varagin)
             %TODO Change this to handle vector values
             td = num2cell(data);
             [xs,xi,~,~] = preparets(obj.net,{},{}, td);
