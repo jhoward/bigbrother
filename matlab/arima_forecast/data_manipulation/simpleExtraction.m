@@ -1,5 +1,5 @@
-function [ind, windows, values] = simpleExtraction(data, windowSize, threshold)
-    numWindows = size(data) / windowSize;
+function [windows, ind, values] = simpleExtraction(data, windowSize, threshold)
+    numWindows = size(data, 1) / windowSize;
     ind = [];
     windows = [];
     values = [];

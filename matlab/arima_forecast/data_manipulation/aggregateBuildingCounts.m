@@ -1,7 +1,8 @@
 %Aggregate Brown Building counts
 clear all
-load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
-sensorlist = sensorlist;
+%load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
+load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\sensor_data_01_01_08_to_06_09_08.mat');
+%sensorlist = sensorlist;
 counts = [];
 
 %Number of seconds to aggregate
@@ -9,7 +10,7 @@ counts = [];
 aggregateAmount = 900;
 
 startDate = '01-12-2008 00:00:00';
-endDate = '06-07-2008 23:59:59';
+endDate = '05-31-2008 23:59:59';
 
 sd = datenum(startDate);
 ed = datenum(endDate);
@@ -85,13 +86,23 @@ data.blocksInDay = dayBlocks;
 
 save('./data/brownData.mat', 'data');
 
+tl = [48, 28, 11, 34];
 
+%Plot each sensor
 x = linspace(1, dayBlocks, dayBlocks);
 xflip = [x(1 : end - 1) fliplr(x)];
-for i = 1:(ed-sd)
-    y = agData((i-1)*dayBlocks + 1:i*dayBlocks, 1)';
-    yflip = [y(1 : end - 1) fliplr(y)];
-    patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
-    hold on
+%for sens = 1:size(sensorlist, 2)
+for sens = 1:size(tl, 2)
+    sens
+    val = tl(sens)
+    for i = 1:(ed-sd)
+        y = agData((i-1)*dayBlocks + 1:i*dayBlocks, val)';
+        yflip = [y(1 : end - 1) fliplr(y)];
+        patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
+        hold on
+    end
+    hold off
+    waitforbuttonpress;
+    plot(x)
 end
 
