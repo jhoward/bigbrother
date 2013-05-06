@@ -8,7 +8,7 @@ counts = [];
 %Should make this evenly divisible by hours
 aggregateAmount = 900;
 
-startDate = '01-09-2008 00:00:00';
+startDate = '01-12-2008 00:00:00';
 endDate = '06-07-2008 23:59:59';
 
 sd = datenum(startDate);
