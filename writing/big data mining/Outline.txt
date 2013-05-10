@@ -1,0 +1,74 @@
+Summary of paper
+	I think the most novel thing we can bring is a exhaustive comparison of the various forecasting techniques to this sort of building data.  To that end I think we should attempt to come up with a few simple but exotic metrics which may be of use when decided on the forecasting method for a specific application.  
+
+	That is I would like to measure such things as:
+		* SMAPE and RMSE (standard error measurements) vs future forecasting amount (how many time steps in the future to forecast)
+		* residual variance vs future forcasting amount 
+		* % of forecasts under or over actual data (is one type always under, always over, etc)
+		* how poorly does the forcast miss when it misses (this may be something like the avg residual of the top 5% of misforcasts)
+		* how does it do during peak times (in other buildings this would probably be lunch time) in our building class time
+		* to do a quick couple of hour search for other forecasting measurements we may use
+
+	Also I think we should compare a considerable number of models as producing them should be pretty quick.
+		* SARIMA (best fit)
+		* Random walk
+		* Daily Mean
+		* Time Delayed Neural Network
+		* Non-linear auto regressive exogenious
+		* I would take other suggestions if you would like to see them here, i.e. some polynomial regression, lowess fit, hmm, etc
+		* I can also implement bayesian combined forecasting with any combination of the above models if we would like
+
+
+Outline of paper:
+
+	1. Introduction
+		* discuss need for building forecasting by discussing potential energy savings and possible security applications
+		* discuss briefly our approach of using a wireless network for simple sensors to get a global view of the building
+		* give a brief outline of the rest of the paper
+
+	2. Prior work
+		* I will run another check of papers tomorrow and look at the work linked in the paper you sent, but if all holds true I want to focus on the lack of forecasting work specific to buildings.  
+			- I can talk about the MERL work and work you found and anything else I find on building monitoring
+		* If forecasting is still as sparse as I suspect I will then discuss some other areas (such as traffic and stock values) where these forecasting techniques have been used to some extent
+
+	3. Data Network
+		* Discuss the motes that we used to collect the network
+		* Talk a bit about the sensors and the collection rate
+
+	4. Forecasting
+
+		* Data preprocessing
+			- discuss our aggregation methods
+			- cleaning missing values from motes that were down
+			- combining of motes if necessary
+
+		* Forecasting Algorithms
+			- SARIMA math
+				- I am not sure how much I should go into fitting Seasonal ARIMA models here.  I plan to be somewhat quick with my description and perhaps only discuss and not show graphs of the Auto correlation and partial auto correlation graphs
+				- I could also talk about the Box LJung portmanu test for white noise and how it passes for inter-day forcasts
+
+			- Random Walk
+				- This shouldn't take much description, it is simply a linear regression on the prior reading only.  I very simple model
+
+			- Mean model
+				- Similarly little description as the random walk
+
+			- Time Delay Neural Network
+				- Discuss the model in brief and perhaps about bit about how we forecast n steps in the future as that is not trivial (you have to run the model outputs back into the input of the model recursively)
+				- Discuss our fitting of the best parameters based on an exhaustive run of all parameters and finding the one which gives the best validation set RMSE
+
+			- Non-linear auto regressive exogenious model
+				- Outline the math with the same detail as TDNN and SARIMA
+				- Similar to TDNN discuss our parameter fit through optimal validation set results
+				- Also I am not sure if a writeup of the math to forecast with the model is necessary.  It is quite similar to the math to forecast with SARIMA models.
+
+	5. Results
+
+		* Metrics used
+			- Brief writeup of each metric we created.  See above summary of paper for the metrics
+			- I would like to show plots of many of the statistics that I spoke about earlier.  I can envision a plot on SMAPE or RMSE vs forecasting horizon for each model
+			- Perhaps a plot on the top %5 rmse vs forecasting horizon for each model
+
+	6. Conclusion of results outline any special results we have obtained (I suspect that Seasonal ARIMA will give us the best SMAPE and RMSE scores while TDNN will yield results with a variance reduction on the forecasts)
+
+

@@ -1,9 +1,7 @@
 clear all;
 load('./data/brownData.mat');
 
-%SETUP DATA
-plotSize = data.blocksInDay * 2;
-sensorNumber = 1;
+%===============================SETUP DATA=================
 ahead = 5;
 windowSize = 10;
 
@@ -14,54 +12,96 @@ trainPercent = 0.7;
 allData = data.data(48, :) + data.data(28, :) + data.data(34, :);
 
 inputMax = floor((size(data.data, 2) / data.blocksInDay) * trainPercent) * data.blocksInDay;
-input = allData(1, 1:inputMax);
 output = allData(1, inputMax + 1:end);
 nd = data.dayOfWeek;
 nd(nd == 3) = 10;
 nd(nd == 5) = 10;
-thInput = allData(sensorNumber, nd == 10);
+thInput = allData(1, nd == 10);
 thTimes = data.times(1, nd == 10);
 input = thInput;
-plot(input)
-xlim([1 size(input, 2)]);
+%plot(input)
+%xlim([1 size(input, 2)]);
+tmpRes = reshape(input, size(input, 1), data.blocksInDay, size(input, 2)/data.blocksInDay);
+dayNoiseSigma = std(tmpRes, 0, 3);
 
-%=======================ARIMA==========================
-% % %SETUP ARIMA MODEL
-% ar = 0;
-% diff = 1;
-% ma = 1;
-% sar = 0;
-% sdiff = 2 * data.blocksInDay;
-% sma = 4;
-% 
-% arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
-%             'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
-% 
-% model = estimate(arimaModel, input', 'print', true);
-% 
-% myModel = bcf.models.Arima(model);
-% %myModel.calculateNoiseDistribution(input);
-% predInput = myModel.forecastAll(input, 1);
-% %predOutput = myModel.forecastAll(output, ahead);
-% 
-% resInput = predInput - input;
-% %resOutput = predOutput - output;
-% res = infer(model, input');
-% adInput = input + res';
-% %Arima model accuracy
-% trainRmse = errperf(input(sensorNumber, sdiff:end), adInput(sensorNumber, sdiff:end), 'rmse');
-% maxRes = max(res);
-% minRes = min(res);
-% fprintf(1, 'Arima fit Error rates -- train rmse:%f   %f     %f\n', trainRmse, maxRes, minRes);
-% 
-% plot(res(576:1152))
-% [h, p, s, c] = lbqtest(res(500:580))
-% autocorr(res, [100]);
-% parcorr(res, [100]);
-% % testRmse = errperf(output(sensorNumber, sdiff:end), predOutput(sensorNumber, sdiff:end), 'rmse');
-% % fprintf(1, 'Arima fit Error rates -- train rmse:%f      test rmse %f\n', trainRmse, testRmse);
 
-%=========================END ARIMA=========================
+%=========================END SETUP=====================
+
+
+%======================AVG MODEL=======================
+modelAvg = bcf.models.Average(data.blocksInDay);
+modelAvg.train(input);
+avgInput = modelAvg.forecastAll(input, ahead);
+modelAvg.calculateNoiseDistribution(input, ahead);
+avgRes = avgInput - input;
+
+%Compute model accuracy
+avgTrainRmse = errperf(input, avgInput, 'rmse');
+avgMaxRes = max(avgRes);
+avgMinRes = min(avgRes);
+fprintf(1, 'Arima fit Error rates -- train rmse:%f   %f     %f\n', avgTrainRmse, avgMaxRes, avgMinRes);
+
+%Plot average model with std around it
+% plot(avgRes(500:1099));
+hold on
+x = 1:1:data.blocksInDay;
+plot(x, modelAvg.avgDay);
+plot(x, modelAvg.avgDay + modelAvg.dayNoiseSigma, 'Color', 'red');
+plot(x, modelAvg.avgDay - modelAvg.dayNoiseSigma, 'Color', 'red');
+xlim([1 data.blocksInDay]);
+%======================================================
+
+
+% =======================ARIMA==========================
+% %SETUP ARIMA MODEL
+ar = 0;
+diff = 1;
+ma = 1;
+sar = 0;
+sdiff = data.blocksInDay;
+sma = 4;
+
+arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
+            'SARLags', 1:sar, 'Seasonality', sdiff, 'SMALags', 1:sma);
+
+model = estimate(arimaModel, input', 'print', true);
+
+modelArima = bcf.models.Arima(model, data.blocksInDay);
+modelArima.calculateNoiseDistribution(input, 1);
+arimaInput = modelArima.forecastAll(input, 1);
+
+arimaResInput = arimaInput - input;
+arimaInferResInput = infer(model, input');
+arimaAdInput = input + arimaInferResInput';
+
+%Arima model accuracy
+arimaTrainRmse = errperf(input, arimaAdInput, 'rmse');
+arimaMaxRes = max(arimaResInput);
+arimaMinRes = min(arimaResInput);
+fprintf(1, 'Arima fit Error rates -- train rmse:%f   %f     %f\n', arimaTrainRmse, arimaMaxRes, arimaMinRes);
+
+% plot(arimaResInput(500:1099))
+% [h, p, s, c] = lbqtest(arimaResInput(500:580))
+% autocorr(arimaResInput, [100]);
+% parcorr(arimaResInput, [100]);
+
+plot(x, [dayNoiseSigma; modelArima.dayNoiseSigma; modelAvg.dayNoiseSigma]);
+    
+
+%Plot a typical set of days
+pwidth = data.blocksInDay;
+for i = 1:floor(size(input, 2)/pwidth) - 1
+    x = 1:1:data.blocksInDay;
+    plot(x, [input(1, i*pwidth + 1:i*pwidth + pwidth); arimaAdInput(1, i*pwidth + 1:i*pwidth + pwidth)]);
+    hold on
+    plot(x, arimaAdInput(1, i*pwidth + 1:i*pwidth + pwidth) + modelArima.dayNoiseSigma, 'Color', 'red');
+    plot(x, arimaAdInput(1, i*pwidth + 1:i*pwidth + pwidth) - modelArima.dayNoiseSigma, 'Color', 'red');
+    xlim([1 data.blocksInDay]);
+    waitforbuttonpress
+    hold off
+end
+% =========================END ARIMA=========================
+
 
 %=========================NEURAL NETWORK====================
 %Format the data
