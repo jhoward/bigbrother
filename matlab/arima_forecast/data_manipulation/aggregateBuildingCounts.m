@@ -1,16 +1,17 @@
 %Aggregate Brown Building counts
 clear all
-%load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
-load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\sensor_data_01_01_08_to_06_09_08.mat');
+load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
+%load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\sensor_data_01_01_08_to_06_09_08.mat');
 %sensorlist = sensorlist;
 counts = [];
 
 %Number of seconds to aggregate
 %Should make this evenly divisible by hours
 aggregateAmount = 900;
+superSampleAmount = 5;
 
 startDate = '01-12-2008 00:00:00';
-endDate = '05-31-2008 23:59:59';
+endDate = '05-05-2008 23:59:59';
 
 sd = datenum(startDate);
 ed = datenum(endDate);
@@ -27,6 +28,8 @@ dayBlocks = round((sid * (datenum(dayTimeEnd) - datenum(dayTimeStart))) / aggreg
 %totalBlocks = round((ed-sd)*bid);
 totalBlocks = round(ed-sd)*dayBlocks;
 agData = zeros(totalBlocks, length(sensorlist));
+
+ssData = zeros(totalBlocks * superSampleAmount, length(sensorlist));
 
 % Make the daynums variable
 %secCounting = 0:aggregateAmount:totalBlocks*aggregateAmount - 1;
@@ -75,34 +78,73 @@ for i = 1:length(sensorlist)
             currentBlockTotal = 1;
         end  
     end
+    
+    nData = agData(:, i);
+    tmpData = zeros(size(agData, 1) * superSampleAmount, 1);
+    count = 1;
+
+    if superSampleAmount > 1
+        for k = 1:size(nData, 1) - 1;
+            tmp = linspace(nData(k, 1), nData(k + 1, 1), superSampleAmount + 1);
+            tmpData(count:count+superSampleAmount - 1) = tmp(1:end - 1)';
+            count = count + superSampleAmount;
+        end
+        
+        tmp = linspace(nData(end), nData(end), superSampleAmount);
+        tmpData(count:end) = tmp';
+    end
+    
+    ssData(:, i) = tmpData(:, 1);
 end
 
-data.data = agData';
-data.times = dayNums';
+%Convert the times
+ssTimes = zeros(size(dayNums, 1) * superSampleAmount, 1);
+count = 1;
+
+if superSampleAmount > 1
+    for k = 1:size(dayNums, 1) - 1;
+        tmp = linspace(dayNums(k, 1), dayNums(k + 1, 1), superSampleAmount + 1);
+        ssTimes(count:count+superSampleAmount - 1) = tmp(1:end - 1)';
+        count = count + superSampleAmount;
+    end
+
+    tmp = linspace(nData(end), nData(end), superSampleAmount);
+    ssTimes(count:end) = tmp';
+end
+
+
+%data.data = agData';
+data.data = ssData';
+data.times = ssTimes';
+%data.times = dayNums';
 data.startTime = sd;
 data.endTime = ed;
-data.dayOfWeek = dayOfWeek';
-data.blocksInDay = dayBlocks;
+data.dayOfWeek = weekday(ssTimes)';
+data.blocksInDay = dayBlocks*superSampleAmount;
 
 save('./data/brownData.mat', 'data');
 
-tl = [48, 28, 11, 34];
+%tl = [48, 28, 11, 34];
 
 %Plot each sensor
-x = linspace(1, dayBlocks, dayBlocks);
+%x = 1:1:dayBlocks;
+x = 1:1:dayBlocks*superSampleAmount;
 xflip = [x(1 : end - 1) fliplr(x)];
-%for sens = 1:size(sensorlist, 2)
-for sens = 1:size(tl, 2)
+for sens = 1:size(sensorlist, 2)
+%for sens = 1:size(tl, 2)
     sens
-    val = tl(sens)
+    val = sens;
+    %val = tl(sens);
     for i = 1:(ed-sd)
-        y = agData((i-1)*dayBlocks + 1:i*dayBlocks, val)';
+        %y = agData((i-1)*dayBlocks + 1:i*dayBlocks, val)';
+        y = ssData((i - 1)*dayBlocks*superSampleAmount + 1:i*dayBlocks*superSampleAmount, val)';
         yflip = [y(1 : end - 1) fliplr(y)];
         patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
         hold on
     end
+    xlim([1 dayBlocks*superSampleAmount]);
     hold off
     waitforbuttonpress;
-    plot(x)
+    plot(x);
 end
 
