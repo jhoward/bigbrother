@@ -10,8 +10,8 @@ AVERAGEDAYS = 1;
 superSampleAmount = 4; %value of one will keep data the same
 blocksInDay = superSampleAmount * 24;
 
-%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\traffic\denver\';
-dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/';
+dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\';
+%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/';
 
 % Make a list of all file names.  Note curly brackets for cell array, to
 % allow for strings of varying length in the array.
@@ -39,7 +39,7 @@ for n=1:d
     fileData = zeros(2, fileLen);
     fid = fopen(strcat(dataLocation, fileName), 'r');
     if fid ~= -1
-        fprintf('File %s: ', fileName);
+        fprintf('File %s (%i)', fileName, fileLen);
         sensors(n).fileName = fileName; %#ok<SAGROW>
     else
         error('can''t open file');
@@ -49,12 +49,9 @@ for n=1:d
     
     while index <= fileLen
         % Each line has format: date, day, counts
-        pDone = floor((index / fileLen) * 100) + 1;
-        
-        if mod(pDone, 5) == 0
-            fprintf(1, '  %i', pDone);
+        if mod(index, 100000) == 0
+            fprintf(1, '  %i', floor(index / 100000));
         end
-        inde
         
         %Get sensor number
         [sensNum, nc] = fscanf(fid, '%i', 1);
@@ -84,5 +81,12 @@ for n=1:d
         index = index + 1;
     end
     fprintf(1, '\n');
+    rawData = [fileData];
 end
+
+sensors = unique(rawData(1, :));
+times = datenum(rawData(2, :)/86400/1000 + datenum(1970,1,1));
+
+savefile = './data/merlDataRaw.mat';
+save(savefile, 'rawData', 'sensors', 'times');
 
