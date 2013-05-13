@@ -22,7 +22,7 @@ class ClientConnection extends Thread {
      
     public void run() {
         
-        boolean dataMode = true;
+        boolean dataMode = false;
         
         ArrayList data;
         Scanner input=new Scanner(System.in);

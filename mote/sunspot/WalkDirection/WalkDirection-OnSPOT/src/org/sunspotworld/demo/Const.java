@@ -41,7 +41,7 @@ public class Const {
     public static int           BLUE_LED                    = 3;
     
     public static String        RECORD_NAME                 = "data";
-    public static String        DATA_DIRECTORY              = "~/data/people/new_brown_hall/";
+    public static String        DATA_DIRECTORY              = "/Users/jahoward/Documents/Dropbox/data/people/new_brown_hall/";
     
     //LED Commands - 1 = Red.  2 = Blue. 3 = Both
     public static int[]         LED_ERROR                   = {3, 3, 150, 0};
