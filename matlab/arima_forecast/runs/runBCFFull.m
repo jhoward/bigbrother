@@ -1,6 +1,5 @@
 %Run bayesian combined forcasting using a combination of multiple trained
 %models. 
-
 clear all;
 
 %BROWN
@@ -36,7 +35,6 @@ output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
 % plotStart = data.blocksInDay * 17;
 % input = data.data(sensorNumber, 1:maxInput);
 % output = data.data(sensorNumber, maxInput + 1:maxInput + outputRange);
-
 
 %Arima model
 ar = 1;
