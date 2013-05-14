@@ -1,23 +1,23 @@
 %Aggregate Brown Building counts
 clear all
-load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
-%load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\sensor_data_01_01_08_to_06_09_08.mat');
+%load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/sensor_data_01_01_08_to_06_09_08.mat');
+load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\brown_hall\sensor_data_01_01_08_to_06_09_08.mat');
 %sensorlist = sensorlist;
 counts = [];
 
 %Number of seconds to aggregate
 %Should make this evenly divisible by hours
 aggregateAmount = 900;
-superSampleAmount = 5;
+superSampleAmount = 2;
 
 startDate = '01-12-2008 00:00:00';
-endDate = '05-05-2008 23:59:59';
+endDate = '05-05-2008 24:00:00';
 
 sd = datenum(startDate);
 ed = datenum(endDate);
 
 dayTimeStart = '00-00-0000 07:00:00';
-dayTimeEnd = '00-00-0000 19:00:00';
+dayTimeEnd = '00-00-0000 20:00:00';
 
 %seconds in day = 86400
 sid = 86400;
