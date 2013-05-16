@@ -116,6 +116,8 @@ public class MainSPOT extends MIDlet {
     private long timeOffset = 0; //ADDED - KOLTEN - To correct sunspot system onboard time when writing records
     private boolean useOffset;  //ADDED to control when to use the offset
     
+    long outputTime;
+    
     
     protected void startApp() throws MIDletStateChangeException {
         
@@ -128,7 +130,7 @@ public class MainSPOT extends MIDlet {
             return;
         }
         
-        int timeoutCounter = 0;
+        long timeoutCounter = 0;
         boolean fs, bs;
         
         boolean reportLength = false;   //ADDED for printing out the delay time for cooldown state
@@ -151,6 +153,7 @@ public class MainSPOT extends MIDlet {
                } else if(trigger == Const.FRONT_SENSOR) {
                    state = Const.FRONT_TRIGGER_STATE;
                }               
+               outputTime = 0;
                
                
                while(state != Const.WAITING_STATE) {
@@ -169,6 +172,15 @@ public class MainSPOT extends MIDlet {
                   if((state == Const.COOLDOWN_STATE) && fs && bs) {
                        state = Const.WAITING_STATE;
                        if (reportLength){
+                           
+                            if (useOffset){
+                                timeoutCounter = (System.currentTimeMillis()+timeOffset - outputTime);
+                            }
+                            else {
+                                timeoutCounter = (System.currentTimeMillis() - outputTime);
+                            }
+                           
+                           
                         System.out.print("   TIMEOUT: "+timeoutCounter); //if an enter or exit state triggered, print 'length'
                         System.out.print("*\n");
                         for(int i = 0; i < CONSOLWIDTH ; i++) {
@@ -177,6 +189,10 @@ public class MainSPOT extends MIDlet {
                         System.out.println("");
                         System.out.println("");
                         reportLength = false;
+                        
+                        
+                        records.addRecord(timeoutCounter,Const.EVENT_TIMEOUT,0);
+                        
                        }
                        break; // ADDED - KOLTEN
                    }
@@ -203,7 +219,7 @@ public class MainSPOT extends MIDlet {
                                 System.out.print("*");
                             }
                             System.out.print("\n");
-                            long outputTime;
+                            
                             if (useOffset){
                                 outputTime = System.currentTimeMillis()+timeOffset;
                             }
@@ -240,7 +256,7 @@ public class MainSPOT extends MIDlet {
                                 System.out.print("*");
                             }
                             System.out.print("\n");
-                            long outputTime;
+                            
                             if (useOffset){
                                 outputTime = System.currentTimeMillis()+timeOffset;
                             }
@@ -256,10 +272,10 @@ public class MainSPOT extends MIDlet {
                    }
 
                    Utils.sleep(Const.DOWN_SENSORS_POLL_FREQUENCY);
-                   timeoutCounter += Const.DOWN_SENSORS_POLL_FREQUENCY;
+                  // timeoutCounter += Const.DOWN_SENSORS_POLL_FREQUENCY;
                }
 
-               timeoutCounter = 0;
+               //timeoutCounter = 0;
                triggers.empty();
               // ledc.addCommand(Const.LED_RESET);
            //    System.out.println("Reset");

@@ -1,0 +1,52 @@
+\begin{thebibliography}{1}
+
+\bibitem{Agarwal2010}
+Y.~Agarwal, B.~Balaji, R.~Gupta, J.~Lyles, M.~Wei, and T.~Weng.
+\newblock {Occupancy-driven energy management for smart building automation}.
+\newblock In {\em Proceedings of the 2nd ACM Workshop on Embedded Sensing
+  Systems for Energy-Efficiency in Building - BuildSys '10}, page~1, New York,
+  New York, USA, 2010. ACM Press.
+
+\bibitem{DOE2010}
+U.~DOE.
+\newblock {Building Energy Databook}, 2010.
+
+\bibitem{GOLDSTEIN2010}
+R.~Goldstein, A.~Tessier, and A.~Khan.
+\newblock {Schedule-calibrated occupant behavior simulation}.
+\newblock In {\em Proceedings of the 2010 Spring Simulation Multiconference on
+  - SpringSim '10}, page~1, New York, New York, USA, 2010. ACM Press.
+
+\bibitem{Hong2011}
+W.-C. Hong, Y.~Dong, F.~Zheng, and S.~Y. Wei.
+\newblock {Hybrid evolutionary algorithms in a SVR traffic flow forecasting
+  model}.
+\newblock {\em Applied Mathematics and Computation}, 217(15):6733--6747, Apr.
+  2011.
+
+\bibitem{Mamidi2012}
+S.~Mamidi, Y.~Chang, and R.~Maheswaran.
+\newblock {Improving building energy efficiency with a network of sensing,
+  learning and prediction agents}.
+\newblock In {\em International Conference on Autonomous Agents and Multi Agent
+  Systems. AAMAS 2012}, 2012.
+
+\bibitem{PAGE2008}
+J.~Page, D.~Robinson, N.~Morel, and J.-L. Scartezzini.
+\newblock {A generalised stochastich model for the simulation of occupant
+  presence}.
+\newblock {\em Energy and Buildings}, 40:83--98, 2008.
+
+\bibitem{Williams2003}
+B.~M. Williams and L.~a. Hoel.
+\newblock {Modeling and Forecasting Vehicular Traffic Flow as a Seasonal ARIMA
+  Process: Theoretical Basis and Empirical Results}.
+\newblock {\em Journal of Transportation Engineering}, 129(6):664, 2003.
+
+\bibitem{Zheng2006}
+W.~Zheng, D.-H. Lee, and Q.~Shi.
+\newblock {Short-Term Freeway Traffic Flow Prediction: Bayesian Combined Neural
+  Network Approach}.
+\newblock {\em Journal of Transportation Engineering}, 132(2):114, 2006.
+
+\end{thebibliography}
