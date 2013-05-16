@@ -15,6 +15,7 @@ public class Const {
     public static short         NO_DELETE_RECORDS           = 8;
     
     public static short         EVENT_TIMEOUT               = 20;
+    public static short         EVENT_JUMPS                 = 21;
     
     //sensors
     public static int           BACK_SENSOR                 = 0;

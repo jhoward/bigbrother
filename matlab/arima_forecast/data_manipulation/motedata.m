@@ -2,10 +2,12 @@
 clear all
 dataLocation = './data/';
 
+clc;
+
 % Make a list of all file names.  Note curly brackets for cell array, to
 % allow for strings of varying length in the array.
 allFileNames = {
-   '0014.4F01.0000.4073.txt';
+  % '0014.4F01.0000.4073.txt';
    '0014.4F01.0000.46E8.txt';
 %     '0116.txt';
 %     '0117.txt';
@@ -26,13 +28,16 @@ for n=1:length(allFileNames)
     else
         error('can''t open file');
     end
-
+    
     while ~feof(fid)
+        
+        useInt=true;
 
         %Get mote timestamp
         [moteTime] = fscanf(fid, '%s', 1);
         moteTime = str2num(moteTime); %#ok<*ST2NM>
-        if moteTime~=0
+        if (moteTime~=0) & (moteTime>100000)
+            useInt=false;
             moteTime = datestr(datenum(moteTime/(86400*1000) + datenum(1970,1,1,-6,0,0)));
         end
         
@@ -46,11 +51,18 @@ for n=1:length(allFileNames)
         if eventType==20
             eventType='TIMEOUT';
         end
+        if eventType==21
+            eventType='JUMPS';
+        end
         
         
         [eventExtra] = fscanf(fid, '%i', 1);
-        
-        fprintf(1,'%s *** %s *** %i\n',moteTime,eventType,eventExtra);
+       if useInt==false
+            fprintf(1,'%s *** %s *** %i\n',moteTime,eventType,eventExtra);
+       else
+            fprintf(1,'%i *** %s *** %i\n',moteTime,eventType,eventExtra);
+       end
+       
     end
     fprintf(1,'\n');
 end

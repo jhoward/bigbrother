@@ -118,6 +118,10 @@ public class MainSPOT extends MIDlet {
     
     long outputTime;
     
+    private long myCurrentTime;
+    private long myFirstTime;
+    private int numberOfJumps;
+    
     
     protected void startApp() throws MIDletStateChangeException {
         
@@ -131,6 +135,7 @@ public class MainSPOT extends MIDlet {
         }
         
         long timeoutCounter = 0;
+        
         boolean fs, bs;
         
         boolean reportLength = false;   //ADDED for printing out the delay time for cooldown state
@@ -154,14 +159,24 @@ public class MainSPOT extends MIDlet {
                    state = Const.FRONT_TRIGGER_STATE;
                }               
                outputTime = 0;
-               
+               numberOfJumps = 0;
                
                while(state != Const.WAITING_STATE) {
+                   
+                   
+                   
                    //System.out.println("In while loop.");
                    fs = frontSensor.getState();
                    bs = backSensor.getState();   
                    //System.out.println(fs + " " + bs + "\n"); debugging line for sensor statess
 
+                   if (useOffset){
+                       myCurrentTime = System.currentTimeMillis()+timeOffset;
+                   }
+                   else {
+                       myCurrentTime = System.currentTimeMillis();
+                   }
+                   
                    if ((timeoutCounter >= Const.DOWN_SENSORS_RESET_TIMEOUT) && 
                            (state != Const.COOLDOWN_STATE)) {
                        state = Const.COOLDOWN_STATE;
@@ -169,7 +184,7 @@ public class MainSPOT extends MIDlet {
                        //TODO blink error code
                    }
 
-                  if((state == Const.COOLDOWN_STATE) && fs && bs) {
+                  if((state == Const.COOLDOWN_STATE) && fs && bs && ( (myCurrentTime - myFirstTime)>1000 ) ) {
                        state = Const.WAITING_STATE;
                        if (reportLength){
                            
@@ -193,6 +208,9 @@ public class MainSPOT extends MIDlet {
                         
                         records.addRecord(timeoutCounter,Const.EVENT_TIMEOUT,0);
                         
+                        System.out.println("\nNumber of jumps: "+numberOfJumps+"\n");
+                        records.addRecord(numberOfJumps, Const.EVENT_JUMPS,0);
+                        
                        }
                        break; // ADDED - KOLTEN
                    }
@@ -207,9 +225,11 @@ public class MainSPOT extends MIDlet {
                             state = Const.COOLDOWN_STATE;
                             //records.addRecord(Const.EXIT, 0);   removed to add a record class with time offset
                             if (useOffset){
+                                myFirstTime = System.currentTimeMillis()+timeOffset;
                                 records.addRecord(System.currentTimeMillis()+timeOffset,Const.EXIT,0);
                             }
                             else {
+                                myFirstTime = System.currentTimeMillis();
                                 records.addRecord(System.currentTimeMillis(), Const.EXIT, 0);
                             }
                             ledc.addCommand(Const.LED_EXIT);
@@ -243,9 +263,11 @@ public class MainSPOT extends MIDlet {
                             state = Const.COOLDOWN_STATE;
                             //records.addRecord(Const.ENTER, 0); removed to add a record class with time offset
                             if (useOffset){
+                                myFirstTime = System.currentTimeMillis()+timeOffset;
                                 records.addRecord(System.currentTimeMillis()+timeOffset, Const.ENTER, 0);
                             }
                             else {
+                                myFirstTime = System.currentTimeMillis();
                                 records.addRecord(System.currentTimeMillis(), Const.ENTER, 0);
                             }
                             ledc.addCommand(Const.LED_ENTER);
@@ -272,10 +294,20 @@ public class MainSPOT extends MIDlet {
                    }
 
                    Utils.sleep(Const.DOWN_SENSORS_POLL_FREQUENCY);
-                  // timeoutCounter += Const.DOWN_SENSORS_POLL_FREQUENCY;
+                   timeoutCounter += Const.DOWN_SENSORS_POLL_FREQUENCY;
+                   
+                   if (frontSensor.getState() != fs) {
+                       numberOfJumps +=1;
+                   }
+                   if (backSensor.getState() != bs){
+                       numberOfJumps +=1;
+                   }
                }
-
-               //timeoutCounter = 0;
+               
+               myFirstTime = 0;
+               myCurrentTime = 0;
+               
+               timeoutCounter = 0;
                triggers.empty();
               // ledc.addCommand(Const.LED_RESET);
            //    System.out.println("Reset");
