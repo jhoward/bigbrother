@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Agarwal2010}
 Y.~Agarwal, B.~Balaji, R.~Gupta, J.~Lyles, M.~Wei, and T.~Weng.
@@ -48,6 +48,12 @@ B.~M. Williams and L.~a. Hoel.
 \newblock {Modeling and Forecasting Vehicular Traffic Flow as a Seasonal ARIMA
   Process: Theoretical Basis and Empirical Results}.
 \newblock {\em Journal of Transportation Engineering}, 129(6):664, 2003.
+
+\bibitem{Wren2007}
+C.~Wren, Y.~Ivanov, D.~Leigh, and J.~Westbues.
+\newblock {The MERL motion detector dataset: 2007 workshop on massive
+  datasets}.
+\newblock In {\em ICMI Workshop on Massive Datasets}, 2007.
 
 \bibitem{Zheng2006}
 W.~Zheng, D.-H. Lee, and Q.~Shi.
