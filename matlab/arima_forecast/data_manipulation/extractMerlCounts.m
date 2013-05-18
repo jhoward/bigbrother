@@ -10,8 +10,8 @@ AVERAGEDAYS = 1;
 superSampleAmount = 4; %value of one will keep data the same
 blocksInDay = superSampleAmount * 24;
 
-dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\';
-%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/';
+%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\';
+dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/';
 
 % Make a list of all file names.  Note curly brackets for cell array, to
 % allow for strings of varying length in the array.

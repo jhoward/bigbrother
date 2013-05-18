@@ -1,55 +1,47 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.3.29)  16 MAY 2013 16:09
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  17 MAY 2013 20:16
 entering extended mode
-**C:/Users/JamesHoward/Documents/projects/bigbrother/writing/big*data*mining/te
-x/building_occupancy_forecasting.tex
-
-("C:/Users/JamesHoward/Documents/projects/bigbrother/writing/big data mining/te
-x/building_occupancy_forecasting.tex"
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**building_occupancy_forecasting.tex
+(./building_occupancy_forecasting.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
-abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
-croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, iceland
-ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
- lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
-german-x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
-ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
-an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
-ishmax, welsh, loaded.
-
-("C:\Users\JamesHoward\Documents\projects\bigbrother\writing\big data mining\te
-x\acm_proc_article-sp.cls"
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
+c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
+h, dutch, ukenglish, usenglishmax, esperanto, estonian, ethiopic, farsi, finnis
+h, french, friulan, galician, german, ngerman, swissgerman, monogreek, greek, h
+ungarian, icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, ma
+rathi, oriya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, 
+kurmanji, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk,
+ polish, portuguese, romanian, romansh, russian, sanskrit, serbian, serbianc, s
+lovak, slovenian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, 
+welsh, loaded.
+(./acm_proc_article-sp.cls
+(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/epsfig.sty
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+(/usr/local/texlive/2012/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: pdftex.def on input line 91.
+Package graphics Info: Driver file: xetex.def on input line 91.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+(/usr/local/texlive/2012/texmf-dist/tex/xelatex/xetex-def/xetex.def
+File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
-)
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
-Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
-)
-\Gread@gobject=\count79
 ))
 \Gin@req@height=\dimen102
 \Gin@req@width=\dimen103
@@ -57,10 +49,10 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \epsfxsize=\dimen104
 \epsfysize=\dimen105
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2009/06/22 v3.00
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \@emptytoks=\toks15
 \symAMSa=\mathgroup4
@@ -68,24 +60,24 @@ Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\ams\math\amsmath.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip41
 
 For additional information on amsmath, use the `?' option.
-("C:\Program Files\MiKTeX 2.9\tex\latex\ams\math\amstext.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\ams\math\amsgen.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks16
 \ex@=\dimen106
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\ams\math\amsbsy.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen107
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\ams\math\amsopn.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count80
@@ -153,7 +145,7 @@ Excerpts were taken from (Journal Style) 'esub2acm.cls'.
 \titleboxnoteflag=\count100
 Document Class: acm_proc_article-sp 2009/04/22 - V3.2SP - based on esub2acm.sty
  <23 April 96>
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\latexsym.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/base/latexsym.sty
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 \symlasy=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
@@ -185,25 +177,25 @@ LaTeX Info: Redefining \cite on input line 1236.
 \acmcopyr=\toks33
 \boilerplate=\toks34
 \copyrightetc=\toks35
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/base/t1enc.def
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 )
 LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\ae\t1aer.fd"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
 )))
-("C:\Program Files\MiKTeX 2.9\tex\latex\caption\subcaption.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2012/01/12 v1.1d Sub-captions (AR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2012/02/19 v3.2f Customizing captions (AR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption3.sty"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
 \captionmargin=\dimen123
 \captionmargin@=\dimen124
@@ -228,13 +220,43 @@ f {#1: #2}\par \else \hbox to\hsize {\hfil \box \@tempboxa \hfil }\par \fi .
 )
 \c@subfigure=\count110
 \c@subtable=\count111
-)
-("C:\Users\JamesHoward\Documents\projects\bigbrother\writing\big data mining\te
-x\building_occupancy_forecasting.aux"
+) (./building_occupancy_forecasting.aux
 
 LaTeX Warning: Label `eq:sarima' multiply defined.
 
+
+LaTeX Warning: Label `fig:csmrmse' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:csmrmse' multiply defined.
+
+
+LaTeX Warning: Label `fig:merlrmse' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:merlrmse' multiply defined.
+
+
+LaTeX Warning: Label `fig:rmseplot' multiply defined.
+
+
+LaTeX Warning: Label `fig:csmrmse' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:csmrmse' multiply defined.
+
+
+LaTeX Warning: Label `fig:merlrmse' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:merlrmse' multiply defined.
+
+
+LaTeX Warning: Label `fig:rmseplot' multiply defined.
+
 )
+\openout1 = `building_occupancy_forecasting.aux'.
+
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
 LaTeX Font Info:    ... okay on input line 33.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
@@ -247,124 +269,91 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
 LaTeX Font Info:    ... okay on input line 33.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
 LaTeX Font Info:    ... okay on input line 33.
- ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count112
-\scratchdimen=\dimen129
-\scratchbox=\box30
-\nofMPsegments=\count113
-\nofMParguments=\count114
-\everyMPshowfont=\toks36
-\MPscratchCnt=\count115
-\MPscratchDim=\dimen130
-\MPnumerator=\count116
-\makeMPintoPDFobject=\count117
-\everyMPtoPDFconversion=\toks37
-)
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Try loading font information for U+msa on input line 100.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+ (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 100.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for U+lasy on input line 100.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ulasy.fd"
+(/usr/local/texlive/2012/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-Overfull \hbox (1.0793pt too wide) in paragraph at lines 102--108
-\T1/aer/m/it/9 Prepar-ing ACM SIG Pro-ceed-ings Us-ing L[]T[]X$\OT1/cmr/m/n/9 2
-[]$ \T1/aer/m/it/9 and BibT[]X\T1/aer/m/n/9 .
+Overfull \hbox (2.22139pt too wide) in paragraph at lines 122--123
+[]\T1/aer/m/n/9 To ac-quire real oc-cu-pancy es-ti-mates with-out sim-u-la-tion
+ there
  []
 
-<./images/bb_floor2_sensors_old.png, id=1, 1036.87375pt x 803.0pt>
-File: ./images/bb_floor2_sensors_old.png Graphic file (type png)
 
-<use ./images/bb_floor2_sensors_old.png>
-Package pdftex.def Info: ./images/bb_floor2_sensors_old.png used on input line 
-147.
-(pdftex.def)             Requested size: 100.79846pt x 78.06244pt.
+LaTeX Warning: Citation `Ma2010' on page \thepage  undefined on input line 124.
 
-<./images/merl_map.png, id=2, 1573.88pt x 984.67876pt>
-File: ./images/merl_map.png Graphic file (type png)
 
-<use ./images/merl_map.png>
-Package pdftex.def Info: ./images/merl_map.png used on input line 153.
-(pdftex.def)             Requested size: 100.79846pt x 63.05978pt.
- [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+File: ./images/bb_floor2_sensors_old.png Graphic file (type QTm)
+<use  "./images/bb_floor2_sensors_old.png" >
+File: ./images/merl_map.png Graphic file (type QTm)
+ <use  "./images/merl_map.png" >
+[1
 
 
 ]
-Overfull \hbox (7.15338pt too wide) in paragraph at lines 164--165
-\T1/aer/m/n/9 Model (ARMA) or deriva-tions on its form (ARIMA, SARIMA,
- []
+File: ./images/pir_sensor.png Graphic file (type QTm)
+ <use  "./images/pir_sensor.png" >
+File: ./images/brown_day.png Graphic file (type QTm)
+ <use  "./images/brown_day.png" >
+File: ./images/merl_day.png Graphic file (type QTm)
 
-<./images/pir_sensor.png, id=15, 198.7425pt x 154.5775pt>
-File: ./images/pir_sensor.png Graphic file (type png)
-
-<use ./images/pir_sensor.png>
-Package pdftex.def Info: ./images/pir_sensor.png used on input line 174.
-(pdftex.def)             Requested size: 95.99854pt x 74.66808pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Overfull \hbox (19.11116pt too wide) detected at line 194
-\OML/cmm/m/it/9 y[] \OT1/cmr/m/n/9 = \OML/cmm/m/it/9 []y[] \OT1/cmr/m/n/9 + \O
-ML/cmm/m/it/9 []y[] \OT1/cmr/m/n/9 + \OML/cmm/m/it/9 ::: \OT1/cmr/m/n/9 + \OML
-/cmm/m/it/9 []y[] \OT1/cmr/m/n/9 + \OML/cmm/m/it/9 e[] \OMS/cmsy/m/n/9   \OML/
-cmm/m/it/9 []e[] \OMS/cmsy/m/n/9   \OML/cmm/m/it/9 []e[] \OMS/cmsy/m/n/9   \O
-ML/cmm/m/it/9 ::: \OMS/cmsy/m/n/9   \OML/cmm/m/it/9 []e[]
- []
-
-[2 <C:/Users/JamesHoward/Documents/projects/bigbrother/writing/big data mining/
-tex/images/bb_floor2_sensors_old.png (PNG copy)> <C:/Users/JamesHoward/Document
-s/projects/bigbrother/writing/big data mining/tex/images/merl_map.png> <C:/User
-s/JamesHoward/Documents/projects/bigbrother/writing/big data mining/tex/images/
-pir_sensor.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 205--207
+<use  "./images/merl_day.png" > [2]
+Underfull \hbox (badness 10000) in paragraph at lines 207--208
 
  []
 
+File: ./images/rmse_brown.png Graphic file (type QTm)
+<use  "./images/rmse_brown.png" >
+File: ./images/rmse_merl.png Graphic file (type QTm)
+ <use  "./images/rmse_merl.png" >
+File: ./images/time_delay_neural_network.png Graphic file (type QTm)
 
-("C:\Users\JamesHoward\Documents\projects\bigbrother\writing\big data mining\te
-x\building_occupancy_forecasting.bbl") [3]
-("C:\Users\JamesHoward\Documents\projects\bigbrother\writing\big data mining\te
-x\building_occupancy_forecasting.aux")
+<use  "./images/time_delay_neural_network.png" > [3]
+File: ./images/brown_top5.png Graphic file (type QTm)
+
+<use  "./images/brown_top5.png" >
+File: ./images/merl_top5.png Graphic file (type QTm)
+ <use  "./images/merl_top5.png" >
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4]
+File: ./images/brown_ou.png Graphic file (type QTm)
+
+<use  "./images/brown_ou.png" >
+File: ./images/merl_ou.png Graphic file (type QTm)
+ <use  "./images/merl_ou.png" >
+(./building_occupancy_forecasting.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5])
+Overfull \vbox (192.40073pt too high) has occurred while \output is active []
+
+
+[6
+
+] (./building_occupancy_forecasting.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 3520 strings out of 493921
- 49055 string characters out of 3147264
- 114195 words of memory out of 3000000
- 6757 multiletter control sequences out of 15000+200000
- 52844 words of font info for 73 fonts, out of 3000000 for 9000
- 841 hyphenation exceptions out of 8191
- 42i,10n,40p,1091b,450s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Pro
-gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/urw/helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/ut
-mb8a.pfb>
-Output written on building_occupancy_forecasting.pdf (3 pages, 331157 bytes).
-PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2980 strings out of 494004
+ 41112 string characters out of 3150890
+ 106836 words of memory out of 3000000
+ 6207 multiletter control sequences out of 15000+200000
+ 42242 words of font info for 55 fonts, out of 3000000 for 9000
+ 1144 hyphenation exceptions out of 8191
+ 42i,10n,40p,1085b,450s stack positions out of 5000i,500n,10000p,200000b,50000s
 
+Output written on building_occupancy_forecasting.pdf (6 pages).

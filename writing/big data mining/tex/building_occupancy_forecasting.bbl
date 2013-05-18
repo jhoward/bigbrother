@@ -7,6 +7,17 @@ Y.~Agarwal, B.~Balaji, R.~Gupta, J.~Lyles, M.~Wei, and T.~Weng.
   Systems for Energy-Efficiency in Building - BuildSys '10}, page~1, New York,
   New York, USA, 2010. ACM Press.
 
+\bibitem{Box2008}
+G.~Box, G.~Jenkings, and G.~Reinsel.
+\newblock {\em {Time Series Analysis: Forecasting and Control}}.
+\newblock John Wiley \& Sons, Inc., 4th edition, 2008.
+
+\bibitem{Diebold1991}
+F.~Diebold.
+\newblock {A Note on Bayesian Forecast Combination Procedures}.
+\newblock In A.~H. Westlund and P.~Hackl, editors, {\em Economic Structural
+  Change: Analysis and Forecasting}, pages 225--232. Springer-Verlag, 1991.
+
 \bibitem{DOE2010}
 U.~DOE.
 \newblock {Building Energy Databook}, 2010.
@@ -17,6 +28,12 @@ R.~Goldstein, A.~Tessier, and A.~Khan.
 \newblock In {\em Proceedings of the 2010 Spring Simulation Multiconference on
   - SpringSim '10}, page~1, New York, New York, USA, 2010. ACM Press.
 
+\bibitem{Hansen2003}
+J.~Hansen and R.~Nelson.
+\newblock {Forecasting and recombining time-series compents by using neural
+  networks}.
+\newblock {\em Joural of the Operational Research Society}, 54:307--317, 2003.
+
 \bibitem{Hong2011}
 W.-C. Hong, Y.~Dong, F.~Zheng, and S.~Y. Wei.
 \newblock {Hybrid evolutionary algorithms in a SVR traffic flow forecasting
@@ -24,11 +41,10 @@ W.-C. Hong, Y.~Dong, F.~Zheng, and S.~Y. Wei.
 \newblock {\em Applied Mathematics and Computation}, 217(15):6733--6747, Apr.
   2011.
 
-\bibitem{Ma2010}
-Y.~Ma, F.~Borrelli, and B.~Hencey.
-\newblock {Model predictive control for the operation of building cooling
-  systems}.
-\newblock In {\em America Control Conference}, 2010.
+\bibitem{Ljung1978}
+G.~M. Ljung and G.~E.~P. Box.
+\newblock {On a Measure of a Lack of Fit in Time Series Models}.
+\newblock {\em Biometrika}, 65(2):297--303, 1978.
 
 \bibitem{Mamidi2012}
 S.~Mamidi, Y.~Chang, and R.~Maheswaran.
@@ -37,11 +53,25 @@ S.~Mamidi, Y.~Chang, and R.~Maheswaran.
 \newblock In {\em International Conference on Autonomous Agents and Multi Agent
   Systems. AAMAS 2012}, 2012.
 
+\bibitem{Newsham2010}
+G.~Newsham and B.~Birt.
+\newblock {Building-level occupancy data to improve ARIMA-based electricity use
+  forecasts}.
+\newblock In {\em 2nd ACM Workshop on Embedded Sensing Systems for
+  Energy-Efficiency in Buildings (BuildSys 2010)}, 2010.
+
 \bibitem{PAGE2008}
 J.~Page, D.~Robinson, N.~Morel, and J.-L. Scartezzini.
 \newblock {A generalised stochastich model for the simulation of occupant
   presence}.
 \newblock {\em Energy and Buildings}, 40:83--98, 2008.
+
+\bibitem{Petridis2001}
+V.~Petridis, A.~Kehagias, L.~Petrou, A.~Bakirtzis, S.~Kiartzis, H.~Panagiotou,
+  and N.~Maslaris.
+\newblock {A Bayesian multiple models combination method for time series
+  prediction}.
+\newblock {\em Journal of intelligent and robotic systems}, 31(1):69--89, 2001.
 
 \bibitem{Williams2003}
 B.~M. Williams and L.~a. Hoel.

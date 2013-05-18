@@ -17,9 +17,9 @@ output = allData(1, inputMax + 1:end);
 nd = data.dayOfWeek;
 nd(nd == 3) = 10;
 nd(nd == 5) = 10;
-<<<<<<< HEAD
+
 thInput = allData(1, nd == 10);
-=======
+
 %nd(nd == 6) = 10;
 thInput = allData(sensorNumber, nd == 10);
 >>>>>>> blah

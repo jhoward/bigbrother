@@ -10,7 +10,7 @@ counts = [];
 
 %Number of seconds to aggregate
 %Should make this evenly divisible by hours
-aggregateAmount = 900;
+aggregateAmount = 600;
 
 startDate = '23-mar-2006 00:00:00';
 endDate = '11-jun-2006 00:00:00';
@@ -18,7 +18,7 @@ endDate = '11-jun-2006 00:00:00';
 sd = datenum(startDate);
 ed = datenum(endDate);
 
-dayTimeStart = '00-00-0000 06:00:00';
+dayTimeStart = '00-00-0000 07:00:00';
 dayTimeEnd = '00-00-0000 20:00:00';
 
 dayTS = datenum(dayTimeStart);
@@ -95,6 +95,16 @@ for s = 1:length(cellData)
         end  
     end
 end
+
+data.data = agData';
+data.times = dayNums';
+data.startTime = sd;
+data.endTime = ed;
+data.dayOfWeek = weekday(dayNums)';
+data.blocksInDay = dayBlocks;
+
+save('./data/merlData.mat', 'data');
+
 
 
 %Plot each sensor

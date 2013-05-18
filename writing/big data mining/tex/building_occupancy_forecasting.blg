@@ -1,3 +1,46 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: building_occupancy_forecasting.aux
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: building_occupancy_forecasting.aux
 The style file: abbrv.bst
 Database file #1: big-data_mining.bib
+You've used 15 entries,
+            2118 wiz_defined-function locations,
+            606 strings with 6746 characters,
+and the built_in function-call counts, 5212 in all, are:
+= -- 491
+> -- 286
+< -- 3
++ -- 111
+- -- 96
+* -- 374
+:= -- 885
+add.period$ -- 47
+call.type$ -- 15
+change.case$ -- 92
+chr.to.int$ -- 0
+cite$ -- 15
+duplicate$ -- 196
+empty$ -- 404
+format.name$ -- 96
+if$ -- 1082
+int.to.chr$ -- 0
+int.to.str$ -- 15
+missing$ -- 15
+newline$ -- 77
+num.names$ -- 32
+pop$ -- 107
+preamble$ -- 1
+purify$ -- 77
+quote$ -- 0
+skip$ -- 122
+stack$ -- 0
+substring$ -- 248
+swap$ -- 33
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 58
+warning$ -- 0
+while$ -- 48
+width$ -- 17
+write$ -- 166

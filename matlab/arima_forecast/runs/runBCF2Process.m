@@ -46,7 +46,7 @@ fprintf(1, 'Error rates -- mape: %f      mse: %f       rmse:%f\n', mape, mse, rm
 
 %TDNN
 timeDelay = 10;
-hiddenNodes = 20;
+hiddenNodes = 8;
 cinput = tonndata(input, true, false);
 coutput = tonndata(output, true, false);
 
