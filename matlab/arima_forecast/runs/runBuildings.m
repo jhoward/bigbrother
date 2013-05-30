@@ -1,8 +1,8 @@
 %Run Buildings.  Do analysis for merl data and brownhall data
 
 clear all;
-%load('./data/brownData.mat');
-load('./data/merlData.mat');
+load('./data/brownData.mat');
+%load('./data/merlData.mat');
 
 %===============================SETUP DATA=================
 windowSize = 10;
@@ -11,13 +11,13 @@ trainPercent = 0.6;
 
 %%%%%%%%%%%%%BROWN HALL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Combine the data to be just the exits
-%allData = data.data(48, :);
-%ysize = 200;
+allData = data.data(48, :);
+ysize = 200;
 
 
 % %%%%%%%%%%%%%%MERL DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-allData = data.data(33, :);
-ysize = 40;
+% allData = data.data(33, :);
+% ysize = 40;
 
 input = allData;
 dayOfWeek = 4;

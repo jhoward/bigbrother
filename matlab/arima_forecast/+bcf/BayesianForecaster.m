@@ -91,12 +91,18 @@ classdef BayesianForecaster < handle
             end
         end
         
-        function [fdata probs models] = forecastAll(obj, data, ahead, ftype)
+        function [fdata probs models] = forecastAll(obj, data, ahead, modelAhead, ftype)
             %Perform a complete forecast for a dataset.  Initial model
             %probabilities are set to 1/numModels
             
             %This method works with static window and ahead forecasters.
             %Such as neural networks
+            
+            %Ahead refers to how far ahead the bcf forecast function
+            %produces forecasts
+            
+            %modelAhead referes to how far back the bcf forecaster uses
+            %data to know which model is more accurate at time t.
             
             %First make a forecast for each model.
             fcasts = repmat(data, [1 1 size(obj.models, 2)]);
@@ -104,10 +110,10 @@ classdef BayesianForecaster < handle
             dexpand = repmat(data, [1 1 size(obj.models, 2)]);
             for k = 1:size(obj.models, 2)
                 %fprintf(1, 'Forcast for model %i\n', k);
-                fcasts(:, :, k) = obj.models{k}.forecastAll(data, 1, 'window', 10);
+                fcasts(:, :, k) = obj.models{k}.forecastAll(data, modelAhead, 'window', 10);
             end
             
-            if ahead > 1
+            if ahead ~= modelAhead
                 for k = 1:size(obj.models, 2)
                     %fprintf(1, 'Forcast for model %i\n', k);
                     fcastsAhead(:, :, k) = obj.models{k}.forecastAll(data, ahead, 'window', 10);
