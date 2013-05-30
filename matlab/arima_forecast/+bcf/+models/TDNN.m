@@ -37,8 +37,8 @@ classdef TDNN < bcf.models.Model
             output = bcf.forecast.tdnnForecast(obj.net, data, ahead);
         end
         
-        function calculateNoiseDistribution(obj, data)
-            out = obj.forecastAll(data, 1);
+        function calculateNoiseDistribution(obj, data, ahead)
+            out = obj.forecastAll(data, ahead);
             res = data - out;
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;

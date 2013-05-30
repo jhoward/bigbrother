@@ -23,7 +23,7 @@ load('./data/brownCleaned.mat')
 data{2}.input = input;
 data{2}.output = output;
 
-dataSet = 2;
+dataSet = 1;
 horizon = 20;
 
 output = data{dataSet}.output;
@@ -39,6 +39,8 @@ for i = 1:5
     hold on;
 end
 xlim([1 horizon]);
+%ylim([9 100]);
+
 legend('Seasonal ARIMA', 'TDNN', 'AVG', 'BCFNN', 'BCF')
 xlabel('Forecasting Horizon', 'FontSize', 14)
 ylabel('Root mean squared error', 'FontSize', 14)

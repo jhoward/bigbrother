@@ -1,8 +1,8 @@
 %Run Buildings.  Do analysis for merl data and brownhall data
 
 clear all;
-load('./data/brownData.mat');
-%load('./data/merlData.mat');
+%load('./data/brownData.mat');
+load('./data/merlData.mat');
 
 %===============================SETUP DATA=================
 windowSize = 10;
@@ -11,14 +11,15 @@ trainPercent = 0.6;
 
 %%%%%%%%%%%%%BROWN HALL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Combine the data to be just the exits
-allData = data.data(48, :);
-ysize = 200;
+% allData = data.data(48, :);
+% ysize = 200;
 
 
 % %%%%%%%%%%%%%%MERL DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% allData = data.data(33, :);
-% ysize = 40;
+allData = data.data(33, :);
+ysize = 40;
 
+%%%%%%%%%%%%%%%BOTH DATASETS%%%%%%%%%%%%%%%%%%%%%%%%
 input = allData;
 dayOfWeek = 4;
 horizon = 20;
@@ -69,6 +70,9 @@ output = tmpData(1, inputMax + 1:end);
 %Save just the data
 %save('./data/merlCleaned.mat', 'input', 'output');
 
+%Save just the data
+%save('./data/brownCleaned.mat', 'input', 'output');
+
 
 %=====================PLOT RAW DATA=======================
 
@@ -90,22 +94,22 @@ set(gca,'XTick',[]);
 %=====================PERFORM SEASONAL ARIMA FORECASTS=====
 
 % %%%%%%%%%%BROWN PARAMETERS%%%%%%%%
-ar = 0;
-diff = 1;
-ma = 1;
-sar = 0;
-sdiff = data.blocksInDay;
-sma = 4;
+% ar = 0;
+% diff = 1;
+% ma = 1;
+% sar = 0;
+% sdiff = data.blocksInDay;
+% sma = 4;
 %%%%%%%%%%%%%BROWN PARAMETERS%%%%%%
 
 
 %%%%%%%%MERL PARAMETERS%%%%%%%%%%%
-% ar = 0;
-% diff = 0;
-% ma = 1;
-% sar = 0;
-% sdiff = data.blocksInDay;
-% sma = 5;
+ar = 0;
+diff = 0;
+ma = 1;
+sar = 0;
+sdiff = data.blocksInDay;
+sma = 5;
 
 %%%%%%%%MERL PARAMETERS%%%%%%%%%%%
 
@@ -140,7 +144,8 @@ arimaModel = arima('ARLags', 1:ar, 'D', diff, 'MALags', 1:ma, ...
 model = estimate(arimaModel, input', 'print', true);
 
 modelArima = bcf.models.Arima(model, data.blocksInDay);
-modelArima.calculateNoiseDistribution(input, 1);
+%modelArima.calculateNoiseDistribution(input, 1);
+modelArima.calculateNoiseDistribution(input, horizon);
 arimaInferResInput = infer(model, input');
 %[h, p, s, c] = lbqtest(arimaInferResInput(300:400))
 %autocorr(arimaInferResInput, [100]);
@@ -233,14 +238,32 @@ net.divideParam.testRatio = 15/100;
 %%%%%%%%%%%%%%TRAIN for TWENTY FORECAST HORIZONS%%%%%%%%%%%%
 
 [xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - 1), cdata(:, 1 + 1:end));
-net1 = train(net, xs, ts, xi, ai); 
+%net1 = train(net, xs, ts, xi, ai); 
 %[xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - i), cdata(:, 1 + i:end)); 
 %netahead = train(net, xs, ts, xi, ai);
-modelTDNN = bcf.models.TDNN(net1, i);
-modelTDNN.calculateNoiseDistribution(input);
+%modelTDNN = bcf.models.TDNN(net1, 1);
 
-modelVals{2} = modelTDNN;
+bestRmse = 1;
+bestModel = 0;
+%Find the best model from some number of attempts
+for i = 1:5
+    net1 = train(net, xs, ts, xi, ai); 
+    modelTDNN = bcf.models.TDNN(net1, 1);
+    predOut = modelTDNN.forecastAll(output(1, :), 1);
+    predOut = predOut - output;
+    rmse = errperf(output(1, 1:end), predOut(1, 1:end), 'rmse');
+    rmse
+    if (i == 1) || (rmse < bestRmse)
+        bestRmse = rmse;
+        bestModel = modelTDNN;
+        i
+    end
+end
+modelTDNN.calculateNoiseDistribution(input, 1);
+modelVals{2} = bestModel;
+modelTDNN = bestModel;
 
+    
 tdnnInput = {};
 tdnnOutput = {};
 
@@ -280,7 +303,9 @@ avgOutput = {};
 
 modelAvg = bcf.models.Average(data.blocksInDay);
 modelAvg.train(input);
-modelAvg.calculateNoiseDistribution(input, 1);
+%modelAvg.calculateNoiseDistribution(input, 1);
+modelAvg.calculateNoiseDistribution(input, horizon);
+
 
 modelVals{3} = modelAvg;
 
@@ -319,13 +344,18 @@ bcfOutput = {};
 
 %Combine and forecast
 models = {modelArima modelAvg modelTDNN};
+%models = {modelArima modelAvg};
 
 modelBcf = bcf.BayesianForecaster(models);
 modelVals{4} = modelBcf;
 
+for j = 1:length(models)
+        models{j}.calculateNoiseDistribution(input, 1);
+end
+
 for i = 1:horizon
-    bcfInput{i} = modelBcf.forecastAll(input(1, :), i, 'aggregate');
-    bcfOutput{i} = modelBcf.forecastAll(output(1, :), i, 'aggregate'); 
+    bcfInput{i} = modelBcf.forecastAll(input(1, :), i, i, 'aggregate');
+    bcfOutput{i} = modelBcf.forecastAll(output(1, :), i, i, 'aggregate'); 
     bcfResOutput = bcfOutput{i} - output;
     bcfResInput = bcfInput{i} - input;
 
@@ -360,8 +390,11 @@ model2Bcf = bcf.BayesianForecaster(models);
 modelVals{5} = model2Bcf;
 
 for i = 1:horizon
-    bcf2Input{i} = model2Bcf.forecastAll(input(1, :), i, 'aggregate');
-    bcf2Output{i} = model2Bcf.forecastAll(output(1, :), i, 'aggregate'); 
+    for j = 1:length(models)
+        models{j}.calculateNoiseDistribution(input, i);
+    end
+    bcf2Input{i} = model2Bcf.forecastAll(input(1, :), i, i, 'aggregate');
+    bcf2Output{i} = model2Bcf.forecastAll(output(1, :), i, i, 'aggregate'); 
     bcfResOutput = bcf2Output{i} - output;
     bcfResInput = bcf2Input{i} - input;
 
@@ -385,7 +418,6 @@ end
 plot(1:1:horizon, dataVals{5}(4, :));
 xlim([1, horizon]);
 
-
 dataInputs{1} = arimaInput;
 dataOutputs{1} = arimaOutput;
 dataInputs{2} = tdnnInput;
@@ -398,4 +430,4 @@ dataInputs{5} = bcf2Input;
 dataOutputs{5} = bcf2Output;
 
 %====%=====%=====SAVE DATA==============
-save('./data/brownResults.mat', 'dataVals', 'modelVals', 'dataInputs', 'dataOutputs');
+save('./data/merlResults.mat', 'dataVals', 'modelVals', 'dataInputs', 'dataOutputs');
