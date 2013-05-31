@@ -29,19 +29,19 @@ horizon = 20;
 output = data{dataSet}.output;
 input = data{dataSet}.input;
 
-colors = {'b', 'g', 'r', 'k', 'm'};
+colors = {'b', 'g', 'r', 'k', 'm', 'y', 'b'};
 
 %Metrics
 
 %MSE vs time
-for i = 1:5
+for i = 1:7
     plot(1:1:horizon, data{dataSet}.dataVals{i}(4, 1:end), 'Color', colors{i})
     hold on;
 end
 xlim([1 horizon]);
-ylim([9 70]);
+ylim([9 60]);
 
-legend('Seasonal ARIMA', 'TDNN', 'AVG', 'BCFNN', 'BCF')
+legend('Seasonal ARIMA', 'TDNN', 'AVG', 'SVM', 'BCFNN', 'BCF', 'BCFALL')
 xlabel('Forecasting Horizon', 'FontSize', 14)
 ylabel('Root mean squared error', 'FontSize', 14)
 hold off;
