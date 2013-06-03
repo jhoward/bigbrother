@@ -91,7 +91,7 @@ classdef BayesianForecaster < handle
             end
         end
         
-        function [fdata probs models] = forecastAll(obj, data, ahead, modelAhead, ftype)
+        function [fdata probs rawProbs] = forecastAll(obj, data, ahead, modelAhead, ftype, threshold, defaultModel)
             %Perform a complete forecast for a dataset.  Initial model
             %probabilities are set to 1/numModels
             
@@ -103,6 +103,10 @@ classdef BayesianForecaster < handle
             
             %modelAhead referes to how far back the bcf forecaster uses
             %data to know which model is more accurate at time t.
+            
+            %threshold is for determining the minimum pvalue at which to
+            %use a model.  If the pvalue is sufficiently small then
+            %forecasts will come from the default model only.
             
             %First make a forecast for each model.
             fcasts = repmat(data, [1 1 size(obj.models, 2)]);
@@ -127,7 +131,16 @@ classdef BayesianForecaster < handle
             initial = initial ./ size(obj.models, 2);
            
             %batch update pmodels
-            aPmodels = obj.updatePModelsAll(diffs, initial);
+            [aPmodels rawProbs] = obj.updatePModelsAll(diffs, initial);
+            
+            %Find instances where all models are below threshold.  If so
+            %then set default model to 1 and all others to zero.
+            for t = 1:size(aPmodels, 2)
+                if all(rawProbs(:, t) < threshold)
+                    aPmodels(:, t) = zeros(size(obj.models, 2), 1);
+                    aPmodels(defaultModel, t) = 1;
+                end
+            end
             
             %Forecast - perform either best or aggregate.
             if strcmp(ftype, 'best')
@@ -155,10 +168,10 @@ classdef BayesianForecaster < handle
             
             %TODO fill in prob models here
             probs = aPmodels;
-            models = [];
+            %models = [];
         end
         
-        function aPmodels = updatePModelsAll(obj, diffs, pmodels)
+        function [aPmodels rawPValues] = updatePModelsAll(obj, diffs, pmodels)
             %Diffs is presumed to be a N by M by numModels matrix where
             %data is of length M with dimensionality N
             
@@ -191,6 +204,7 @@ classdef BayesianForecaster < handle
                 aPmodels(:, i) = aPmodels(:, i) ./ sum(aPmodels(:, i), 1);
             end
             
+            rawPValues = pks;
         end
         
       

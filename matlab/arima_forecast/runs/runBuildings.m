@@ -1,8 +1,8 @@
 %Run Buildings.  Do analysis for merl data and brownhall data
 
 clear all;
-%load('./data/brownData.mat');
-load('./data/merlData.mat');
+load('./data/brownData.mat');
+%load('./data/merlData.mat');
 
 %===============================SETUP DATA=================
 windowSize = 10;
@@ -11,13 +11,13 @@ trainPercent = 0.6;
 
 %%%%%%%%%%%%%BROWN HALL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Combine the data to be just the exits
-% allData = data.data(48, :);
-% ysize = 200;
+allData = data.data(48, :);
+ysize = 200;
 
 
 % %%%%%%%%%%%%%%MERL DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-allData = data.data(33, :);
-ysize = 40;
+% allData = data.data(33, :);
+% ysize = 40;
 
 %%%%%%%%%%%%%%%BOTH DATASETS%%%%%%%%%%%%%%%%%%%%%%%%
 input = allData;
@@ -110,7 +110,6 @@ sma = 4;
 % sar = 0;
 % sdiff = data.blocksInDay;
 % sma = 5;
-
 %%%%%%%%MERL PARAMETERS%%%%%%%%%%%
 
 %%%%%%%%%%%%TRAIN FOR TWENTY FORECAST HORIZONS%%%%%%%%%%%%%
@@ -249,7 +248,7 @@ tdnnInput = {};
 tdnnOutput = {};
 
 %THIS RUN TAKES A WHILE
-for i = 3:3%horizon
+for i = 3:horizon
 
     %COMMENT THIS OUT LATER
     [xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - i), cdata(:, 1 + i:end)); 
@@ -422,12 +421,22 @@ models = {modelArima modelAvg};
 model2Bcf = bcf.BayesianForecaster(models);
 modelVals{6} = model2Bcf;
 
+lowRMSE = dataVals{modelNums(1)}(4, i);
+defaultModel = modelNums(1);
+%Compute best model for horizon
+for k = 2:length(modelNums)
+    if (dataVals{modelNums(k)}(4, i) < lowRMSE)
+        defaultModel = modelNums(k);
+        lowRMSE = dataVals{modelNums(k)}(4, i);
+    end
+end
+
 for i = 1:horizon
     for j = 1:length(models)
         models{j}.calculateNoiseDistribution(input, i);
     end
-    bcf2Input{i} = model2Bcf.forecastAll(input(1, :), i, i, 'aggregate');
-    bcf2Output{i} = model2Bcf.forecastAll(output(1, :), i, i, 'aggregate'); 
+    bcf2Input{i} = model2Bcf.forecastAll(input(1, :), i, i, 'aggregate', 0.001, defaultModel);
+    bcf2Output{i} = model2Bcf.forecastAll(output(1, :), i, i, 'aggregate', 0.001, defaultModel); 
     bcfResOutput = bcf2Output{i} - output;
     bcfResInput = bcf2Input{i} - input;
 
@@ -453,19 +462,34 @@ end
 %========ALL BCF=====
 bcf3Input = {};
 bcf3Output = {};
+bcf3Probs = {};
+bcf3RawProbs = {};
 
 %Combine and forecast
 models = {modelArima modelAvg modelSVM};
+modelNums = [1 3 4];
 
 model3Bcf = bcf.BayesianForecaster(models);
 modelVals{7} = model3Bcf;
+defaultModel = 1;
 
 for i = 1:horizon
     for j = 1:length(models)
         models{j}.calculateNoiseDistribution(input, i);
     end
-    bcf3Input{i} = model3Bcf.forecastAll(input(1, :), i, i, 'aggregate');
-    bcf3Output{i} = model3Bcf.forecastAll(output(1, :), i, i, 'aggregate'); 
+    
+    lowRMSE = dataVals{modelNums(1)}(4, i);
+    defaultModel = modelNums(1);
+    %Compute best model for horizon
+    for k = 2:length(modelNums)
+        if (dataVals{modelNums(k)}(4, i) < lowRMSE)
+            defaultModel = modelNums(k);
+            lowRMSE = dataVals{modelNums(k)}(4, i);
+        end
+    end
+    
+    bcf3Input{i} = model3Bcf.forecastAll(input(1, :), i, i, 'aggregate', 0.001, defaultModel);
+    [bcf3Output{i}, bcf3Probs{i}, bcf3RawProbs{i}] = model3Bcf.forecastAll(output(1, :), i, i, 'aggregate', 0.001, defaultModel); 
     bcfResOutput = bcf3Output{i} - output;
     bcfResInput = bcf3Input{i} - input;
 
@@ -492,19 +516,26 @@ xlim([1, horizon]);
 
 dataInputs{1} = arimaInput;
 dataOutputs{1} = arimaOutput;
-%dataInputs{2} = tdnnInput;
-%dataOutputs{2} = tdnnOutput;
+dataInputs{2} = tdnnInput;
+dataOutputs{2} = tdnnOutput;
 dataInputs{3} = avgInput;
 dataOutputs{3} = avgOutput;
 dataInputs{4} = svmInput;
 dataOutputs{4} = svmOutput;
-%dataInputs{5} = bcfInput;
-%dataOutputs{5} = bcfOutput;
+dataInputs{5} = bcfInput;
+dataOutputs{5} = bcfOutput;
 dataInputs{6} = bcf2Input;
 dataOutputs{6} = bcf2Output;
 dataInputs{7} = bcf3Input;
 dataOutputs{7} = bcf3Output;
 
 
+
+
 %====%=====%=====SAVE DATA==============
 save('./data/brownResults.mat', 'dataVals', 'modelVals', 'dataInputs', 'dataOutputs');
+
+
+%Display probabilities
+bcf3Probs{1}
+plot(1:1:100, [bcf3RawProbs{1}(1, 100:199); bcf3RawProbs{1}(2, 100:199); bcf3RawProbs{1}(3, 100:199)]);

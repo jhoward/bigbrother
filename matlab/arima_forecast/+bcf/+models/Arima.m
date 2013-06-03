@@ -22,6 +22,7 @@ classdef Arima < bcf.models.Model
         end
             
         function prob = probabilityNoise(obj, data)
+            
             prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
         end
         

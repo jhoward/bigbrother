@@ -30,12 +30,15 @@ output = data{dataSet}.output;
 input = data{dataSet}.input;
 
 colors = {'b', 'g', 'r', 'k', 'm', 'y', 'b'};
+style = {'-', '--', ':', '-.'};
+
+lineStyles = {'-b', '-g', '-r', '-k', '-.b', '-.g', '-.r', '-.k'};
 
 %Metrics
 
 %MSE vs time
 for i = 1:7
-    plot(1:1:horizon, data{dataSet}.dataVals{i}(4, 1:end), 'Color', colors{i})
+    plot(1:1:horizon, data{dataSet}.dataVals{i}(4, 1:end), lineStyles{i})
     hold on;
 end
 xlim([1 horizon]);
@@ -47,23 +50,23 @@ ylabel('Root mean squared error', 'FontSize', 14)
 hold off;
 
 %Max residual vs horizon
-for i = 1:5
+for i = 1:7
     val = [data{dataSet}.dataVals{i}(5, 1:end); data{dataSet}.dataVals{i}(5, 1:end)];
     val = abs(val);
     
-    plot(1:1:horizon, max(val), 'Color', colors{i})
+    plot(1:1:horizon, max(val), lineStyles{i})
     hold on;
 end
 xlim([1 horizon]);
-legend('Seasonal ARIMA', 'TDNN', 'AVG', 'BCFNN', 'BCF')
+legend('Seasonal ARIMA', 'TDNN', 'AVG', 'SVM', 'BCFNN', 'BCF', 'BCFALL')
 xlabel('Forecasting Horizon', 'FontSize', 14)
 ylabel('Max residual', 'FontSize', 14)
 hold off;
 
-ou = zeros(5, horizon)
+ou = zeros(7, horizon)
 
 %Percent forecast under vs horizon
-for i = 1:5
+for i = 1:7
     for j = 1:horizon
         tmp = data{dataSet}.dataOutputs{i}{j} - output;
         tmpou = find(tmp < 0);
@@ -82,8 +85,6 @@ legend('Seasonal ARIMA', 'TDNN', 'AVG', 'BCFNN', 'BCF')
 xlabel('Forecasting Horizon', 'FontSize', 14)
 ylabel('Pecent under forecast', 'FontSize', 14)
 hold off;
-
-
 
 
 
@@ -112,11 +113,3 @@ legend('Seasonal ARIMA', 'TDNN', 'AVG', 'BCFNN', 'BCF')
 xlabel('Forecasting Horizon', 'FontSize', 14)
 ylabel('Mean top 5% residuals', 'FontSize', 14)
 hold off;
-
-
-
-%Forecasting variance for a typical day vs horizon
-
-%Find the forecasting variance
-
-
