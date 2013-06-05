@@ -46,6 +46,12 @@ G.~M. Ljung and G.~E.~P. Box.
 \newblock {On a Measure of a Lack of Fit in Time Series Models}.
 \newblock {\em Biometrika}, 65(2):297--303, 1978.
 
+\bibitem{Ma2010}
+Y.~Ma, F.~Borrelli, and B.~Hencey.
+\newblock {Model predictive control for the operation of building cooling
+  systems}.
+\newblock In {\em America Control Conference}, 2010.
+
 \bibitem{Mamidi2012}
 S.~Mamidi, Y.~Chang, and R.~Maheswaran.
 \newblock {Improving building energy efficiency with a network of sensing,

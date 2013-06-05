@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  17 MAY 2013 20:16
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  5 JUN 2013 11:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -224,36 +224,6 @@ f {#1: #2}\par \else \hbox to\hsize {\hfil \box \@tempboxa \hfil }\par \fi .
 
 LaTeX Warning: Label `eq:sarima' multiply defined.
 
-
-LaTeX Warning: Label `fig:csmrmse' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:csmrmse' multiply defined.
-
-
-LaTeX Warning: Label `fig:merlrmse' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:merlrmse' multiply defined.
-
-
-LaTeX Warning: Label `fig:rmseplot' multiply defined.
-
-
-LaTeX Warning: Label `fig:csmrmse' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:csmrmse' multiply defined.
-
-
-LaTeX Warning: Label `fig:merlrmse' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:merlrmse' multiply defined.
-
-
-LaTeX Warning: Label `fig:rmseplot' multiply defined.
-
 )
 \openout1 = `building_occupancy_forecasting.aux'.
 
@@ -290,26 +260,28 @@ Overfull \hbox (2.22139pt too wide) in paragraph at lines 122--123
  there
  []
 
-
-LaTeX Warning: Citation `Ma2010' on page \thepage  undefined on input line 124.
-
-
 File: ./images/bb_floor2_sensors_old.png Graphic file (type QTm)
 <use  "./images/bb_floor2_sensors_old.png" >
 File: ./images/merl_map.png Graphic file (type QTm)
  <use  "./images/merl_map.png" >
-[1
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1
 
 
 ]
+
+LaTeX Warning: Citation `Hoff2009' on page \thepage  undefined on input line 14
+9.
+
 File: ./images/pir_sensor.png Graphic file (type QTm)
- <use  "./images/pir_sensor.png" >
+<use  "./images/pir_sensor.png" > [2]
 File: ./images/brown_day.png Graphic file (type QTm)
  <use  "./images/brown_day.png" >
 File: ./images/merl_day.png Graphic file (type QTm)
 
-<use  "./images/merl_day.png" > [2]
-Underfull \hbox (badness 10000) in paragraph at lines 207--208
+<use  "./images/merl_day.png" >
+Underfull \hbox (badness 10000) in paragraph at lines 212--213
 
  []
 
@@ -324,19 +296,13 @@ File: ./images/brown_top5.png Graphic file (type QTm)
 
 <use  "./images/brown_top5.png" >
 File: ./images/merl_top5.png Graphic file (type QTm)
- <use  "./images/merl_top5.png" >
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [4]
+ <use  "./images/merl_top5.png" > [4]
 File: ./images/brown_ou.png Graphic file (type QTm)
 
 <use  "./images/brown_ou.png" >
 File: ./images/merl_ou.png Graphic file (type QTm)
  <use  "./images/merl_ou.png" >
-(./building_occupancy_forecasting.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [5])
+(./building_occupancy_forecasting.bbl [5])
 Overfull \vbox (192.40073pt too high) has occurred while \output is active []
 
 
@@ -348,12 +314,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2980 strings out of 494004
- 41112 string characters out of 3150890
- 106836 words of memory out of 3000000
- 6207 multiletter control sequences out of 15000+200000
+ 2981 strings out of 494004
+ 41122 string characters out of 3150890
+ 108836 words of memory out of 3000000
+ 6208 multiletter control sequences out of 15000+200000
  42242 words of font info for 55 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 42i,10n,40p,1085b,450s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,10n,40p,1022b,450s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on building_occupancy_forecasting.pdf (6 pages).
