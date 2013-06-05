@@ -330,4 +330,3 @@ for i = 1:size(ind, 2)
     hold off;
     waitforbuttonpress;
 end
-

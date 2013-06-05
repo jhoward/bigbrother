@@ -289,9 +289,7 @@ avgOutput = {};
 
 modelAvg = bcf.models.Average(data.blocksInDay);
 modelAvg.train(input);
-%modelAvg.calculateNoiseDistribution(input, 1);
-modelAvg.calculateNoiseDistribution(input, horizon);
-
+%modelAvg.calculateNoiseDistribution(input, horizon);
 
 modelVals{3} = modelAvg;
 
@@ -324,7 +322,6 @@ plot(1:1:data.blocksInDay * 2, [output(1, data.blocksInDay * 1:data.blocksInDay 
 xlim([1, 20]);
 
 
-
 %====================SVM MODEL========================
 
 svmInput = {};
@@ -332,7 +329,7 @@ svmOutput = {};
 %horizon = 20;
 
 svmParam = '-s 4 -t 2 -q';
-svmWindow = 3;
+svmWindow = 5;
 
 modelSVM = bcf.models.SVM(svmParam);
 modelSVM.train(input, svmWindow);
