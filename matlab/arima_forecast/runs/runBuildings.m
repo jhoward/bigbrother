@@ -1,8 +1,8 @@
 %Run Buildings.  Do analysis for merl data and brownhall data
 
 clear all;
-load('./data/brownData.mat');
-%load('./data/merlData.mat');
+%load('./data/brownData.mat');
+load('./data/merlData.mat');
 
 %===============================SETUP DATA=================
 windowSize = 10;
@@ -11,18 +11,18 @@ trainPercent = 0.6;
 
 %%%%%%%%%%%%%BROWN HALL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Combine the data to be just the exits
-allData = data.data(48, :);
-ysize = 200;
+% allData = data.data(48, :);
+% ysize = 200;
 
 
 % %%%%%%%%%%%%%%MERL DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% allData = data.data(33, :);
-% ysize = 40;
+allData = data.data(33, :);
+ysize = 40;
 
 %%%%%%%%%%%%%%%BOTH DATASETS%%%%%%%%%%%%%%%%%%%%%%%%
 input = allData;
 dayOfWeek = 4;
-horizon = 20;
+horizon = 10;
 
 %=========================END SETUP=====================
 
@@ -94,22 +94,22 @@ set(gca,'XTick',[]);
 %=====================PERFORM SEASONAL ARIMA FORECASTS=====
 
 % %%%%%%%%%%BROWN PARAMETERS%%%%%%%%
-ar = 0;
-diff = 1;
-ma = 1;
-sar = 0;
-sdiff = data.blocksInDay;
-sma = 4;
+% ar = 0;
+% diff = 1;
+% ma = 1;
+% sar = 0;
+% sdiff = data.blocksInDay;
+% sma = 4;
 %%%%%%%%%%%%%BROWN PARAMETERS%%%%%%
 
 
 %%%%%%%%MERL PARAMETERS%%%%%%%%%%%
-% ar = 0;
-% diff = 0;
-% ma = 1;
-% sar = 0;
-% sdiff = data.blocksInDay;
-% sma = 5;
+ar = 0;
+diff = 0;
+ma = 1;
+sar = 0;
+sdiff = data.blocksInDay;
+sma = 5;
 %%%%%%%%MERL PARAMETERS%%%%%%%%%%%
 
 %%%%%%%%%%%%TRAIN FOR TWENTY FORECAST HORIZONS%%%%%%%%%%%%%
@@ -162,7 +162,7 @@ for i = 1:horizon
     dataVals{1}(6, i) = arimaTestMinRes;
 end
 
-plot(1:1:data.blocksInDay, [output(data.blocksInDay:data.blocksInDay * 2 -1); arimaOutput{15}(1, data.blocksInDay:data.blocksInDay * 2 - 1)]);
+plot(1:1:data.blocksInDay, [output(data.blocksInDay:data.blocksInDay * 2 -1); arimaOutput{9}(1, data.blocksInDay:data.blocksInDay * 2 - 1)]);
 plot(1:1:horizon, [dataVals{1}(1, :); dataVals{1}(4, :)])
 xlim([1, horizon]);
 
@@ -197,82 +197,70 @@ hn = 8;
 
 net = timedelaynet(1:td, hn);
 
-net.divideParam.trainRatio = 70/100;
-net.divideParam.valRatio = 15/100;
-net.divideParam.testRatio = 15/100;
+net.divideParam.trainRatio = 60/100;
+net.divideParam.valRatio = 20/100;
+net.divideParam.testRatio = 20/100;
+
 % 
-% % [xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - 1), cdata(:, 1 + 1:end));
-% % net1 = train(net, xs, ts, xi, ai);
-% % [xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - ahead), cdata(:, 1 + ahead:end));
-% % netahead = train(net, xs, ts, xi, ai);
-% % 
-% % modelTDNN = bcf.models.TDNN(net1, netahead, ahead);
-% % 
-% % predInput = modelTDNN.forecastAll(input(1, :), 1);
-% % resInput = predInput - input;
-% % 
-% % trainRmse = errperf(input(sensorNumber, 1:end), predInput(sensorNumber, 1:end), 'rmse');
-% % fprintf(1, 'NN Error rates -- train rmse:%f\n', trainRmse);
+%%%%%%%%%%%%%%TRAIN for TWENTY FORECAST HORIZONS%%%%%%%%%%%%
 % 
-% 
-% %%%%%%%%%%%%%%TRAIN for TWENTY FORECAST HORIZONS%%%%%%%%%%%%
-% % 
-% [xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - 1), cdata(:, 1 + 1:end));
-% net1 = train(net, xs, ts, xi, ai); 
-% [xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - i), cdata(:, 1 + i:end)); 
-% netahead = train(net, xs, ts, xi, ai);
-%modelTDNN = bcf.models.TDNN(net1, netAhead, );
-% 
-% bestRmse = 1;
-% bestModel = 0;
-% %Find the best model from some number of attempts
-% for i = 1:5
-%     net1 = train(net, xs, ts, xi, ai); 
-%     modelTDNN = bcf.models.TDNN(net1, 1);
-%     predOut = modelTDNN.forecastAll(output(1, :), 1);
-%     predOut = predOut - output;
-%     rmse = errperf(output(1, 1:end), predOut(1, 1:end), 'rmse');
-%     rmse
-%     if (i == 1) || (rmse < bestRmse)
-%         bestRmse = rmse;
-%         bestModel = modelTDNN;
-%         i
-%     end
-% end
-% modelTDNN.calculateNoiseDistribution(input, 1);
-% modelVals{2} = bestModel;
-% modelTDNN = bestModel;
+[xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - 1), cdata(:, 1 + 1:end));
+%net1 = train(net, xs, ts, xi, ai); 
+%[xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - i), cdata(:, 1 + i:end)); 
+%netahead = train(net, xs, ts, xi, ai);
+%modelTDNN = bcf.models.TDNN(net1);
+
+bestRmse = 1;
+bestModel = 0;
+%Find the best model from some number of attempts
+for i = 1:5
+    net1 = train(net, xs, ts, xi, ai); 
+    modelTDNN = bcf.models.TDNN(net1, 1);
+    predOut = modelTDNN.forecastAll(output(1, :), 1);
+    predOut = predOut - output;
+    rmse = errperf(output(1, 1:end), predOut(1, 1:end), 'rmse');
+    if (i == 1) || (rmse < bestRmse)
+        bestRmse = rmse;
+        bestModel = modelTDNN;
+    end
+end
+modelTDNN.calculateNoiseDistribution(input, 1);
+modelVals{2} = bestModel;
+modelTDNN = bestModel;
+
+%Plot output and pred data
+plot(1:1:100, [output(1, 200:299); predOut(200:299)]);
 
     
 tdnnInput = {};
 tdnnOutput = {};
 
 %THIS RUN TAKES A WHILE
-for i = 3:horizon
+for i = 1:horizon
 
     %COMMENT THIS OUT LATER
-    [xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - i), cdata(:, 1 + i:end)); 
-    netahead = train(net, xs, ts, xi, ai);
+    %[xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - i), cdata(:, 1 + i:end)); 
+    %netahead = train(net, xs, ts, xi, ai);
     
-    modelTDNN = bcf.models.TDNN(netahead, i);
+    %modelTDNN = bcf.models.TDNN(netahead, i);
     
-    tdnnInput{i} = modelTDNN.forecastAll(input(1, :), i); 
+    %tdnnInput{i} = modelTDNN.forecastAll(input(1, :), i); 
     tdnnOutput{i} = modelTDNN.forecastAll(output(1, :), i); 
     tdnnResOutput = tdnnOutput{i} - output;
-    tdnnResInput = tdnnInput{i} - input;
+    %tdnnResInput = tdnnInput{i} - input;
 
-    tdnnTrainRmse = errperf(input(td + i + 1:end), tdnnInput{i}(td + i + 1:end), 'rmse');
-    tdnnTrainMaxRes = max(tdnnResInput);
-    tdnnTrainMinRes = min(tdnnResInput);
+    %tdnnTrainRmse = errperf(input(td + i + 1:end), tdnnInput{i}(td + i + 1:end), 'rmse');
+    %tdnnTrainMaxRes = max(tdnnResInput);
+    %tdnnTrainMinRes = min(tdnnResInput);
     tdnnTestRmse = errperf(output(td + i + 1:end), tdnnOutput{i}(td + i + 1:end), 'rmse');
     tdnnTestMaxRes = max(tdnnResOutput);
     tdnnTestMinRes = min(tdnnResOutput); 
 
     fprintf(1, '%i tdnn fit Error rates -- test rmse:%f   %f     %f\n', i, tdnnTestRmse, tdnnTestMaxRes, tdnnTestMinRes);
 
-    dataVals{2}(1, i) = tdnnTrainRmse;
-    dataVals{2}(2, i) = tdnnTrainMaxRes;
-    dataVals{2}(3, i) = tdnnTrainMinRes;
+    %dataVals{2}(1, i) = tdnnTrainRmse;
+    %dataVals{2}(2, i) = tdnnTrainMaxRes;
+    %dataVals{2}(3, i) = tdnnTrainMinRes;
     dataVals{2}(4, i) = tdnnTestRmse;
     dataVals{2}(5, i) = tdnnTestMaxRes;
     dataVals{2}(6, i) = tdnnTestMinRes;
@@ -307,7 +295,7 @@ for i = 1:horizon
     avgTestMaxRes = max(avgResOutput);
     avgTestMinRes = min(avgResOutput); 
 
-    fprintf(1, '%i tdnn fit Error rates -- test rmse:%f   %f     %f\n', i, avgTestRmse, avgTestMaxRes, avgTestMinRes);
+    fprintf(1, '%i Average fit Error rates -- test rmse:%f   %f     %f\n', i, avgTestRmse, avgTestMaxRes, avgTestMinRes);
 
     dataVals{3}(1, i) = avgTrainRmse;
     dataVals{3}(2, i) = avgTrainMaxRes;
@@ -328,8 +316,15 @@ svmInput = {};
 svmOutput = {};
 %horizon = 20;
 
+<<<<<<< HEAD
 svmParam = '-s 4 -t 2 -q';
 svmWindow = 5;
+=======
+%%%%%%%%%%%%BROWN PARAMETERS%%%%%%%%%%%%%%%%%%%%%%%%%%
+svmParam = '-s 3 -t 2 -h 0 -q';
+svmWindow = 5;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+>>>>>>> paper writing chnages.
 
 modelSVM = bcf.models.SVM(svmParam);
 modelSVM.train(input, svmWindow);
@@ -350,7 +345,7 @@ for i = 1:horizon
     svmTestMaxRes = max(svmResOutput);
     svmTestMinRes = min(svmResOutput); 
 
-    fprintf(1, '%i tdnn fit Error rates -- test rmse:%f   %f     %f\n', i, svmTestRmse, svmTestMaxRes, svmTestMinRes);
+    fprintf(1, '%i SVM fit Error rates -- test rmse:%f   %f     %f\n', i, svmTestRmse, svmTestMaxRes, svmTestMinRes);
 
     dataVals{4}(1, i) = svmTrainRmse;
     dataVals{4}(2, i) = svmTrainMaxRes;
@@ -367,107 +362,67 @@ plot(1:1:data.blocksInDay * 2, [input(1, data.blocksInDay * 1:data.blocksInDay *
 
 
 
-%==================BCF Models============================
-% bcfInput = {};
-% bcfOutput = {};
-% 
-% %Combine and forecast
-% models = {modelArima modelAvg modelTDNN};
-% %models = {modelArima modelAvg};
-% 
-% modelBcf = bcf.BayesianForecaster(models);
-% modelVals{5} = modelBcf;
-% 
-% for j = 1:length(models)
-%         models{j}.calculateNoiseDistribution(input, 1);
-% end
-% 
-% for i = 1:horizon
-%     bcfInput{i} = modelBcf.forecastAll(input(1, :), i, i, 'aggregate');
-%     bcfOutput{i} = modelBcf.forecastAll(output(1, :), i, i, 'aggregate'); 
-%     bcfResOutput = bcfOutput{i} - output;
-%     bcfResInput = bcfInput{i} - input;
-% 
-%     bcfTrainRmse = errperf(input(i + 1:end), bcfInput{i}(i + 1:end), 'rmse');
-%     bcfTrainMaxRes = max(bcfResInput);
-%     bcfTrainMinRes = min(bcfResInput);
-%     bcfTestRmse = errperf(output(i + 1:end), bcfOutput{i}(i + 1:end), 'rmse');
-%     bcfTestMaxRes = max(bcfResOutput);
-%     bcfTestMinRes = min(bcfResOutput); 
-% 
-%     fprintf(1, '%i bcff fit Error rates -- test rmse:%f   %f     %f\n', i, bcfTestRmse, bcfTestMaxRes, bcfTestMinRes);
-% 
-%     dataVals{5}(1, i) = bcfTrainRmse;
-%     dataVals{5}(2, i) = bcfTrainMaxRes;
-%     dataVals{5}(3, i) = bcfTrainMinRes;
-%     dataVals{5}(4, i) = bcfTestRmse;
-%     dataVals{5}(5, i) = bcfTestMaxRes;
-%     dataVals{5}(6, i) = bcfTestMinRes;
-% end
-% 
-% plot(1:1:horizon, dataVals{5}(4, :));
-% xlim([1, horizon]);
-
-%========next bcf=====
-bcf2Input = {};
-bcf2Output = {};
+%==================BCF Model OLD============================
+%CREATE A BASIC BCF MODEL
+bcfInput = {};
+bcfOutput = {};
+bcfProbs = {};
+bcfRawProbs = {};
 
 %Combine and forecast
-models = {modelArima modelAvg};
+models = {modelArima modelTDNN modelAvg modelSVM};
+%models = {modelArima modelAvg modelSVM};
 
-model2Bcf = bcf.BayesianForecaster(models);
-modelVals{6} = model2Bcf;
+modelBcf = bcf.BayesianForecaster(models);
+modelVals{5} = modelBcf;
 
-lowRMSE = dataVals{modelNums(1)}(4, i);
-defaultModel = modelNums(1);
-%Compute best model for horizon
-for k = 2:length(modelNums)
-    if (dataVals{modelNums(k)}(4, i) < lowRMSE)
-        defaultModel = modelNums(k);
-        lowRMSE = dataVals{modelNums(k)}(4, i);
-    end
+for j = 1:length(models)
+        models{j}.calculateNoiseDistribution(input, 1);
 end
 
 for i = 1:horizon
-    for j = 1:length(models)
-        models{j}.calculateNoiseDistribution(input, i);
-    end
-    bcf2Input{i} = model2Bcf.forecastAll(input(1, :), i, i, 'aggregate', 0.001, defaultModel);
-    bcf2Output{i} = model2Bcf.forecastAll(output(1, :), i, i, 'aggregate', 0.001, defaultModel); 
-    bcfResOutput = bcf2Output{i} - output;
-    bcfResInput = bcf2Input{i} - input;
+    %bcfInput{i} = modelBcf.forecastAll(input(1, :), i, 1, 'aggregate', 0, 1);
+    bcfOutput{i} = modelBcf.forecastAll(output(1, :), i, 1, 'aggregate', 0, 1); 
+    bcfResOutput = bcfOutput{i} - output;
+    %bcfResInput = bcfInput{i} - input;
 
-    bcfTrainRmse = errperf(input(i + 1:end), bcf2Input{i}(i + 1:end), 'rmse');
-    bcfTrainMaxRes = max(bcfResInput);
-    bcfTrainMinRes = min(bcfResInput);
-    bcfTestRmse = errperf(output(i + 1:end), bcf2Output{i}(i + 1:end), 'rmse');
+    %bcfTrainRmse = errperf(input(i + 1:end), bcfInput{i}(i + 1:end), 'rmse');
+    %bcfTrainMaxRes = max(bcfResInput);
+    %bcfTrainMinRes = min(bcfResInput);
+    bcfTestRmse = errperf(output(i + 1:end), bcfOutput{i}(i + 1:end), 'rmse');
     bcfTestMaxRes = max(bcfResOutput);
     bcfTestMinRes = min(bcfResOutput); 
 
-    fprintf(1, '%i bcff fit Error rates -- test rmse:%f   %f     %f\n', i, bcfTestRmse, bcfTestMaxRes, bcfTestMinRes);
+    fprintf(1, '%i bcf fit Error rates -- test rmse:%f   %f     %f\n', i, bcfTestRmse, bcfTestMaxRes, bcfTestMinRes);
 
-    dataVals{6}(1, i) = bcfTrainRmse;
-    dataVals{6}(2, i) = bcfTrainMaxRes;
-    dataVals{6}(3, i) = bcfTrainMinRes;
-    dataVals{6}(4, i) = bcfTestRmse;
-    dataVals{6}(5, i) = bcfTestMaxRes;
-    dataVals{6}(6, i) = bcfTestMinRes;
+    %dataVals{5}(1, i) = bcfTrainRmse;
+    %dataVals{5}(2, i) = bcfTrainMaxRes;
+    %dataVals{5}(3, i) = bcfTrainMinRes;
+    dataVals{5}(4, i) = bcfTestRmse;
+    dataVals{5}(5, i) = bcfTestMaxRes;
+    dataVals{5}(6, i) = bcfTestMinRes;
 end
 
+plot(1:1:horizon, dataVals{5}(4, :));
+xlim([1, horizon]);
 
 
-%========ALL BCF=====
-bcf3Input = {};
-bcf3Output = {};
-bcf3Probs = {};
-bcf3RawProbs = {};
+%======== NEW BCF MODEL ========================================
+
+bcf2Input = {};
+bcf2Output = {};
+bcf2Probs = {};
+bcf2RawProbs = {};
 
 %Combine and forecast
-models = {modelArima modelAvg modelSVM};
-modelNums = [1 3 4];
+models = {modelArima modelTDNN modelAvg modelSVM};
+modelNums = [1 2 3 4];
 
-model3Bcf = bcf.BayesianForecaster(models);
-modelVals{7} = model3Bcf;
+%models = {modelArima modelAvg modelSVM};
+%modelNums = [1 3 4];
+
+model2Bcf = bcf.BayesianForecaster(models);
+modelVals{6} = model2Bcf;
 defaultModel = 1;
 
 for i = 1:horizon
@@ -485,54 +440,53 @@ for i = 1:horizon
         end
     end
     
-    bcf3Input{i} = model3Bcf.forecastAll(input(1, :), i, i, 'aggregate', 0.001, defaultModel);
-    [bcf3Output{i}, bcf3Probs{i}, bcf3RawProbs{i}] = model3Bcf.forecastAll(output(1, :), i, i, 'aggregate', 0.001, defaultModel); 
-    bcfResOutput = bcf3Output{i} - output;
-    bcfResInput = bcf3Input{i} - input;
+    %bcf2Input{i} = model2Bcf.forecastAll(input(1, :), i, i, 'aggregate', 0.01, defaultModel);
+    [bcf2Output{i}, bcf2Probs{i}, bcf2RawProbs{i}] = model2Bcf.forecastAll(output(1, :), i, i, 'aggregate', 0.11, defaultModel); 
+    bcfResOutput = bcf2Output{i} - output;
+    %bcfResInput = bcf2Input{i} - input;
 
-    bcfTrainRmse = errperf(input(i + 1:end), bcf3Input{i}(i + 1:end), 'rmse');
-    bcfTrainMaxRes = max(bcfResInput);
-    bcfTrainMinRes = min(bcfResInput);
-    bcfTestRmse = errperf(output(i + 1:end), bcf3Output{i}(i + 1:end), 'rmse');
+    %bcfTrainRmse = errperf(input(i + 1:end), bcf2Input{i}(i + 1:end), 'rmse');
+    %bcfTrainMaxRes = max(bcfResInput);
+    %bcfTrainMinRes = min(bcfResInput);
+    bcfTestRmse = errperf(output(i + 1:end), bcf2Output{i}(i + 1:end), 'rmse');
     bcfTestMaxRes = max(bcfResOutput);
     bcfTestMinRes = min(bcfResOutput); 
 
-    fprintf(1, '%i bcff fit Error rates -- test rmse:%f   %f     %f\n', i, bcfTestRmse, bcfTestMaxRes, bcfTestMinRes);
+    fprintf(1, '%i bcf-ts fit Error rates -- test rmse:%f   %f     %f\n', i, bcfTestRmse, bcfTestMaxRes, bcfTestMinRes);
 
-    dataVals{7}(1, i) = bcfTrainRmse;
-    dataVals{7}(2, i) = bcfTrainMaxRes;
-    dataVals{7}(3, i) = bcfTrainMinRes;
-    dataVals{7}(4, i) = bcfTestRmse;
-    dataVals{7}(5, i) = bcfTestMaxRes;
-    dataVals{7}(6, i) = bcfTestMinRes;
+    %dataVals{6}(1, i) = bcfTrainRmse;
+    %dataVals{6}(2, i) = bcfTrainMaxRes;
+    %dataVals{6}(3, i) = bcfTrainMinRes;
+    dataVals{6}(4, i) = bcfTestRmse;
+    dataVals{6}(5, i) = bcfTestMaxRes;
+    dataVals{6}(6, i) = bcfTestMinRes;
 end
 
 
-plot(1:1:horizon, dataVals{7}(4, :));
+plot(1:1:horizon, dataVals{6}(4, :));
 xlim([1, horizon]);
 
 dataInputs{1} = arimaInput;
 dataOutputs{1} = arimaOutput;
-dataInputs{2} = tdnnInput;
+%dataInputs{2} = tdnnInput;
 dataOutputs{2} = tdnnOutput;
 dataInputs{3} = avgInput;
 dataOutputs{3} = avgOutput;
 dataInputs{4} = svmInput;
 dataOutputs{4} = svmOutput;
-dataInputs{5} = bcfInput;
+%dataInputs{5} = bcfInput;
 dataOutputs{5} = bcfOutput;
-dataInputs{6} = bcf2Input;
+%dataInputs{6} = bcf2Input;
 dataOutputs{6} = bcf2Output;
-dataInputs{7} = bcf3Input;
-dataOutputs{7} = bcf3Output;
-
-
 
 
 %====%=====%=====SAVE DATA==============
-save('./data/brownResults.mat', 'dataVals', 'modelVals', 'dataInputs', 'dataOutputs');
+save('./data/merlResults.mat', 'dataVals', 'modelVals', 'dataInputs', 'dataOutputs', 'bcf2Probs');
 
 
 %Display probabilities
-bcf3Probs{1}
-plot(1:1:100, [bcf3RawProbs{1}(1, 100:199); bcf3RawProbs{1}(2, 100:199); bcf3RawProbs{1}(3, 100:199)]);
+bcf2Probs{1}
+figure
+plot(1:1:100, [bcf2RawProbs{10}(1, 100:199); bcf2RawProbs{10}(2, 100:199); bcf2RawProbs{10}(3, 100:199)]);
+figure
+plot(1:1:100, [bcf2Probs{2}(1, 200:299); bcf2Probs{2}(2, 200:299); bcf2Probs{2}(3, 200:299)]);

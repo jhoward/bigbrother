@@ -1,5 +1,5 @@
 clear all;
-window = 5;
+window = 10;
 dataSize = 100;
 
 %Dataset
@@ -10,6 +10,9 @@ x = x + nn;
 xx=1:1:dataSize;
 nn = randn(1, dataSize);
 xx = xx + nn;
+
+x = normalize(x);
+xx = normalize(xx);
 
 %plot(x)
 
@@ -29,12 +32,10 @@ for i = 1:dataSize - window
 end
 yyWin        = xx(1 + window:end);
 
-
-options = ' -s 3 -t 2';
+%options = ' -s 4 -t 2';
+options = '-s 3 -t 2 -c 100 -p 0.001 -h 0'
 model   = svmtrain(yWin', xWin', options);
 
 [predOut, accuracy, decision_values] = svmpredict(yyWin', xxWin', model);
-
-predOut
 
 plot(1:1:(dataSize - window), [yyWin; predOut']);

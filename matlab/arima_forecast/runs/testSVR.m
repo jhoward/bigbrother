@@ -2,7 +2,7 @@ clear all;
 
 N = 50;
 D = 3;
-window = 5;
+window = 6;
 horizon = 1;
 
 x = linspace(0, pi, N);
@@ -13,12 +13,12 @@ x = x + 0.01 * randn(size(x));
 y = sin(x) + 0.01 * randn(size(x));
 yp = sin(xp) + 0.01 * randn(size(x));
 
-modelSVM = bcf.models.SVM('-s 4 -t 2 -q');
+modelSVM = bcf.models.SVM('-s 3 -t 2 -h 0');
 modelSVM.train(y, window);
 
 modelSVM.calculateNoiseDistribution(y, 1);
 yy = modelSVM.forecastAll(y, 1);
-yyp = modelSVM.forecastAll(yp, 15);
+yyp = modelSVM.forecastAll(yp, 5);
 
 plot(1:1:75, [y(1, 25:99); yy(1, 25:99)]);
 plot(1:1:75, [yp(1, 25:99); yyp(1, 25:99)]);
