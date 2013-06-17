@@ -121,6 +121,8 @@ public class MainSPOT extends MIDlet {
     private long myCurrentTime;
     private long myFirstTime;
     private int numberOfJumps;
+    private long timeLastJump;
+    private long sinceLastJump;
     
     
     protected void startApp() throws MIDletStateChangeException {
@@ -133,6 +135,14 @@ public class MainSPOT extends MIDlet {
             System.out.println("Data collection finished, exiting..."); // ADDED kolten
             return;
         }
+        
+        long[ ] arrayFrontTime = new long[20];
+        short[ ] arrayFrontType = new short[20];
+        int countFront = 0;
+        
+         long[ ] arrayBackTime = new long[20];
+        short[ ] arrayBackType = new short[20];
+        int countBack = 0;
         
         long timeoutCounter = 0;
         
@@ -149,6 +159,7 @@ public class MainSPOT extends MIDlet {
         
         try {
             while(true) {
+              //  System.out.println("Shallow sleep:" + sleepManager.getTotalShallowSleepTime());
               // System.out.println("Waiting for trigger.");
                int trigger = ((Integer)triggers.get()).intValue();
              //  System.out.println("Trigger:" + trigger);
@@ -187,7 +198,7 @@ public class MainSPOT extends MIDlet {
                   if((state == Const.COOLDOWN_STATE) && fs && bs && ( (myCurrentTime - myFirstTime)>1000 ) ) {
                        state = Const.WAITING_STATE;
                        if (reportLength){
-                           
+                            
                             if (useOffset){
                                 timeoutCounter = (System.currentTimeMillis()+timeOffset - outputTime);
                             }
@@ -195,6 +206,7 @@ public class MainSPOT extends MIDlet {
                                 timeoutCounter = (System.currentTimeMillis() - outputTime);
                             }
                            
+                        sinceLastJump = myCurrentTime - timeLastJump;
                            
                         System.out.print("   TIMEOUT: "+timeoutCounter); //if an enter or exit state triggered, print 'length'
                         System.out.print("*\n");
@@ -208,8 +220,27 @@ public class MainSPOT extends MIDlet {
                         
                         records.addRecord(timeoutCounter,Const.EVENT_TIMEOUT,0);
                         
-                        System.out.println("\nNumber of jumps: "+numberOfJumps+"\n");
-                        records.addRecord(numberOfJumps, Const.EVENT_JUMPS,0);
+                        for (int i = 0; i< countFront ; i++){
+                            records.addRecord(arrayFrontTime[i], Const.EVENT_JUMP_FRONT, arrayFrontType[i]);
+                        }
+                         for (int i = 0; i< countBack ; i++){
+                            records.addRecord(arrayBackTime[i], Const.EVENT_JUMP_BACK, arrayBackType[i]);
+                        }
+                        
+                        //System.out.println("\nNumber of jumps: "+numberOfJumps+"\n");
+                        //records.addRecord(numberOfJumps, Const.EVENT_JUMPS,0);
+                        //
+                        //System.out.println("\nSince last jump: "+sinceLastJump+"\n");
+                        //records.addRecord(sinceLastJump,Const.EVENT_SINCELASTJUMP,0);
+                        //
+                        //long temp = timeoutCounter-sinceLastJump;
+                        //
+                        //if (temp < 0) {
+                        //    temp = 0;
+                        //}
+                        //
+                        //System.out.println("\nJumpy period: "+temp+"\n");
+                        //records.addRecord(temp, Const.EVENT_JUMPYTIME, 0);
                         
                        }
                        break; // ADDED - KOLTEN
@@ -297,15 +328,60 @@ public class MainSPOT extends MIDlet {
                    timeoutCounter += Const.DOWN_SENSORS_POLL_FREQUENCY;
                    
                    if (frontSensor.getState() != fs) {
-                       numberOfJumps +=1;
+                       if (useOffset){
+                           arrayFrontTime[countFront] = System.currentTimeMillis()+timeOffset;
+                       }
+                       else{
+                           arrayFrontTime[countFront] = System.currentTimeMillis();
+                       }
+                       if (fs){
+                           arrayFrontType[countFront] = 0; //THE FRONT SENSOR HAS JUMPED DOWN
+                       }
+                       else {
+                           arrayFrontType[countFront] = 1; //THE FRONT SENSOR HAS JUMPED UP
+                       }
+                       countFront += 1;
+                       //numberOfJumps +=1;
+                       //if (fs){ //although counter intuitive, this is because fs and bs have NOT yet been set, so if they are true, this means the jump is due to being pulled false.
+                       //     if (useOffset){
+                       //            timeLastJump = System.currentTimeMillis()+timeOffset;
+                       //     }
+                       //     else {
+                       //             timeLastJump = System.currentTimeMillis();
+                       //     }
+                       //}
                    }
                    if (backSensor.getState() != bs){
-                       numberOfJumps +=1;
+                       if (useOffset){
+                           arrayBackTime[countBack] = System.currentTimeMillis()+timeOffset;
+                       }
+                       else{
+                           arrayBackTime[countBack] = System.currentTimeMillis();
+                       }
+                       if (bs){
+                           arrayBackType[countBack] = 0; //THE FRONT SENSOR HAS JUMPED DOWN
+                       }
+                       else {
+                           arrayBackType[countBack] = 1; //THE FRONT SENSOR HAS JUMPED UP
+                       }
+                       countBack += 1;
+                       //numberOfJumps +=1;
+                       //if (bs){
+                       //     if (useOffset){
+                       //            timeLastJump = System.currentTimeMillis()+timeOffset;
+                       //     }
+                       //     else {
+                       //             timeLastJump = System.currentTimeMillis();
+                       //     }
+                       //}
                    }
                }
                
                myFirstTime = 0;
                myCurrentTime = 0;
+               
+               countFront = 0;
+               countBack = 0;
                
                timeoutCounter = 0;
                triggers.empty();

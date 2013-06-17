@@ -15,6 +15,9 @@ public class Const {
     public static short         NO_DELETE_RECORDS           = 8;
     
     public static short         EVENT_TIMEOUT               = 20;
+    public static short         EVENT_JUMPS                 = 21;
+    public static short         EVENT_SINCELASTJUMP         = 22;
+    public static short         EVENT_JUMPYTIME             = 23;
     
     //sensors
     public static int           BACK_SENSOR                 = 0;
@@ -42,7 +45,7 @@ public class Const {
     public static int           BLUE_LED                    = 4;
     
     public static String        RECORD_NAME                 = "data";
-    public static String        DATA_DIRECTORY              = "/Users/jahoward/Documents/Dropbox/data/people/new_brown_hall/";
+    public static String        DATA_DIRECTORY              = "";
     
     public static int[]         LED_ERROR                   = {3, 3, 150, 0};
     public static int[]         LED_DATA                    = {1, 1, 20, 0};
