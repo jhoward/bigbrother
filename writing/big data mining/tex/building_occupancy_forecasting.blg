@@ -3,44 +3,47 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: building_occupancy_forecasting.aux
 The style file: abbrv.bst
 Database file #1: big-data_mining.bib
-You've used 16 entries,
+Warning--empty journal in Hsu2003
+Warning--there's a number but no volume in Hsu2003
+You've used 19 entries,
             2118 wiz_defined-function locations,
-            611 strings with 6910 characters,
-and the built_in function-call counts, 5515 in all, are:
-= -- 516
-> -- 304
-< -- 3
-+ -- 118
-- -- 102
-* -- 392
-:= -- 936
-add.period$ -- 50
-call.type$ -- 16
-change.case$ -- 98
+            630 strings with 7363 characters,
+and the built_in function-call counts, 6531 in all, are:
+= -- 613
+> -- 353
+< -- 4
++ -- 137
+- -- 118
+* -- 470
+:= -- 1103
+add.period$ -- 59
+call.type$ -- 19
+change.case$ -- 115
 chr.to.int$ -- 0
-cite$ -- 16
-duplicate$ -- 210
-empty$ -- 432
-format.name$ -- 102
-if$ -- 1146
+cite$ -- 21
+duplicate$ -- 249
+empty$ -- 513
+format.name$ -- 118
+if$ -- 1356
 int.to.chr$ -- 0
-int.to.str$ -- 16
-missing$ -- 16
-newline$ -- 82
-num.names$ -- 34
-pop$ -- 117
+int.to.str$ -- 19
+missing$ -- 19
+newline$ -- 97
+num.names$ -- 40
+pop$ -- 137
 preamble$ -- 1
-purify$ -- 82
+purify$ -- 96
 quote$ -- 0
-skip$ -- 129
+skip$ -- 152
 stack$ -- 0
-substring$ -- 253
-swap$ -- 35
-text.length$ -- 3
+substring$ -- 311
+swap$ -- 41
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 62
-warning$ -- 0
-while$ -- 50
-width$ -- 18
-write$ -- 176
+type$ -- 74
+warning$ -- 2
+while$ -- 61
+width$ -- 21
+write$ -- 208
+(There were 2 warnings)

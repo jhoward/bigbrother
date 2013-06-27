@@ -34,12 +34,23 @@ J.~Hansen and R.~Nelson.
   networks}.
 \newblock {\em Joural of the Operational Research Society}, 54:307--317, 2003.
 
+\bibitem{Hoff2009}
+W.~A. Hoff and J.~W. Howard.
+\newblock {Activity recognition in a dense sensor network}.
+\newblock In {\em 1st International Conference on Sensor Networks and
+  Applications (SNA2009)}, page~6, 2009.
+
 \bibitem{Hong2011}
 W.-C. Hong, Y.~Dong, F.~Zheng, and S.~Y. Wei.
 \newblock {Hybrid evolutionary algorithms in a SVR traffic flow forecasting
   model}.
 \newblock {\em Applied Mathematics and Computation}, 217(15):6733--6747, Apr.
   2011.
+
+\bibitem{Hsu2003}
+C.~Hsu, C.~Chang, and C.~Lin.
+\newblock {A practical guide to support vector classification}.
+\newblock (1):1--16, 2003.
 
 \bibitem{Ljung1978}
 G.~M. Ljung and G.~E.~P. Box.
@@ -90,6 +101,12 @@ C.~Wren, Y.~Ivanov, D.~Leigh, and J.~Westbues.
 \newblock {The MERL motion detector dataset: 2007 workshop on massive
   datasets}.
 \newblock In {\em ICMI Workshop on Massive Datasets}, 2007.
+
+\bibitem{Wu2004}
+C.-H. Wu, J.-M. Ho, and D.~Lee.
+\newblock {Travel-Time Prediction With Support Vector Regression}.
+\newblock {\em IEEE Transactions on Intelligent Transportation Systems},
+  5(4):276--281, Dec. 2004.
 
 \bibitem{Zheng2006}
 W.~Zheng, D.-H. Lee, and Q.~Shi.
