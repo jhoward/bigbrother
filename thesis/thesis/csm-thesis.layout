@@ -1,0 +1,428 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[article]{article (CSM Thesis)}
+# Based on the "Article" and "stdclass.inc", updated for the CSM Thesis by Erich Hoover.
+
+Format 4
+Columns                 1
+Sides                   2
+SecNumDepth             3
+TocDepth                3
+DefaultStyle            Standard
+
+Provides babel          1
+
+Requires                setspace
+
+Preamble
+	% Override the fontenc setting in LyX, it makes the fonts ugly
+	\usepackage[OT1]{fontenc}
+	% Include our package
+	\usepackage{csm-thesis}
+EndPreamble
+
+ClassOptions
+        FontSize        12
+End
+
+Style Standard
+	Category              MainText
+        Margin                Static
+        LatexType             Paragraph
+        LatexName             dummy
+        ParIndent             MM
+        ParSkip               0.4
+        Align                 Block
+        AlignPossible         Block, Left, Right, Center
+        LabelType             No_Label
+End
+
+# Redefine how section numbering resets
+Counter part
+        Within               ""
+	LabelString          "\arabic{part}"
+End
+Counter chapter
+        Within               "part"
+	LabelString          "\arabic{chapter}"
+	LabelStringAppendix  "\Alph{chapter}"
+End
+Counter subsection
+        Within               chapter
+End
+# Copy all the other counters from stdcounters.inc:
+Counter subsubsection
+	Within               subsection
+End
+Counter paragraph
+	Within               subsubsection
+End
+Counter enumi
+End
+Counter enumii
+	Within               enumi
+End
+Counter enumiii
+	Within               enumii
+End
+Counter enumiv
+	Within               enumiii
+End
+Counter bibitem
+End
+Counter figure
+End
+Counter table
+End
+Counter algorithm
+End
+Counter equation
+End
+Counter listing
+End
+
+# Special counters for author footnotes
+Counter authorsymbolnote
+        Within               chapter
+	LabelString          "\fnsymbol{authorsymbolnote}"
+End
+Counter authornumberednote
+        Within               chapter
+	LabelString          "\arabic{authornumberednote}"
+End
+
+# Bring in the standard set of LyX settings
+Input stdlists.inc
+Input stdsections.inc
+Input stdstarsections.inc
+Input stdtitle.inc
+Input stdstruct.inc
+Input stdlayouts.inc
+Input stdfloats.inc
+
+NoStyle Part*
+NoStyle Chapter*
+NoStyle Section
+NoStyle Section*
+NoStyle Subsection*
+NoStyle Subsubsection*
+NoStyle Paragraph*
+NoStyle Subparagraph
+NoStyle Subparagraph*
+
+# Make the part appear in the center
+Style Part
+	TopSep                1
+	BottomSep             0.5
+	Align                 Center
+	AlignPossible         Center
+	LabelString           "Part \arabic{part}"
+	Font
+		Shape             Smallcaps
+	EndFont
+End
+# Make the chapter appear in the center
+Style Chapter
+	TopSep                1
+	BottomSep             0.5
+	Align                 Center
+	AlignPossible         Center
+	LabelString           "Chapter \arabic{chapter}"
+	LabelStringAppendix   "Appendix \Alph{chapter}"
+	Font
+		Shape             Smallcaps
+	EndFont
+End
+
+# Redefine the section numbering display
+Style Subsection
+	Align                 Left
+	AlignPossible         Left
+	LabelString           "\thesubsection"
+End
+Style Subsubsection
+	Align                 Left
+	AlignPossible         Left
+	LabelString           "\thesubsubsection"
+End
+Style Paragraph
+	Align                 Left
+	AlignPossible         Left
+	LabelString           "\theparagraph"
+End
+# Redefine the Title style to be in all caps
+Style Title
+	Font
+		Shape             Smallcaps
+	EndFont
+End
+# Redefine the Abstract style to have the label be in caps
+Style Abstract
+	LabelFont
+		Shape             Smallcaps
+	EndFont
+End
+
+
+### Add extra styles ###
+Style Acknowledgments
+	CopyStyle             Abstract
+	LatexName             acknowledgments
+        LabelString           "Acknowledgments"
+End
+Style Dedication
+	CopyStyle             Abstract
+	LatexName             dedication
+        LabelString           "Dedication"
+End
+Style Introduction
+	Category              MainText
+	LatexType             Environment
+	LatexName             introduction
+	Align                 Left
+	AlignPossible         Left
+End
+Style SelectedBibliography
+	Category              BackMatter
+	LatexType             Environment
+	LatexName             selected-bibliography
+	Align                 Left
+	AlignPossible         Left
+End
+Style Appendix
+	CopyStyle             Chapter
+	Category              BackMatter
+	LatexName             appendix
+	LabelCounter          chapter
+        LabelString           "Appendix \Alph{chapter}"
+End
+Style Degree
+	Category              FrontMatter
+	LatexType             Command
+	LatexName             degreetitle
+        Align                 Block
+        AlignPossible         Block
+	LabelType             Static
+	LabelString           "Degree:"
+	LabelSep              x
+	LeftMargin            "XXXXXXXXXXXXXX"
+	NeedProtect           1
+	OptionalArgs          0
+	LabelFont
+	  Family              Roman
+	  Series              Medium
+	  Size                Normal
+	  Color               Blue
+	EndFont
+End
+Style Discipline
+	CopyStyle             Degree
+	LatexName             discipline
+	LabelString           "Discipline:"
+End
+Style Department
+	CopyStyle             Degree
+	LatexName             department
+	LabelString           "Department:"
+End
+Style Advisor
+	CopyStyle             Degree
+	LatexName             advisor
+	LabelString           "Advisor:"
+End
+Style Co-Advisor
+	CopyStyle             Degree
+	LatexName             coadvisor
+	LabelString           "Co-Advisor:"
+End
+Style DepartmentHeadName
+	CopyStyle             Degree
+	LatexName             dptheadname
+	LabelString           "Dpt. Head Name:"
+End
+Style DepartmentHeadTitle
+	CopyStyle             Degree
+	LatexName             dptheadtitle
+	LabelString           "Dpt. Head Title:"
+End
+Style AuthorNoteSymbol
+	CopyStyle             Degree
+	Category              JournalArticle
+	LabelType             Counter
+	LabelCounter          authorsymbolnote
+	LeftMargin            "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+	LatexName             authornotesymbol
+	LabelString           "Author Footnote (symbol-\fnsymbol{authorsymbolnote}):"
+End
+Style AuthorNoteNumbered
+	CopyStyle             Degree
+	Category              JournalArticle
+	LabelType             Counter
+	LabelCounter          authornumberednote
+	LeftMargin            "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+	LatexName             authornotenumbered
+	LabelString           "Author Footnote (numbered-\arabic{authornumberednote}):"
+End
+
+# Deprecated styles
+Style Acknowledgements
+	CopyStyle             Acknowledgments
+	Category              Deprecated
+End
+
+# Styles for the different document pieces
+Style --FrontMatter--
+	Category              Structure
+	KeepEmpty             1
+	Margin                Dynamic
+        LatexType             Command
+        LatexName             frontmatter
+        RequiredArgs          0
+        OptionalArgs          0
+	ParIndent             MM
+	Align                 Center
+	AlignPossible         Center
+	LabelType             Static
+        LabelString           "------ Front Matter ------"
+	LabelFont
+	  Family              Roman
+	  Series              Medium
+	  Size                Normal
+	  Color               Blue
+	EndFont
+End
+Style -SubmittalPage-
+	CopyStyle             --FrontMatter--
+	Category              FrontMatter
+	LatexName             makesubmittal
+	LabelString           "--- Insert Submittal Page ---"
+	LabelFont
+	  Color               Green
+	EndFont
+End
+Style -ListOfFiguresAndTables-
+	CopyStyle             -SubmittalPage-
+	LatexName             listoffiguresandtables
+	LabelString           "--- Insert List of Figures and Tables ---"
+End
+Style -ListOfFigures-
+	CopyStyle             -SubmittalPage-
+	LatexName             listoffigures
+	LabelString           "--- Insert List of Figures ---"
+End
+Style -ListOfTables-
+	CopyStyle             -SubmittalPage-
+	LatexName             listoftables
+	LabelString           "--- Insert List of Tables ---"
+End
+Style -ListOfSymbols-
+	CopyStyle             -SubmittalPage-
+	LatexName             listofsymbols
+	LabelString           "--- Insert List of Symbols ---"
+End
+Style -ListOfSymbols(sorted)-
+	CopyStyle             -SubmittalPage-
+	LatexName             listofsymbols*
+	LabelString           "--- Insert List of Symbols (sorted) ---"
+End
+Style -ListOfAbbreviations-
+	CopyStyle             -SubmittalPage-
+	LatexName             listofabbreviations
+	LabelString           "--- Insert List of Abbreviations ---"
+End
+Style -ListOfAbbreviations(sorted)-
+	CopyStyle             -SubmittalPage-
+	LatexName             listofabbreviations*
+	LabelString           "--- Insert List of Abbreviations (sorted) ---"
+End
+Style --BodyMatter--
+	CopyStyle             --FrontMatter--
+	LatexName             bodymatter
+	LabelString           "------ Body Matter ------"
+End
+Style --BackMatter--
+	CopyStyle             --FrontMatter--
+	LatexName             backmatter
+	LabelString           "------ Back Matter ------"
+End
+Style --JournalArticle--
+	CopyStyle             --FrontMatter--
+	KeepEmpty             1
+	LatexName             journalarticle
+	LabelString           "------ Start Journal Article Mode ------"
+End
+Style --EndJournalArticle--
+	CopyStyle             --JournalArticle--
+	LatexName             endjournalarticle
+	LabelString           "------ End Journal Article Mode ------"
+End
+Style --BumpSections--
+	CopyStyle             --JournalArticle--
+	LatexName             bumpsections
+	LabelString           "------ Bump Section Designations ------"
+End
+Style --UnBumpSections--
+	CopyStyle             --FrontMatter--
+	LatexName             unbumpsections
+	LabelString           "------ Undo Section Designation Bumping ------"
+End
+
+# Custom "convenience" styles:
+
+Style Landscape
+	CopyStyle             Standard
+        LatexType             Environment
+        LatexName             landscape
+	LabelType             Static
+	LabelString           "Landscape Mode:"
+	LabelSep              x
+	LabelFont
+	  Family              Roman
+	  Series              Medium
+	  Size                Normal
+	  Color               Blue
+	EndFont
+	Margin                Dynamic
+	Preamble
+		\usepackage{pdflscape}
+	EndPreamble
+End
+
+Style PocketContents
+	Category              Deprecated
+	LatexType             Command
+	LatexName             addpocketcontents
+        Align                 Block
+        AlignPossible         Block
+	LabelType             Static
+	LabelSep              x
+	LabelString           "Pocket Contents:"
+	LeftMargin            "XXXXXXXXXXXXXXX"
+	NeedProtect           1
+	OptionalArgs          0
+	LabelFont
+	  Family              Roman
+	  Series              Medium
+	  Size                Normal
+	  Color               Blue
+	EndFont
+End
+Style PocketAppendix
+	CopyStyle             PocketContents
+	LatexName             addpocketappendix
+	LabelType             Counter
+	LabelCounter          chapter
+	LeftMargin            "XX"
+	LabelString           "Pocket Appendix \Alph{chapter}:"
+End
+
+
+# Reset numbering within chapters
+Float
+        Type                  figure
+        NumberWithin          chapter
+End
+Float
+        Type                  table
+        NumberWithin          chapter
+End
+

@@ -1,0 +1,73 @@
+% This is a list of the symbols that encode differently between LyX and LaTeX
+% where it makes sense to redefine them for both (if there is a good reason
+% to NOT do this for a symbol then please let me know)
+
+% Variables needed by this package
+\newif\if@csm@within@contents@
+\@csm@within@contents@false
+\newcounter{csm@encoding@count}
+
+\newif\if@csm@flexisym@
+\@ifpackageloaded{flexisym}{\@csm@flexisym@true}{\@csm@flexisym@false}
+
+% Code to redefine a symbol as needed
+\newcommand{\csm@redefine@char@}[3]{
+	% NOTE: This expansion is so that we don't screw with flexisym (which is an important part of breqn)
+	\if@csm@flexisym@
+		\expandafter\let\csname csm@orig@symbol@#1@\endcsname=#2
+	\else
+		\expandafter\gdef\csname csm@orig@symbol@#1@\endcsname{\char `#2}
+	\fi
+	\catcode`#2=\active
+	\gdef #2{%
+		\ifmmode%
+			\csname csm@orig@symbol@#1@\endcsname%
+		\else%
+			\if@csm@within@contents@%
+				\protect\csname csm@orig@symbol@#1@\endcsname%
+			\else%
+				#3%
+			\fi%
+		\fi%
+	}
+}
+\gdef\csm@redefine@char#1#2{
+	% Define the character
+	\CSM@AtBeginDocumentLast{
+		\expandafter\csm@redefine@char@\the\c@csm@encoding@count{#1}{#2}
+		\addtocounter{csm@encoding@count}{1}
+	}
+	% Undefine the character at the end of the document
+	\AtEndDocument{
+		\catcode`#1=12
+	}
+}
+
+% Actually redefine the symbols
+\begingroup
+\catcode`\>=\active
+\csm@redefine@char{>}{\textgreater}
+\catcode`\<=\active
+\csm@redefine@char{<}{\textless}
+\endgroup
+% Change the tilde to the math version (looks better)?
+%\renewcommand{\textasciitilde}{$\sim$}
+
+% Redefine some UTF-8 symbols (mostly used in bibtex files)
+\AtBeginDocument{
+	\def\csm@cmp@string@{utf8}
+	\ifx\inputencodingname\csm@cmp@string@\relax
+		\DeclareUnicodeCharacter{03BC}{\textmu{}}
+		\DeclareUnicodeCharacter{2010}{-}
+	\fi
+}
+
+% Add special code to keep from expanding the symbol inside of contents entries
+\AtBeginDocument{
+	\global\let\csm@orig@addcontentsline=\addcontentsline
+	\gdef\addcontentsline#1#2#3{%
+		\@csm@within@contents@true%
+		\csm@orig@addcontentsline{#1}{#2}{#3}%
+		\@csm@within@contents@false%
+	}
+}

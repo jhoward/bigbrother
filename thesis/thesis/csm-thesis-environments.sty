@@ -1,0 +1,715 @@
+% Special commands for counting words in the abstract
+\newcounter{csm@abstract@words}
+\setcounter{csm@abstract@words}{0}
+\begingroup
+\global\let\orig@par\@empty
+\global\let\orig@spaceA\@empty
+\global\let\orig@spaceB\@empty
+\catcode`\ =\active
+\gdef\countwords{%
+	\global\let\orig@par=\par%
+	\global\let\orig@spaceA=\space%
+	\global\let\orig@spaceB= %
+	\gdef\csm@space{\stepcounter{csm@abstract@words}\orig@spaceA}%
+	\gdef\par{\stepcounter{csm@abstract@words}\orig@par}%
+	\catcode`\ =\active%
+	\global\let =\csm@space%
+}
+\gdef\stopwordcount{%
+	\global\let\space=\orig@spaceA%
+	\global\let =\orig@spaceB%
+	\global\let\par=\orig@par%
+	\catcode`\ =11%
+}
+\endgroup
+
+% The abstract in a master’s thesis has no length restriction. However, in a Ph.D. dissertation, the abstract limit is 350 words, or approximately 1½ pages of text. This limit is set by the publishers of the Dissertation Abstracts International. Dissertation abstracts are submitted by OGS to this publication for indexing. As an alternative, you may include a longer abstract in the thesis and also separately submit a shorter summary to OGS that adheres to the 350-word limit. The submission of the shorter summary is part of the graduation checkout requirement.
+% <<EXTRA:>> Also done so \section calls are done internally
+\global\let\@abstract@exists\@empty
+\renewenvironment{abstract}{
+	\ifx\@abstract@exists\@empty
+		\global\let\@abstract@exists\@true
+		\internalsection{\abstractname}
+	\else
+		% Second abstract call (the user changed the style for some reason and then continued the abstract)
+		\par
+	\fi
+	\begingroup
+	\countwords
+}{
+	\stopwordcount
+	\endgroup
+	\ifnum\value{csm@abstract@words}>350
+		\csm@thesis@warning{Your abstract contains \arabic{csm@abstract@words} words, a dissertation (PhD thesis) may not exceed 350 words.  If you are submitting a dissertation you may alternatively submit a shorter summary to OGS that adheres to the 350-word limit}
+	\fi
+}
+
+% If a dedication page is included, it is placed at the end of the front matter section, following the acknowledgments. Typically, a dedication page has no title; it simply states, e.g., “For my father.” Roman numeral page numbering continues on the dedication page, which is blank on the back side.
+\global\let\@dedication@exists\@empty
+\newenvironment{dedication}{
+	\global\let\@dedication@exists\@true
+	% Add a ToC entry for the PDF
+	\magicsection
+	\addcontentsline{toc}{section}{\protect\texorpdfupper{Dedication}}
+	\begingroup
+		% Set up a vertical space and horizontal centering
+		\vspace*{\fill}
+		\center
+}{
+		% End horizontal centering and use another vertical space (to give us a vertically centered page)
+		\endcenter
+		\vspace*{\fill}
+		\vspace*{\baselineskip}
+	\endgroup
+}
+
+% EXTRA: Make an environment for acknowledgments so that all \section calls are done internally
+\global\let\@acknowledgments@exists\@empty
+\newenvironment{acknowledgments}{
+	\ifx\csm@thesis@nochecks\@false
+		\ifx\@dedication@exists\@empty \else
+			\csm@thesis@error{The dedication must be the last item in the front matter.}
+		\fi
+	\fi
+	\global\let\@acknowledgments@exists\@true
+	\internalsection{Acknowledgments}
+}{}
+% For compatibility:
+\global\let\acknowledgements=\acknowledgments
+\global\let\endacknowledgements=\endacknowledgments
+
+% OLD: Make an environment for the introduction so that all \section calls are done internally
+% NEW: The OGS would now like the introduction to be treated as a chapter.
+% NOTE: This section is optional
+\newenvironment{introduction}{
+	\chapter{Introduction}
+}{}
+
+% EXTRA: Make an environment for the bibliography so that all \section calls are done internally
+% NOTE: This section is optional
+\newenvironment{selected-bibliography}{
+	\internalsection{Selected Bibliography}
+}{}
+
+% EXTRA: Make internal convenience routines for standardizing the bibliography output
+\gdef\csm@internal@bibliography{%
+	\ifx\csm@chapter@bibliography\@true\relax%
+		\def\csm@section@type{subsection}%
+		\def\section{\@ifstar{\subsection}{\subsection}}% <-- drop the star
+	\fi%
+}
+\gdef\csm@internal@bibliography@{%
+	\global\let\@bibliography@exists\@true%
+}
+\gdef\csm@internal@bibliography@@{%
+	\ifx\csm@chapter@bibliography\@true\relax\else%
+		\magicsection%
+		\addcontentsline{toc}{\csm@section@type}{\protect\texorpdfupper{\csm@refname}}%
+	\fi%
+}
+\gdef\csm@internal@bibliography@@@{%
+	\let\@chapter@call\@true%
+	\section*{\csm@refname}%
+	\let\@chapter@call\@empty%
+	\addtocounter{csmsectionline}{1}%
+}
+
+% EXTRA: Use special bibliography environment when using the ``biblatex'' package.
+\AtBeginDocument{
+	\@ifpackageloaded{biblatex}{
+		\global\let\external@printbibliography=\printbibliography
+		\newcommand{\csm@printbibliography@before}{%
+			\cleardoublepage%
+			\global\let\@chapter@call\@true%
+			\csm@internal@bibliography%
+		}
+		\newcommand{\csm@printbibliography@after}{%
+			\global\let\@chapter@call\@empty%
+		}
+		\gdef\csm@printbibliography{%
+			\csm@printbibliography@before%
+			\external@printbibliography%
+			\csm@printbibliography@after%
+		}
+		\gdef\csm@printbibliography@opt[#1]{%
+			\csm@printbibliography@before%
+			\external@printbibliography[#1]%
+			\csm@printbibliography@after%
+		}
+		\gdef\printbibliography{%
+			\@ifnextchar[% ] bracket matching
+			{\csm@printbibliography@opt}%
+			{\csm@printbibliography}%
+		}
+	}
+}
+
+% <<EXTRA:>> Make an environment for the bibiliography so that all \section calls are done internally
+\global\let\@bibliography@exists\@empty
+\AtBeginDocument{
+	\global\let\latex@bibliography\bibliography
+	\renewcommand{\bibliography}[1]{
+		\ifx\csm@chapter@bibliography\@true\else%
+			\cleardoublepage%
+		\fi%
+		\global\let\@bibliography@exists\@true%
+		\begingroup%
+			\csm@internal@bibliography%
+			\latex@bibliography{#1}%
+		\endgroup%
+	}{}
+}
+
+% <<EXTRA:>> Make eqnarray environment single-spaced.
+% \global\let\eqnarray@orig@begin=\eqnarray
+% \global\let\eqnarray@orig@end=\endeqnarray
+% \renewenvironment{eqnarray}{%
+% %	\begingroup%
+% %		\singlespacing%
+% 		\eqnarray@orig@begin%
+% }{%
+% 		\eqnarray@orig@end%
+% %	\endgroup%
+% }
+
+% EXTRA: Make the references be called ``References Cited'' and be included in the TOC
+% IMPORTANT NOTES:
+%  1) ``babel'' scews up \refname, so we renew \refname at the beginning of the document.
+%  2) ``natbib'' screws up \thebibliography, so we most renew at the beginning of the document.
+%  3) LyX messes with \refname, so use an internal \csm@refname where possible.
+\AtBeginDocument{
+	\makeatletter
+	\newcommand{\csm@refname}{References Cited}
+	\renewcommand{\refname}{\csm@refname}
+	% Do not change the bibliography section if biblatex is used, otherwise we get two section titles
+	\@ifpackageloaded{biblatex}{}{
+		% If natbib is used then just redefine the internally used section command
+		\@ifpackageloaded{natbib}{
+			\gdef\bibsection{%
+				\csm@internal@bibliography@%
+				\csm@internal@bibliography@@%
+				\csm@internal@bibliography@@@%
+			}
+		}{
+			% Redefine \refname to \csm@refname at the last possible moment so that the ``References Cited'' name is used correctly.  This code used to redefine thebibliography completely (2011-04-07 and earlier), this new tactic is much simpler and less vulnerable to changes in the base latex package.
+			\global\let\csm@orig@begin@thebibliography=\thebibliography
+			\global\let\csm@orig@end@thebibliography=\endthebibliography
+			\gdef\thebibliography{%
+				\let\@chapter@call\@true% <- Disable direction ``\section'' call check
+				\csm@internal@bibliography@%
+				\csm@internal@bibliography@@%
+				\global\let\refname=\csm@refname%
+				\newpage%
+				\csm@orig@begin@thebibliography%
+			}
+			\gdef\endthebibliography{%
+				\csm@orig@end@thebibliography%
+				\let\@chapter@call\@empty% <- Re-enable direction ``\section'' call check
+			}
+		}
+	}
+	\makeatother
+}
+
+% <<EXTRA:>> Add checks at the end of the document environment to ensure that all required sections exist
+\AtEndDocument{
+	\requiredsection{\@frontmatter@exists}{\protect\frontmatter}
+	\requiredsection{\@maketitle@exists}{\protect\maketitle}
+	\requiredsection{\@makesubmittal@exists}{\protect\makesubmittal}
+	\requiredsection{\@tableofcontents@exists}{\protect\tableofcontents}
+	\requiredsection{\@bodymatter@exists}{\protect\bodymatter}
+	\requiredsection{\@abstract@exists}{abstract}
+	\suggestedsection{\@acknowledgments@exists}{acknowledgments}
+	\requiredsection{\@bibliography@exists}{bibliography}
+}
+
+% <<SPECIAL:>> The ``sideways'' environments have the same rules as normal figures and tables, so duplicate caption checks and any other code we need to confirm the figure/table is valid.
+% <<EXTRA:>> Rotate the view of the figure/table in the PDF.
+\CSM@AtEndPreamble{
+	\@ifpackageloaded{rotfloat}{
+		\RequirePackage{pdflscape} % I'd prefer not to make this a hard requirement
+	}{}
+	\@ifpackageloaded{rotating}{
+		\RequirePackage{pdflscape} % I'd prefer not to make this a hard requirement
+	}{}
+}
+
+\gdef\set@rotated@page#1{%
+	\expandafter\ifx\csname csm@rotate@page@#1@\endcsname\relax%
+		\expandafter\gdef\csname csm@rotate@page@#1@\endcsname{1}%
+	\fi%
+}
+\global\let\csm@rotated@page=\@false%
+\AtBeginDocument{
+	\@ifpackageloaded{rotfloat}{
+		\global\let\csm@internal@begin@sidewaysfigure=\sidewaysfigure
+		\global\let\csm@internal@end@sidewaysfigure=\endsidewaysfigure
+		\gdef\sidewaysfigure{%
+			\csm@start@custom@caption%
+			\csm@internal@begin@sidewaysfigure%
+		}
+		\gdef\endsidewaysfigure{%
+			\csm@test@custom@caption{\@false}{Figure must have a caption below the figure \on@line}%
+			\csm@end@custom@caption%
+			\protected@write\@mainaux{}{%
+				\string\set@rotated@page{\thepage}%
+			}%
+			\csm@internal@end@sidewaysfigure%
+		}
+		\global\let\csm@internal@begin@sidewaystable=\sidewaystable
+		\global\let\csm@internal@end@sidewaystable=\endsidewaystable
+		\gdef\sidewaystable{%
+			\csm@start@custom@caption%
+			\csm@internal@begin@sidewaystable%
+		}
+		\gdef\endsidewaystable{%
+			\csm@test@custom@caption{\@true}{Caption must be above table [2] \on@line}%
+			\csm@end@custom@caption%
+			\protected@write\@mainaux{}{%
+				\string\set@rotated@page{\thepage}%
+			}%
+			\csm@internal@end@sidewaystable%
+		}
+	}{}
+}
+
+% Figure out the page that the sideways figure/table is on and rotate that page
+\global\let\csm@rotated@done=\@false%
+\gdef\check@rotated@page#1{%
+	\expandafter\ifx\csname csm@rotate@page@#1@\endcsname\relax\else%
+		\pdf@landscape@rotate@cw%
+		\global\let\csm@rotated@done=\@true%
+	\fi%
+}
+\g@addto@macro\csm@outputpage@hook{%
+	\ifx\csm@rotated@done\@true\relax%
+		\pdf@landscape@rotate@off%
+		\global\let\csm@rotated@done=\@false%
+	\fi%
+	\expandafter\check@rotated@page{\thepage}%
+}
+
+\gdef\csm@convert@landscape@begin@#1{%
+	\global\let\csm@convert@landscape@mode\@false%
+	% Check to see if this ``\begin'' is for a ``figure'' or ``table'' (in those cases convert to ``sideways'' equivalent)
+	\gdef\csm@cmp@string@{#1}\gdef\csm@cmp@string@@{figure}%
+	\ifx\csm@cmp@string@\csm@cmp@string@@\relax%
+		\global\let\csm@convert@landscape@mode\@true%
+	\else%
+		\gdef\csm@cmp@string@{#1}\gdef\csm@cmp@string@@{table}%
+		\ifx\csm@cmp@string@\csm@cmp@string@@\relax%
+			\global\let\csm@convert@landscape@mode\@true%
+		\else%
+			\csm@internal@landscape%
+		\fi%
+	\fi%
+	\ifx\csm@convert@landscape@mode\@true\relax%
+		\expandafter\let\expandafter\csm@convert@landscape@begin\csname #1\endcsname%
+		\expandafter\let\expandafter\csm@convert@landscape@end\csname end#1\endcsname%
+		\expandafter\gdef\csname end#1\endcsname{%
+			\expandafter\csname endsideways#1\endcsname%
+			\expandafter\let\csname end#1\endcsname\csm@convert@landscape@end%
+		}%
+		\expandafter\gdef\csname #1\endcsname{%
+			\expandafter\csname sideways#1\endcsname%
+			\expandafter\let\csname #1\endcsname\csm@convert@landscape@begin%
+		}%
+	\fi%
+	\begin{#1}%
+}
+\gdef\csm@convert@landscape@begin#1{\csm@convert@landscape@begin@}
+
+% If a table must cover more than one page, headings for continuous columns are repeated on each page ...
+% Figures and tables that are formatted wider than they are high may be turned to fit on the page within all margins. The entire illustration, including its caption and sources, is turned so that the top of the illustration is parallel to and just inside the regular binding-side text margin (landscape orientation). The page number, however, remains in the same position on the page (portrait orientation), as it is throughout the body and back matter of the document.
+% <<EXTRA (from discussion with Dr. Boyd):>> With very long landscape tables the table should be displayed from ``left-to-right'' so the thesis may be turned on its side.
+\global\let\csm@in@landscape=\@false
+\global\let\csm@in@longtable=\@false
+\global\let\csm@found@endhead=\@false
+\newcounter{csm@longtable@pages} \setcounter{csm@longtable@pages}{0}
+\newcounter{csm@longtable@startpage} \setcounter{csm@longtable@startpage}{0}
+\newcounter{csm@last@longtable@count} \setcounter{csm@last@longtable@count}{0}
+\CSM@AtEndPreamble{
+	\@ifpackageloaded{longtable}{
+		\newbox{\csm@temp@endhead}
+		\global\let\orig@endhead=\endhead
+		% For multi-part figures that are spread over separate pages, the full caption should appear under the first part (a) and captions for the following parts would be labeled, i.e., “Figure 4.3b: continued.” Captions should be complete, not abbreviated.
+		% <<NOTE:>> For multi-page tables I interpret this to require that the header include the ``Continued'' notation, discussions with the graduate office support doing this automatically.
+		\gdef\endhead{%
+			\orig@endhead%
+			\LT@echunk% <-- stop recording longtable ``chunks'' so that the following commands do not screw with the table
+			\global\setbox\csm@temp@endhead\box\LT@head% store the original header
+			\global\setbox\LT@head=\vbox{%
+				\LT@bchunk% begin a longtable chunk so we can add the caption
+				\LT@caption[]{Continued.}\LT@tabularcr%
+				\LT@echunk% end the longtable chunk
+				\box\z@% output the longtable chunk into the new header
+				\box\csm@temp@endhead% output the original header into the new header
+			}%
+			\global\let\csm@found@endhead=\@true% used in landscape mode (ignored if ``lscape'' is not loaded)
+			\LT@bchunk% <-- restart recording longtable ``chunks''
+		}
+		\@ifpackageloaded{lscape}{
+			\global\let\orig@begin@landscape=\landscape
+			\global\let\orig@end@landscape=\endlandscape
+			\global\let\orig@begin@longtable=\longtable
+			\global\let\orig@end@longtable=\endlongtable
+			\gdef\landscape{%
+				%% TODO: Check to see if the next command is ``\begin'', we only want to use ``true'' landscape when creating longtables.
+				\@ifnextchar\begin{%
+					\csm@convert@landscape@begin%
+				}{
+					\csm@internal@landscape%
+				}
+			}
+			\gdef\csm@internal@landscape{%
+				\global\let\csm@in@landscape=\@true%
+				\newpage% make absolutely sure that landscape mode registers on a new page (must appear after \csm@in@landscape)
+				\orig@begin@landscape%
+			}
+			\gdef\endlandscape{%
+				\ifx\csm@in@landscape\@true\relax%
+					\orig@end@landscape%
+				\fi%
+				\global\let\csm@in@landscape=\@false%
+			}
+			\gdef\longtable{%
+				\global\let\csm@found@endhead=\@false%
+				\global\let\csm@in@longtable=\@true%
+				\setcounter{csm@longtable@pages}{0}%
+				\setcounter{csm@longtable@startpage}{\c@truepage}%
+				\addtocounter{csm@longtable@startpage}{-1}%
+				\singlespacing% <-- Turn on single spacing for ``longtable'' tables
+				\orig@begin@longtable%
+			}
+			\gdef\endlongtable{%
+				\orig@end@longtable%
+				\global\let\csm@in@longtable=\@false%
+				\protected@write\@auxout{}{%
+					\string\set@longtable@pages{\the\value{csm@longtable@startpage}}{\the\value{csm@longtable@pages}}
+				}
+				% If this is a multi-page table then make sure the user marked a header row
+				\expandafter\ifnum\the\value{csm@longtable@pages}>0\relax%
+					\ifx\csm@found@endhead\@false%
+						\csm@ogs@error{Multi-page tables MUST have a header.}%
+					\fi%
+				\fi%
+			}
+		}{
+			% ``lscape'' not loaded
+		}
+	}{
+		% ``longtable'' not loaded
+	}
+	\@ifpackageloaded{pdflscape}{%
+		\gdef\csm@internal@rotate{\PLS@Rotate}%
+	}{
+		\gdef\csm@internal@rotate#1{}%
+	}
+}
+\gdef\set@longtable@pages#1#2{
+	\expandafter\ifx\csname c@csm@longtable@#1@pages\endcsname\relax%
+		\newcounter{csm@longtable@#1@pages}
+		\setcounter{csm@longtable@#1@pages}{#2}
+	\fi
+}
+\gdef\value@longtable@pages#1{
+	\expandafter\ifx\csname c@csm@longtable@#1@pages\endcsname\relax%
+		\expandafter\ifnum\value{csm@last@longtable@count}=0\relax%
+			\setcounter{csm@last@longtable@count}{0}% No page count stored
+		\fi
+	\else%
+		\setcounter{csm@last@longtable@count}{\value{csm@longtable@#1@pages}}% Page count stored
+	\fi%
+}
+\gdef\value@longtable@test#1{
+	\expandafter\ifx\csname c@csm@longtable@#1@pages\endcsname\relax\else
+		\arabic{csm@longtable@#1@pages}
+	\fi
+}
+\AtBeginDocument{\gdef\set@longtable@pages#1#2{}}
+\gdef\csm@rotation@off{0}
+\gdef\csm@rotation@cw{90}
+\gdef\csm@rotation@ccw{270}
+\global\let\csm@rotation\csm@rotation@off
+\gdef\pdf@landscape@rotate#1{
+	\ifnum#1=270%
+		\csm@internal@rotate{0}% <-- TODO: Fix broken printing
+	\else%
+		\csm@internal@rotate{#1}%
+	\fi%
+}
+\gdef\pdf@landscape@rotate@off{%
+	\global\let\csm@rotation=\csm@rotation@off%
+	\pdf@landscape@rotate{0}
+}
+\gdef\landscape@rotate@off{%
+	\global\let\csm@rotation=\csm@rotation@off%
+	\pdf@landscape@rotate{0}
+}
+\gdef\pdf@landscape@rotate@cw{%
+	\global\let\csm@rotation=\csm@rotation@cw%
+	\pdf@landscape@rotate{+90}%
+}
+\gdef\landscape@rotate@cw{%
+	\gdef\LS@rot{%
+		\setbox\@outputbox\vbox{%
+			\global\let\csm@rotation=\csm@rotation@cw%
+			\hbox{\rotatebox{90}{\hbox{\rotatebox{0}{\box\@outputbox}}}}%
+		}%
+	}%
+}
+
+% Create a special plain style that handles rotated (landscape) pages
+\gdef\ps@plain{%
+	\let\@mkboth\@gobbletwo%
+	\let\@oddhead\@empty%
+	\def\@oddfoot{%
+		\raggedright%
+		\ifx\csm@rotation\csm@rotation@cw%
+			\reset@font%
+			\hspace{\dimexpr\footskip+\textwidth-12pt}%
+			\smash{\raisebox{\dimexpr.5\paperheight-\footskip}{\rotatebox{90}{\thepage}}}%
+			%\hspace{\dimexpr-\footskip-\baselineskip-\footskip}%
+			%\hspace*{5in}
+			\hfill%
+		\else%
+			\reset@font\hfil\thepage\hfil%
+		\fi%
+	}%
+	\let\@evenhead\@empty\let\@evenfoot\@oddfoot%
+}
+
+\newbox{\temp@output@box}
+\global\let\csm@was@in@landscape=\@false%
+\g@addto@macro\csm@outputpage@hook{
+	% Load the number of pages within a longtable (stored by starting page number)
+	% Decrements counter on each page after a load.
+	\value@longtable@pages{\the\c@truepage}%
+	% Check if we're in a landscaped multi-page longtable
+	\expandafter\ifnum\value{csm@last@longtable@count}<1\relax%
+		\ifx\csm@in@landscape\@true% Only process rotations when in landscape mode
+			\landscape@rotate@cw%
+			\global\let\csm@was@in@landscape=\@true%
+		\else%
+			\ifx\csm@was@in@landscape\@true%
+				\landscape@rotate@off%
+				\global\let\csm@was@in@landscape=\@false%
+			\fi%
+		\fi%
+	\else%
+		% As long as we're in a landscaped multi-page longtable then rotate clockwise
+		\landscape@rotate@cw%
+		\global\let\csm@was@in@landscape=\@true%
+	\fi%
+}
+
+%%%%%%%%%%%%%%%%%%%
+% This was a test for ``floating'' landscape figures and tables, it didn't work out like I would have liked.
+% TODO: Take a second look at doing this.  Possibly consider manually adding longtables to the float list.
+% 
+% \usepackage{float}
+% 
+% \newcommand{\fs@landscape}{%
+% 	\def\@fs@cfont{\rmfamily}%
+% 	\let\@fs@capt\floatc@plain%
+% 	\def\@fs@pre{%
+% 		\begin{lrbox}\rot@float@box%
+% 		\begin{minipage}\textheight%
+% `	}%
+% 	\def\@fs@post{%
+% 		\end{minipage}\end{lrbox}%
+% 		\rotatebox{-90}{\box\rot@float@box}%
+% 		%\pdf@landscape@rotate{-90}%
+% 		\unhbox\rot@float@box%
+% 	}%
+% 	%\def\@fs@post{\rotatebox{90}{\box\@currbox}}%
+% 	\def\@fs@mid{\vspace\abovecaptionskip\relax}%
+% 	\let\@fs@iftopcapt\iffalse%\fi
+% 	\csm@start@custom@caption%
+% }
+% \floatstyle{landscape}
+% \newfloat{landscapefigure}{htbp}{lof}
+% \newfloat{landscapetable}{htbp}{lof}
+%%%%%%%%%%%%%%%%%%%
+
+% <<EXTRA (from discussion with Dr. Boyd):>> Headers should only be displayed on the even numbered pages if rendering a two-sided multi-page table (for landscape mode ONLY!).
+% Implementation Notes: The \LT@head box is an internal component of the ``longtable'' package that is set by \endhead.  If the longtable package is updated and the name of this command is changed then it will become necessary to edit this routine.
+\newbox{\csm@temp@header}
+\global\let\csm@temp@header@stored=\@false
+% \g@addto@macro\csm@outputpage@hook{
+% 	\ifx\csm@in@landscape\@true%
+% 		\ifx\csm@in@longtable\@true%
+% 			\if@twoside%
+% 				% Note: need to process removal on the page prior to where we want it
+% 				\ifodd\c@truepage%
+% 					\ifx\csm@temp@header@stored\@true%
+% 						\global\setbox\LT@head\box\csm@temp@header%
+% 					\fi
+% 				\else%
+% 					\global\let\csm@temp@header@stored=\@true
+% 					\global\setbox\csm@temp@header\copy\LT@head%
+% 					\global\setbox\LT@head\vbox{}%
+% 				\fi%
+% 			\fi%
+% 		\fi%
+% 	\fi%
+% }
+
+% <<EXTRA:>> Override the ``sideways'' command so that it can be used on a longtable.
+\newcounter{csm@sideways@depth}
+\gdef\csm@begin@landscape@sideways{%
+	\setcounter{csm@sideways@depth}{1}%
+	\landscape%
+}
+\gdef\check@longtable@begin#1{%
+	% Check to see if this ``\begin'' is for a longtable, if it is then we want to use ``\landscape'' instead of ``\sideways''.
+	\gdef\csm@cmp@string@{#1}\gdef\csm@cmp@string@@{longtable}%
+	\ifx\csm@cmp@string@\csm@cmp@string@@\relax%
+		\csm@begin@landscape@sideways%
+	\else%
+		\csm@begin@normal@sideways%
+	\fi%
+	\begin{#1}%
+}
+\gdef\csm@gobble@sideways@begin#1{\check@longtable@begin}
+\gdef\csm@begin@normal@sideways{%
+	\addtocounter{csm@sideways@depth}{1}%
+	\orig@begin@sideways%
+}
+\AtBeginDocument{
+	\global\let\orig@begin@sideways=\sideways
+	\global\let\orig@end@sideways=\endsideways
+	\gdef\sideways{%
+		% Check to see if the next command is ``\begin'', if so then we might be starting a longtable (where ``\sideways'' doesn't work).
+		\@ifnextchar\begin{%
+			\csm@gobble@sideways@begin%
+		}{%
+			\csm@begin@normal@sideways%
+		}%
+	}
+	\gdef\endsideways{%
+		\addtocounter{csm@sideways@depth}{-1}%
+		\expandafter\ifnum\value{csm@sideways@depth}=0\relax%
+			\endlandscape%
+		\else%
+			\orig@end@sideways%
+		\fi%
+	}
+}
+
+% <<OTHER:>> Within equations everything should be single-spaced.
+\gdef\csm@setspace@fix{%
+	%\vskip -\baselineskip % Correction for changing spacing AND paragraph at once
+	\par%
+	\setstretch{1}% prefer over \singlespacing (which makes the space too small starting out)
+}
+% <<REQUIREMENT:>> For qquations that are ``mid-paragraph'' do not have the following paragraph indent
+\newif\if@csm@parindent@check@\@csm@parindent@check@false
+\gdef\csm@parindent@fix{%
+	% Temporarily add a check to \everypar to look for the beginning of the next paragraph
+	\global\@csm@parindent@check@true%
+	\expandafter\global\expandafter\everypar\expandafter{\the\everypar\csm@parindent@fix@}%
+}
+\gdef\csm@parindent@fix@{%
+	% If the \parindent check is enabled then apply the check to the next paragraph
+	\if@csm@parindent@check@%
+		\global\@csm@parindent@check@false%
+		\let\@tempa\csm@parindent@fix@@%
+	\else%
+		\let\@tempa\@empty%
+	\fi%
+	\@tempa%
+}
+\gdef\csm@parindent@fix@@{%
+	% Save the next character (first character in paragraph) for the next command to examine
+	\futurelet\csm@parindent@nextchar%
+	\csm@parindent@fix@@@%
+}
+\gdef\csm@parindent@fix@@@{%
+	% Check the type of the next object so that we only work with letters (ignore groups, math-mode, etc. so that we don't \@gobble something dangerous)
+	\ifcat\noexpand\csm@parindent@nextchar A%
+		\let\@tempa\csm@parindent@fix@@@@%
+	\else%
+		\let\@tempa\@empty%
+	\fi%
+	\@tempa%
+}
+\gdef\csm@parindent@fix@@@@#1{%
+	% If the next character is a lower-case letter then remove the paragraph indent
+	\ifnum\number`#1<\number`a\else%
+		\ifnum\number`#1>\number`z\else%
+			\hspace{-\parindent}%
+		\fi%
+	\fi%
+	#1%
+}
+% <<NOTE:>> Commented out version is for putting this all in a group, it doesn't appear necessary and it really breaks some of the amsmath environments.
+\gdef\csm@wrap@setspace@environ#1{
+	\expandafter\let\csname csm@begin@#1\expandafter\endcsname\csname #1\endcsname%
+	\expandafter\let\csname csm@end@#1\expandafter\endcsname\csname end#1\endcsname%
+	\expandafter\gdef\csname #1\endcsname{%
+		\csm@setspace@fix%
+%		\begingroup%
+		\csname csm@begin@#1\endcsname%
+	}
+	\expandafter\gdef\csname end#1\endcsname{%
+		\csm@parindent@fix%
+		\csname csm@end@#1\endcsname%
+%		\endgroup%
+	}
+}
+\AtBeginDocument{
+	% ``Normal'' math environments:
+	\csm@wrap@setspace@environ{equation}
+	\csm@wrap@setspace@environ{equation*}
+	\csm@wrap@setspace@environ{eqnarray}
+	\csm@wrap@setspace@environ{eqnarray*}
+	\csm@wrap@setspace@environ{displaymath}
+	% ``amsmath'' math environments:
+	\csm@wrap@setspace@environ{align}
+	\csm@wrap@setspace@environ{align*}
+	\csm@wrap@setspace@environ{alignat}
+	\csm@wrap@setspace@environ{alignat*}
+	\csm@wrap@setspace@environ{flalign}
+	\csm@wrap@setspace@environ{flalign*}
+	\csm@wrap@setspace@environ{gather}
+	\csm@wrap@setspace@environ{gather*}
+	\csm@wrap@setspace@environ{multline}
+	\csm@wrap@setspace@environ{multline*}
+	\csm@wrap@setspace@environ{xalignat}
+	\csm@wrap@setspace@environ{xalignat*}
+	\csm@wrap@setspace@environ{xxalignat}
+}
+
+% Add support for automatic equation breaking
+\gdef\csm@wrap@breqn@environ#1#2{
+	\expandafter\let\csname csm@breqn@oldbegin@#1\expandafter\endcsname\csname #1\endcsname
+	\expandafter\let\csname csm@breqn@oldend@#1\expandafter\endcsname\csname end#1\endcsname
+	\expandafter\gdef\csname csm@breqn@begin@#1\endcsname{%
+		\expandafter\let\csname #1\expandafter\endcsname\csname csm@breqn@oldbegin@#1\endcsname%
+		\csm@setspace@fix%
+		\begin{#2}%
+	}
+	\expandafter\gdef\csname csm@breqn@end@#1\endcsname{%
+		\expandafter\let\csname end#1\expandafter\endcsname\csname csm@breqn@oldend@#1\endcsname%
+		\end{#2}%
+		\expandafter\let\csname #1\expandafter\endcsname\csname csm@breqn@begin@#1\endcsname%
+		\expandafter\let\csname end#1\expandafter\endcsname\csname csm@breqn@end@#1\endcsname%
+	}
+	\expandafter\let\csname #1\expandafter\endcsname\csname csm@breqn@begin@#1\endcsname
+	\expandafter\let\csname end#1\expandafter\endcsname\csname csm@breqn@end@#1\endcsname
+}
+\newif\ifbreqn
+\AtBeginDocument{
+	\@ifpackageloaded{breqn}{
+		% Setup equation breaking on default equation environment
+		\csm@wrap@breqn@environ{equation}{dmath}
+		\csm@wrap@breqn@environ{equation*}{dmath*}
+		% Change the default relation penalty to not break small equations
+		\prerelpenalty=-99
+		\breqntrue
+	}{
+		% No Equation breaking
+		\breqnfalse
+	}
+}

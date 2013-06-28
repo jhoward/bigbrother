@@ -1,0 +1,247 @@
+%% ``subfigure'' legacy code:
+%%\RequirePackage{subfigure}
+%%\renewcommand{\@subcaption}[3]{\@nameuse{@make#1caption}{\@nameuse{@the#1}}{#3}}
+
+%% When using hyperref we want:
+%% 1) The link borders disabled
+%% 2) The default printing settings to not scale the document and to
+%%    automatically duplex the document if it is two-sided.
+%% 3) To import the document information, currently:
+%%  (a) The title
+%%  (b) The author
+%% NEW! Method (1), support hyperref included before the template:
+\@ifpackageloaded{hyperref}{
+	\Hy@unicodefalse
+	\Hy@breaklinkstrue
+	\def\@pdfborder{0 0 0}
+	\def\@pdfprintscaling{None}
+	\global\let\csm@hyperref=\@true%
+}{}
+%% NEW! Method (2), support hyprref included after the template (allows users to override options if they wish):
+\global\let\internal@usepackage=\usepackage
+\gdef\usepackage{%
+	\@ifnextchar[%
+	{\internal@usepackage}%
+	{\usepackage@}%
+}
+\gdef\custom@usepackage@hyperref{%
+	\internal@usepackage[breaklinks=true,pdfborder={0 0 0},pdfprintscaling=None]{hyperref}
+	\AtBeginDocument{
+		\csm@pdf@title{\@title} %% See csm-thesis-title.sty
+		\hypersetup{%
+			pdftitle = {\@csm@pdf@title},
+			pdfkeywords = {},
+			pdfauthor = {\@author}
+		}
+	}
+}
+\gdef\usepackage@#1{
+	\expandafter\ifx\csname custom@usepackage@#1\endcsname\relax%
+		\internal@usepackage{#1}%
+	\else%
+		\csname custom@usepackage@#1\endcsname%
+	\fi%
+}
+%% OLD Method (call new method):
+\newcommand{\usehyperref}{\custom@usepackage@hyperref}
+
+%% Define the list of expected citation styles (in case multibib isn't used)
+\CSM@AtEndPreamble{%
+	\@ifundefined{@mb@citenamelist}%
+		{\def\@mb@citenamelist{cite,citep,citet,citealp,citealt}}%
+		{\relax}%
+}
+
+%% Detect when bibliographies are being used for each chapter, make them compatible, and demote them to subsections
+\global\let\csm@chapter@bibliography=\@false
+\global\let\csm@bibtopic=\@false
+\CSM@AtEndPreamble{
+	% The chapterbib package already pretty much does what we want
+	\@ifpackageloaded{chapterbib}{
+		\global\let\csm@chapter@bibliography=\@true
+	}{}
+	% The bibtopic package is more flexible than chapterbib (and used by LyX), but requires more effort to get going
+	\@ifpackageloaded{bibtopic}{
+		\ifx\csm@disallow@bibtopic\@true\relax
+			\csm@bibtopic@override % Can't use bibtopic with unsorted styles
+			\AtBeginDocument{%
+				\csm@bibtopic@override@%
+				%\csm@citehack@set{\jobname.1}% not necessary (until set we'll use the default aux file)
+			}
+		\else
+			\csm@bibtopic@compat
+		\fi
+	}{}
+}
+
+%% bibtopic is not compatible with unsorted styles, override the hell out of it:
+\global\let\csm@citehack@frontmatter\@true
+\gdef\csm@bibtopic@override{%
+	% define the bibliography command back to normal (bibtopic kills it)
+	\def\bibliography##1{%
+		\if@filesw
+			\immediate\write\@auxout{\string\bibdata{##1}}%
+		\fi
+		\@input@{\jobname.bbl}%
+	}%
+	\global\let\citation\@bt@orig@citation%
+	\global\let\bibliographystyle\@orig@bibliographystyle%
+	\global\let\bibitem\bt@saveitem%
+    \global\let\thebibliography\bt@savebib%
+    \global\let\endthebibliography\bt@endsavebib%
+	\usepackage[resetlabels]{multibib}%
+	\newcounter{csm@multibib@i}%
+	\global\let\csm@hack@newcites\newcites
+	\g@addto@macro\csm@chapter@hook{%
+		\global\let\csm@citehack@frontmatter\@false%
+		\stepcounter{csm@multibib@job}%
+		\edef\csm@suffix{\jobname.\arabic{csm@multibib@job}}%
+		\csm@hack@newcites{\csm@suffix}{Chapter Literature}%
+		\csm@citehack@set{\csm@suffix}%\jobname.\arabic{csm@multibib@job}}%
+		% Allow access to citation data in the frontmatter:
+		\edef\csm@tmpname{{\csm@suffix.aux}}%
+		\expandafter\csm@citehack@preamble\csm@tmpname%
+	}%
+	\renewenvironment{btUnit}{}{}%
+	\renewenvironment{btSect}[2][\csm@bibliographystyle]{%
+		\gdef\csm@multibib@bibliographystyle{##1}%
+		\gdef\csm@multibib@bibliographies{##2}%
+	}{}%
+	\renewcommand{\btPrintCited}{%
+		\expandafter\csname bibliographystyle\csm@citehack@currentlabel\endcsname{\csm@multibib@bibliographystyle}%
+		\expandafter\csname bibliography\csm@citehack@currentlabel\endcsname{\csm@multibib@bibliographies}%
+	}%
+}
+\gdef\csm@citehack@preamble#1{%
+	\AtEndDocument{%
+		\immediate\write\@mainaux{\string\@input{#1}}%
+	}%
+}
+\newcounter{csm@multibib@job}
+\gdef\csm@citehack@set@A#1#2{%
+	% pattern \global\let\csm@citehack@orig@multibib@<<1>><<2>>@\<<1>><<2>> :
+	\ifcsname csm@citehack@orig@multibib@#1#2@\endcsname\else%
+		\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname csm@citehack@orig@multibib@#1#2@\expandafter\endcsname\csname #1#2\endcsname%
+	\fi%
+}
+\gdef\csm@citehack@set@B#1#2{%
+	% pattern \global\let\<<1><<2>>\csm@citehack@current@<<1>>@ :
+	%\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname #1#2\expandafter\endcsname\csname csm@citehack@current@#1@\endcsname%
+	% pattern \gdef\<<1>><2>> :%
+	\expandafter\gdef\csname #1#2\endcsname{%
+		\global\let\csm@citehack@on\@false%
+		\csname csm@citehack@orig@multibib@#1#2@\endcsname%
+	}%
+}
+\gdef\csm@citehack@set@#1#2{%
+	\csm@citehack@set@A{#1}{#2}%
+	\csm@citehack@set@B{#1}{#2}%
+	% pattern \gdef\csm@citehack@currentlabel@ :
+	\gdef\csm@citehack@currentlabel{#2}%
+	% pattern \gdef\csm@citehack@current@<<1>>@ :
+	%\expandafter\expandafter\expandafter\gdef\expandafter\csname csm@citehack@current@#1@\endcsname{%
+	\expandafter\gdef\csname csm@citehack@current@#1@\endcsname{%
+		\global\let\csm@citehack@on\@false%
+		\csname csm@citehack@orig@multibib@#1#2@\endcsname%
+	}%
+}
+\gdef\csm@citehack@set#1{%
+	\edef\csm@tmpname@b{{#1}}%
+	\@for\@citename:=\@mb@citenamelist\do{%
+		\edef\csm@tmpname@a{{\@citename}}%
+		% pattern \csm@citehack@set@{\@citename}{#1} :
+		\expandafter\expandafter\expandafter\csm@citehack@set@\expandafter\csm@tmpname@a\csm@tmpname@b%
+	}%
+}
+% pattern \global\let\csm@citehack@orig@<<1>>@\<<1>> :
+\gdef\csm@citehack@setcommand#1{%
+	\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname csm@citehack@orig@#1@\expandafter\endcsname\csname #1\endcsname%
+}
+% pattern \global\let\csm@citehack@magic\csm@citehack@orig@<<1>>@ :
+\gdef\csm@citehack@getcommand#1{%
+	\expandafter\let\expandafter\csm@citehack@magic\csname csm@citehack@orig@#1@\endcsname%
+}
+% pattern \global\let\csm@citehack@magic\csm@citehack@current@<<1>>@ :
+\gdef\csm@citehack@getcommand@#1{%
+	\expandafter\let\expandafter\csm@citehack@magic\csname csm@citehack@current@#1@\endcsname%
+}
+% explore for putting citation in both the main aux file and each chapter:
+%  \let\std@@citex\@citex
+%  \mb@@citex
+% alternative:
+% \@input each aux file in the main aux file
+\gdef\csm@bibtopic@override@@#1{%
+%#1\space% diagnostic
+	\expandafter\csm@citehack@setcommand{#1}%
+	\expandafter\gdef\csname csm@citehack@#1\endcsname{%
+		\ifx\csm@citehack@frontmatter\@true\relax%
+			\expandafter\let\expandafter\csm@citehack@magic\csname csm@eat@#1@\endcsname%
+		\else%
+			\ifx\csm@citehack@on\@true\relax%
+				\expandafter\csm@citehack@getcommand@{#1}%
+%#1\space% diagnostic
+			\else%
+				\global\let\csm@citehack@on\@true%
+				\expandafter\csm@citehack@getcommand{#1}%
+			\fi%
+		\fi%
+	}%
+	%\expandafter\gdef\csname csm@citehack@new@#1@\endcsname{%
+	\expandafter\gdef\csname #1\endcsname{%
+%#1\space% diagnostic
+		\csm@citehack@getcommand{#1}%
+		\expandafter\protect\csname csm@citehack@#1\endcsname% this command will not be processed for captions (very important)
+		\csm@citehack@magic%
+	}
+	%\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname #1\expandafter\endcsname\csname csm@citehack@new@#1@\endcsname%
+}
+\global\let\csm@within@list\@true%
+\gdef\csm@bibtopic@override@{
+	\global\let\csm@chapter@bibliography=\@true%
+	\global\let\csm@citehack@on\@true%
+	\@for\@citename:=\@mb@citenamelist\do{%
+		\edef\csm@tmpname{{\@citename}}%
+		\expandafter\csm@bibtopic@override@@\csm@tmpname%
+	}%
+}
+
+%% bibtopic is just fine for ``normal'' styles, just make some compatibility tweaks:
+\gdef\csm@bibtopic@compat{
+	\global\let\csm@bibtopic=\@true
+	\global\let\csm@chapter@bibliography=\@true
+	\global\let\csm@orig@btPrintCited=\btPrintCited
+	\global\let\csm@orig@btSect=\btSect
+	\renewcommand{\btSect}{%
+		% TODO: finish this up at little bit for author-date people
+		\ifx\csm@bibliographystyle@found\@false\relax%
+			%\expandafter\csm@orig@bibliographystyle{\csm@bibliographystyle}%
+			%\csm@bibliographystyle%
+		\fi%
+			%\expandafter\csm@orig@bibliographystyle{unsrtnat}%
+		\csm@orig@btSect%
+	}
+	\renewcommand{\btPrintCited}{%
+		\begingroup%
+			\csm@internal@bibliography%
+			\csm@internal@bibliography@%
+			\csm@internal@bibliography@@@%
+			\csm@orig@btPrintCited%
+		\endgroup%
+	}
+	\global\let\csm@bibtopic@within@chapter=\@false%
+	\g@addto@macro\csm@chapter@hook{%
+		\ifx\csm@bibtopic@within@chapter\@true\relax%
+			\endbtUnit%
+		\fi%
+		\ifx\csm@bibtopic\@true\relax%
+			\global\let\csm@bibtopic@within@chapter=\@true%
+			\global\let\csm@bibliographystyle@found=\@false%
+			\btUnit%
+		\fi%
+	}
+	\g@addto@macro\csm@backmatter@hook{%
+		\ifx\csm@bibtopic@within@chapter\@true\relax%
+			\endbtUnit%
+		\fi%
+	}
+}

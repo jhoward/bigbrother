@@ -1,0 +1,13 @@
+LaTeX/LyX 2.0:
+	No installation is necessary, simply work in the same folder
+	as the style files (*.sty).
+LyX 1.x (Linux, Mac OS X):
+	1) Run "install-lyx.sh" (./install-lyx.sh in a terminal)
+	2) Run LyX and select "Reconfigure" from the "Tools" menu.
+	3) Restart lyx
+	4) Load the example thesis
+LyX 1.x (Windows):
+	1) Run "install-lyx.bat"
+	2) Run LyX and select "Reconfigure" from the "Tools" menu.
+	3) Restart lyx
+	4) Load the example thesis

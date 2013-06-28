@@ -1,0 +1,740 @@
+\documentclass[letterpaper,12pt]{article}
+
+% Note: Two package options exist for your convenience: ``insane'' and ``nolabel''.  To use these options together separate them by a comma, ie. \usepackage[insane,nolabel]{csm-thesis}
+% * \usepackage[insane]{csm-thesis}
+% Turn off all document sanity checks.  This option can be used to render a ``sub-document'' that is part of the root thesis document.  It is important to note that you should NEVER disable this check on your root thesis document, as important format errors and warnings will be disabled.
+% * \usepackage[nolabel]{csm-thesis}
+% Disables automatic reference ``labeling'' of figures and tables.  By default the thesis template prepends any reference to a figure or table with ``Figure~'' or ``Table~''.  This option is meant for disabling the labeling behavior when a document already has the appropriate labeling.  It is important to note that if your document DOES NOT have the appropriate labeling (the reference label must EXACTLY MATCH the caption label) then it will not pass the format review.
+\usepackage{csm-thesis}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{rotating}
+
+% Since hyperref and cite don't completely get along, the template now recommends using natbib:
+% For an explanation, see http://www.tex.ac.uk/cgi-bin/texfaq2html?label=citesort
+\usepackage[numbers]{natbib}
+% If you wish to use ``cite'' instead then your choices are:
+% 1) Don't use the hyperref package
+% 2) Put ``cite'' before hyperref, resulting in no citation hyperlinks
+% 3) Put ``cite'' after hyperref, resulting in ugly looking citations
+
+% If you choose not to use natbib then you can set the standard ``numeric'' style like so:
+%\bibliographystyle{unsrt}
+
+% Important Note: math-mode in sections, titles, and other bookmarks will generate warnings with hyperref.  You can work around this by either:
+% 1) Not using the hyperref package
+% 2) Using \texorpdfstring{TeX Code}{PDF Replacement} to display an alternative bookmark (for example, \texorpdfstring{H$_2$O}{Water}).
+% The thesis template will automatically import your document information into hyperref, so if you go to ``File | Properties'' in Adobe Acrobat it will display the title and author.  If you would like to over-ride this option then just change the line below to ``\usepackage[]{hyperref}''.
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{pdflscape} % use ``lscape'' if you are not creating a PDF output
+\usepackage{amsmath}
+
+% For using helvetica instead of Computer Modern
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+
+%% For automatic equation breaking (experimental!):
+%\usepackage{breqn}
+
+% For using row-spanning and column-spanning in tables:
+%\usepackage{multirow}
+
+% The thesis title MUST be in an inverted pyramid shape.  To do this you can either specify the returns in the title manually or have the thesis style attempt to automatically build the title in the shape of an inverted pyramid.  The thesis style will automatically choose the appropriate behavior by detecting the presence of returns (\\) in the title.
+% Please note that by ``inverted pyramid'' the graduate office really means a regular trapezoid with the larger base on the top.
+% <<MANUAL PYRAMID:>>
+% Use ``\\" to end a line, all normal LaTeX should function properly.
+	%\title{%
+	%	Developing a \atom{12}{6}{Th}{2+}{3}esis Template\\%
+	%	to Help Students Graduate\\%
+	%	in a Reasonable Time%
+	%}
+% <<AUTOMATIC PYRAMID:>>
+% Do not put any carriage returns (\\), all normal LaTeX should function properly.
+
+\title{Combined Seasonal ARIMA and Activity Recognition Algorithms for use in Traffic Forecasting}
+\degreetitle{Doctor of Philosophy}
+\discipline{Computer Science}
+\department{Engineering}
+
+\author{James Howard}
+\advisor{Dr. William Hoff}
+% Comment out the following line if you do not have a co-advisor:
+%\coadvisor{Dr. Secondary B. Advisor}
+\dpthead{Dr. Terry Something}{Professor and Head}
+
+
+
+\begin{document}
+
+\frontmatter
+
+%%% Parts of a Thesis - Front Matter - Title Page (required)
+
+\maketitle
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Copyright Page (optional)
+
+% If the copyright for your document spans multiple years, or does not match the current year, then replace ''\the\year`` below with the appropriate text.
+\makecopyright{\the\year}
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Signature Page (required)
+
+\makesubmittal
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Abstract (required)
+
+\begin{abstract}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. In felis sapien, fermentum vel varius id, ullamcorper dapibus elit. Integer in massa sed ipsum placerat posuere. Quisque quis metus turpis. Curabitur vel metus a libero gravida posuere. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer accumsan dapibus tellus at venenatis. Fusce id neque massa. Pellentesque sodales nisl non est tincidunt molestie. Vestibulum eu orci sed elit dictum interdum quis ac turpis. Etiam id eros elit, id interdum nibh. Donec porttitor tempor dolor nec dignissim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+
+Nullam gravida aliquam felis, eget cursus quam ullamcorper quis. Vivamus a leo velit, ut tempor tortor. Maecenas dapibus nulla sed magna sollicitudin laoreet. Donec adipiscing facilisis ornare. Maecenas ultrices convallis tellus, vel blandit felis tincidunt non. Nulla risus turpis, volutpat nec posuere a, molestie sed eros. Suspendisse elementum mi sit amet lacus sagittis vestibulum. Morbi ornare congue ipsum non lacinia. Suspendisse id risus nec felis fermentum malesuada id at ante. Nunc ullamcorper, tellus quis tincidunt tincidunt, nibh mi commodo lacus, in condimentum ligula quam et mauris. Duis eu est non tellus condimentum blandit sit amet eu tortor. Cras tempor lacus ac lacus tempus lacinia. Phasellus dignissim justo a erat ullamcorper suscipit. Donec nec quam in nulla consequat porttitor. Quisque bibendum diam blandit justo dictum nec tincidunt augue blandit. Etiam nisi diam, hendrerit in rhoncus in, rhoncus et risus.
+
+Praesent ultricies rhoncus dui, sed porta magna tincidunt a. Mauris ligula justo, malesuada eu cursus convallis, facilisis a justo. Quisque ut mauris sit amet quam tincidunt cursus pellentesque sed sapien. Fusce luctus ultrices lorem, ut elementum odio sodales id. Nullam eu sem tincidunt justo scelerisque interdum in eu dolor. Mauris ut leo in magna pretium hendrerit id quis lacus. Phasellus volutpat sapien et velit molestie rhoncus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec quis eros vitae elit fringilla malesuada ultricies et ligula. Donec enim purus, cursus sit amet consectetur ut, faucibus vitae magna. Etiam ac lorem sed nulla condimentum viverra sed id nunc. Suspendisse potenti. Praesent aliquam elit sed turpis hendrerit euismod.
+
+Sed mauris sapien, sagittis eu ultricies vitae, molestie eu dolor. Maecenas massa risus, sollicitudin a sollicitudin id, sollicitudin sit amet mi. Phasellus a eleifend odio. Nullam vel metus magna, eget tincidunt lectus. Vestibulum vestibulum viverra ante, cursus luctus tortor tristique id. In lobortis convallis turpis, auctor ultricies nisi blandit ac. Cras id rutrum magna. Nullam tristique tincidunt enim aliquam sagittis. Duis ornare, eros at congue hendrerit, lectus augue viverra sem, congue tempor diam enim vel neque. Maecenas scelerisque iaculis metus in vulputate. Nam vestibulum, est vel imperdiet vulputate, nisl felis vestibulum felis, quis hendrerit sem erat nec arcu. Nam eget congue lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas posuere luctus ligula sit amet ornare. Pellentesque vitae velit nulla. Ut a turpis massa, id ullamcorper odio.
+
+Quisque malesuada pharetra imperdiet. Suspendisse lobortis posuere faucibus. In convallis, justo in sollicitudin pulvinar, sapien neque imperdiet dolor, ac congue lorem enim eget lectus. Cras nibh magna, malesuada vitae sagittis non, accumsan sed ipsum. Nulla id tellus id tellus posuere tempor venenatis et magna. Etiam interdum facilisis orci, eget varius justo vulputate sit amet. Vivamus tortor quam, fermentum sit amet dictum sit amet, feugiat ac purus. Aliquam erat volutpat. Vivamus sit amet libero dolor. Phasellus venenatis, enim a aliquet euismod, purus mauris ullamcorper lectus, sed imperdiet eros tellus eget libero. Nulla non purus sit amet nisl pulvinar.
+\end{abstract}
+
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Table of Contents (required)
+
+\tableofcontents
+\newpage
+
+%%% Parts of a Thesis - Front Matter - List of Figures (if applicable)
+%%% Parts of a Thesis - Front Matter - List of Tables (if applicable)
+
+% NOTE: If you have more than 2 items in either list they must be separate.
+% This case is generally handled automatically, but if you are told to separate the lists then comment or remove the two lines below:
+\listoffiguresandtables
+\newpage
+
+% ... and then uncomment these four lines to force separate lists:
+%\listoffigures
+%\newpage
+%\listoftables
+%\newpage
+
+
+%% NOTE: If included in the front matter, a glossary, a list of abbreviations, or a list of symbols is placed as the last list. If these lists are included in the back matter, they are placed immediately before the REFERENCES CITED.
+
+%%% Parts of a Thesis - Front Matter - Glossary (if applicable)
+%\glossary
+
+%%% Parts of a Thesis - Front Matter - List of Symbols (if applicable)
+
+% Place this call before ''\listofsymbols`` to make the symbols appear on the left instead of the right:
+%\ShowSymbolFirst
+% To call the “List of Symbols” “Nomenclature” instead use:
+%\listofsymbols[Nomenclature]
+% To autosort the list use a star after the command (ie. \listofsymbols*[Nomenclature] or \listofsymbols*)
+\listofsymbols
+% With very large symbol lists it is sometimes good to split the list into multiple sub-lists.  To output the lists just use the extended \listofsymbols command (below) and to add an element to the list use the optional parameter to ''\addsymbol``.
+%\listofsymbols{General Nomenclature}
+%\listofsymbols{Greek Letters}
+\newpage
+
+% Note that you may define symbols anywhere in the document, when you re-run LaTeX they
+% will be added to the list (just like all other lists)
+\addsymbol{absorption coefficient}{$\alpha_c$}
+\addsymbol{absorption cross section}{$\alpha_{\sigma}$}
+\addsymbol{average radius of cylindrical shell}{$c$}
+\addsymbol{activation energy of oxidation reaction of a-C in excited state}{$E^{\ast}_{act}$}
+
+% Example for sub-list symbols (optional parameter specifies which list to use):
+%\addsymbol[General Nomenclature]{absorption coefficient}{$\alpha_c$}
+%\addsymbol[General Nomenclature]{absorption cross section}{$\alpha_{\sigma}$}
+%\addsymbol[Greek Letters]{average radius of cylindrical shell}{$c$}
+%\addsymbol[Greek Letters]{activation energy of oxidation reaction of a-C in excited state}{$E^{\ast}_{act}$}
+
+%%% Parts of a Thesis - Front Matter - List of Abbreviations (if applicable)
+% To autosort the list use a star after the command (ie. \listofabbreviations*)
+\listofabbreviations
+\newpage
+
+% Note that you may define abbreviations anywhere in the document, when you re-run LaTeX they
+% will be added to the list (just like all other lists)
+\addabbreviation{Bio Force Gun, Model 9000}{BFG9000}
+\addabbreviation{Mammoth Armed Reclamation Vehicle}{MARV}
+\addabbreviation{Stone of Jordan}{SoJ}
+%\addabbreviation{Field flow fractionation-inductively coupled plasma-mass\newline spectrometry% with extra% magic and stuff and things
+\addabbreviation{Field flow fractionation-inductively coupled plasma-mass spectrometry% with extra% magic and stuff and things
+}{FFF-ICP-MS}
+
+%%% Parts of a Thesis - Front Matter - Acknowledgments (optional)
+
+\begin{acknowledgments}
+I would like to thank the academy for granting me this prestigious thesis.  This project would never have succeeded without <friend>, <parent>, and of course <spouse>.
+\end{acknowledgments}
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Dedication (optional)
+
+\begin{dedication}
+For those that shall follow after.
+\end{dedication}
+\newpage
+
+%% Parts of a Thesis - Body
+
+\bodymatter
+
+%%% Parts of a Thesis - Body - Introduction (optional)
+%\chapter{Introduction}
+% A fun introduction would go here, just uncomment!
+
+%%% Parts of a Thesis - Body - All Chapters and Sections (required)
+
+
+%========================================================================
+%=																		=
+%=																		=
+%=					CHAPTER 1											=
+%=																		=
+%=																		=
+%========================================================================
+
+%Introduction
+\chapter{Introduction}
+According to the U.S. Department of Energy \cite{DOE2010} energy for heating and cooling accounts for approximately 35 - 45\% of the total expenditure within a building.  With such a large investment of energy being used to regulate the temperature of a building, any possible areas of improvement in this area are heavily sought after.  One idea for saving energy is to only regulate the temperature in rooms that are actually in use.  While the problem of determining what rooms are in use can be solved easily by a motion sensor, this problem becomes more difficult when the lead time to heat or cool a room is considered.  If accurate forecast models could be made for the occupancy of any section of the building, then a control scheme may be created that could save on total energy cost.
+
+As another example where the forecasting of occupancy may be used to produce significant improvements, consider the roadways of the United States.  Optimal timing of traffic lights on major roadways across the United States could account for approximately a 22\% reduction in emissions along with a 10\% reduction in fuel consumption \cite{DOT2007}.  As of 2005 the total estimated fuel savings would amount to approximately 17 billions gallons of motor fuels annually.  If accurate estimates of future traffic patterns at each traffic light were available then dynamically changing the light timings to account for such traffic would improve overall traffic flow.
+
+In both of the above scenarios motion through the environment can be captured through a network of many sensors.  For vehicular traffic systems, networks already exist using inductive loops and radar based sensors to count the number of cars in a given unit of time.  In the case of buildings, such networks are not as common.  To acquire such counts one could install a network using many infrared motion sensors and cameras to count human motion through the building.  
+
+%Problem Statement
+\subsection{Objective and Approach}
+The objective of this work is to forecast the number of moving agents in a region of space $\delta$ seconds in the future.  This could be represented by a hypothesis function $h(x, \delta)$.  We will use mean absolute scale error (MASE) \cite{Hyndman2006} and mean absolute percentage error (MAPE) as  cost functions to compare with other previously implemented techniques.  Due to the level of noise present in traffic scenarios, the forecasted value of a sensor reading is aggregated for a time appropriate for the setting.  For vehicular traffic, most work deals with reading every 15 minutes to one hour.  For building traffic, this aggregation is 3 to 5 minutes.  
+
+To assist in constructing models we make the assumption that data is generated from activities produced by human controlled entities moving through the environment.  Also we assume that the activities are repetitive and on some schedule.  The result of these assumptions is that from such scheduled movement we get sensors which have a spatial correlation and that for example, from week to week on the same day display similar trends.   Much of the research on traffic forecasting makes a similar assumption.  
+
+We also assume that sufficient deviations from our forecasting function are often not the result of noise, but are due to an activity that does not commonly occur on that day.  Because such activities can overlap or occur at different times with varying amount of background noise present, it is a difficult task for one parametric model to accurately encapsulate all possible combinations of activities.  In an environment with many activities that could occur at multiple different times such combinations may be prevalent.  Past work doesn't address the problem of overlapping activities.  
+
+
+%\begin{figure}{r}{5cm}
+%\begin{center}
+%\includegraphics[width=0.30\textwidth]{images/flow_chart.png}
+%\end{center}
+%\caption{Forecasting is based on activities and a background model}
+%\label{fig:flow_chart}
+%\end{figure}
+
+Our approach is to split the problem of forecasting into two parts: development of a background model and the development of a set of activity models.  Our background model is represented by a seasonal autoregressive integrated moving average (ARIMA) model.  To model activities, we propose comparing different models from activity recognition literature along with a new model which we propose here.  Forecasting is then performed using an ensemble predictor taking outputs from all trained activity models and the background seasonal ARIMA model.
+
+
+%\section{Previous Work}
+%Work in the past has attempted to solve this problem with parametric regression approaches such as fitting an auto regression moving average model (ARMA).  These models use a local history of forecasted values and actual readings to forecast future values.  The primary problem with these approaches is that due to being parametric with the background mean incorporated into the model, they tend to have problems with unusual patterns especially in the presence of changing means.
+
+%There has also been a limited amount of work into using multiple models to predict future observations.  While such work has shown promise, there has also been a lack of research into discovery of the optimal timeframe and spatial influence of other sensors when considering such models.  Other predictive approaches tend to use the entire network.  We instead search for the best spatial features and temporal scales to perform prediction.
+
+
+%Example Activity
+\subsection{Example Activity}
+
+\begin{figure}[ht]
+\begin{center}
+\subfloat[][Away game Sundays] {
+\includegraphics[width=0.45\textwidth]{images/broncos_off4.png}
+\label{fig:broncos_off}
+}
+\subfloat[][Broncos game Sundays] {
+\includegraphics[width=0.45\textwidth]{images/broncos4.png}
+\label{fig:broncos_on}
+}
+\end{center}
+\caption{Total number of cars passing major highway sensors on Sundays in September and October 2010}
+\label{fig:broncos}
+\end{figure}
+
+To illustrate an example of the need for our approach we provide the following example.  Figure~\ref{fig:broncos} shows the total counts of Denver traffic for each hour of the day averaged for the first four Sunday Broncos home games and for the first four Sunday away games in 2010.  Comparing figure~\ref{fig:broncos_off} with figure~\ref{fig:broncos_on} it is evident that a noticeable change in traffic patterns occur from approximately noon until approximately 6:00 pm.  This traffic change corresponds with a 2:05pm kickoff time for the game. 
+
+Traditional parametric models have difficulty accounting for these different traffic patterns and the problem becomes more difficult when when it is considered that the Broncos may play a Sunday night game or a Monday night game.  To compound the problem further there may be multiple activities occurring at the same time such as a Rockies game and a Broncos game.  It is probable that the number of occurrences of such overlapping activities are few and that no training instances exist for traditional models to handle.  
+
+Our approach will model each discrete activity separately and independent of the background model.  In this case a model for Broncos games and a model for Rockies games would be trained.  Once trained, accurate prediction should be possible despite the time of the games or the presence of other activities.
+
+\subsection{Contributions}  
+The contributions to the field of unsupervised traffic forecasting from this work are:
+\begin{itemize}
+\item{Use of activity models for improved forecasting accuracy of seasonal ARIMA models.}
+%\item{A combined Bayesian prediction model which uses the results of a background model and activity models to predict future readings.}
+\item{A new representation of activities using a mixture of time series multivariate Gaussians.}
+\item{A new measure for determining activity model forecasting accuracy.}
+\end{itemize}
+
+\subsection{Structure of the Proposal}
+The remainder of this proposal is outlined as follows.  Section two reviews current work related to traffic prediction and activity modeling.  Section three gives a summary of each dataset used in this work.  Section four details specific pieces of the overall approach.  All of the approach is not solved and where possible this section details potential ways to proceed with each unsolved part of the approach.  Finally section five is a time line of when the remaining work is expected to be completed.
+
+
+
+
+
+
+
+\chapter{In the Beginning}
+A chapter~\cite{ref:A,ref:B,ref:C}. See nifty ``longtables'' in Appendix~\ref{sec:longtable}.
+
+Nam eget congue lacus. Lorem ipsum dolor sit amet, consectetur faucibus tempor.
+
+\begin{equation}
+x+y=7
+\end{equation}
+
+Maecenas posuere luctus ligula sit amet ornare. Pellentesque vitae velit nulla. Ut a turpis massa, id ullamcorper odio.
+
+\subsection{A Subsection}% adsfsadf fdaskldf fdslkfds  adslkfj;lads asdfklasdflk sadfladsf adsfadsf asdfadsf}
+A subsection of the chapter.  In this particular chapter we're going to an include an example of a list:
+\begin{itemize}
+	\item This little listy went to market
+	\item This little listy stayed home
+	\item This little listy had roast beef
+	\item This little listy had none
+	\item And this little listy graduated, and went ''wee wee wee`` all the way home
+\end{itemize}
+See? Wasn't that fun.
+
+\subsection{AA Subsection}
+Another subsection of the chapter.  See cool encoding stuff in Appendix~\ref{app:encoding}.
+
+\subsubsection{Transport of U Through Porous Media: General Elution Procedures}
+\label{sec:important-section}
+I wonder why there's so much detail?
+
+\paragraph{i Subsection}
+Note that using ``three deep'' sections is HIGHLY discouraged.
+
+\paragraph{ii Subsection}
+So don't make sections this deep unless you really must.
+	
+\subsubsection{aa Subsection}
+Oooo - this topic must be really important! Its importance might be described by Equation~\ref{eq:importance}, which is nothing like the awesome Equation~\ref{eq:newton} or the uber-nifty vector example in Equation~\ref{eq:vector}.
+
+\begin{eqnarray}
+	\label{eq:importance}
+		\textrm{Importance} & \approx & 0 \\
+	\label{eq:newton}
+		\sum_{i}^{\infty}\vec{F_{i}} & = & m\,\vec{a}
+\end{eqnarray}
+
+\begin{align}
+	\label{eq:vector}
+	\newcommand{\Tmat}[3][]{{^{#2}_{#3}}#1\mathrm{\mathbf{T}}\;\,}
+	{\left[\begin{matrix}x\\ y\\ 1\end{matrix}\right]}=\Tmat{S}{W}{\left[\begin{matrix}0\\ 0\\ 1\end{matrix}\right]}
+\end{align}
+
+\subsection{AAA Subsection}
+Yet another subsection (for more information, see Section~\ref{sec:important-section} or Chapter~\ref{cha:important-chapter}).
+
+\subsection{AAAA Subsection}
+Last subsection\footnote{this is evil}, see \ref{fig:Stomata}.
+
+\csmfigure{Stomata}{figures/stomata}{4in}{A pretty picture from the Squier Group --- this is a test of the emergency long-title system.}
+
+%%% Below is a quick test for a figure that moves to another page
+% asdfadsf
+% 
+% asdfasdf
+% 
+% dfsdfds
+% 
+% dsfsd
+% 
+% sdfdsfd
+% %% Note: the ''[H]`` below is optional and means ''always put it exactly here``, normally you do NOT want to use it.  However, in some rare circumstances you may wish to override the default placement.
+% \csmfigure[H]{Stomata}{figures/stomata}{4in}{A pretty picture from the Squier Group --- this is a test of the emergency long-title system.}
+%%% End special test
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you would like to work on each chapter of your thesis in a separate document then use: %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{latex-example-chapter}
+
+\chapter{Second Generation Chapter}
+\label{cha:important-chapter}
+Another chapter.
+
+\subsection{Lots of Mistakes Originally}
+Fun fun...
+
+\subsection{Figured out How to Fix Things}
+Ha-ha!
+
+\subsection{Could Still Be Better}
+Interesting huh?
+
+\subsection{Testing Procedure}
+I thought you'd like this.
+
+\subsection{Final Results}
+It's over (see \ref{fig:Strongbad})!  Also it is important to note the placement of labels in subfigures: \ref{fig:fsm}, and \ref{fig:fsm-pirates}.
+% NOTE: You may wish to provide a shortened caption in the list of figures, \csmlongfigure allows you to do this (the two captions are combined in the text):
+\csmlongfigure{Strongbad}{figures/strongbad}{1in}{A world-class hero}{ of awesomeness~\cite{ref:Wikipedia}.}
+
+\begin{figure}
+	\begin{center}
+		\subfigure[Him]{
+			% Example for including pictures when using the ``graphicx'' package:
+			%\includegraphics[width=4in]{figures/fsm}
+			% Example for including pictures when using the ``graphics'' package:
+			\resizebox{4in}{!}{\includegraphics{figures/fsm}}
+		} \\
+		\subfigure[Importance of Pirates]{
+			\resizebox{4in}{!}{\includegraphics{figures/fsm-pirates}}
+			\label{fig:fsm-pirates}
+		}
+		% Normal caption:
+		\caption{\label{fig:fsm}The Flying Spaghetti Monster Knows All}
+		% This caption is for testing purposes, it has borders :
+		%\caption{\label{fig:fsm}Total electron density isosurface at 1.7 electrons/\AA$^3$ (a) showing higher electron concentration at 6-6 interfaces compared to 6-5 interfaces. (b) Total wave function density isosurface of 0.04 electrons/\AA$^3$ shows the relatively uniform density over 5-6 membered rings and the definite wave function holes through the eight-membered rings.}
+	\end{center}
+\end{figure}
+
+\chapter{The Way Ahead}
+Ugh, another chapter~\cite{ref:D}!
+
+\subsection{How Things Could Be Better}
+We thought that was the end!
+
+\subsection{Why We Think Things Aren't Better}
+We really hoped it was anyway.
+
+\subsection{We Love Our Advisors}
+Are you really still reading this? Ok, then check out \ref{tab:magic}!
+
+\begin{table}
+	\caption{\label{tab:magic} A table of tabular goodness.}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			& B & b \\
+			\hline
+			B & BB & Bb \\
+			\hline
+			b & Bb & bb \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+%% Below is a test for sideways figure and table floats (it also works to wrap figures and tables in a ``landscape'' environment, but the method below is preferred)
+% magic text a
+% 
+% \begin{sidewaystable}
+% 
+% \centering
+% 
+% \caption[Grooved Ware and Beaker Features, their Finds and Radiocarbon
+% Dates]{Grooved Ware and Beaker Features, their Finds and Radiocarbon
+% Dates; For a breakdown of the Pottery Assemblages see Tables I and
+% III; for the Flints see Tables II and IV; for the Animal Bones see
+% Table V.}
+% 
+% \begin{tabular}{|llllllllp{1in}lp{1in}|}
+% \hline
+% Context   &Length   &Breadth/   &Depth   &Profile   &Pottery   &Flint   &Animal   &Stone   &Other    &C14 Dates \\
+%   &         &Diameter   &        &          &          &        & 
+% Bones&&&\\
+% \hline
+% &&&&&&&&&&\\
+% \multicolumn{10}{|l}{\bf Grooved Ware}&\\
+% 784 &---   &0.90m &0.18m &Sloping U &P1    &$\times$46  &  $\times$8  &&$\times$2 bone&  2150$\pm$ 100 BC\\
+% 785 &---   &1.00m &0.12  &Sloping U &P2--4 &$\times$23  &  $\times$21 & Hammerstone &---&---\\
+% 962 &---   &1.37m &0.20m &Sloping U &P5--6 &$\times$48  &  $\times$57* & ---&     ---&1990 $\pm$ 80 BC (Layer 4) 1870 $\pm$90 BC (Layer 1)\\
+% 983 &0.83m &0.73m &0.25m &Stepped U &---   &$\times$18  &  $\times$8 & ---& Fired clay&---\\
+% &&&&&&&&&&\\
+% \multicolumn{10}{|l}{\bf Beaker}&\\
+% 552 &---   &0.68m &0.12m &Saucer    &P7--14 &---        & --- & --- &--- &---\\
+% 790 &---   &0.60m &0.25m &U         &P15    &$\times$12 & --- & Quartzite-lump&--- &---\\
+% 794 &2.89m &0.75m &0.25m &Irreg.    &P16    $\times$3   & --- & --- &--- &---\\
+% \hline
+% \end{tabular}
+% \end{sidewaystable} 
+% 
+% \begin{sidewaystable}
+% \centering
+% 
+% \caption[Grooved Ware and Beaker Features, their Finds and Radiocarbon
+% Dates]{Grooved Ware and Beaker Features, their Finds and Radiocarbon
+% Dates; For a breakdown of the Pottery Assemblages see Tables I and
+% III; for the Flints see Tables II and IV; for the Animal Bones see
+% Table V.}
+% 
+% \begin{tabular}{|llllllllp{1in}lp{1in}|}
+% \hline
+% Context   &Length   &Breadth/   &Depth   &Profile   &Pottery   &Flint   &Animal   &Stone   &Other    &C14 Dates \\
+%   &         &Diameter   &        &          &          &        & 
+% Bones&&&\\
+% \hline
+% &&&&&&&&&&\\
+% \multicolumn{10}{|l}{\bf Grooved Ware}&\\
+% 784 &---   &0.90m &0.18m &Sloping U &P1    &$\times$46  &  $\times$8  &&$\times$2 bone&  2150$\pm$ 100 BC\\
+% 785 &---   &1.00m &0.12  &Sloping U &P2--4 &$\times$23  &  $\times$21 & Hammerstone &---&---\\
+% 962 &---   &1.37m &0.20m &Sloping U &P5--6 &$\times$48  &  $\times$57* & ---&     ---&1990 $\pm$ 80 BC (Layer 4) 1870 $\pm$90 BC (Layer 1)\\
+% 983 &0.83m &0.73m &0.25m &Stepped U &---   &$\times$18  &  $\times$8 & ---& Fired clay&---\\
+% &&&&&&&&&&\\
+% \multicolumn{10}{|l}{\bf Beaker}&\\
+% 552 &---   &0.68m &0.12m &Saucer    &P7--14 &---        & --- & --- &--- &---\\
+% 790 &---   &0.60m &0.25m &U         &P15    &$\times$12 & --- & Quartzite-lump&--- &---\\
+% 794 &2.89m &0.75m &0.25m &Irreg.    &P16    $\times$3   & --- & --- &--- &---\\
+% \hline
+% \end{tabular}
+% \end{sidewaystable} 
+% 
+% magic text b
+
+%% Parts of a Thesis - Back Matter
+\backmatter
+
+%%% Parts of a Thesis - Back Matter - References Cited (required)
+
+% Use "Advanced" Bibliography Techniques
+\bibliography{thesis}
+%\printbibliography % <-- For using biblatex instead of natbib or the built-in bibliography utility
+
+%%% Parts of a Thesis - Back Matter - Selected Bibliography (optional)
+%\cleardoublepage
+%\begin{selected-bibliography}
+% Your selected bibliogrpahy would go here, a page break might also be necessary above.
+%\end{selected-bibliography}
+
+%%% Parts of a Thesis - Back Matter - Appendices (if applicable)
+\appendix{Magical Encoding Awesomeness}\label{app:encoding}
+\ref{tab:encoding} shows how several symbols appear in the rendered document.
+
+\begin{table}[H]
+	\caption{\label{tab:encoding}This is where we have fun testing encoding}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			& Normal & Math \\
+			\hline
+			The greater than: & > & $>$ \\
+			\hline
+			The lesss than: & < & $<$ \\
+			\hline
+			The tilde: & \textasciitilde{} & $\sim$ \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\subsection{Test Appendix Sub-Section}\label{sec:longtable}
+\ref{tab:longtable} is an example of a very large ``longtable.''
+\begin{landscape}
+\begin{longtable}{|>{\centering}p{1.02in}|>{\centering}p{1.15in}|>{\centering}p{1in}|>{\centering}p{0.7in}|>{\centering}p{0.7in}|>{\centering}p{0.67in}|>{\centering}p{2.55in}|} %
+	\endfirsthead % Remove this line to use the main header for the first page
+	\hline%
+	Age & Formation  & Thickness (feet)   & Thickness (feet)  & Thickness (feet)  & Aquifer?  & Lithology%
+	\endhead%
+	\caption{Stratigraphy of the Granite Mountains and Lost Creek areas\label{tab:longtable}}\\ %
+	\hline
+	Age & Formation%
+	\footnote{Only major unconformities shown, indicated by break in table.%
+	} & Thickness (feet)%
+	\footnote{Generalized thicknesses from.%
+	}  & Thickness (feet)%
+	\footnote{Thicknesses shown are approximate and apply to Lost Creek vicinity
+	only.%
+	} & Thickness (feet)%
+	\footnote{Thicknesses shown are from a public screened dataset of logged formation
+	tops from the 12 townships surrounding Lost Creek.%
+	} & Aquifer?%
+	\footnote{Aquifer designations \textendash{} Lost Creek vicinity only.%
+	} & Lithology \tabularnewline
+	\hline 
+	Quaternary  & Alluvium & - & 0-20 & - & Yes & Sands and clays derived chiefly from the Tertiary formations in the
+	area. \tabularnewline
+	\hline 
+	Paleocene & Fort Union  & up to 3,000 & 4,650 & 6,500? & Yes & Consists of alternating fine to coarse grained sandstone siltstone
+	and mudstone. Contains various layers of lignitic coal beds. \tabularnewline
+	\hline
+	\hline 
+	Cretaceous  & Lance  & 1,700 to 2,700 & 2,950 & 4,000? & Yes & Interbedded sandstone, siltstone and mudstone. Gray to brownish gray.
+	Locally carbonaceous. Sandstone is white to grayish orange. \tabularnewline
+	\hline 
+	Cretaceous & Fox Hills  &  & 550 & 1,800? & No & Consists of coarsening upward shale and fine-grained sand with thin
+	coal beds near the top. Represents a transition from marine to non-marine
+	environment. Grades into Lewis Shale at the base. \tabularnewline
+	\hline 
+	Cretaceous & Lewis Shale  & 1,250 & 1,200 & 1,050 to 2,000 & No & Interbedded dark-gray and olive-gray shale and olive-gray sandstone. \tabularnewline
+	\hline
+	\hline 
+	Cretaceous & Mesaverde Group  & 0 to 1,000 & 800 & 300 to 500? & No & Gray to dark gray shales with interbedded buff to tan fine to medium
+	grained sandstones. \tabularnewline
+	\hline 
+	Cretaceous & Steele and Niobrara Shales  & Cody Shale 4,500 to 5,000 & 2,000 to 2,500 & 2,400 to 5,000 & No & Steele shale is soft gray marine, Niobrara shale is dark gray and
+	contains calcareous zones. \tabularnewline
+	\hline 
+	Cretaceous & Frontier  & 700 to 900 & 500 to 1,000 & 750 to 1,500 & Yes & Gray sandstone and sandy shale. \tabularnewline
+	\hline 
+	Cretaceous & Dakota  &  & 300 to 400 &  & Yes & Marine sandstone, tan to buff, fine to medium grained may contain
+	carbonaceous shale layer. \tabularnewline
+	\hline 
+	Jurassic  & Nugget Sandstone  & 400 to 525 & 500 &  & Yes & Grayish to dull red coarse grained cross-bedded quartz sandstone. \tabularnewline
+	\hline 
+	Triassic  & Chugwater  & 1,275 & 1,500 &  & No & Red shale and siltstone contains gypsum partings near the base. \tabularnewline
+	\hline 
+	Permian  & Phosphoria  & 275 to 325 & 300 &  & No & Black to dark gray shale, chert and phosphorite. \tabularnewline
+	\hline 
+	Pennsylvanian  & Tensleep and Amsden and Madison  & 600 to 700 & 750 &  & No & White to gray sandstone containing thin limestone and dolomite partings.
+	Red and green shale and dolomite, sandstone near base. \tabularnewline
+	\hline 
+	Cambrian  & Undifferentiated  & 900 to 1,000 & 1,000 &  & No & Siltstone and quartzite, including Flathead sandstone. \tabularnewline
+	\hline
+	\hline 
+	Precambrian  & Basement  & - & - &  & No & Granites, metamorphic and igneous rocks. \tabularnewline
+	\hline
+% %% Extend the above example to cross a double-page boundary
+% 	%\hline
+% 	Quaternary  & Alluvium & - & 0-20 & - & Yes & Sands and clays derived chiefly from the Tertiary formations in the
+% 	area. \tabularnewline
+% 	\hline 
+% 	Paleocene & Fort Union  & up to 3,000 & 4,650 & 6,500? & Yes & Consists of alternating fine to coarse grained sandstone siltstone
+% 	and mudstone. Contains various layers of lignitic coal beds. \tabularnewline
+% 	\hline
+% 	\hline 
+% 	Cretaceous  & Lance  & 1,700 to 2,700 & 2,950 & 4,000? & Yes & Interbedded sandstone, siltstone and mudstone. Gray to brownish gray.
+% 	Locally carbonaceous. Sandstone is white to grayish orange. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Fox Hills  &  & 550 & 1,800? & No & Consists of coarsening upward shale and fine-grained sand with thin
+% 	coal beds near the top. Represents a transition from marine to non-marine
+% 	environment. Grades into Lewis Shale at the base. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Lewis Shale  & 1,250 & 1,200 & 1,050 to 2,000 & No & Interbedded dark-gray and olive-gray shale and olive-gray sandstone. \tabularnewline
+% 	\hline
+% 	\hline 
+% 	Cretaceous & Mesaverde Group  & 0 to 1,000 & 800 & 300 to 500? & No & Gray to dark gray shales with interbedded buff to tan fine to medium
+% 	grained sandstones. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Steele and Niobrara Shales  & Cody Shale 4,500 to 5,000 & 2,000 to 2,500 & 2,400 to 5,000 & No & Steele shale is soft gray marine, Niobrara shale is dark gray and
+% 	contains calcareous zones. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Frontier  & 700 to 900 & 500 to 1,000 & 750 to 1,500 & Yes & Gray sandstone and sandy shale. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Dakota  &  & 300 to 400 &  & Yes & Marine sandstone, tan to buff, fine to medium grained may contain
+% 	carbonaceous shale layer. \tabularnewline
+% 	\hline 
+% 	Jurassic  & Nugget Sandstone  & 400 to 525 & 500 &  & Yes & Grayish to dull red coarse grained cross-bedded quartz sandstone. \tabularnewline
+% 	\hline 
+% 	Triassic  & Chugwater  & 1,275 & 1,500 &  & No & Red shale and siltstone contains gypsum partings near the base. \tabularnewline
+% 	\hline 
+% 	Permian  & Phosphoria  & 275 to 325 & 300 &  & No & Black to dark gray shale, chert and phosphorite. \tabularnewline
+% 	\hline 
+% 	Pennsylvanian  & Tensleep and Amsden and Madison  & 600 to 700 & 750 &  & No & White to gray sandstone containing thin limestone and dolomite partings.
+% 	Red and green shale and dolomite, sandstone near base. \tabularnewline
+% 	\hline 
+% 	Cambrian  & Undifferentiated  & 900 to 1,000 & 1,000 &  & No & Siltstone and quartzite, including Flathead sandstone. \tabularnewline
+% 	\hline
+% 	\hline 
+% 	Precambrian  & Basement  & - & - &  & No & Granites, metamorphic and igneous rocks. \tabularnewline
+% 	\hline
+% %% END DOUBLE PAGE BOUNDARY EXAMPLE
+\end{longtable}
+\end{landscape}
+
+\begin{landscape}
+\begin{longtable}{|c|c|c|}
+	\endfirsthead
+	\caption{Test of a small longtable.} \\
+	\hline
+	A & B & C \\
+	\hline
+	1 & 2 & 3 \\
+	\hline
+\end{longtable}
+\end{landscape}
+
+\begin{landscape}
+\begin{longtable}{|c|c|c|}
+	\endfirsthead
+	\caption{Test of a small longtable on the alternate page.} \\
+	\hline
+	1 & 2 & 3 \\
+	\hline
+	A & B & C \\
+	\hline
+\end{longtable}
+\end{landscape}
+
+\subsection{Sub-Sections are Fun}
+Sorta...
+
+\appendix{Special Coolness}
+
+Insert ice cubes here (\ref{lst:hello-world}).
+
+\lstinputlisting[language=Matlab,label={lst:hello-world},caption={A MATLAB ``Hello World`` Example}]{matlab_code.m}
+
+%% Example for use with ``breqn'' automatic equation breaking:
+\ifbreqn
+	\appendix{Equation Breaking Tests}
+
+	\begin{equation*}
+	r = \frac{i}{n F} = k' c_i \exp\left\{ \frac{-G^{\ddagger}}{R T} \right\}
+	\end{equation*}
+	\begin{equation*}
+	r = \frac{i}{n F} = k' c_i \exp\left\{ \frac{-G^{\ddagger}}{R T} \right\}
+	\end{equation*}
+
+	Replace $j$ by $h-j$ and by $k-j$ in these sums to get [cf.~(\ref{sna74})]
+	\begin{equation*}
+	\label{sna74}
+	\frac{1}{6} \left(\sigma(k,h,0) +\frac{3(h-1)}{h}\right)
+	+\frac{1}{6} \left(\sigma(h,k,0) +\frac{3(k-1)}{k}\right)
+	=\frac{1}{6} \left(\frac{h}{k} +\frac{k}{h} +\frac{1}{hk}\right)
+	+\frac{1}{2} -\frac{1}{2h} -\frac{1}{2k},
+	\end{equation*}
+	which is equivalent to the desired result.
+\fi
+
+
+% %% For figuring out the LyX multi-row problem
+% \begin{table}
+% \caption{\label{tab:Important-experimental-propertie}General experimental
+% properties}
+% \centering{}%
+% \begin{tabular}{|c|c|c|}
+% \cline{2-3} 
+% \multicolumn{1}{c|}{} & Parameter & \tabularnewline
+% \hline 
+% \multirow{8}{*}{Silurian dolomite} & Speed, rpm (drainage) & 1200 \tabularnewline
+% \cline{2-3} 
+%  & Speed, rpm (forced imbibition) & 884\tabularnewline
+% \cline{2-3} 
+%  & Surfactant type  & S13D\tabularnewline
+% \cline{2-3} 
+%  & Surfactant concentration, ppm  & 5000\tabularnewline
+% \cline{2-3} 
+%  & IFT$\left(\frac{dyne}{cm}\right)$ & 16\tabularnewline
+% \cline{2-3} 
+%  & $\mu_{o}(cp)$ & 22\tabularnewline
+% \cline{2-3} 
+%  & $k_{f}(md)$ & 10000\tabularnewline
+% \cline{2-3} 
+%  & $\phi_{f}$ & 0.9\tabularnewline
+% \cline{2-3} 
+% \multirow{8}{*}{Thamama} & Speed, rpm (drainage) & 4000\tabularnewline
+% \cline{2-3} 
+%  & Speed, rpm (forced imbibition) & 3000\tabularnewline
+% \cline{2-3} 
+%  & Surfactant type  & Ethoxylated alcohol\tabularnewline
+% \cline{2-3} 
+%  & Surfactant concentration, ppm  & 20000\tabularnewline
+% \cline{2-3} 
+%  & IFT$\left(\frac{dyne}{cm}\right)$ & 18\tabularnewline
+% \cline{2-3} 
+%  & $\mu_{o}(cp)$ & 9.5\tabularnewline
+% \cline{2-3} 
+%  & $k_{f}(md)$ & 7000-10000\tabularnewline
+% \cline{2-3} 
+%  & $\phi_{f}$ & 0.9\tabularnewline
+% \hline 
+% \end{tabular}
+% \end{table}
+
+\end{document}

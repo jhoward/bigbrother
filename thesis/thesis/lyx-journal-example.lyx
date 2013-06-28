@@ -1,0 +1,4457 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass csm-thesis
+\begin_preamble
+% Uncomment for automatic equation breaking:
+%\usepackage{breqn}
+\end_preamble
+\options letterpaper
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine natbib_numerical
+\use_bibtopic true
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 4
+\tocdepth 4
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Parts of a Thesis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%% Parts of a Thesis - Front Matter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout --FrontMatter--
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - Title Page (required)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% VERY IMPORTANT NOTE:
+\end_layout
+
+\begin_layout Plain Layout
+% In LyX you must use Ctrl+Enter (Apple+Enter on Mac) to make multi-line
+ titles!
+\end_layout
+
+\begin_layout Plain Layout
+% Note that if you make a multi-line title manually then the thesis style
+ will not attempt to make the title into an inverted pyramid.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+Developing a 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+atom{12}{6}{Th}{2+}{3}
+\end_layout
+
+\end_inset
+
+esis Template to Help Students Graduate in a Reasonable Time
+\end_layout
+
+\begin_layout Author
+Graduate A.
+ Student
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - Copyright Page (optional)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% If the copyright for your document spans multiple years, or does not match
+ the current year, then replace ''
+\backslash
+the
+\backslash
+year`` below with the appropriate text.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+makecopyright{
+\backslash
+the
+\backslash
+year}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - Signature Page (required)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Degree
+Master of Science
+\end_layout
+
+\begin_layout Discipline
+Engineering Systems
+\end_layout
+
+\begin_layout Department
+Engineering
+\end_layout
+
+\begin_layout Advisor
+Dr.
+ Primary A.
+ Advisor
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Remove the following line if you do not have a co-advisor:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Co-Advisor
+Dr.
+ Secondary B.
+ Advisor
+\end_layout
+
+\begin_layout DepartmentHeadName
+Dr.
+ Big Boss
+\end_layout
+
+\begin_layout DepartmentHeadTitle
+Professor and Head
+\end_layout
+
+\begin_layout -SubmittalPage-
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - Abstract (required)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ In felis sapien, fermentum vel varius id, ullamcorper dapibus elit.
+ Integer in massa sed ipsum placerat posuere.
+ Quisque quis metus turpis.
+ Curabitur vel metus a libero gravida posuere.
+ Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+ inceptos himenaeos.
+ Integer accumsan dapibus tellus at venenatis.
+ Fusce id neque massa.
+ Pellentesque sodales nisl non est tincidunt molestie.
+ Vestibulum eu orci sed elit dictum interdum quis ac turpis.
+ Etiam id eros elit, id interdum nibh.
+ Donec porttitor tempor dolor nec dignissim.
+ Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+ inceptos himenaeos.
+ Pellentesque habitant morbi tristique senectus et netus et malesuada fames
+ ac turpis egestas.
+\end_layout
+
+\begin_layout Abstract
+Nullam gravida aliquam felis, eget cursus quam ullamcorper quis.
+ Vivamus a leo velit, ut tempor tortor.
+ Maecenas dapibus nulla sed magna sollicitudin laoreet.
+ Donec adipiscing facilisis ornare.
+ Maecenas ultrices convallis tellus, vel blandit felis tincidunt non.
+ Nulla risus turpis, volutpat nec posuere a, molestie sed eros.
+ Suspendisse elementum mi sit amet lacus sagittis vestibulum.
+ Morbi ornare congue ipsum non lacinia.
+ Suspendisse id risus nec felis fermentum malesuada id at ante.
+ Nunc ullamcorper, tellus quis tincidunt tincidunt, nibh mi commodo lacus,
+ in condimentum ligula quam et mauris.
+ Duis eu est non tellus condimentum blandit sit amet eu tortor.
+ Cras tempor lacus ac lacus tempus lacinia.
+ Phasellus dignissim justo a erat ullamcorper suscipit.
+ Donec nec quam in nulla consequat porttitor.
+ Quisque bibendum diam blandit justo dictum nec tincidunt augue blandit.
+ Etiam nisi diam, hendrerit in rhoncus in, rhoncus et risus.
+\end_layout
+
+\begin_layout Abstract
+Praesent ultricies rhoncus dui, sed porta magna tincidunt a.
+ Mauris ligula justo, malesuada eu cursus convallis, facilisis a justo.
+ Quisque ut mauris sit amet quam tincidunt cursus pellentesque sed sapien.
+ Fusce luctus ultrices lorem, ut elementum odio sodales id.
+ Nullam eu sem tincidunt justo scelerisque interdum in eu dolor.
+ Mauris ut leo in magna pretium hendrerit id quis lacus.
+ Phasellus volutpat sapien et velit molestie rhoncus.
+ Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+ inceptos himenaeos.
+ Donec quis eros vitae elit fringilla malesuada ultricies et ligula.
+ Donec enim purus, cursus sit amet consectetur ut, faucibus vitae magna.
+ Etiam ac lorem sed nulla condimentum viverra sed id nunc.
+ Suspendisse potenti.
+ Praesent aliquam elit sed turpis hendrerit euismod.
+\end_layout
+
+\begin_layout Abstract
+Sed mauris sapien, sagittis eu ultricies vitae, molestie eu dolor.
+ Maecenas massa risus, sollicitudin a sollicitudin id, sollicitudin sit
+ amet mi.
+ Phasellus a eleifend odio.
+ Nullam vel metus magna, eget tincidunt lectus.
+ Vestibulum vestibulum viverra ante, cursus luctus tortor tristique id.
+ In lobortis convallis turpis, auctor ultricies nisi blandit ac.
+ Cras id rutrum magna.
+ Nullam tristique tincidunt enim aliquam sagittis.
+ Duis ornare, eros at congue hendrerit, lectus augue viverra sem, congue
+ tempor diam enim vel neque.
+ Maecenas scelerisque iaculis metus in vulputate.
+ Nam vestibulum, est vel imperdiet vulputate, nisl felis vestibulum felis,
+ quis hendrerit sem erat nec arcu.
+ Nam eget congue lacus.
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ Maecenas posuere luctus ligula sit amet ornare.
+ Pellentesque vitae velit nulla.
+ Ut a turpis massa, id ullamcorper odio.
+\end_layout
+
+\begin_layout Abstract
+Quisque malesuada pharetra imperdiet.
+ Suspendisse lobortis posuere faucibus.
+ In convallis, justo in sollicitudin pulvinar, sapien neque imperdiet dolor,
+ ac congue lorem enim eget lectus.
+ Cras nibh magna, malesuada vitae sagittis non, accumsan sed ipsum.
+ Nulla id tellus id tellus posuere tempor venenatis et magna.
+ Etiam interdum facilisis orci, eget varius justo vulputate sit amet.
+ Vivamus tortor quam, fermentum sit amet dictum sit amet, feugiat ac purus.
+ Aliquam erat volutpat.
+ Vivamus sit amet libero dolor.
+ Phasellus venenatis, enim a aliquet euismod, purus mauris ullamcorper lectus,
+ sed imperdiet eros tellus eget libero.
+ Nulla non purus sit amet nisl pulvinar.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - Table of Contents (required)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - List of Figures (if applicable)
+\end_layout
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - List of Tables (if applicable)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% NOTE: If you have more than 2 items in either list they must be separate.
+\end_layout
+
+\begin_layout Plain Layout
+% This case is generally handled automatically, but if you are told to separate
+ the lists then comment or remove the line below:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout -ListOfFiguresAndTables-
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% ...
+ and then uncomment these lines to force separate lists:
+\end_layout
+
+\begin_layout -ListOfFigures-
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout -ListOfTables-
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - List of Symbols (if applicable)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Place this call (uncomment) before 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+listofsymbols
+\begin_inset Quotes erd
+\end_inset
+
+ to make the symbols appear on the left instead of the right:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ShowSymbolFirst
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% To call the 
+\begin_inset Quotes eld
+\end_inset
+
+List of Symbols
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Nomenclature
+\begin_inset Quotes erd
+\end_inset
+
+ instead add (uncomment):
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+listsymbolname}{Nomenclature}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout -ListOfSymbols-
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% With very large symbol lists it is sometimes good to split the list into
+ multiple sub-lists.
+ To output the lists just use the extended 
+\backslash
+listofsymbols command (below) and to add an element to the list use the
+ optional parameter to ''
+\backslash
+addsymbol``.
+\end_layout
+
+\begin_layout -ListOfSymbols-
+General Nomenclature
+\end_layout
+
+\begin_layout -ListOfSymbols-
+Greek Letters
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Note that you may define symbols anywhere in the document, when you re-run
+ LaTeX they
+\end_layout
+
+\begin_layout Plain Layout
+% will be added to the list (just like all other lists)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Note for LyX users, there are two ways to define symbols:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% (1) Built-in LyX nomenclature command:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$\\alpha_c$"
+description "absorption coefficient"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% (2) Custom 
+\begin_inset Quotes eld
+\end_inset
+
+addsymbol
+\begin_inset Quotes erd
+\end_inset
+
+ command, the recommend method (allows simple copy-paste):
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addsymbol{
+\end_layout
+
+\end_inset
+
+absorption cross section
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\alpha_{\sigma}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addsymbol{
+\end_layout
+
+\end_inset
+
+average radius of cylindrical shell
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $c$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addsymbol{
+\end_layout
+
+\end_inset
+
+activation energy of oxidation reaction of a-C in excited state
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $E_{act}^{\ast}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Example for sub-list symbols (optional parameter specifies which list
+ to use):
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addsymbol[General Nomenclature]{
+\end_layout
+
+\end_inset
+
+absorption coefficient
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\alpha_{c}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addsymbol[General Nomenclature]{
+\end_layout
+
+\end_inset
+
+absorption cross section
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\alpha_{\sigma}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addsymbol[Greek Letters]{
+\end_layout
+
+\end_inset
+
+average radius of cylindrical shell
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $c$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addsymbol[Greek Letters]{
+\end_layout
+
+\end_inset
+
+activation energy of oxidation reaction of a-C in excited state
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $E_{act}^{\ast}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - List of Abbreviations (if applicable)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout -ListOfAbbreviations-
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Note that you may define abbreviations anywhere in the document, when
+ you re-run LaTeX they
+\end_layout
+
+\begin_layout Plain Layout
+% will be added to the list (just like all other lists)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addabbreviation{
+\end_layout
+
+\end_inset
+
+Bio Force Gun, Model 9000
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+BFG9000
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addabbreviation{
+\end_layout
+
+\end_inset
+
+Mammoth Armed Reclamation Vehicle
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+MARV
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addabbreviation{
+\end_layout
+
+\end_inset
+
+Stone of Jordan
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+SoJ
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Front Matter - Acknowledgments (optional)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Acknowledgments
+I would like to thank the academy for granting me this prestigious thesis.
+ This project would never have succeeded without <friend>, <parent>, and
+ of course <spouse>.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Dedication
+For those that shall follow after.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%% Parts of a Thesis - Body
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout --BodyMatter--
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Body - Introduction (optional)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+General Introduction
+\end_layout
+
+\begin_layout Standard
+A general introduction to your articles goes here.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Body - All Chapters and Sections (required)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Your First Publication
+\end_layout
+
+\begin_layout Standard
+\align center
+An invited review paper submitted to 
+\emph on
+The Journal of Awesome
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\emph on
+Graduate
+\begin_inset space ~
+\end_inset
+
+A.
+\begin_inset space ~
+\end_inset
+
+Student
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+*,1
+\end_layout
+
+\end_inset
+
+, 
+\emph on
+Principal
+\begin_inset space ~
+\end_inset
+
+B.
+\begin_inset space ~
+\end_inset
+
+Investigator
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout AuthorNoteSymbol
+Primary author and editor.
+ Direct correspondence to 
+\begin_inset CommandInset href
+LatexCommand href
+name "ehoover@mines.edu"
+target "mailto:ehoover@mines.edu"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout AuthorNoteNumbered
+Center for Awesomeness in Research, and Department of Cool, Colorado School
+ of Mines, 1500 Illinois Street, Golden, Colorado 80401, USA.
+\end_layout
+
+\begin_layout Standard
+A chapter
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ref:A,ref:B,ref:C"
+
+\end_inset
+
+.
+ See nifty 
+\begin_inset Quotes eld
+\end_inset
+
+longtables
+\begin_inset Quotes erd
+\end_inset
+
+ in Appendix
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:longtable"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Nam eget congue lacus.
+ Lorem ipsum dolor sit amet, consectetur faucibus tempor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+x+y=7\label{eq:test}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Maecenas posuere luctus ligula sit amet ornare.
+ Pellentesque vitae velit nulla.
+ Ut a turpis massa, id ullamcorper odio.
+\end_layout
+
+\begin_layout Subsection
+A Subsection
+\end_layout
+
+\begin_layout Standard
+A subsection of the chapter.
+ In this particular chapter we're going to an include an example of a list:
+\end_layout
+
+\begin_layout Itemize
+This little listy went to market
+\end_layout
+
+\begin_layout Itemize
+This little listy stayed home
+\end_layout
+
+\begin_layout Itemize
+This little listy had roast beef
+\end_layout
+
+\begin_layout Itemize
+This little listy had none
+\end_layout
+
+\begin_layout Itemize
+And this little listy graduated, and went 
+\begin_inset Quotes eld
+\end_inset
+
+wee wee wee
+\begin_inset Quotes erd
+\end_inset
+
+ all the way home
+\end_layout
+
+\begin_layout Standard
+See? Wasn't that fun.
+\end_layout
+
+\begin_layout Subsection
+AA Subsection
+\end_layout
+
+\begin_layout Standard
+Another subsection of the chapter.
+\end_layout
+
+\begin_layout Subsubsection
+Transport of U Through Porous Media: General Elution Procedures
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:important-section"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I wonder why there's so much detail? See cool encoding stuff in Appendix
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:encoding"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+i Subsection
+\end_layout
+
+\begin_layout Standard
+Note that using 
+\begin_inset Quotes eld
+\end_inset
+
+three deep
+\begin_inset Quotes erd
+\end_inset
+
+ sections is HIGHLY discouraged.
+\end_layout
+
+\begin_layout Paragraph
+ii Subsection
+\end_layout
+
+\begin_layout Standard
+So don't make sections this deep unless you really must.
+\end_layout
+
+\begin_layout Subsubsection
+aa Subsection
+\end_layout
+
+\begin_layout Standard
+Oooo - this topic must be really important! Its importance might be described
+ by Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:importance"
+
+\end_inset
+
+, which is nothing like the awesome Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:newton"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\textrm{Importance} & \approx & 0\label{eq:importance}\\
+\sum_{i}^{\infty}\vec{F_{i}} & = & m\,\vec{a}\label{eq:newton}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\left[\begin{matrix}x\\
+y\\
+1
+\end{matrix}\right]={}_{W}^{S}\mathbf{T} & \left[\begin{matrix}0\\
+0\\
+1
+\end{matrix}\right]
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+AAA Subsection
+\end_layout
+
+\begin_layout Standard
+Yet another subsection (for more information, see Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:important-section"
+
+\end_inset
+
+ or Chapter
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cha:important-chapter"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Subsection
+AAAA Subsection
+\end_layout
+
+\begin_layout Standard
+Last subsection
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+this is evil
+\end_layout
+
+\end_inset
+
+, see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Stomata"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures/stomata.png
+	lyxscale 40
+	width 4in
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Stomata"
+
+\end_inset
+
+A pretty picture from the Squier Group --- this is a test of the emergency
+ long-title system.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Each chapter needs a bibliography
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "thesis"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Subdocument Test
+\end_layout
+
+\begin_layout Standard
+\align center
+A paper published in 
+\emph on
+Amazing Things
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\emph on
+Graduate
+\begin_inset space ~
+\end_inset
+
+A.
+\emph default
+
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+Student
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+*,1
+\end_layout
+
+\end_inset
+
+, 
+\emph on
+Puny
+\begin_inset space ~
+\end_inset
+
+B.
+\emph default
+
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+Contributor
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+, 
+\emph on
+Some
+\begin_inset space ~
+\end_inset
+
+C.
+\emph default
+
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+Collaborator
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+, 
+\emph on
+Principal
+\begin_inset space ~
+\end_inset
+
+D.
+\emph default
+
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+Investigator
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout AuthorNoteSymbol
+Primary author and editor.
+ Direct correspondence to 
+\begin_inset CommandInset href
+LatexCommand href
+name "ehoover@mines.edu"
+target "mailto:ehoover@mines.edu"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout AuthorNoteNumbered
+Center for Awesomeness in Research, and Department of Cool, Colorado School
+ of Mines, 1500 Illinois Street, Golden, Colorado 80401, USA.
+\end_layout
+
+\begin_layout AuthorNoteNumbered
+Department of Nifty Things, Institution of Work, 9999 Working Street, SomeCity,
+ SomeState 99999, USA.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% If you would like to work on each chapter of your thesis in a separate
+ document then use this procedure:
+\end_layout
+
+\begin_layout Plain Layout
+% (1) Include that chapter using 
+\begin_inset Quotes eld
+\end_inset
+
+Insert -> File -> Child Document
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+% (2) Open the child document and go to the 
+\begin_inset Quotes eld
+\end_inset
+
+Document Class
+\begin_inset Quotes erd
+\end_inset
+
+ view in 
+\begin_inset Quotes eld
+\end_inset
+
+Document -> Settings
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+% (3) Set the 
+\begin_inset Quotes eld
+\end_inset
+
+Document Class
+\begin_inset Quotes erd
+\end_inset
+
+ of the child document to 
+\begin_inset Quotes eld
+\end_inset
+
+csm-thesis
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+% (4) Set the 
+\begin_inset Quotes eld
+\end_inset
+
+Custom class options
+\begin_inset Quotes erd
+\end_inset
+
+ of the child document to 
+\begin_inset Quotes eld
+\end_inset
+
+insane
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "lyx-example-chapter.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Each chapter needs a bibliography
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "thesis"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Your Second Publication
+\end_layout
+
+\begin_layout Standard
+\align center
+A paper accepted by 
+\emph on
+Awesome Stuff
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\emph on
+Graduate
+\begin_inset space ~
+\end_inset
+
+A.
+\emph default
+
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+Student
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+*,1
+\end_layout
+
+\end_inset
+
+, 
+\emph on
+Puny
+\begin_inset space ~
+\end_inset
+
+B.
+\emph default
+
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+Contributor
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+, 
+\emph on
+Some
+\begin_inset space ~
+\end_inset
+
+C.
+\emph default
+
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+Collaborator
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+, 
+\emph on
+Principal
+\begin_inset space ~
+\end_inset
+
+D.
+\emph default
+
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+Investigator
+\emph default
+
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout AuthorNoteSymbol
+Primary author and editor.
+ Direct correspondence to 
+\begin_inset CommandInset href
+LatexCommand href
+name "ehoover@mines.edu"
+target "mailto:ehoover@mines.edu"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout AuthorNoteNumbered
+Center for Awesomeness in Research, and Department of Cool, Colorado School
+ of Mines, 1500 Illinois Street, Golden, Colorado 80401, USA.
+\end_layout
+
+\begin_layout AuthorNoteNumbered
+Department of Nifty Things, Institution of Work, 9999 Working Street, SomeCity,
+ SomeState 99999, USA.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "cha:important-chapter"
+
+\end_inset
+
+Another chapter.
+\end_layout
+
+\begin_layout Subsection
+Lots of Mistakes Originally
+\end_layout
+
+\begin_layout Standard
+Fun fun...
+\end_layout
+
+\begin_layout Subsection
+Figured out How to Fix Things
+\end_layout
+
+\begin_layout Standard
+Ha-ha!
+\end_layout
+
+\begin_layout Subsection
+Could Still Be Better
+\end_layout
+
+\begin_layout Standard
+Interesting huh?
+\end_layout
+
+\begin_layout Subsection
+Testing Procedure
+\end_layout
+
+\begin_layout Standard
+I thought you'd like this.
+\end_layout
+
+\begin_layout Subsection
+Final Results
+\end_layout
+
+\begin_layout Standard
+It's over (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Strongbad"
+
+\end_inset
+
+)! Also it is important to note the placement of labels in subfigures: 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fsm"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fsm-pirates"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures/strongbad.png
+	width 1in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Below is an example of including a shortened caption in the list of figures,
+ please note that citations should not be placed in the shortened caption.
+\end_layout
+
+\begin_layout Plain Layout
+% %%IMPORTANT THESIS GUIDE NOTE:%%
+\end_layout
+
+\begin_layout Plain Layout
+% Each list entry must have exactly the same wording, capitalization and
+ punctuation as the titles and headings in the text.
+ In the case of long figure captions, the text in the list may be abbreviated
+ (while retaining the sense of the whole caption).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+A short caption
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Strongbad"
+
+\end_inset
+
+A world-class hero 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "ref:Wikipedia"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures/fsm.png
+	lyxscale 40
+	width 4in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Him
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures/fsm-pirates.png
+	lyxscale 40
+	width 4in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Importance of Pirates
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fsm-pirates"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fsm"
+
+\end_inset
+
+The Flying Spaghetti Monster Knows All
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "thesis"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+General Conclusions
+\end_layout
+
+\begin_layout Standard
+Ugh, another chapter
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ref:D"
+
+\end_inset
+
+!
+\end_layout
+
+\begin_layout Subsection
+How Things Could Be Better
+\end_layout
+
+\begin_layout Standard
+We thought that was the end!
+\end_layout
+
+\begin_layout Subsection
+Why We Think Things Aren't Better
+\end_layout
+
+\begin_layout Standard
+We really hoped it was anyway.
+\end_layout
+
+\begin_layout Subsection
+We Love Our Advisors
+\end_layout
+
+\begin_layout Standard
+Are you really still reading this? Ok, then check out 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:magic"
+
+\end_inset
+
+!
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:magic"
+
+\end_inset
+
+A table of tabular goodness.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+b
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bb
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bb
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bb
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+% Each chapter needs a bibliography
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "thesis"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%% Parts of a Thesis - Back Matter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout --BackMatter--
+
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+%%% Parts of a Thesis - Back Matter - Appendices (if applicable)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Appendix
+Magical Encoding Awesomeness
+\begin_inset CommandInset label
+LatexCommand label
+name "app:encoding"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:encoding"
+
+\end_inset
+
+ shows how several symbols appear in the rendered document.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+This is where we have fun testing encoding
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:encoding"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Normal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Math
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The greater than:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $>$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The lesss than:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $<$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The tilde:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sim$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Test Appendix Sub-Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:longtable"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:longtable"
+
+\end_inset
+
+ is an example of a very large 
+\begin_inset Quotes eld
+\end_inset
+
+longtable.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="18" columns="7">
+<features rotate="true" islongtable="true" longtabularalignment="center">
+<column alignment="center" valignment="top" width="1.02in">
+<column alignment="center" valignment="top" width="1.15in">
+<column alignment="center" valignment="top" width="1in">
+<column alignment="center" valignment="top" width="0.7in">
+<column alignment="center" valignment="top" width="0.7in">
+<column alignment="center" valignment="top" width="0.67in">
+<column alignment="center" valignment="top" width="2.55in">
+<row caption="true">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Stratigraphy of the Granite Mountains and Lost Creek areas
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:longtable"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Age
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Formation
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Only major unconformities shown, indicated by break in table.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thickness (feet)
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Generalized thicknesses from.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thickness (feet)
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Thicknesses shown are approximate and apply to Lost Creek vicinity only.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thickness (feet)
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Thicknesses shown are from a public screened dataset of logged formation
+ tops from the 12 townships surrounding Lost Creek.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aquifer?
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Aquifer designations – Lost Creek vicinity only.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lithology 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row endhead="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Age
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Formation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thickness (feet) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thickness (feet)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thickness (feet)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aquifer?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lithology 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Quaternary 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Alluvium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0-20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sands and clays derived chiefly from the Tertiary formations in the area.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Paleocene
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fort Union 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+up to 3,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4,650
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6,500?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Consists of alternating fine to coarse grained sandstone siltstone and mudstone.
+ Contains various layers of lignitic coal beds.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cretaceous 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lance 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,700 to 2,700
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,950
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4,000?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Interbedded sandstone, siltstone and mudstone.
+ Gray to brownish gray.
+ Locally carbonaceous.
+ Sandstone is white to grayish orange.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cretaceous
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fox Hills 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+550
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,800?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Consists of coarsening upward shale and fine-grained sand with thin coal
+ beds near the top.
+ Represents a transition from marine to non-marine environment.
+ Grades into Lewis Shale at the base.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cretaceous
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lewis Shale 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,250
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,200
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,050 to 2,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Interbedded dark-gray and olive-gray shale and olive-gray sandstone.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cretaceous
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mesaverde Group 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 to 1,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+800
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300 to 500?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gray to dark gray shales with interbedded buff to tan fine to medium grained
+ sandstones.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cretaceous
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Steele and Niobrara Shales 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cody Shale 4,500 to 5,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,000 to 2,500
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,400 to 5,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Steele shale is soft gray marine, Niobrara shale is dark gray and contains
+ calcareous zones.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cretaceous
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Frontier 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+700 to 900
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500 to 1,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+750 to 1,500
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gray sandstone and sandy shale.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cretaceous
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dakota 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300 to 400
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Marine sandstone, tan to buff, fine to medium grained may contain carbonaceous
+ shale layer.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Jurassic 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nugget Sandstone 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+400 to 525
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Grayish to dull red coarse grained cross-bedded quartz sandstone.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Triassic 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chugwater 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,275
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,500
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Red shale and siltstone contains gypsum partings near the base.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Permian 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Phosphoria 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+275 to 325
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Black to dark gray shale, chert and phosphorite.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pennsylvanian 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tensleep and Amsden and Madison 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+600 to 700
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+750
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+White to gray sandstone containing thin limestone and dolomite partings.
+ Red and green shale and dolomite, sandstone near base.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cambrian 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Undifferentiated 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+900 to 1,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Siltstone and quartzite, including Flathead sandstone.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Precambrian 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Basement 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Granites, metamorphic and igneous rocks.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features rotate="true" islongtable="true" longtabularalignment="center">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row caption="true">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Test of a small longtable.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+C
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features rotate="true" islongtable="true" longtabularalignment="center">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row caption="true">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Test of a small longtable on the alternate page.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+C
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Sub-Sections are Fun
+\end_layout
+
+\begin_layout Standard
+Sorta...
+\end_layout
+
+\begin_layout Appendix
+Special Coolness
+\end_layout
+
+\begin_layout Standard
+Insert ice cubes here (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lst:hello-world"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "matlab_code.m"
+lstparams "caption={A MATLAB ``Hello World`` Example},label={lst:hello-world},language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ifbreqn
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Appendix
+Equation Breaking Tests
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+r=\frac{i}{nF}=k'c_{i}\exp\left\{ \frac{-G^{\ddagger}}{RT}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+r=\frac{i}{nF}=k'c_{i}\exp\left\{ \frac{-G^{\ddagger}}{RT}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Replace 
+\begin_inset Formula $j$
+\end_inset
+
+ by 
+\begin_inset Formula $h-j$
+\end_inset
+
+ and by 
+\begin_inset Formula $k-j$
+\end_inset
+
+ in these sums to get [cf.
+\begin_inset space \thinspace{}
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sna74"
+
+\end_inset
+
+)]
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{1}{6}\left(\sigma(k,h,0)+\frac{3(h-1)}{h}\right)+\frac{1}{6}\left(\sigma(h,k,0)+\frac{3(k-1)}{k}\right)=\frac{1}{6}\left(\frac{h}{k}+\frac{k}{h}+\frac{1}{hk}\right)+\frac{1}{2}-\frac{1}{2h}-\frac{1}{2k},\label{sna74}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is equivalent to the desired result.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+fi
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,797 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The following code is for sorting lists: an optional, difficult, and awesome feature. %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{csm@list@i}
+\newcounter{csm@list@j}
+\newcounter{csm@list@k}
+\newcounter{csm@list@length}
+\setcounter{csm@list@length}{0}
+%% For adding items to a list:
+\gdef\csm@list@additem#1#2{%
+	\expandafter\gdef\csname csm@list@itemkey@\the\value{csm@list@length}@\endcsname{#1}%
+	\expandafter\gdef\csname csm@list@itemval@\the\value{csm@list@length}@\endcsname{#2}%
+	\addtocounter{csm@list@length}{1}%
+}
+%% General list manipulation routines:
+\gdef\csm@list@check@ischar{%
+	\global\let\csm@list@ischar=\@false%
+	\expandafter\ifcat A\csm@list@nextchar@\relax%
+		\global\let\csm@list@ischar=\@true%
+	\else%
+		\expandafter\ifcat 0\csm@list@nextchar@\relax%
+			\global\let\csm@list@ischar=\@true%
+		\fi%
+	\fi%
+}
+\gdef\csm@swap#1#2{#2#1}
+\gdef\csm@swap@gobble#1#2{#1}
+%% For getting the length of an item in the list:
+\newcounter{csm@list@strlen}
+\newcounter{csm@list@strlenA}
+\newcounter{csm@list@strlenB}
+\gdef\csm@list@stopchar{}
+\gdef\csm@list@strlen@#1{\setcounter{csm@list@strlen}{0}\expandafter\csm@list@strlen@@#1\csm@list@stopchar\unskip}
+\gdef\csm@list@strlen@space{\afterassignment\csm@list@strlen@space@\let\@tempa= }
+\gdef\csm@list@strlen@space@{\csm@list@strlen@@}
+\gdef\csm@list@strlen@nextchar{\csm@swap@gobble{\csm@list@strlen@@}}
+\gdef\csm@list@strlen@group#1{%
+	\expandafter\csm@list@strlen@@#1\csm@list@stopchar % Search sub-command
+	\csm@list@strlen@@ % Continue search (if necessary)
+}
+\gdef\csm@list@strlen@@{%
+	\futurelet\csm@list@nextchar@%
+	\csm@list@strlen@@@%
+}\gdef\csm@list@strlen@@@{%
+	\ifx \csm@list@stopchar\csm@list@nextchar@%
+		\let\@tempa=\@gobble%
+	\else%
+		% \bgroup is the beginning of a command argument (skip)
+		\ifx \bgroup\csm@list@nextchar@%
+			\let\@tempa=\csm@list@strlen@group%
+		\else%
+			% The space character is the ``special token''.
+			\ifx \@sptoken\csm@list@nextchar@%
+				\let\@tempa=\csm@list@strlen@space%
+				\addtocounter{csm@list@strlen}{1}%
+			\else%
+				% If the ``character'' is not a letter or a number then it's a command (ignore it)
+				\csm@list@check@ischar%
+				\ifx\csm@list@ischar\@true%
+					\addtocounter{csm@list@strlen}{1}%
+				\fi%
+				\let\@tempa=\csm@list@strlen@nextchar%
+			\fi%
+		\fi%
+	\fi%
+	\@tempa%
+}
+\gdef\csm@list@strlen#1#2{%
+	\expandafter\csm@list@strlen@#1%
+	\setcounter{#2}{\value{csm@list@strlen}}%
+}
+
+%% For finding a character in the list:
+\newcounter{csm@list@findchar}
+\newcounter{csm@list@findchar@i}
+\newcounter{csm@list@char@A}
+\newcounter{csm@list@char@B}
+\newcounter{csm@list@char@temp}
+\gdef\csm@swap@ret@charcode#1#2{\setcounter{csm@list@char@temp}{\number`#2}#1}
+\gdef\csm@list@getchar@#1{\setcounter{csm@list@findchar@i}{0}\expandafter\csm@list@getchar@@#1\csm@list@stopchar\unskip}
+\gdef\csm@list@getchar@space{\afterassignment\csm@list@getchar@space@\let\@tempa= }
+\gdef\csm@list@getchar@space@{\csm@list@getchar@@}
+\gdef\csm@list@swapop@{%
+	\csm@list@swapop{\csm@list@getchar@@}%
+}
+\gdef\csm@list@getchar@group#1{%
+	\expandafter\csm@list@getchar@@#1\csm@list@stopchar % Search sub-command
+	\csm@list@getchar@@ % Continue search (if necessary)
+}
+\gdef\csm@list@getchar@@{%
+	\futurelet\csm@list@nextchar@%
+	\csm@list@getchar@@@%
+}
+\gdef\outnum#1{\setcounter{csm@list@char@temp}{\number`#1}}
+\gdef\csm@list@getchar@@@{%
+	\ifx \csm@list@stopchar\csm@list@nextchar@%
+		\let\@tempa=\@gobble%
+	\else%
+		% \bgroup is the beginning of a command argument (skip)
+		\ifx \bgroup\csm@list@nextchar@%
+			\let\@tempa=\csm@list@getchar@group%
+		\else%
+			% The space character is the ``special token''.
+			\ifx \@sptoken\csm@list@nextchar@%
+				\ifnum\c@csm@list@findchar@i=\c@csm@list@findchar\relax%
+					\setcounter{csm@list@char@temp}{0}% Treat spaces as character 0 (prioritize ending words first)
+				\fi
+				\let\@tempa=\csm@list@getchar@space%
+				% Increment the counter:
+				\addtocounter{csm@list@findchar@i}{1}%
+			\else%
+				% If the ``character'' is not a letter or a number then it's a command (ignore it)
+				\csm@list@check@ischar%
+				\ifx\csm@list@ischar\@false%
+					\global\let\csm@list@swapop=\csm@swap@gobble%
+				\else%
+					\ifnum\c@csm@list@findchar@i=\c@csm@list@findchar\relax%
+						\global\let\csm@list@swapop=\csm@swap@ret@charcode%
+					\else%
+						\global\let\csm@list@swapop=\csm@swap@gobble%
+					\fi%
+					% Increment the counter:
+					\addtocounter{csm@list@findchar@i}{1}%
+				\fi%
+				\let\@tempa=\csm@list@swapop@%
+			\fi%
+		\fi%
+	\fi%
+	\@tempa%
+}
+\gdef\csm@list@getchar#1#2#3{%
+	\expandafter\setcounter{csm@list@findchar}{#3}%
+	{\expandafter\csm@list@getchar@#1}%
+	\setcounter{#2}{\value{csm@list@char@temp}}%
+}
+
+%% For alphabetically comparing two items in a list:
+\gdef\csm@list@cmpstring#1#2{%
+	\expandafter\gdef\expandafter\csm@list@cmpstring@A{#1}%
+	\expandafter\gdef\expandafter\csm@list@cmpstring@B{#2}%
+	\expandafter\csm@list@strlen\expandafter{\csm@list@cmpstring@A}{csm@list@strlenA}
+	\expandafter\csm@list@strlen\expandafter{\csm@list@cmpstring@B}{csm@list@strlenB}
+% Debug line:
+%\the\value{csm@list@strlenA} \csm@list@cmpstring@A \newline
+% Debug line:
+%\the\value{csm@list@strlenB} \csm@list@cmpstring@B \newline
+	\expandafter\ifnum\c@csm@list@strlenA<\c@csm@list@strlenB\relax%
+		\setcounter{csm@list@strlen}{\value{csm@list@strlenA}}%
+		\global\let\csm@list@switch=\@true% A is shorter (switch by default)
+	\else%
+		\setcounter{csm@list@strlen}{\value{csm@list@strlenB}}%
+		\global\let\csm@list@switch=\@false% B is shorter or equal (no switch by default)
+	\fi%
+	\global\let\csm@list@search@done=\@false%
+	\csm@ForLoop{csm@list@k}{0}{\value{csm@list@k} < \value{csm@list@strlen}}{%
+		\ifx\csm@list@search@done\@false\relax%
+			\expandafter\csm@list@getchar\expandafter{\csm@list@cmpstring@A}{csm@list@char@A}{\value{csm@list@k}}
+			\expandafter\csm@list@getchar\expandafter{\csm@list@cmpstring@B}{csm@list@char@B}{\value{csm@list@k}}
+% Debug line:
+%\the\value{csm@list@char@B} \the\value{csm@list@char@A} \newline
+			\expandafter\ifnum\c@csm@list@char@B>\c@csm@list@char@A\relax%
+				\global\let\csm@list@switch=\@true%
+				\global\let\csm@list@search@done=\@true%
+			\else%
+				\expandafter\ifnum\c@csm@list@char@B<\c@csm@list@char@A\relax%
+					\global\let\csm@list@switch=\@false%
+					\global\let\csm@list@search@done=\@true%
+				\fi%
+			\fi%
+		\fi%
+	}
+}
+
+%% For moving an item's position in the list:
+\newcounter{csm@list@tempA}
+\newcounter{csm@list@tempB}
+\gdef\csm@list@alphasort@move#1#2{%
+% Debug Line:
+%Switch \expandafter\csname csm@list@itemkey@\the\value{csm@list@i}@\endcsname with \expandafter\csname csm@list@itemkey@\the\value{csm@list@j}@\endcsname \newline
+	\setcounter{csm@list@tempA}{\value{csm@list@i}}%
+	\setcounter{csm@list@tempB}{\value{csm@list@j}}%
+	\csm@ForLoop[-1]{csm@list@tempB}{\value{csm@list@i}}{\value{csm@list@tempB} > \value{csm@list@j}}{%
+		\setcounter{csm@list@tempA}{\value{csm@list@tempB}}%
+		\addtocounter{csm@list@tempA}{-1}%
+		\expandafter\global\expandafter\let\expandafter\csm@list@tempkey@A\csname csm@list@itemkey@\the\value{csm@list@tempA}@\endcsname%
+		\expandafter\global\expandafter\let\expandafter\csm@list@tempkey@B\csname csm@list@itemkey@\the\value{csm@list@tempB}@\endcsname%
+		\expandafter\global\expandafter\let\expandafter\csm@list@tempval@A\csname csm@list@itemval@\the\value{csm@list@tempA}@\endcsname%
+		\expandafter\global\expandafter\let\expandafter\csm@list@tempval@B\csname csm@list@itemval@\the\value{csm@list@tempB}@\endcsname%
+		\expandafter\global\expandafter\let\csname csm@list@itemkey@\the\value{csm@list@tempA}@\endcsname\csm@list@tempkey@B%
+		\expandafter\global\expandafter\let\csname csm@list@itemkey@\the\value{csm@list@tempB}@\endcsname\csm@list@tempkey@A%
+		\expandafter\global\expandafter\let\csname csm@list@itemval@\the\value{csm@list@tempA}@\endcsname\csm@list@tempval@B%
+		\expandafter\global\expandafter\let\csname csm@list@itemval@\the\value{csm@list@tempB}@\endcsname\csm@list@tempval@A%
+	}%
+}
+
+%% For alphabetically sorting the list:
+\gdef\csm@list@alphasort{%
+	\csm@ForLoop{csm@list@i}{1}{\value{csm@list@i} < \value{csm@list@length}}{%
+		\global\let\csm@list@switch=\@false%
+		\csm@ForLoop{csm@list@j}{0}{\value{csm@list@j} < \value{csm@list@i}}{%
+			\ifx\csm@list@switch\@false\relax%
+				\csm@list@cmpstring{\csname csm@list@itemkey@\the\value{csm@list@i}@\endcsname}{\csname csm@list@itemkey@\the\value{csm@list@j}@\endcsname}%
+				\ifx\csm@list@switch\@true\relax%
+					\csm@list@alphasort@move{\the\value{csm@list@i}}{\the\value{csm@list@j}}%
+					% Now that it's moved this loop over j will quit (\csm@list@switch=\@false)
+				\fi%
+			\fi%
+		}
+	}%
+}
+
+%% For outputting the stored list:
+\gdef\csm@list@output{%
+	\csm@ForLoop{csm@list@i}{0}{\value{csm@list@i} < \value{csm@list@length}}{%
+		\expandafter\csname csm@list@itemval@\the\value{csm@list@i}@\endcsname%
+	}%
+	\setcounter{csm@list@length}{0}% Reset list length
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End of awesome, difficult, list sorting code. %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtoks\temp@stripspace@text
+\temp@stripspace@text{}
+\def\csm@list@stripspace@stop{}
+\def\csm@list@stripspace@loop{%
+	\futurelet\csm@list@stripspace@temp@char%
+	\csm@list@stripspace@loop@%
+}
+\def\csm@list@stripspace@character#1{%
+	\temp@stripspace@text\expandafter{\the\temp@stripspace@text#1}
+	\csm@list@stripspace@loop%
+}
+\def\csm@list@stripspace@space{\afterassignment\csm@list@stripspace@space@\let\@tempa= }
+\def\csm@list@stripspace@space@{\csm@list@stripspace@loop}
+\def\csm@list@stripspace@group#1{\csm@list@stripspace@character{{#1}}}
+\def\csm@list@stripspace@loop@{%
+	% It is ABSOLUTELY CRITICAL to trap the ``begin group'' character for commands to handle properly
+	\ifx\bgroup\csm@list@stripspace@temp@char%
+		\let\@tempa\csm@list@stripspace@group%
+	\else%
+		% The space character is the ``special token''.
+		\ifx \@sptoken\csm@list@stripspace@temp@char%
+			\let\@tempa\csm@list@stripspace@space%
+		\else%
+			\ifx \csm@list@stripspace@stop\csm@list@stripspace@temp@char%
+				\let\@tempa\@gobble%
+			\else%
+				\let\@tempa\csm@list@stripspace@character%
+			\fi%
+		\fi%
+	\fi%
+	\@tempa%
+}
+
+%% This setup is for a combined list of figures and tables
+%% NOTE: If the table listing or figure listing is empty the title is updated appropriately
+\newcommand{\listfiguresandtablesname}{List of Figures and Tables}
+\newcounter{csm@tocentry@count}
+\newcommand{\GetTOCEntries}[2]{
+	\setcounter{#2}{0}
+	\makeatletter
+	\begingroup
+		\global\let\csm@save@cr=\\ \gdef\\{}
+		\setcounter{csm@tocentry@count}{0}
+		\global\let\csm@save@contentsline=\contentsline
+		\global\let\csm@save@sellang=\select@language
+		\@ifpackageloaded{hyperref}{
+			\gdef\contentsline##1##2##3##4{\addtocounter{csm@tocentry@count}{1}}
+		}{
+			\gdef\contentsline##1##2##3{\addtocounter{csm@tocentry@count}{1}}
+		}
+		\gdef\select@language##1{} % Put in by babel in LyX
+		\@input{\jobname.#1}
+		\setcounter{#2}{\value{csm@tocentry@count}}
+		\global\let\\=\csm@save@cr
+		\global\let\contentsline=\csm@save@contentsline
+		\global\let\select@language=\csm@save@sellang
+	\endgroup
+	\makeatother
+}
+\global\let\@LoFaT@exists\@empty
+\newcounter{csm@num@tables}
+\newcounter{csm@num@figures}
+\AtBeginDocument{
+	\global\let\@LoFaT@exists\@true
+	\GetTOCEntries{lot}{csm@num@tables}
+	\GetTOCEntries{lof}{csm@num@figures}
+	\ifnum\c@csm@num@figures=0\relax
+		\ifnum\c@csm@num@tables=0\relax
+			\ifx\csm@thesis@nochecks\@false
+				\csm@thesis@warning{There are no tables or figures.}
+			\fi
+		\else
+			\renewcommand{\listfiguresandtablesname}{List of Tables}
+		\fi
+	\fi
+	\ifnum\c@csm@num@tables=0\relax
+		\ifnum\c@csm@num@figures>0\relax
+			\renewcommand{\listfiguresandtablesname}{List of Figures}
+		\fi
+	\fi
+}
+\AtEndDocument{
+	\ifx\csm@nofigures\@true
+		\ifx\csm@notables\@true
+			% There are no figures and no tables
+			\let\csm@LoFaT@required\@false
+		\else
+			% There are no figures, but there are tables
+			\let\csm@LoFaT@required\@true
+		\fi
+	\else
+		% There are figures, that's enough
+		\let\csm@LoFaT@required\@true
+	\fi
+	\ifx\csm@LoFaT@required\@true
+		\requiredsection{\@LoFaT@exists}{\protect\listoffiguresandtables}
+	\else
+		\disallowedsection{\@LoFaT@exists}{\protect\listoffiguresandtables}{There are no tables or figures}
+	\fi
+}
+\newcommand{\listoffiguresandtables}{
+	% Check if either of the lists is too long, in that case we need a separate page for each
+	\global\let\csm@combined@table=\@false%
+	\ifnum\c@csm@num@tables<3\relax%
+		\global\let\csm@combined@table=\@true%
+	\fi%
+	\ifnum\c@csm@num@figures<3\relax%
+		\global\let\csm@combined@table=\@true%
+	\fi%
+	\ifx\csm@combined@table\@true\relax%
+		\internalsection{\listfiguresandtablesname}%
+		\@mkboth{\MakeUppercase\listfiguresandtablesname}%
+			{\MakeUppercase\listfiguresandtablesname}%
+		\global\let\csm@toc@hold@list\@true%
+		\csm@toc{lof}{\@false}%
+		\global\let\csm@toc@hold@list\@false%
+		\global\let\csm@toc@dump@list\@true%
+		\csm@toc{lot}{\@false}%
+		\global\let\csm@toc@dump@list\@false%
+	\else
+		\listoffigures
+		\newpage
+		\listoftables
+	\fi
+}
+\renewcommand{\listoffigures}{
+	\global\let\@LoFaT@exists\@true
+	\internalsection{\listfigurename}
+	\@mkboth{\MakeUppercase\listfigurename}
+		{\MakeUppercase\listfigurename}
+	\csm@toc{lof}{\@false}
+}
+\renewcommand{\listoftables}{
+	\global\let\@LoFaT@exists\@true
+	\internalsection{\listtablename}
+	\@mkboth{\MakeUppercase\listtablename}
+		{\MakeUppercase\listtablename}
+	\csm@toc{lot}{\@false}
+}
+
+% For each list item, ``dots'' (spaced periods . . .) extend from the entry on the left side of the page to the page number that is flush with the right margin. The dots are aligned vertically in a ``leader box'' to fill the area to the right margin.
+\newcommand{\csm@fill@dots}{%
+	\hbox{$\m@th \mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}%
+}
+
+% Each list entry must have exactly the same wording, capitalization and punctuation as the titles and headings in the text. In the case of long figure captions, the text in the list may be abbreviated (while retaining the sense of the whole caption).
+\newbox{\csm@temp@list@boxA}
+\newbox{\csm@temp@list@boxB}
+\newcommand{\ThesisContentsEntry}[5]{
+	\singlespacing % Line spacing for figure or table captions is single spaced, as is that for multiple-line entries in lists (e.g., Reference Cited).
+	\ifnum #1>\c@tocdepth%
+	\else%
+		\vskip \z@ \@plus.2\p@
+		{%
+		\leftskip #2\relax % Standard
+		\rightskip \@tocrmarg plus 1fil % Modified to be ``ragged right'' for the line-wrapping part
+		\parfillskip -\rightskip % Standard
+		\parindent #2\relax\@afterindenttrue
+		\interlinepenalty\@M
+		\leavevmode
+		\@tempdima #3\relax
+		\advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+		\setbox\csm@temp@list@boxA=\hbox{%
+			{#4}\nobreak%
+			% The following code is slightly different from the default ``make filler dots'' code in that it requires a minimimum spacing of twice the dot separation plus a dot, this change keeps the text from butting up against the page number and always showing at least one dot.
+			\setbox0=\csm@fill@dots% Put the filler dots in a box we can measure (TODO: Figure out why this measurement needs a multiplier)
+			\leaders\csm@fill@dots\hskip \dimexpr 1.5\wd0+\hfuzz plus 1.0fill\nobreak%
+			% End of cool ``filler dots'' code
+		}%
+		\setbox\csm@temp@list@boxB=\hbox{%
+			% Special settings for the contents label (page, symbol, or abbreviation)
+			\normalfont \normalcolor%
+			#5%
+		}%
+		\unhbox\csm@temp@list@boxA%
+		\unhbox\csm@temp@list@boxB%
+ 		\par}%
+	\fi
+}
+\AtBeginDocument{     \renewcommand*\l@part[2]{\ThesisContentsEntry{0}{0.0em}{4.5em}{#1}{#2}}}
+\AtBeginDocument{  \renewcommand*\l@section[2]{\ThesisContentsEntry{1}{0.0em}{0.5em}{#1}{#2}}}
+\AtBeginDocument{    \newcommand*\l@chapter[2]{\ThesisContentsEntry{1}{0.0em}{\l@chapter@indent}{#1}{#2}}}
+\AtBeginDocument{   \newcommand*\l@appendix[2]{\ThesisContentsEntry{1}{0.0em}{\l@appendix@indent}{#1}{#2}}}
+\AtBeginDocument{\renewcommand*\l@paragraph[2]{\ThesisContentsEntry{3}{7.0em}{4.1em}{#1}{#2}}}
+\AtBeginDocument{\expandafter\gdef\expandafter\toclevel@chapter{\toclevel@section}}
+\AtBeginDocument{\expandafter\gdef\expandafter\toclevel@appendix{\toclevel@section}}
+
+% Default indents (before loaded from aux file) need to be smallest reasonable value
+\newlength{\l@chapter@indent}
+\newlength{\l@appendix@indent}
+\gdef\csm@reset@indents{
+	\setlength{\l@chapter@indent}{6.5em}
+	\setlength{\l@appendix@indent}{6.5em}
+}
+
+\AtEndDocument{
+	\immediate\write\@auxout{%
+		\string\global\string\l@chapter@indent\space\the\l@chapter@indent%
+		\string\global\string\l@appendix@indent\space\the\l@appendix@indent%
+	}%
+}
+
+% Line spacing for figure or table captions is single spaced, as is that for multiple-line entries in lists (e.g., Reference Cited).
+% Note: Must occur after all packages are included or natbib will override our changes.
+\AtBeginDocument{\def\bibitem{\protect\filbreak\protect\singlespacing\@ifnextchar[\@lbibitem\@bibitem}}
+
+\newbox\csm@contentsline@findkeylength@boxA
+\newbox\csm@contentsline@findkeylength@boxB
+\gdef\csm@contentsline@findkeylength@#1{%
+	\gdef\csm@contentsline@findkeylength@number{#1}%
+}
+\newlength{\csm@contentsline@findkeylength@length}
+\setlength{\csm@contentsline@findkeylength@length}{0pt}
+\gdef\csm@contentsline@findkeylength#1{%
+	\global\let\csm@contentsline@numberline=\numberline%
+	\global\let\numberline=\csm@contentsline@findkeylength@%
+	\setbox\csm@contentsline@findkeylength@boxA=\hbox{#1}%
+	\global\let\numberline=\csm@contentsline@numberline%
+	\setbox\csm@contentsline@findkeylength@boxB=\hbox{\csm@contentsline@findkeylength@number}%
+	\@tempwidth=\wd\csm@contentsline@findkeylength@boxB%
+	\ifnum\@tempwidth>\csm@contentsline@findkeylength@length\relax%
+		\global\csm@contentsline@findkeylength@length=\the\@tempwidth%
+	\fi%
+}
+
+\global\let\csm@toc@dump@list\@false
+\gdef\csm@override@contentsline@storelist@on{%
+	\global\let\csm@save@contentsline@A=\contentsline%
+	\global\let\csm@contentsline=\contentsline%
+	\ifx\csm@toc@dump@list\@true\else%
+		\global\csm@contentsline@findkeylength@length=0pt%
+		\gdef\csm@contentsline@findkeylength@number{}%
+	\fi%
+	\ifx\csm@hyperref\@true\relax%
+		\gdef\contentsline##1##2##3##4{%
+			\csm@contentsline@findkeylength{##2}%
+			\csm@list@additem{##2}{\csm@contentsline{##1}{##2}{##3}{##4}}%
+		}%
+	\else%
+		\gdef\contentsline##1##2##3{%
+			\csm@contentsline@findkeylength{##2}%
+			\csm@list@additem{##2}{\csm@contentsline{##1}{##2}{##3}}%
+		}%
+	\fi%
+}
+\gdef\csm@override@contentsline@storelist@off{%
+	\global\let\contentsline=\csm@save@contentsline@A%
+	\setlength{\@tempdima}{\the\csm@contentsline@findkeylength@length}%
+	\addtolength{\@tempdima}{12pt}%
+	\global\csm@table@indent=\the\@tempdima%
+}
+\gdef\csm@override@contentsline@storelist@sort{%
+	\csm@list@alphasort%
+}
+\gdef\csm@override@contentsline@storelist@output{%
+	\csm@list@output%
+}
+
+\gdef\csm@override@contentsline@swapon{%
+	\ifx\csm@hyperref\@true\relax%
+		\gdef\csm@contentsline##1##2##3##4{%
+			\contentsline{##1}{##3}{##2}{##4}%
+		}%
+	\else%
+		\gdef\csm@contentsline##1##2##3{%
+			\contentsline{##1}{##3}{##2}%
+		}%
+	\fi%
+}
+\gdef\csm@override@contentsline@swapdone#1{%
+	\ifx\@false#1%
+		\global\let\contentsline=\csm@save@contentsline@B%
+	\fi%
+}
+
+% Detect periods in citations in the list so that ``eaten'' citations can contain authors without double periods (e.g.: Author et al..)
+\begingroup
+\gdef\csm@citeauthor@char@stop{}
+\gdef\csm@citeauthor@char@character#1{\csm@citeauthor@char@loop}
+\gdef\csm@citeauthor@char@loop@{%
+	% Note: In the csm-thesis-title.sty code it is ABSOLUTELY CRITICAL to trap the ``begin group'' character -- here it seems to not be necessary
+	\ifx .\csm@citeauthor@temp@char%
+		\global\let\csm@citeauthor@lastperiod\@true%
+		\let\@tempa\csm@citeauthor@char@character%
+	\else%
+		\ifx \csm@citeauthor@char@stop\csm@citeauthor@temp@char%
+			\let\@tempa\@gobble%
+		\else%
+			\global\let\csm@citeauthor@lastperiod\@false%
+			\let\@tempa\csm@citeauthor@char@character%
+		\fi%
+	\fi%
+	\@tempa%
+}
+\gdef\csm@citeauthor@char@loop{%
+	\futurelet\csm@citeauthor@temp@char%
+	\csm@citeauthor@char@loop@%
+}
+\gdef\csm@citeauthor@#1{%
+	\csm@citeauthor@char@loop #1\csm@citeauthor@char@stop%
+}
+\gdef\csm@citeauthor@eatperiod{%
+	\@ifnextchar.{\@gobble}{}%
+}
+\gdef\csm@citeauthor@donothing{}
+\gdef\csm@citeauthor#1{%
+	\citeauthor{#1}%
+	\ifx\NAT@name\@empty\relax%
+		% If something goes wrong or there's no name
+		\let\@tempa\csm@citeauthor@donothing%
+	\else%
+		% On the second run we can pull out the citation
+		\edef\csm@citeauthor@tmp{\NAT@name}%
+		\global\let\csm@citeauthor@lastperiod\@false%
+		\expandafter\csm@citeauthor@\csm@citeauthor@tmp%
+		\ifx\csm@citeauthor@lastperiod\@true\relax%
+			\let\@tempa\csm@citeauthor@eatperiod%
+		\else%
+			\let\@tempa\csm@citeauthor@donothing%
+		\fi%
+	\fi%
+	\@tempa%
+}
+\endgroup
+
+% Convenience routines for ``eating'' citations in the list of figures/tables/etc.
+\gdef\csm@create@cite@eat@#1{%
+	% pattern \gdef\csm@eat@<<1>>@ :
+	\expandafter\gdef\csname csm@eat@#1@\endcsname##1{}%
+	% pattern: \global\let\csm@orig@<<1>>@\<<1>>
+	\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname csm@orig@#1@\expandafter\endcsname\csname #1\endcsname%
+}
+\gdef\csm@create@cite@eat{%
+	\@for\@citename:=\@mb@citenamelist\do{%
+		\edef\csm@tmpname{{\@citename}}%
+		% pattern \csm@start@cite@eat@{\@citename} :
+		\expandafter\csm@create@cite@eat@\csm@tmpname%
+	}%
+	% <<<Exceptions>>>
+	\gdef\csm@eat@citet@{\csm@citeauthor}%
+	% <<</Exceptions>>>
+}
+\gdef\csm@start@cite@eat@#1{%
+	% pattern: \global\let\csm@orig@<<1>>@\<<1>>
+	\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname csm@orig@#1@\expandafter\endcsname\csname #1\endcsname%
+	% pattern \global\let\<<1>>\csm@eat@<11>@
+	\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname #1\expandafter\endcsname\csname csm@eat@#1@\endcsname%
+}
+\gdef\csm@start@cite@eat{
+	\@for\@citename:=\@mb@citenamelist\do{%
+		\edef\csm@tmpname{{\@citename}}%
+		% pattern \csm@start@cite@eat@{\@citename} :
+		\expandafter\csm@start@cite@eat@\csm@tmpname%
+	}%
+}
+\gdef\csm@end@cite@eat@#1{%
+	% pattern: \global\let\<<1>>\csm@orig@<<1>>@
+	\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname #1\expandafter\endcsname\csname csm@orig@#1@\endcsname%
+}
+\gdef\csm@end@cite@eat{
+	\@for\@citename:=\@mb@citenamelist\do{%
+		\edef\csm@tmpname{{\@citename}}%
+		% pattern \csm@end@cite@eat@{\@citename} :
+		\expandafter\csm@end@cite@eat@\csm@tmpname%
+	}%
+}
+\AtBeginDocument{
+	\csm@create@cite@eat
+}
+
+% Convenience routines for getting rid of formatting in the list of figures/tables
+\gdef\csm@start@formatting@eat@#1{%
+	\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname csm@orig@#1@\expandafter\endcsname\csname #1\endcsname%
+	\expandafter\gdef\csname #1\endcsname{}%
+}
+\gdef\csm@start@formatting@eat{%
+	\csm@start@formatting@eat@{textbf}%
+}
+\gdef\csm@end@formatting@eat@#1{%
+	\expandafter\expandafter\expandafter\global\expandafter\expandafter\expandafter\let\expandafter\csname #1\expandafter\endcsname\csname csm@orig@#1@\endcsname%
+}
+\gdef\csm@end@formatting@eat{%
+	\csm@end@formatting@eat@{textbf}%
+}
+
+\global\let\csm@toc@hold@list\@false
+\gdef\csm@toc@#1#2#3{%
+	\begingroup%
+		% Disable hbox warnings inside lists (for people to experiment):
+		% Note: New list style should make these commands irrelevant
+		%\tolerance=1000% Don't allow overfill
+		%\hbadness=10000% Disable overfill warning
+		% Allow citations within captions:
+		\global\let\csm@within@list\@true%
+		\csm@start@cite@eat%
+		\csm@start@formatting@eat%
+		% Store TOC items into a list
+		{\csm@override@contentsline@storelist@on}%
+		% Apply swapping (if applicable):
+		\ifx\@true#3%
+			{\csm@override@contentsline@swapon}%
+		\fi
+		%
+		\@starttoc{#2}%
+		% Turn off swapping:
+		\ifx\@true#3%
+			{\csm@override@contentsline@swapdone}%
+		\fi
+		% Stop storing TOC items in the list:
+		{\csm@override@contentsline@storelist@off}%
+		% Turn off sorting:
+		\ifx\@true#1%
+			{\csm@override@contentsline@storelist@sort}%
+		\fi%
+		% Output the list:
+		\ifx\csm@toc@hold@list\@true\else%
+			{\csm@override@contentsline@storelist@output}%
+		\fi%
+		\csm@end@cite@eat%
+		\csm@end@formatting@eat%
+		\global\let\csm@within@list\@false%
+	\endgroup%
+}
+\gdef\csm@toc{%
+	\@ifstar{\csm@toc@{\@true}}{\csm@toc@{\@false}}%
+}
+
+%%%%
+%% Many thanks go to Abram Van Der Gees for experimenting with the List of Symbols.
+%% The technique below is inspired from his work.
+%%%%
+\global\let\csm@listofsymbols@symbolfirst=\@false
+\newcommand{\ShowSymbolFirst}{
+	\global\let\csm@listofsymbols@symbolfirst=\@true
+}
+\global\let\@listofsymbols@exists\@false
+\gdef\listsymbolname{List of Symbols}
+\gdef\get@symbol@file#1{%
+	\temp@stripspace@text{}%
+	\expandafter\csm@list@stripspace@loop#1\csm@list@stripspace@stop%
+	\protected@edef\@symbol@list@file{\the\temp@stripspace@text}%
+}
+\newcommand{\listofsymbols@internal@}[2]{%
+	% Only output the ``master'' section heading if this is the first call
+	\ifx\@listofsymbols@exists\@false\relax%
+		\global\let\@listofsymbols@exists\@true%
+		\internalsection{#1}%
+		\@mkboth{\MakeUppercase#1}%
+			{\MakeUppercase#1}%
+	\else%
+		% Throw out some separation if this is the second call
+		\vspace{\baselineskip}%
+	\fi%
+	% Output a ``secondary'' section heading if requested
+	\ifx&#2&\relax%
+		\gdef\@symbol@list@file{los}%
+	\else%
+		\noindent{\@subsection@style #2}%
+		\get@symbol@file{#2}%
+	\fi%
+	\ifx\csm@sort@symbols\@true\relax%
+		\csm@toc*{\@symbol@list@file}{\csm@listofsymbols@symbolfirst}%
+	\else%
+		\csm@toc{\@symbol@list@file}{\csm@listofsymbols@symbolfirst}%
+	\fi%
+}
+\gdef\listofsymbols@internal#1{%
+	\@ifnextchar\bgroup%
+			{\listofsymbols@internal@{#1}}%
+			{\listofsymbols@internal@{#1}{}}%
+}
+\gdef\listofsymbols@custom[#1]{\listofsymbols@internal{#1}}
+\gdef\listofsymbols@{
+	\@ifnextchar[%
+		{\listofsymbols@custom}%
+		{\listofsymbols@internal{\listsymbolname}}%
+}
+\gdef\listofsymbols{
+	\@ifstar%
+		{\global\let\csm@sort@symbols=\@true\listofsymbols@}{\global\let\csm@sort@symbols=\@false\listofsymbols@}%
+}
+
+% Create a temporary file output for adding symbols, if specified with an optional parameter then create a ``sublist'' symbol file with the full named extension (sans spaces)
+\gdef\addsymbol@@#1#2#3{%
+	\csm@addtocontents{#1}{symbol}{#2}{#3}%
+}
+\gdef\addsymbol@[#1]{%
+	\get@symbol@file{#1}%
+	\addsymbol@@{\@symbol@list@file}%
+}
+\gdef\addsymbol{%
+	\@ifnextchar[%
+		{\addsymbol@}%
+		{\addsymbol@@{los}}%
+}
+% When that file is called then dump the list of symbols in the appropriate format
+\newcommand*\l@symbol{\@dottedtocline{1}{0.0em}{0.0em}}
+
+% Override the ``nomenclature'' feature for LyX with our ``List of Symbols'' feature
+\AtBeginDocument{
+	\gdef\printnomenclature{\listofsymbols}
+	\gdef\nomenclature#1#2{\addsymbol{#2}{#1}}
+}
+
+%%%%
+%% Handle abbreviations just like symbols
+%%%%
+\def\listabbrname{List of Abbreviations}
+\global\let\@listofabbreviations@exists\@false
+\gdef\listofabbreviations@{%
+ 	\global\let\@listofabbreviations@exists\@true%
+ 	\internalsection{\listabbrname}%
+ 	\@mkboth{\MakeUppercase\listabbrname}%
+ 		{\MakeUppercase\listabbrname}%
+	\ifx\csm@sort@abbrv\@true\relax%
+		\csm@toc*{loa}{\@false}%
+	\else%
+		\csm@toc{loa}{\@false}%
+	\fi%
+}
+\gdef\listofabbreviations{%
+	\@ifstar%
+		{\global\let\csm@sort@abbrv=\@true\listofabbreviations@}{\global\let\csm@sort@abbrv=\@false\listofabbreviations@}%
+}
+
+% Create a temporary file output for adding abbreviations
+\gdef\addabbreviation@@@#1#2{%
+		\csm@addtocontents{loa}{abbreviation}{#1}{#2}%
+}
+\gdef\addabbreviation@@#1#2{%
+		\expandafter\addabbreviation@@@\expandafter{#2}{#1}%
+}
+\gdef\addabbreviation@#1#2{%
+		\protected@edef\csm@abbrv@temp@A{#1}%
+		\protected@edef\csm@abbrv@temp@B{#2}%
+		\expandafter\addabbreviation@@\expandafter{\csm@abbrv@temp@B}{\csm@abbrv@temp@A}%
+	\endgroup%
+}
+\begingroup
+\catcode`\-=\active%
+\gdef\addabbreviation#1{%
+	\begingroup%
+		\global\let\csm@orig@dash=-%
+		\catcode`\-=\active%
+		\def-{{\protect\nobreakdashes\protect -}}%
+		\addabbreviation@{#1}%
+}
+\endgroup
+
+% When that file is called then dump the list of symbols
+\newcommand*\l@abbreviation{\@dottedtocline{1}{0.0em}{0.0em}}
+
+%%%%
+%% Redefine the end of the ``itemize'' and ``enumerate'' environments so that they automatically start a new paragraph.
+%%%%
+\global\let\csm@orig@begin@itemize=\itemize
+\global\let\csm@orig@end@itemize=\enditemize
+\gdef\itemize{%
+	\begingroup%
+	\csm@orig@begin@itemize%
+}
+\gdef\enditemize{%
+	\csm@orig@end@itemize%
+	\endgroup%
+}
+\global\let\csm@orig@begin@enumerate=\enumerate
+\global\let\csm@orig@end@enumerate=\endenumerate
+\gdef\enumerate{%
+	\begingroup%
+	\csm@orig@begin@enumerate%
+}
+\gdef\endenumerate{%
+	\csm@orig@end@enumerate%
+	\endgroup%
+}

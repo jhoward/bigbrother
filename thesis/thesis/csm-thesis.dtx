@@ -1,0 +1,2129 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2008-2012 by Erich E. Hoover
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.2 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of
+% LaTeX version 1999/12/01 or later.
+%
+% \fi
+% 
+% ^^A things to look for and replace: ’ “ ½
+% 
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+%<package>\ProvidesPackage{csm-thesis}
+%<package>    [2011/11/12 v1.0 .dtx csm-thesis file]
+%<*driver>
+\documentclass{ltxdoc}
+\DisableCrossrefs
+%\OnlyDescription
+\DoNotIndex{\RequirePackage}
+\usepackage[cm]{fullpage}
+\usepackage[breaklinks=true,pdfborder={0 0 0},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{wrapfig}
+\usepackage{graphics}
+\usepackage{textcomp}
+\usepackage{tabularx}
+\usepackage{wasysym}
+\usepackage{pdfpages}
+\usepackage{color}
+\usepackage{units}
+\usepackage{makeidx}
+
+% Use ``pretty'' fractions for 1/2 and 1/4
+\renewcommand{\textonehalf}{\nicefrac{1}{2}}
+\renewcommand{\textonequarter}{\nicefrac{1}{4}}
+
+% Make the documentation look pretty:
+\hyphenpenalty=1000
+\tolerance=1000
+
+% Do not display section numbers
+\setcounter{secnumdepth}{-1} 
+
+% Create a special ``note'' type paragraph
+\newcommand{\note}[1]{%
+	\textbf{Note:} #1%
+}
+
+% Create a special ``important'' paragraph (with a lightbulb)
+\makeatletter
+\newcommand{\important}[1]{%
+	\ifnum\@itemdepth=0\relax%
+		\begin{wrapfigure}{r}{2cm}%
+			\vspace{-\baselineskip}%
+			\resizebox{\linewidth}{!}{\includegraphics{doc-figures/lightbulb}}%
+		\end{wrapfigure}%
+		#1%
+	\else%
+		\par\noindent\begin{minipage}{\linewidth}%
+			% Permit easier hyphenation in the ``important'' box
+			\hyphenpenalty=1000%
+			\tolerance=1000%
+			\begin{wrapfigure}{r}{2cm}%
+				%\vspace{-\baselineskip}%
+				\resizebox{\linewidth}{!}{\includegraphics{doc-figures/lightbulb}}%
+			\end{wrapfigure}%
+			\indent\par %
+			#1%
+		\end{minipage}%
+		\vspace{0.25\baselineskip}%
+	\fi%
+}
+\makeatother
+
+% Make a pretty looking ``first''
+\newcommand{\first}{%
+    1$^{\textrm{\scriptsize st}}$%
+}
+
+\makeatletter
+\global\let\orig@paragraph=\paragraph
+\renewcommand{\paragraph}[1]{%
+	\orig@paragraph{#1}\hfill\par%
+}
+
+\global\let\orig@appendix=\appendix
+\renewcommand{\appendix}{
+	\orig@appendix
+	\renewcommand{\thesection}{Appendix~\Alph{section}}
+	\renewcommand{\theHsection}{Appendix~\Alph{section}}
+	\global\let\@currentlabel\thesection
+	\global\let\orig@section=\section
+	\gdef\section##1{%
+		\stepcounter{section}%
+		\orig@section{{\thesection} - ##1}%
+	}
+}
+
+\definecolor{SectionColor}{RGB}{128,0,0}
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\normalfont\Large\bfseries\color{SectionColor}}}
+
+% Make the whole ``Table <X>'' text a link:
+\renewcommand{\thetable}{Table~\arabic{table}}
+\def\fnum@table{\thetable}
+
+\makeatother
+
+% Allow index creation (and add it to the Table of Contents)
+\IndexPrologue{\section{Index}\indent\setcounter{unbalance}{1000}}
+\def\IndexParms{}
+\setcounter{IndexColumns}{2}
+\setlength{\IndexMin}{0pt}
+\makeindex
+% Make a convenient command to output text and also add it to the index in one go
+\newcommand{\addtoindex}[1]{\index{#1}#1}
+
+\begin{document}
+  \DocInput{csm-thesis.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+%\iffalse
+
+%% Define convenient ``true'' and ``false'' variables
+\gdef\@true{1}
+\gdef\@false{0}
+
+%% <Package Options>
+
+%% Turn off sanity checks: \usepackage[insanity]{csm-thesis} 
+\global\let\csm@thesis@nochecks=\@false
+\DeclareOption{insane}{\global\let\csm@thesis@nochecks=\@true}
+
+%% Turn off automatic Figure/Table labeling
+\global\let\csm@thesis@nolabel=\@false
+\DeclareOption{nolabel}{\global\let\csm@thesis@nolabel=\@true}
+
+\ProcessOptions
+%% </Package Options>
+
+%% <Global Convenience Routines>
+%% Hook for adding outputpage functionality
+\global\let\csm@outputpage@hook\@empty
+%% Hook for adding code to occur at the \backmatter command
+\global\let\csm@backmatter@hook\@empty
+%% Hook for adding code to occur at the \chapter command
+\global\let\csm@chapter@hook\@empty
+
+%% <<NOTE:>> The following ``for loop'' command is a convenience function for looping a counter over a variable
+%% This is used for generating the inverted pyramid title and for sorting lists (among other things).
+\newcommand{\csm@ForLoop}[5][1]{%
+	\setcounter{#2}{#3}%
+	\ifnum#4\relax%
+		#5%
+		\addtocounter{#2}{#1}%
+		\csm@ForLoop[#1]{#2}{\value{#2}}{#4}{#5}%
+	\fi%
+}%
+%% </Global Convenience Routines>
+
+%% <Internal Packages>
+%% Allow fancy sanity checking
+\RequirePackage{csm-thesis-sanity}
+
+%% Use custom environments for additional error checking
+\RequirePackage{csm-thesis-environments}
+
+%% Title shape handling
+\RequirePackage{csm-thesis-title}
+
+%% Lists of tables, figures, symbols, etc.
+\RequirePackage{csm-thesis-lists}
+
+%% The CSM Thesis uses special section types
+\RequirePackage{csm-thesis-sections}
+
+%% </Internal Packages>
+
+\if@twoside
+	\csm@thesis@error{The OGS guidelines no longer permitted double-sided documents (disable ``twoside'' option).}
+\fi
+
+%% Detect hyperref when document loads (do not use \csm@hyperref before document beginning)
+\gdef\csm@hyperref{\csm@thesis@error{This command is only valid within the document, sorry!}{}}
+\AtBeginDocument{%
+	\@ifpackageloaded{hyperref}{%
+		\global\let\csm@hyperref=\@true%
+	}{%
+		\global\let\csm@hyperref=\@false%
+	}%
+}
+
+%% Handle labeling pages for both old and new hyperref (and users without hyperref)
+\def\csm@page@label#1{%
+	\@ifundefined{thispdfpagelabel}{%
+		\gdef\thepage{#1}%
+	}{%
+		\ifx&#1&%
+			% #1 is empty
+			\thispdfpagelabel{#1}%
+			\gdef\thepage{emptypage-\@arabic\c@emptypage}%
+		\else%
+			% #1 is nonempty
+			\gdef\thepage{#1}%
+		\fi
+	}%
+}
+
+%% Allow redefining the page number
+\newcounter{csmpage}
+\newcounter{truepage}
+\newcounter{emptypage}
+\setcounter{emptypage}{0}
+\setcounter{csmpage}{\value{page}}
+\setcounter{truepage}{\value{page}}
+\def\pagenumbering#1{\global\c@csmpage\@ne \csm@page@label{\csname @#1\endcsname \c@csmpage}}
+
+%% Align pages to the top without warnings
+\raggedbottom
+
+%\fi
+% 
+% \title{The \textsf{csm-thesis} package}
+% \author{Erich E. Hoover \\ \texttt{ehoover@mines.edu}}
+%
+% \maketitle
+% 
+% Based upon the \textit{Thesis and Dissertation Writer's Guide} provided by the Colorado School of Mines Office of Graduate Studies, Fifth Edition (Revised Spring 2009). This documentation includes the contents of the guide and additional formatting guidelines that have not yet been included within the guide. Please note that this document should not be considered to supersede the guide, the Office of Graduate Studies has final say on all theses. An additional advantage to using this document is that references to different sections of the text are all hyperlinked, allowing for easy traversal of the document.
+% 
+% \twocolumn
+% 
+% \phantomsection
+% \renewcommand{\contentsname}{Table of Contents}
+% \pdfbookmark[1]{\contentsname}{toc}
+% \tableofcontents
+% 
+% \cleardoublepage
+% \section{About This Guide}
+%
+% The Colorado School of Mines Office of Graduate Studies (OGS) publishes this guide for graduate students in all departments who must prepare a master's thesis or doctor of philosophy dissertation as part of the requirements for a CSM graduate degree. In this guide, the word ``thesis'' refers to both the thesis and the dissertation, unless otherwise noted.
+% 
+% Every CSM thesis is deposited with the Arthur Lakes Library as part of its permanent collection and for long-term preservation. To produce a final manuscript of high quality, consistent adherence to the University's standards of organization and formatting is crucial. This guide is meant as a set of minimum guidelines for producing the final copies of your thesis.
+% 
+% Before submission to the Library, each completed thesis must receive final format approval from OGS. If you follow the formatting guidelines defined in this document, your thesis format will be accepted.
+% 
+% Some variations in thesis format may be accepted for the main body and references; however, every thesis must include the required parts of the front matter. In addition, every thesis must follow the conventions for page numbering and margins described in this document.
+% 
+% If you choose an alternative format, OGS retains the right to accept or reject this formatting at its discretion. Therefore, prior to submitting your thesis to the OGS for final format review, it is in your best interest to verify with the OGS staff that your format is acceptable. You will find examples of recommended and required page formats for various parts of the thesis in \ref{apx:examples}.
+% 
+% Unless stated differently, required forms referred to in this guide may be found online at the OGS website under Graduate School Forms,\newline
+% \url{http://gradschool.mines.edu/GS-Forms}.
+% 
+% Included in \ref{apx:checklists} of this guide are procedure check lists for 1) writing and defending your thesis; 2) submitting required forms; 3) formatting your thesis, and 4) printing and submitting your thesis.
+%
+% \section{Helpful Resources}
+% 
+% Although this guide contains some writing tips, it is not a handbook for technical writing. Students who want to learn more about technical writing style, punctuation, and grammar may find information on campus at the LAIS Writing Center,\newline
+% \url{http://writing.mines.edu/}.
+%
+% The LAIS Writing Center is a free tutorial service available to all CSM students. Tutors in the Writing Center work \emph{with} students to improve their writing; however, the Center is not a proofreading and editing service.
+% 
+% There are numerous manuals available to help students who are writing a thesis. Before purchasing a text or downloading information, you should consult with the OGS and/or your faculty advisor for suggestions of the best reference tools specific to your discipline. A partial list of such style manuals appears in \ref{apx:resources}.
+%
+% \section{Before Writing Your Thesis}
+% 
+% You should begin your thesis process by the second semester of classes as a master's student or at least one year before you plan to receive your degree, as a Ph.D. student. Below are some items to consider as you begin the thesis process.
+% 
+% \subsection{Review OGS requirements}
+% 
+% As a thesis writer, you are encouraged to communicate with the OGS staff to verify that you are following the necessary guidelines for producing the thesis. You should also be certain that you understand the process of registering for research credits.
+% 
+% \subsection{Review department requirements}
+% 
+% CSM academic departments may have additional requirements specific to their discipline. It is your responsibility to know the deadlines specific to your department and whether or not special organization and formatting are required. If special department or committee requirements contradict the information in this guide, you must resolve the conflict before writing the thesis.
+% 
+% \subsection{Request thesis advisor and committee}
+% 
+% At both the master's and Ph.D. levels, the student is responsible for choosing a thesis advisor. The Dean of Graduate Studies appoints the thesis committee, based on the recommendations of the student, thesis advisor, and department head. A signed Advisor/Thesis Committee form must be filed with the OGS.
+% 
+% \subsection{Present research proposal}
+% 
+% After a thesis topic has been selected, a research proposal is written. The research proposal is a description of the research the student intends to undertake, which will be reported in a more detailed and comprehensive fashion in the thesis. The proposal is your opportunity to convince the advisory committee of your ability to pursue the project to a successful conclusion. After the thesis proposal has been formally approved by the committee, the Admission to Candidacy form is submitted to OGS. The thesis proposal itself does not need to be approved by the OGS.
+% 
+% \section{Writing Your Thesis}
+% 
+% The work described in a CSM thesis must be conducted under the supervision of a candidate's advisory committee, and the thesis must state in detail all results obtained and all methods and processes used in the research. Descriptions of method must be made in such a way that they may be duplicated by any competent researcher. Below are some other points to consider.
+% 
+% \subsection{Including proprietary research}
+% 
+% Under special circumstances, CSM may agree to include proprietary research in a graduate student's thesis. The nature and extent of the proprietary research reported in the thesis must be agreed upon in writing by the principal investigator, student, and Dean of Graduate Studies (Proprietary Research Agreement form). In some cases, the proprietary nature of the underlying research may require the school to delay public access to the completed thesis for a limited period of time. In no case will public access to the thesis be denied for more than 12 months from the date the Statement of Work Completion form is submitted to the OGS.
+% 
+% \subsection{Following required guidelines}
+% 
+% As you write your thesis, consult with your advisor and committee as necessary. Edit all drafts for correct sentence structure and grammar, paragraphing, punctuation and spelling. Specific OGS requirements for thesis organization, style and formatting are found in this guidebook.
+% 
+% \subsection{Registering for copyright}
+% 
+% Students own the copyright to their thesis and you may wish to register your work with the Library of Congress. Typically, the holder of the copyright is required to submit two copies of the copyrighted work, a registration fee, and a completed application form (Form TX). To order forms, call the Copyright Office Form Hotline at 202-707-9100. Additional information is found at the Copyright Office website:\newline
+% \url{http://www.copyright.gov/}.
+% 
+% \subsection{Obtaining publisher permissions}
+% 
+% If you wish to include material in your thesis that has been previously published, permission from the publisher may be required. In addition, academic department policies vary regarding the inclusion of such material, and therefore the approval of your advisory committee is required.
+% 
+% \section{Completing Your Thesis}
+% 
+% Once you have finished writing your thesis, there are required steps to perform before the process is complete and your degree is awarded. Those steps are described below and are summarized in a checklist in \ref{apx:checklists}.
+% 
+% \subsection{Application to Graduate}
+% 
+% Within five weeks of the beginning of the semester in which you expect to graduate, submit an Application to Graduate form to OGS.
+% 
+% \subsection{Schedule the thesis defense}
+% 
+% The student must orally defend the written thesis in front of the advisor and advisory committee before the thesis submittal deadline that is set by the OGS each semester. Upon finishing the writing of your thesis, schedule the thesis defense, allowing enough time (roughly two weeks) for committee members to thoroughly examine the thesis. Keep in mind that several students may be arranging defenses for essentially the same time, with the same faculty members. You should also be aware of your department's deadlines for defending.
+% 
+% \note{The thesis defense is open to the public.}
+% 
+% \subsection{Submit Thesis Defense Request form}
+% 
+% At least one week before the thesis defense, submit the Thesis Defense Request form to your home department.
+% 
+% \subsection{Defend and revise the thesis}
+% 
+% Your committee may require you to make additional revisions following your thesis defense. Be certain that you allow enough time between your defense date and the thesis submittal deadline to complete these revisions.
+% 
+% \note{Your department may have a maximum time allowed for the completion of revisions following the thesis defense; you should become aware of any such requirement.}
+% 
+% \subsection{Obtain required signatures}
+% 
+% Once your advisor and advisory committee have approved the defended and revised thesis, you must sign and date the submittal sheet (ii). Your thesis advisor (and coadvisor, if applicable) and department head must also sign and date the submittal sheet. Black ink is preferred for signatures.
+% 
+% \note{You must obtain all signatures prior to submitting the thesis to the OGS for final format evaluation.}
+% 
+% \subsection{Obtain final format approval}
+% 
+% \important{After your department head and advisor have approved the defended and revised thesis and have signed the submittal sheet, submit the final draft to the OGS for format evaluation.}
+% 
+% The format evaluation is a general review of the document to check for consistency, proper chapter sequence, correct font and margins, and proper table and figure placement. To receive approval, the draft you submit for evaluation by OGS must exactly duplicate the final submission you will present to the library for preservation, including any labeled and folded plates, maps, and CD/DVDs.
+% 
+% \note{The OGS reviewer does not edit the thesis during format evaluation. You should plan to leave your thesis with the OGS for 24 hours.}
+% 
+% \subsection{Print required copies}
+% 
+% You are responsible for printing the final copies of the thesis that are submitted to the Arthur Lakes Library for binding and preservation. Details on printing requirements are found in the section \hyperref[sec:printing-thesis]{Printing Your Thesis}, page~\pageref{sec:printing-thesis}.
+% 
+% \subsection{Obtain virus scan for CD/DVDs}
+% 
+% To submit any part of your thesis on CD/DVD, you must first have your disk certified by the AC\&N department as virus free. To learn more about this requirement, see \hyperref[sec:computer-disks]{Computer disks}, page~\pageref{sec:computer-disks}.
+% 
+% \subsection{Pay fees}
+% 
+% You must pay graduation and all other outstanding fees to the CSM cashier before submitting your thesis copies to the library for binding.
+% 
+% \subsection{Submit copies to Arthur Lakes Library}
+% 
+% The award of a thesis-based graduate degree is conditioned on the student's submittal of the completed thesis to the campus library, ensuring its availability to the public. Although the student retains the copyright of the thesis, by depositing the thesis with the library, the student assigns a perpetual, nonexclusive, royalty-free license to CSM and permits CSM to copy the thesis and allow the public reasonable access to it. Detailed information on how to submit your thesis to Arthur Lakes Library is found on page~\pageref{sec:submitting-your-thesis}.
+% 
+% \subsection{Check Out}
+% 
+% You can obtain the required checkout card either at the OGS, Guggenheim Hall, or at the Graduation Salute, which is held each semester. Part of the checkout procedure is also the submission of the Statement of Work Completion form that may be found online at \url{http://gradschool.mines.edu/GS-Forms}. For your convenience, you will also find Graduation Information and Deadlines in this same location.
+% 
+% \StopEventually{}
+% \section{Organizing Your Thesis}
+% 
+% A thesis has three main parts: 1) front matter, 2) body, and 3) back matter. The elements of each main part listed here are further explained in separate sections, but they should appear in the sequence shown here.
+% 
+% \subsection{Parts of a Thesis}
+% 
+% \subsubsection{Front Matter (preliminary pages)}
+% \begin{enumerate}
+% 	\item Title page\dotfill (required)
+% 	\item Copyright page\dotfill (if applicable)
+% 	\item Submittal sheet or signature page\dotfill (required)
+% 	\item Abstract\index{abstract}\dotfill (required)
+% 	\item Table of Contents\dotfill (required)
+% 	\item List of Figures\dotfill (if applicable)
+% 	\item List of Tables\dotfill (if applicable)
+% 	\item List of Plates\dotfill (if applicable)
+% 	\item Acknowledgments\index{acknowledgments}\dotfill (optional)
+% 	\item Dedication\dotfill (optional)
+% \end{enumerate}
+% 
+% \subsubsection{Body}
+% \begin{enumerate}
+% 	\item Introduction\dotfill (optional)
+% 	\item All chapters and sections of text\dotfill (required)
+% \end{enumerate}
+% 
+% \subsubsection{Back Matter (supplementaries)}
+% \begin{enumerate}
+% 	\item References Cited\dotfill (required)
+% 	\item Selected Bibliography\dotfill (optional)
+% 	\item Appendices\index{appendices}\dotfill (if applicable)
+% \end{enumerate}
+% 
+% A thesis might also include a \textbf{glossary}, a \textbf{list of symbols}, or a \textbf{list of \addtoindex{abbreviations}}. Any of these lists may either follow the last list in the front matter or precede the References Cited section in the back matter.
+% 
+% \subsection{Alternative Organization}
+% 
+% In addition to the thesis organization described above, there may be cases where an alternative organization is appropriate.
+% 
+% \subsubsection{Multi-part thesis}
+% 
+% With the approval of the faculty advisor, a student may combine research in related areas into a single thesis that includes published or unpublished papers and/or multiple projects. In a multi-part thesis, the research is arranged in a coherent order with consecutive page numbering throughout the body and back matter. A multi-part thesis has a single table of contents and other front matter as well as a single list of references and other back matter.
+% 
+% Please be aware that a multi-part thesis containing previously published material may be subject to copyright permission issues. Copyright policies are discussed on page~\pageref{sec:using-copyrighted-material}, \hyperref[sec:using-copyrighted-material]{Using Copyrighted Material}.
+% 
+% \section{Formatting Your Thesis}
+% 
+% \important{Producing text that is visually and stylistically \emph{consistent}, gives a professional look and feel to your thesis. Though some thesis format elements are strictly required by the OGS, many formatting decisions are left to your discretion. However, once you have made those choices, you must apply them throughout the entire thesis. OGS requirements are marked with the light bulb symbol for quick identification.}
+% 
+% \subsection{Using format templates}
+% 
+% Microsoft and {\LaTeX} both offer software for formatting a thesis. {\LaTeX} may be downloaded from\newline \url{http://www.Latex-project.org/}.
+% 
+% Software packages are also available for formatting references. One such application is EndNote.
+% 
+% \note{CSM does not provide technical support for these templates.}
+% 
+% \paragraph{Using student models}
+% 
+% You should be cautious if you use a previous student's thesis as a model for your own. OGS changed certain format requirements beginning with the Spring 2007 Fifth Edition of this guidebook, and what was previously acceptable may no longer be so.
+% 
+% \subsection{Thesis Length}
+% 
+% There is no upper page limit for a thesis; however, a bound volume is limited to the thickness of two inches, including folded maps, plates and CDs.
+% 
+% \subsubsection{Single-volume thesis}
+% 
+% In order to stay within the two-inch limit for a single volume, we suggest the following practices:
+% \begin{itemize}
+% 	\item Write as concisely as possible.
+% 	\item Use 1{\textonehalf} line spacing rather than 2 in running text.
+% 	\item Print the thesis on two sides of the paper, instead of printing single sided.
+%% 		\important{\textbf{Exceptions:} The pages of the front matter must be printed single sided. The first page of each new chapter in the thesis body must begin on an oddnumbered (right-handed) page, leaving the opposing page blank if necessary.}
+%\iffalse
+%% The built-in \cleardoublepage prints a page number, this special version does not
+% \renewcommand{\cleardoublepage}{
+% 	\@ifstar{\null}{}
+% 	\clearpage %% Dump all floats before making our new page
+% 	\newpage
+% 	\thispagestyle{empty} %% There is no page number for blank pages
+% 	%% If we are doing a two-sided document then the next page MUST be an odd-numbered page
+% 	\if@twoside
+% 		\ifodd\c@truepage \else
+% 			%% Use \hbox{} instead of \null?
+% 			\null\newpage
+% 			\if@twocolumn
+% 				\null\newpage
+% 			\fi
+% 		\fi
+% 	\fi
+% 	\thispagestyle{plain} %% Go back to page numbers for normal pages
+% }
+\newcommand{\newoddpage}{\cleardoublepage}
+
+%\fi
+% 	\item Store large appendices as well as maps, plates, figures, tables, and other over-sized material on CD/DVD. This option is further described on page \pageref{sec:computer-disks}, \hyperref[sec:computer-disks]{Computer disks}.
+% \end{itemize}
+% 
+% \subsubsection{Multi-volume thesis}
+% \label{sec:multi-volume-thesis}
+% 
+% A thesis thicker than two inches (including any supplementary elements such as folded plates or CD's), must be bound in more than one volume, and the writer must pay an additional binding fee for each volume. Each volume of the multi-volume thesis must have a title page that includes the volume number and a table of contents. You are encouraged to obtain advice from the Arthur Lakes Library Preservation Unit or the OGS about where to split thesis material into two volumes.
+% 
+% \subsection{Page Margins}
+% 
+%% The required thesis page size is 8{\textonehalf} by 11 inches (letter size). The page margins given here are required and not optional.
+%% \begin{itemize}
+%% 	\item Top and bottom text margins: 1 inch wide.
+%% 	\item Inside text margin (binding side): 1{\textonehalf} inch wide.
+%% 	\item Outside text margin: no less than 1 inch wide.
+%% 	\item Two-sided printing: the inside and outside margin widths should alternate pages. (Most word processing programs will automatically alternate margins on odd and even pages for documents that are copied on two sides).
+%% 	\item Page-number margin: {\textonehalf} inch from either the top or the bottom edge of the page.
+%% \end{itemize}
+%\iffalse
+\RequirePackage[left=1in,top=1in,right=1in,bottom=1in,bindingoffset=0.0in,nohead,foot=0.5in]{geometry}
+
+%\fi
+% 
+% \note{Photocopying may enlarge an image, in which case, you should be certain that your margin widths stay within these requirements. For the same reason, when printing an electronic file or converting a file to PDF format, be certain to turn off the Scale to Page feature.}
+% 
+% \subsection{Aligning Text}\index{alignment}
+% 
+%% OGS prefers left-margin justification of paragraph text with ``ragged right'' edges. Right margin justification is accepted \emph{only} if the word spacing is proportional, with no extra white space between words.
+%\iffalse
+%% <<NOTE: LaTeX has no ragged edges, on either side, by default>>
+
+%\fi
+% 
+% \subsection{Centering Text}
+% 
+%% When this guide directs that text and graphics be centered on the page between the left and right text margins, please note that is not the same as centering between the left and right edges of the paper. Keep in mind that the left and right margins on a page are not equal in width.
+%\iffalse
+%% <<NOTE: There is no easy way to make this mistake in LaTeX, it knows how to center properly>>
+
+%\fi
+% 
+% \subsection{Page Numbers}
+% 
+% \important{Requirements for the font style and location of page numbers in the thesis front matter differ from requirements for page numbers in the body and back matter of the thesis.}
+% 
+% \subsubsection{Front matter page numbers}
+% 
+%% Roman numerals are used for page numbering of the front matter. Page numbers on the title page and copyright page are not displayed. Displayed page numbering begins on the submittal sheet, and is always roman numeral two (ii), regardless of whether or not a copyright page is included. The first page of the \addtoindex{abstract} is roman numeral three (iii), and so forth for the rest of the front matter.
+%% 
+%% Page numbers in the front matter are placed centered between the left and right text margins and {\textonehalf} inch from the bottom edge of the paper.
+%\iffalse
+\let\@frontmatter@exists\@empty
+\let\@frontmatter@active\@false
+\let\@csm@newpage@call\@false
+\newcommand{\frontmatter}{
+	\global\let\@frontmatter@active\@true
+	\global\let\@frontmatter@exists\@true
+	\pagenumbering{roman}
+	\pagestyle{plain}
+}
+\newcommand{\backmatter}{%
+	\csm@backmatter@hook%
+}
+
+%\fi
+% 
+% \subsubsection{Main body and back matter page numbers}
+% 
+%% Arabic numerals are used for the page numbering of the main body and of the back matter. The page number on the first page of the body (Introduction or Chapter 1) is arabic numeral one (1). The arabic numbering continues consecutively throughout the rest of the thesis, including the back matter.
+%% 
+%% Page numbers in the body and back matter are placed at any appropriate place on the page. However, the placement of the page numbers must remain consistent throughout the body and back matter. Page numbers are usually placed at the top right text margin, {\textonehalf} inch from the top edge of the page.
+%\iffalse
+%% <<NOTE: Leaving page number at bottom, page numbers look funny at the top>>
+\let\@bodymatter@exists\@empty
+\newcommand{\bodymatter}{
+	\global\let\@frontmatter@active\@false
+	\global\let\@bodymatter@exists\@true
+	% Return to normal pages
+	\gdef\c@csmpage{\c@page}
+	\gdef\c@truepage{\c@page}
+	\pagenumbering{arabic}
+}
+
+%\fi
+% 
+% \subsection{Line Spacing and Indenting}
+% 
+%% \important{The space between lines of all running text is 1{\textonehalf} or 2 lines (unless otherwise noted), and the first line of each paragraph is indented. Appropriate white space must separate text before and after short tables and figures that are included in text.}
+%% 
+%% \note{Line spacing for figure or table captions is single spaced, as is that for multiple-line entries in lists (e.g., Reference Cited).}
+%\iffalse
+%% <<NOTE: Using 2 line spacing for now, may require 1.5 lines (\onehalfspacing)>>
+\RequirePackage{setspace}
+\doublespacing
+% <<EXTRA:>> Fix a bug in setspace (or possibly longtable?) that screws up hyperref footnotes
+\AtBeginDocument{
+	\@ifpackageloaded{hyperref}{%
+		\global\let\orig@footnotetext=\footnotetext
+		\gdef\footnotetext[#1]{\orig@footnotetext}
+	}{}
+}
+
+%\fi
+% 
+% \subsection{Font or Typeface}
+% 
+% Font or typeface affects the readability of your thesis more than any other style element; and as with other elements of the thesis, the font must be consistent throughout.
+% 
+% \subsubsection{Font style}
+% 
+%% \important{If you prefer to use a serif font, you may choose either Times or Times New Roman. If you prefer a sans serif font, you may use either Arial or Helvetica. You must use the same font style throughout the thesis; including, e.g., lists, page numbers, headings and subheadings, chapter and appendix\index{appendices} titles, and figure and table captions.}
+%\iffalse
+\AtBeginDocument{
+	% Since the font needs to match for the whole document we need to make sure that the ``familydefault'' font is used for math mode as well.
+	\long\def\csm@cmp@string@{\sfdefault}
+	\ifx\familydefault\csm@cmp@string@\relax
+		% Change math mode to use the sans serif font
+		\usepackage{sfmath}
+	\fi
+}
+
+%\fi
+% 
+% \subsubsection{Font size}
+% 
+%% All running text must use a professional-looking type size; OGS recommends using between 10- and 12-point type.
+%\iffalse
+%% <<NOTE: This is handled in the document itself>>
+%% <<TODO: Check the value of \@ptsize to make sure a sane size was chosen.>>
+
+%\fi
+% 
+% \subsubsection{Symbols}
+% 
+% All symbols in the text, figures and tables must be typed or lettered, not handwritten.
+% 
+% \section{About the Front Matter}
+% 
+% \important{Front matter is the preliminary material that precedes the thesis Introduction or Chapter One, if the thesis has no introduction.}
+% 
+%% \note{All pages of front matter are copied single sided. That is, each page is blank on the back. See \ref{apx:examples} for page examples. Roman numerals are used for page numbering of the front matter.}
+% 
+%\iffalse
+\let\recursive@output\@false
+\let\latex@outputpage\@outputpage
+% <<NOTE: You must be EXTREMELY careful in redefining the \@outputpage primitive, certain mistakes will cause LaTeX to hang indefinitely>>
+\def\@outputpage{
+	\csm@outputpage@hook%
+	\latex@outputpage%
+	\begingroup
+	% Only the front matter has blank back pages
+	\ifx\@frontmatter@active\@true
+		\addtocounter{csmpage}{1}
+		\addtocounter{truepage}{1}
+		\setcounter{page}{\value{csmpage}} %% for proper numbering with hyperref
+	\fi
+	\endgroup
+	%% When the ``insane'' option is enabled and the \makesubmittal command does not exist we need to reset the numbering properly
+	\ifx\csm@customnumber@output\@true
+		\pagenumbering{roman}
+		\setcounter{csmpage}{2}
+		\setcounter{page}{2}
+		\global\let\csm@customnumber@output\@false
+	\fi
+}
+
+%\fi
+% 
+% \subsection{Page Sequence}
+% 
+% The sequence of the front matter is very important, and is as follows:
+% \begin{enumerate}
+% 	\item Title page\dotfill (required)
+% 	\item Copyright page\dotfill (if applicable)
+% 	\item Submittal sheet (page ii)\dotfill (required)
+% 	\item Abstract\index{abstract} (page iii)\dotfill (required)
+% 	\item Table of Contents\dotfill (required)
+% 	\item List of Figures\dotfill (if applicable)
+% 	\item List of Tables\dotfill (if applicable)
+% 	\item List of Plates\dotfill (if applicable)
+% 	\item Acknowledgments\dotfill (optional)
+% 	\item Dedication\dotfill (optional)
+% \end{enumerate}
+% 
+% If a thesis has not been formally copyrighted, and/or contains no figures, tables, plates, \addtoindex{acknowledgments} or dedication; then those items are not included. All other parts of the front matter are required.
+% 
+% \subsection{Title Page}
+% 
+%\iffalse
+%% Below is a convenience command for entering atoms in the title of a thesis.
+%% Please note that the Thesis Writer's Guide DOES NOT provide a prescription for having atoms/molecules in the title and may no-longer allow them through format review.
+%% Usage: \atom{mass number}{proton number}{symbol}{ionization}{# atoms}
+\@ifpackageloaded{hyperref}{}{\let\texorpdfstring\@empty} %% Make \texorpdfstring empty, but do not redefine it if hyperref is already loaded.
+\gdef\csm@texorpdfstring#1#2{%
+	\ifx \texorpdfstring \@empty%
+		#1%
+	\else%
+		\texorpdfstring{#1}{#2}%
+	\fi%
+}
+\newcommand{\atom}[5]{%
+	\csm@texorpdfstring{$^{#1}_{#2}$}{}%
+	\protect\NoCaseChange{#3}%
+	\csm@texorpdfstring{$^{#4}_{#5}$}{#5}%
+}
+
+%\fi
+% The title page shows the thesis title and the author's name.
+% 
+%% The thesis title, in ALL CAPITAL letters, is centered on the page between the left and right text margins, and between the top and bottom text margins. Long titles may be broken logically into more than one line, arranged in an inverted pyramid, 1{\textonehalf}- or double-spaced between lines.
+% 
+%% The author's name, in upper- and lower case letters, is centered between the right and left text margins, and appears flush with the lower oneinch text margin. The word ``by'' in lower case letters, is centered one blank line (e.g., 1{\textonehalf}- or double-space) above the author's name.
+% 
+%% The title page is unnumbered and blank on its back side.
+% 
+%% \note{A title should be brief and descriptive, avoiding introductory phrases like ``A Study to Determine\ldots'' or ``An Investigation and Evaluation of\ldots .''}
+%\iffalse
+%%\global\let\maketitle\relax % NOTE: Some TeX distributions define ``maketitle'' funny, clear that definition before starting
+\let\@title\@empty
+\let\@maketitle@exists\@empty
+\global\let\csm@customnumber@output\@false
+\newbox\csm@titletext
+\renewcommand{\maketitle}{
+	\global\let\@maketitle@exists\@true
+	%% BEGIN LaTeX Sanity Checks
+		\sanitize{\@title}{title}
+	%% END LaTeX Sanity Checks
+	\leavevmode%% Switch to horizontal mode so the ``\vfill'' will perfectly vertically center the title
+	\vfill
+	\begin{center}
+		\makeatletter
+		{\begingroup
+			%% Check for returns in the title
+			\global\let\csm@returnexists\@false
+			{\begingroup
+				\def\\{\global\let\csm@returnexists\@true}
+				\setbox\csm@titletext=\vbox{\@title}
+			\endgroup}
+			%% If there are returns in the title then use the user-generated title,
+			%% otherwise attempt to automatically generate the inverted pyramid
+			\ifx\csm@returnexists\@true
+				\ManualTrapezoidTitle
+			\else
+				\AutoTrapezoidTitle
+			\fi
+		\endgroup}
+		\makeatother
+	\end{center}
+	\vfill
+	\begin{center}
+		by\linebreak
+		\makeatletter
+		\@author
+		\makeatother
+	\end{center}
+	\thispagestyle{empty} %% no page number for the title page
+	\csm@page@label{title} %% use a special hyperref ``page seek'' for the copyright page
+	\global\let\csm@customnumber@output\@true %% needs to be turned off after page is output
+}
+
+%\fi
+% 
+% \subsection{Copyright Page}
+% 
+% Although the student owns the copyright to the thesis, you may wish to register the thesis with the Library of Congress (see Registering for Copyright).
+% 
+% If an official copyright is obtained, the copyright page is the second page in the thesis, but numbering is suppressed, just as it is in the title page. The copyright page is always blank on the back side.
+% 
+%% The thesis copyright page contains the 1) author's name, 2) the date, and 3) the statement, ``All Rights Reserved,'' centered on the page. See the example in \ref{apx:examples}.
+%\iffalse
+\newcommand{\makecopyright}[1]{
+	\vspace*{\fill}
+	\begin{center}
+		\textbf{{\textcopyright} Copyright by {\@author}, {#1}} \\
+		All Rights Reserved
+	\end{center}
+	\vspace*{\fill}
+	\thispagestyle{empty} % no page number for the copyright page
+	\csm@page@label{copyright} % use a special hyperref ``page seek'' for the copyright page
+	\global\let\csm@customnumber@output\@true % needs to be turned off after page is output
+}
+
+%\fi
+% 
+% \subsection{Submittal Sheet}
+% 
+%% \important{The submittal sheet contains the 1) submittal statement; 2) the signatures of the author, thesis advisor, co-advisor (if applicable), and department head; as well as 3) signature dates. To find the required submittal sheet format, see the example in \ref{apx:examples}.}
+% 
+% \subsubsection{The submittal statement}
+% 
+%% The submittal statement is typed in paragraph form beginning at the top text margin, double-spaced, with the first line indented.
+% 
+% \subsubsection{Signature dates}
+% 
+%% The city, state and signature date are flush with the left text margin.
+% 
+% \subsubsection{Signatures}
+% 
+%% The lines for signatures are flush with the right margin.
+% 
+%% \note{The page must be signed by all parties in black ink before the thesis is submitted to the OGS for final format review.}
+% 
+% \subsubsection{Submittal sheet page number}
+% 
+%% Displayed page numbering in the thesis begins on the submittal sheet, and should be roman numeral two (ii), centered between the right and left text margins, {\textonehalf} inch from the bottom edge of the paper. The submittal sheet is always blank on its back side.
+% 
+%\iffalse
+\let\@author\@empty
+\let\@advisor\@empty
+\let\@coadvisor\@empty
+\let\@degree\@empty
+\let\@department\@empty
+\let\@discipline\@empty
+\let\@dpthead\@empty
+\let\@dptheadtitle\@empty
+\newcommand{\degreetitle}[1]{\def\@degree{#1}}
+\global\let\degree\degreetitle
+\newcommand{\advisor}[1]{\def\@advisor{#1}}
+\newcommand{\coadvisor}[1]{\def\@coadvisor{#1}}
+\newcommand{\discipline}[1]{\def\@discipline{#1}}
+\newcommand{\department}[1]{\def\@department{#1}}
+\newcommand{\dpthead}[2]{\def\@dpthead{#1}\def\@dptheadtitle{#2}}
+%% For LyX we break out the \dpthead command into two pieces:
+\newcommand{\dptheadname}[1]{\def\@dpthead{#1}}
+\newcommand{\dptheadtitle}[1]{\def\@dptheadtitle{#1}}
+\let\@makesubmittal@exists\@empty
+\newcommand{\makesubmittal}{
+	%% Displayed page numbering in the thesis begins on the submittal sheet, and should be roman numeral two (ii), centered between the right and left text margins, {\textonehalf} inch from the bottom edge of the paper. The submittal sheet is always blank on its back side.
+	\pagenumbering{roman}
+	\setcounter{csmpage}{2}
+	\setcounter{page}{2}
+	\let\@makesubmittal@exists\@true
+	%% BEGIN LaTeX Sanity Checks
+		\sanitize{\@author}{author}
+		\sanitize{\@degree}{degree}
+		\sanitize{\@advisor}{advisor}
+		%% Note: Co-advisor is optional
+		\sanitize{\@discipline}{discipline}
+		\sanitize{\@department}{department}
+		\sanitize{\@dpthead}{dpthead}
+		\sanitize{\@dptheadtitle}{dpthead} % (also controlled by dpthead command)
+	%% END BEGIN LaTeX Sanity Checks
+	
+	%% The submittal statement is typed in paragraph form beginning at the top text margin, double-spaced, with the first line indented.
+	A thesis submitted to the Faculty and the Board of Trustees of the Colorado School of Mines in partial fulfillment of the requirements for the degree of {\@degree} ({\@discipline}).
+	
+	%% The city, state and signature date are flush with the left text margin.
+	\vspace*{3\baselineskip}
+	\begin{raggedright}
+		\noindent
+		Golden, Colorado\newline
+		Date \makebox[2in]{\hrulefill}
+		\vspace*{\baselineskip}
+	\end{raggedright}
+	
+	%% The lines for signatures are flush with the right margin
+	\begin{raggedleft}
+		\begin{singlespace}
+			\noindent
+			Signed: \makebox[2in]{\hrulefill} \linebreak
+			\makeatletter\@author\makeatother
+		\end{singlespace}
+		\vspace*{\baselineskip}
+		\begin{singlespace}
+			\noindent
+			Signed: \makebox[2in]{\hrulefill} \linebreak
+			\makeatletter\@advisor\makeatother \linebreak
+			Thesis Advisor
+		\end{singlespace}
+		\ifx\@coadvisor\@empty
+			\relax
+		\else
+			\vspace*{\baselineskip}
+			\begin{singlespace}
+				\noindent
+				Signed: \makebox[2in]{\hrulefill} \linebreak
+				\makeatletter\@coadvisor\makeatother \linebreak
+				Thesis Advisor
+			\end{singlespace}
+		\fi
+	\end{raggedleft}
+	
+	%% The city, state and signature date are flush with the left text margin.
+	\vspace*{3\baselineskip}
+	\begin{raggedright}
+		\noindent
+		Golden, Colorado\newline
+		Date \makebox[2in]{\hrulefill}
+		\vspace*{\baselineskip}
+	\end{raggedright}
+	
+	%% The lines for signatures are flush with the right margin
+	\begin{raggedleft}
+		\begin{singlespace}
+			\noindent
+			Signed: \makebox[2in]{\hrulefill} \linebreak
+			\makeatletter\@dpthead\makeatother \linebreak
+			\makeatletter\@dptheadtitle\makeatother \linebreak
+			Department of {\@department}
+		\end{singlespace}
+	\end{raggedleft}
+}
+
+%\fi
+% 
+% \subsection{Abstract}
+% 
+% The \addtoindex{abstract}, sometimes called the summary abstract, includes a concise statement of the thesis problem, a brief description of the research method or design, and a report of the major findings and conclusions.
+% 
+% \subsubsection{Abstract length}\index{abstract!length restriction}
+% 
+% \important{The \addtoindex{abstract} in a master's thesis has no length restriction. However, in a Ph.D. dissertation, the \addtoindex{abstract} limit is 350 words, or approximately 1{\textonehalf} pages of text. This limit is set by the publishers of the Dissertation Abstracts International. Dissertation abstracts are submitted by OGS to this publication for indexing.}
+% 
+% As an alternative, you may include a longer \addtoindex{abstract} in the thesis and also separately submit a shorter summary to OGS that adheres to the 350-word limit. The submission of the shorter summary is part of the graduation checkout requirement.
+% 
+% \subsubsection{Abstract format}\index{abstract!format}
+% 
+%% \important{Beginning with the \addtoindex{abstract}, the title for each part of the front matter is typed in all capital letters (e.g., ABSTRACT) and is centered between the left and right text margins, on the line one keyboard return below the top page margin. The text of the \addtoindex{abstract} begins two keyboard returns below the title.}
+%\iffalse
+\AtBeginDocument{\renewcommand{\abstractname}{Abstract}}
+
+%\fi
+% 
+% \index{abstract!page numbering}
+% The \addtoindex{abstract} page number is a roman numeral three (iii), centered between the left and right text margins, {\textonehalf} inch from the bottom edge of the paper. The thesis title is not included on the \addtoindex{abstract} page, and the \addtoindex{abstract} page should always be blank on its back side.
+% 
+% \subsection{Table of Contents and Other Lists}
+% 
+%% \important{It is \textbf{required} to include a table of contents in the front matter of the thesis. All chapters and sections in the thesis and their page numbers are listed in the Table of Contents. Pages that are not listed in the table of contents are the title page, the submittal sheet page, the copyright page, and the table of contents itself. Electronic material is included in the table of contents.}
+% 
+%% The table of contents and all other lists included in the front matter are single sided and begin on a separate page. In cases where a list of figures, tables or plates has only one or two entries, they may all be placed on one page with a suitable title such as LIST OF FIGURES AND TABLES. If included in the front matter, a glossary, a list of \index{abbreviations}, or a list of symbols is placed as the last list. If these lists are included in the back matter, they are placed immediately before the REFERENCES CITED.
+% 
+%\iffalse
+%% IMPORTANT NOTE: ``babel'' scews up \contentsname, so we use our own special \csm@contentsname
+\newcommand{\csm@contentsname}{\MakeUppercase{Table of Contents}}
+\let\@tableofcontents@exists\@empty
+\AtBeginDocument{
+	\renewcommand{\tableofcontents}{
+		\global\let\@tableofcontents@exists\@true
+		\ifx \csm@hyperref\@true
+			\pdfbookmark[1]{Table of Contents}{toc}
+		\fi
+		\let\@chapter@call\@true
+		\section*{\csm@contentsname
+			\@mkboth{\MakeUppercase\csm@contentsname}{\MakeUppercase\csm@contentsname}
+		}
+		\let\@chapter@call\@empty
+		\@starttoc{toc}
+	}
+}
+\newtoks\csm@saved@contents
+\csm@saved@contents{}
+\long\def\csm@addtocontents@#1#2{%
+	\global\csm@saved@contents\expandafter{%
+		\the\csm@saved@contents%
+		{%
+			\let\protect\@unexpandable@protect%
+			\immediate\write\@auxout{\string\@writefile{#1}{#2}}%
+		}%
+	}%
+}
+\AtEndDocument{%
+	\clearpage%
+	\the\csm@saved@contents%
+}%
+\newcommand{\csm@addtocontents}[4]{%
+	\ifx\csm@hyperref\@true%
+		\csm@addtocontents@{#1}{\protect\contentsline{#2}{#3}{#4}{\@currentHref}}%
+	\else%
+		\csm@addtocontents@{#1}{\protect\contentsline{#2}{#3}{#4}}%
+	\fi%
+}
+
+%\fi
+% 
+% \subsubsection{List format}
+% 
+% The title of the list, e.g., TABLE OF CONTENTS, appears only on the first page of the list. The title is centered between the left and right text margins and one keyboard return from the top margin. The list begins one keyboard return below the title. The listed titles and headings are 1{\textonehalf}- or doublespaced. Longer entries that are multiple lines are single-spaced, and the second and subsequent lines are indented. The table of contents and other list pages included in the front matter, are numbered with roman numerals.
+% 
+% \subsubsection{List content}
+% 
+%% Each list entry must have exactly the same wording, capitalization and punctuation as the titles and headings in the text. In the case of long figure captions, the text in the list may be abbreviated (while retaining the sense of the whole caption). Figure subtitles may be omitted unless those subtitles distinguish several items within the same title.
+%\iffalse
+%% <<NOTE:>> Interpretted to read: subfigure captions are not required.
+\newcommand{\abbrvcaption}[2]{\caption[#1]{#1#2}}
+%% TODO: Is the following note still true?  It appears to be ok now....
+%% IMPORTANT NOTE: ``subfig'' must be included AFTER \thefigure is redefined.
+%% Include subfig, but do not format the subfigure label, we'll do it manually:
+\CSM@AtEndPreamble{
+	\@ifpackageloaded{subfigure}{
+		\csm@thesis@error{The subfigure package is deprecated, disable it to continue.}
+	}{
+		\def\csm@subfig@format{%
+				labelsep=space,%
+				font=footnotesize,%
+				labelformat=simple,%
+				listofformat=subsimple,%
+				subrefformat=subsimple%
+		}
+		\@ifpackageloaded{subfig}{
+%%			\captionsetup[subfloat]{\csm@subfig@format}
+			\captionsetup[subfloat]{%
+				labelsep=space,%
+				font=footnotesize,%
+				labelformat=simple,%
+				listofformat=subsimple,%
+				subrefformat=subsimple%
+			}
+		}{
+			\RequirePackage[\csm@subfig@format]{subfig}
+		}
+		%% Make \ref{} reference the subfigure more sensically (with parentheses around the subfigure):
+		\renewcommand{\thesubfigure}{(\alph{subfigure})}
+		%% Redefine the subfigure/subtable calls to be backward-compatible with old documents:
+		\@ifundefined{c@subfigure}{\newsubfloat{figure}}{}
+		\def\subfigure{\subfloat}
+		\@ifundefined{c@subtable}{\newsubfloat{table}}{}
+		\def\subtable{\subfloat}
+	}
+}
+
+%\fi
+% 
+% For each list item, leader dots (spaced periods . . .) extend from the entry on the left side of the page to the page number that is flush with the right margin. The dots are aligned vertically.
+%\iffalse
+\newcommand{\addpocketcontents}[1]{%
+	\csm@ogs@error{\string\addpocketcontents\space no-longer supported, use a ``Supplemental Electronic Files'' appendix instead.}
+}
+\newcommand{\addpocketappendix}[1]{%
+	\csm@ogs@error{\string\addpocketappendix\space no-longer supported, use a ``Supplemental Electronic Files'' appendix instead.}
+}
+
+%\fi
+% 
+% \subsection{Acknowledgments}\index{acknowledgments!content}
+% 
+% The \addtoindex{acknowledgments} page contains 1{\textonehalf} or double-spaced paragraph(s), with an indented first line. In the \addtoindex{acknowledgments}, the author recognizes advisors, committee members, and other persons who provided special help or advice. Included here are also any fellowships or other support from outside agencies or from CSM, and any permissions received for extensive use of copyrighted material.
+% 
+% \subsubsection{Acknowledgments format}\index{acknowledgments!format}\index{acknowledgments!page numbering}
+% 
+% The capitalized title is centered on the line that is one keyboard return below the top text margin. Text begins two keyboard returns below the title. Page numbering continues in roman numerals, as in all front matter. The acknowledgments page is blank on its back side.
+% 
+% \subsection{Dedication}
+% 
+% A dedication page is optional and not frequently included in a thesis. However, occasionally the thesis writer wants to dedicate the document to a professional colleague, friend or relative. A dedication typically expresses gratitude for someone's support.
+% 
+% \subsubsection{Dedication format}
+% 
+% If a dedication page is included, it is placed at the end of the front matter section, following the acknowledgments. Typically, a dedication page has no title; it simply states, e.g., ``For my father.'' Roman numeral page numbering continues on the dedication page, which is blank on the back side.
+% 
+% \section{About the Main Body}
+% 
+% The body of the thesis is the main text. It may begin with an introduction or immediately with chapter one, and it may have several numbered chapters or unnumbered sections, depending on the preference of the department or advisor.
+% 
+% \subsection{Titles}
+% 
+% The chapter or section title for each part of the body is typed only on the first page of that part in all capital letters (for example, INTRODUCTION) and not underlined. The title is centered between the left and right text margins, one keyboard return below the one-inch top page margin.
+% 
+% \subsection{Headings and Subheadings}
+% 
+% Within each titled chapter of the thesis body, section headings are used to help the reader understand the organization of the information.
+% 
+% \important{At least one paragraph of text must follow each heading or subheading. Headings and subheadings may not follow each other without some text between, and may not stand alone at the bottom of a page. If after the heading or subheading, there is not room for at least two lines of 1{\textonehalf}- or doublespaced text before the bottom text margin, then the heading is placed at the top of the next page.}
+% 
+% You must follow your department's preference for the heading system and style, but two frequently used systems are the doublenumbering system or the three-level system.
+% 
+% \subsubsection{Double-numbering system}
+% 
+%% In the double-numbering system, each heading is preceded by a number. For instance, in the second chapter of a thesis, the first subheading is numbered 2.1. The use of heading numbers requires at least two subdivisions under each main division. That is, if there is a 2.1, there must be a 2.2. If there is only one division under a heading, then that division is labeled as 2.0, not 2.1. An example page illustrating the numbering system is included in \ref{apx:examples}.
+% 
+%% Numbered headings and subheadings use capital and lower case letters and are all placed flush with the left margin. Three single lines precede a heading or subheading, and one keyboard return follows it.
+% 
+%\iffalse
+\gdef\@subsection@style{\normalfont\bfseries\csm@header@spacing}
+\gdef\@subsubsection@style{\normalfont\normalsize\bfseries\csm@header@spacing}
+\gdef\@paragraph@style{\normalfont\normalsize\bfseries\csm@header@spacing}
+\AtBeginDocument{
+	\newcommand\csm@header@spacing{\setstretch{1}}
+	\newcommand{\subsection@}[1]{
+		\csm@section@check %% Redefine section commands with section check
+		\global\let\@currentlabel\thesubsection
+		\@startsection{subsection}{-1}{\z@}{-3.25ex\@plus -1ex \@minus -.2ex}{1.5ex \@plus .2ex}
+		{\@subsection@style}{#1}%
+		\reset@csm@section@check%
+	}
+	\newcommand{\subsubsection@}[1]{
+		\csm@section@check %% Redefine section commands with section check
+		\global\let\@currentlabel\thesubsubsection
+		\@startsection{subsubsection}{-1}{\z@}{-3.25ex\@plus -1ex \@minus -.2ex}{1.5ex \@plus .2ex}
+		{\@subsubsection@style}{#1}%
+		\reset@csm@section@check%
+	}
+	\newcommand{\paragraph@}[1]{%
+		\global\let\@currentlabel\theparagraph
+		\@startsection{paragraph}{-1}{\z@}{-3.25ex\@plus -1ex \@minus -.2ex}{1.5ex \@plus .2ex}
+		{\@paragraph@style}{#1}%
+	}
+	% Ignore starred commands
+	\gdef\subsection{\@ifstar{\subsection@}{\subsection@}}%
+	\gdef\subsubsection{\@ifstar{\subsubsection@}{\subsubsection@}}%
+	\gdef\paragraph{\@ifstar{\paragraph@}{\paragraph@}}%
+}
+
+%\fi
+% \subsubsection{Three-level system}
+% 
+% The three-level system uses the following heading levels.
+% 
+% \textbf{A-Level:} This heading uses both capital and lower case bold letters, and is left justified. Three single lines separate the heading from preceding text, and one keyboard return separates the heading from the following text.
+% 
+% \textbf{B-Level:} This heading uses both capital and lower case bold letters, and is indented from the left text margin. Long subheadings are broken into two lines and single spaced, with the second line indented from the first line. Three single lines separate the subheading from preceding text, and one keyboard return follows the subheading before the text that follows.
+% 
+% \textbf{C-Level:} This heading uses both capital and lower case bold letters and is indented from the left text margin incrementally from the B-Level heading. Three single lines separate the subheading from preceding text, but the text of the subsection begins on the same line as the subheading.
+% 
+%^^A <<NEW:>> (undocumented)
+% \subsection{Paragraphs}
+% 
+%% Paragraphs beginning at the end of a page must contain at least two lines before the page break, an ``orphaned paragraph'' with only one line is not permitted.
+%\iffalse
+\clubpenalty=10000
+
+%\fi
+%% Additionally, the text flow may not be interrupted by a figure or table leading to blank space at the bottom of a page.  This restriction \emph{will not be waived} to force a figure or table into a particular section.
+%^^A <</NEW>>
+% 
+% \subsection{Writing Numbers in Text}
+% 
+% In scientific writing, it is customary to write out numbers one through nine in the text. It is also customary to use arabic numerals for numbers 10 and above, except when the number appears at the beginning of a sentence. Numbers appearing at the beginning of a sentence should always be written out. Other notable exceptions: arabic numerals are always used with percent, units or actual measurements, time (when used with a.m. and p.m.), fractional numbers, and data taken directly from a table or figure.
+% 
+% \subsection{Including Quotations}
+% 
+% \subsubsection{Short quotations}
+% 
+% Quotations shorter than three typed lines are included in the running text and are preceded and followed by quotation marks. The source must be documented at the end of the quote. (See \hyperref[sec:referencing-sources]{Referencing Sources in Text}, page~\pageref{sec:referencing-sources}.)
+% 
+% \subsubsection{Long quotations}
+% 
+% Quotations longer than three lines of text (block quotations) are single-spaced, indented from both the left and right text margins, and separated from the text above and below by one keyboard return. Block quotations do not require quotation marks.
+% 
+% \subsubsection{Abbreviating quoted passages}
+% 
+% It is acceptable to omit irrelevant information from a direct quote. In that case a number of ellipsis points (. . .) are used to show where information has been omitted. You should check a writing manual for further details on the correct use of ellipsis points.
+% 
+% \subsection{Including Figures and Tables}
+% 
+% A figure is a graphic illustration of information, such as a line drawing, a graph, a map, a photograph, a plate, or a chart. A table is a graphic that contains a systematic arrangement of facts or numbers in rows and columns (that is, in tabular form). A table appearing in running text should show only information relevant to that text.
+% 
+% \subsubsection{Placing a figure or table}
+% 
+%% A figure or table that covers more than a half page may be placed on its own, separate page. More than one table or figure may appear in sequence on a single page, if they represent sequential information. A figure or table included in running text must be contained on a single page and not continued to the next page. Use consistent line spacing to separate the figure or table from the preceding and following text.
+% 
+%\iffalse
+%% The test below checks to see if the user has requested ``Here Definitely'', we then check after the float to see if it was pushed to the next page.  If that happens then the document will have too much space at the bottom of a page (and will therefore be incompliant with the OGS guidelines).
+\newcounter{csm@figure@heredefinitely}
+\global\let\csm@figure@heredefinitely@enable\@false
+\gdef\csm@check@herefloat#1{%
+	\def\csm@cmp@string@{#1}\gdef\csm@cmp@string@@{H}%
+	\ifx\csm@cmp@string@\csm@cmp@string@@\relax%
+		\setcounter{csm@figure@heredefinitely}{\the\value{truepage}}%
+		\global\let\csm@figure@heredefinitely@enable\@true%
+	\else%
+		\global\let\csm@figure@heredefinitely@enable\@false%
+	\fi%
+}
+\gdef\csm@check@herefloat@false{%
+	\global\let\csm@figure@heredefinitely@enable\@false%
+}
+\gdef\csm@check@herefloat@moved{%
+	\ifx \csm@figure@heredefinitely@enable\@true%
+		\leavevmode% This command is necessary to increment the page number (if the float moved pages)
+		\vspace{-\baselineskip}% This command is to remove the undesired space added by the above command
+		\ifnum \c@truepage>\c@csm@figure@heredefinitely%
+			% Bad news, ``Here Definitely'' resulted in a figure that splits the text
+			\csm@ogs@error{'Here Definitely' added space to page \on@line.}%
+		\fi%
+	\fi%
+}
+
+%\fi
+% 
+% Small, two- or three-column tables with only three or four items per column may be worked into the text without an identifying table number or caption.
+% 
+% \subsubsection{Oversized figure or table}
+% 
+% If a table must cover more than one page, headings for continuous columns are repeated on each page, and notes may appear either at the end of the table or on the page to which they refer. Sources appear at the bottom of the first page.
+% 
+% Figures and tables that are formatted wider than they are high may be turned to fit on the page within all margins. The entire illustration, including its caption and sources, is turned so that the top of the illustration is parallel to and just inside the regular binding-side text margin (landscape orientation). The page number, however, remains in the same position on the page (portrait orientation), as it is throughout the body and back matter of the document.
+% 
+% A figure or table too large to fit within the 6- inch by 9-inch text area may be reduced, but its caption font must be the same size and style as that used for the text in the rest of the thesis.
+% 
+% \subsubsection{Captions}
+% 
+%% Figures and tables are identified both by a number and by descriptive text contained in a caption.
+%^^A <<OLD:>> (inaccurate)
+%^^A Typically, although not always, figure numbers and captions appear below the figure, and table numbers and captions appear above the table.
+%^^A <</OLD>>
+%^^A <<NEW:>> (undocumented)
+%% This combination of figure number and caption must appear below figures, while the corresponding table number and caption must appear above tables.
+%^^A <</NEW>>
+%\iffalse
+\global\let\csm@found@caption=\@false
+\gdef\csm@caption{%
+	\global\let\csm@found@caption=\@true%
+	\csm@internal@caption%
+}
+\gdef\csm@start@custom@caption{%
+	\global\let\csm@internal@caption=\caption%
+	\global\let\caption=\csm@caption%
+	\global\let\csm@found@caption=\@false%
+	\global\let\csm@internal@center=\center%
+	\global\let\center=\csm@center%
+}
+\gdef\csm@end@custom@caption{%
+	\global\let\caption=\csm@internal@caption%
+	\global\let\center=\csm@internal@center%
+}
+\gdef\csm@test@custom@caption#1#2{%
+	\ifx\csm@found@caption#1\relax%
+		\if@csm@within@article@\else% do not generate errors in article mode
+			\csm@ogs@error{#2}%
+		\fi%
+	\fi%
+	\global\let\csm@found@caption=\@false%
+}
+%% Fix \begin{center} so it creates the same space as \centering
+\gdef\csm@center{%
+	\vspace{-\baselineskip}%
+	\csm@internal@center%
+}
+
+%% Below we had convenience functions for figure creation (not necessary, but nice for LaTeX users)
+\RequirePackage{float} %% The float package includes the [H] option (absolutely place it here)
+\RequirePackage{graphics}
+\newcommand{\@csmlongfigure}[6]{%
+	\begin{figure}[#1]
+		\centering
+		\resizebox{#4}{!}{\includegraphics{#3}}
+		\abbrvcaption{#5\label{fig:#2}}{#6}
+	\end{figure}
+}
+\newcommand{\@csmfigure}[5]{%
+	\@csmlongfigure{#1}{#2}{#3}{#4}{#5}{}
+}
+\gdef\@csmlongfigure@pos[#1]{\@csmlongfigure{#1}}
+\gdef\@csmfigure@pos[#1]{\@csmfigure{#1}}
+\gdef\csmlongfigure{%
+	\@ifnextchar[%
+		{\@csmlongfigure@pos}%
+		{\@csmlongfigure{\fps@figure}}%
+}
+\gdef\csmfigure{%
+	\@ifnextchar[%
+		{\@csmfigure@pos}%
+		{\@csmfigure{\fps@figure}}%
+}
+
+%\fi
+% 
+% Captions may be placed flush with the left text margin or centered between the right and left text margins, but the location of all captions must be consistent throughout the text. If a figure or table fills the entire 6-inch by 9-inch text area on a page, leaving no room for the caption, then the caption for that illustration is centered alone on a separate preceding page.
+%^^A <<NEW:>> (undocumented)
+%^^A%
+%^^A% When using centered captions a multi-line caption should be "left-aligned within being centered".
+%^^A <</NEW>>
+% 
+% For multi-part figures that are spread over separate pages, the full caption should appear under the first part (a) and captions for the following parts would be labeled, i.e., ``Figure 4.3b: continued.'' Captions should be complete, not abbreviated.
+% 
+% \subsubsection{Fonts}
+% 
+%% \important{Figure and table captions must be in the same font (e.g., Times Roman) and size (e.g., 10-12 point) as that used for the text in the rest of the thesis. Single line spacing is required in captions.}
+% 
+%% As with figures, the font in a table matches the body text, and placement of numbers and captions must remain consistent. Notes and sources are typically placed at the bottom of the table or below the caption of a figure.
+% 
+%\iffalse
+%% <<NOTE:>> In order to implement this properly on ALL figures (rather than just \csmfigure and \csmlongfigure) we redefine the figure environment at a fundamental TeX level (much easier to use with other packages than using renewenvironment).
+\global\let\csm@internal@beginfigure=\figure
+\global\let\csm@internal@includegraphics=\includegraphics
+\gdef\csm@internal@beginfigure@{%
+	\singlespacing%
+	\global\let\csm@internal@endfigure=\endfigure%
+	\global\let\ref=\csm@internal@ref%{}
+	\let\endfigure=\csm@endfigure%
+}
+\gdef\csm@internal@beginfigureA[#1]{%
+	\begingroup%
+	\csm@check@herefloat{#1}%
+	%% Note: the expansions below are required for proper processing of macros in the parameter
+	\expandafter\csm@internal@beginfigure\expandafter[#1]%
+	\csm@internal@beginfigure@%
+}
+\gdef\csm@internal@beginfigureB{%
+	\begingroup%
+	\csm@check@herefloat@false%
+	\csm@internal@beginfigure%
+	\csm@internal@beginfigure@%
+}
+\AtBeginDocument{
+	\gdef\figure{%
+		\csm@start@require@label%
+		\csm@start@custom@caption%
+		\global\let\includegraphics=\csm@includegraphics%
+		%% Very carefully redefine the \figure command so that the single spacing occurs
+		%% inside of the figure (rather than messing up the spacing on the outside)
+		\@ifnextchar[%
+			{\csm@internal@beginfigureA}%
+			{\csm@internal@beginfigureB}%
+	}
+	\gdef\csm@endfigure{%
+		\csm@test@custom@caption{\@false}{Figure must have a caption below the figure \on@line}%
+		\csm@end@custom@caption%
+		\csm@end@require@label%
+		\csm@internal@endfigure%
+		\csm@check@herefloat@moved%
+		\global\let\includegraphics=\csm@internal@includegraphics%
+		\global\let\ref=\csm@ref%{}
+		\endgroup%
+	}
+	\gdef\csm@includegraphics{%
+		\csm@test@custom@caption{\@true}{Caption must be below figure \on@line}%
+		\csm@internal@includegraphics%
+	}
+}
+
+%\fi
+% 
+% \note{You may use lower case superscript letters, numbers, or symbols in a table to refer to the bottom notes and sources; however, using reference symbols (such as an asterisk [*]) or letters in a table of numbers is less likely to confuse a reader than using superscript numbers.}
+% 
+% \subsubsection{Numbering a figure or table}
+% 
+% Figures and tables are numbered consecutively throughout the text of the thesis. If numbered headings are used in the text, then a parallel numbering system is used for illustrations. For instance, the first figure in Chapter 2 would be Figure 2.1 and the following figure would be Figure 2.2, etc. Related figures may be identified either by using the same number with a lower case letter (Figure 4.3a, Figure 4.3b), or by different numbers (Figure 4.3, Figure 4.4).
+% 
+% Numbers for figures or tables that appear in appendices are preceded by the capital letter identifying the appendix, as in Figure A-3 or Table C-2.
+% 
+%\iffalse
+\global\let\csm@thesis@appendix@active\@empty %% <<NOTE:>> This is changed in csm-thesis-environments when an appendix is created
+%% <<NOTE:>> DO NOT PUT ANY RETURNS OR SPACES IN THE \csm@sectionlabel COMMAND
+\newlength{\csm@table@indent}
+\global\csm@table@indent=5.3em
+\global\let\csm@orig@numberline\numberline
+\global\let\csm@hit@numberline\@false
+\newcommand{\csm@sectionlabel}{\ifx\csm@thesis@appendix@active\@empty\relax\@arabic\c@section\else\@Alph\c@section\fi}
+\newcommand{\csm@define@label}[1]{
+	%% Define the command \the<label> after everything else in the beginning of the document (otherwise \thelstlisting will not work)
+	\CSM@AtBeginDocumentLast{%
+		\expandafter\gdef\csname the#1\endcsname{%
+			\ifx\csm@thesis@nolabel\@false%
+				\ifcsname #1name\endcsname\relax%
+					\csname #1name\endcsname\nobreakspace%
+				\fi%
+			\else%
+				% When we're inside the table of contents the figure/table name text needs to be displayed
+				\if@csm@within@contents@%
+					\ifcsname #1name\endcsname\relax%
+						\csname #1name\endcsname\nobreakspace%
+					\fi%
+				\fi%
+			\fi%
+			{\csm@sectionlabel}.\@arabic\csname c@#1\endcsname%
+		}
+		\expandafter\gdef\csname l@#1\endcsname{\@dottedtocline{1}{0.0em}{\the\csm@table@indent}}
+		\expandafter\def\csname fnum@#1\endcsname{%
+			\ifx\csm@thesis@nolabel\@false%
+				\csname the#1\endcsname%
+			\else%
+				\csname #1name\endcsname\nobreakspace\csname the#1\endcsname%
+			\fi%
+		}
+	}
+	%% hyperref doesn't like our \the<label> commands, fix it:
+	\AtBeginDocument{%
+		\expandafter\gdef\csname theH#1\endcsname{\csm@sectionlabel.\@arabic\csname c@#1\endcsname}%
+	}
+}
+\csm@define@label{figure}
+\csm@define@label{table}
+\csm@define@label{lstlisting}
+\csm@define@label{lstnumber}
+\csm@define@label{equation}
+
+%\fi
+% 
+% \subsubsection{Referring to a figure or table in the text}
+% 
+%% The first reference in the text to a figure or table must precede it. If the figure or table is incorporated in the text, then the reference is in the preceding paragraph or on the same page. If the figure or table is on a separate page, then the reference to it must be on the preceding text page. If two or more figures are referred to consecutively on one page, then they must follow on the page or the next pages consecutively.
+% 
+%% The text reference should identify a figure or table by number (e.g., write, ``See Figure 7.''), rather than by a relative location (e.g., do not write, ``In the following figure . . .'').
+% 
+%\iffalse
+%% <<NOTE:>> The reference location will automatically be handled by LaTeX.  The code below ensures that all of the figures and tables are actually referenced SOMEWHERE in the text (to detect ``in the following figure'' type behavior).
+\global\let\csm@found@label=\@false
+\newcounter{csm@label@j}
+\newcounter{csm@label@k}
+\newcounter{csm@label@count}
+\gdef\csm@require@label#1#2#3{%
+	\setcounter{csm@label@j}{-1}%
+	\csm@ForLoop{csm@label@k}{0}{\value{csm@label@k} < \value{csm@label@count}}{%
+		\gdef\csm@cmp@string@{#2}%
+		\expandafter\let\expandafter\csm@cmp@string@@\csname label@id@\the\c@csm@label@k\endcsname%
+		\ifx\csm@cmp@string@\csm@cmp@string@@\relax%
+			\setcounter{csm@label@j}{\value{csm@label@k}}%
+		\fi%
+	}%
+	\let\csm@new@label=\@false%
+	\ifnum\value{csm@label@j}=-1\relax%
+		\let\csm@new@label=\@true%
+		\expandafter\gdef\csname label@id@\the\c@csm@label@count\endcsname{%
+			#2%
+		}%
+		\setcounter{csm@label@j}{\value{csm@label@count}}%
+		\stepcounter{csm@label@count}%
+	\fi%
+	\ifx#3\@true\relax%
+		%% If third parameter is true we're clearing the value
+		\expandafter\gdef\csname label@error@\the\c@csm@label@j\endcsname{}%
+	\else%
+		%% If not, we're setting the error value (if the label has already been referenced then we're good already)
+		\ifx\csm@new@label\@true%
+			\expandafter\gdef\csname label@error@\the\c@csm@label@j\endcsname{%
+				\csm@ogs@error{Unreferenced label `#2' on input line #1}%
+			}%
+		\fi%
+	\fi%
+}
+%\fi
+%\makeatletter
+\newif\if@csm@require@label@
+%\iffalse
+\@csm@require@label@true
+\gdef\csm@label#1{%
+	\global\let\csm@found@label=\@true%
+	\expandafter\csm@require@label\expandafter{\the\inputlineno}{#1}{\@false}%
+	\csm@internal@label{#1}%
+}
+\gdef\csm@start@require@label{%
+	\global\let\csm@found@label=\@false%
+	\global\let\csm@internal@label=\label%
+	\global\let\label=\csm@label%
+}
+\gdef\csm@end@require@label{%
+	\ifx\csm@found@label\@false\relax%
+		\if@csm@require@label@%
+			\csm@ogs@error{No label given to float \on@line}%
+		\fi%
+	\fi%
+	\global\let\label=\csm@internal@label%
+}
+\CSM@AtEndPreamble{
+	\AtBeginDocument{
+		\global\let\csm@internal@ref=\ref%{}
+		\global\let\ref=\csm@ref%{}
+	}
+}
+\gdef\csm@ref@#1#2{%
+	\expandafter\csm@require@label\expandafter{\the\inputlineno}{#2}{\@true}%
+	\csm@internal@ref#1{#2}%
+}
+\gdef\csm@ref{%
+	\@ifstar{\csm@ref@{*}}{\csm@ref@{}}%
+}
+\AtEndDocument{
+	\csm@ForLoop{csm@label@k}{0}{\value{csm@label@k} < \value{csm@label@count}}{%
+		\csname label@error@\the\c@csm@label@k\endcsname%
+	}
+}
+
+%% Handle table captions
+\global\let\csm@internal@begintable=\table
+\global\let\csm@internal@begintabular=\tabular
+\gdef\csm@internal@begintable@{%
+	\singlespacing%
+	\global\let\ref=\csm@internal@ref%{}
+	\global\let\csm@internal@endtable=\endtable%
+	\let\endtable=\csm@endtable%
+}
+\gdef\csm@internal@begintableA[#1]{%
+	\begingroup%
+	\csm@check@herefloat{#1}%
+	\csm@internal@begintable[#1]%
+	\csm@internal@begintable@%
+}
+\gdef\csm@internal@begintableB{%
+	\begingroup%
+	\csm@check@herefloat@false%
+	\csm@internal@begintable%
+	\csm@internal@begintable@%
+}
+\AtBeginDocument{
+	\gdef\table{%
+		\csm@start@require@label%
+		\csm@start@custom@caption%
+		\@ifnextchar[%
+			{\csm@internal@begintableA}%
+			{\csm@internal@begintableB}%
+	}
+	\gdef\csm@endtable{%
+		\csm@test@custom@caption{\@true}{Caption must be above table [2] \on@line}%
+		\csm@end@custom@caption%
+		\csm@end@require@label%
+		\csm@internal@endtable%
+		\csm@check@herefloat@moved%
+		\global\let\ref=\csm@ref%{}
+		\endgroup%
+	}
+	\gdef\tabular{%
+		\csm@test@custom@caption{\@false}{Caption must be above table [1] \on@line}%
+		\csm@internal@begintabular%
+	}
+	\expandafter\global\expandafter\let\expandafter\csm@internal@begintabularstar\csname tabular*\endcsname
+	\@namedef{tabular*}{%
+		\csm@test@custom@caption{\@false}{Caption must be above table [1] \on@line}%
+		\csm@internal@begintabularstar%
+	}
+	% Add compatibility for using the ``tabulary'' package to replace tabular*
+	\@ifpackageloaded{tabulary}{
+		\@namedef{tabular*}{\tabulary}
+		\@namedef{endtabular*}{\endtabulary}
+	}{}
+}
+%% <<NOTE:>> Figures are handled below (along with other operations)
+
+%\fi
+%\makeatother
+% 
+% \subsection{Including Photographs}
+% 
+% \important{Illustrative photographs included in the text of a thesis, should be scanned to a digital format and as either black and white or color. Color photographs should be printed in color. Do not glue actual photos onto a page. A photograph used as a figure is given a number and caption.}
+% 
+% \subsection{Including Maps and Plates}
+% 
+% \important{You are encouraged to include larger maps and plates on CD or DVD. (For labeling requirements, see \hyperref[sec:thesis-pocket-contents]{Thesis Pocket Contents}, page~\pageref{sec:thesis-pocket-contents}.)}
+% 
+% If instead, you include actual maps or plates in the thesis (often printed on paper that is different from that used for the text), then they must be folded to 7 by 10 inches to fit the thesis pocket. Examples of more complicated folding of large graphics may be found in bound theses that are stored in the Arthur Lakes Library. Each plate must have a title, plate number, and author's name placed on the outside fold. Plates are a type of figure listed separately in the front matter, as are equations and tables.
+% 
+% \subsection{Including Equations}
+% 
+% Equations appear either as part of running text in a paragraph, or are set apart from the text (displayed), depending on their length. In either case, punctuation must be used appropriately. Equations must be typeset; handwritten characters are not acceptable.
+% 
+% \subsubsection{Placing equations}
+% 
+% Equations may occur in running text, but all numbered equations must be displayed, that is, placed on separate lines and either centered or indented a consistent distance from the left text margin.
+% 
+% \subsubsection{Numbering equations}
+% 
+%% All equations \emph{referred to} in the text must be numbered, although not all displayed equations must be numbered. As in numbering figures and tables, a double numbering system is used for equations; for example, Equation 2.1, where 2 is the chapter, and 1 is the first numbered equation in that chapter,
+%\iffalse
+\renewcommand{\theequation}{\@arabic\c@section.\@arabic\c@equation}
+
+%\fi
+% \begin{equation}
+% \renewcommand{\theequation}{2.1}
+% 	\Gamma - \delta \times a = 0\textrm{.}
+% \end{equation}
+% 
+% The equation number is placed flush with the right text margin and enclosed in parentheses. Equations in running text are not numbered.
+% 
+% \subsubsection{Breaking equations}
+% 
+% An equation too long for one line is broken before an operational sign. Unless the equation is centered, the second line can be flush right, aligned on an operational sign, or indented far enough from the right to make room for the equation number. Equations longer than two lines are aligned on operational or descriptive signs.
+% 
+% If a repeated part of the formula is replaced with an ellipsis (three spaced periods [. . .]), all appropriate punctuation and operational signs (for example, a final comma or sign in a series) are still included. Thus, the writer uses the following format:
+% \begin{eqnarray*}
+% 	& & P1, P2, \cdots , Pn \\
+% 	& & P1 + P2 + \cdots + Pn \\
+% 	& & P = 1, 2, \cdots
+% \end{eqnarray*}
+% \textbf{not}
+% \begin{eqnarray*}
+% 	& & P1, P2, \cdots Pn \\
+% 	& & P1 + P2 + \cdots Pn \\
+% 	& & P = 1, 2 \cdots
+% \end{eqnarray*}
+% 
+% \subsection{Referencing Sources in Text}
+% \label{sec:referencing-sources}
+% 
+% There are various methods to reference sources in running text. Two popular methods are described below: 1) the numerical system, and 2) the author-date system (also known as the USGS system).
+% 
+% \note{Your thesis advisor must approve your choice of documentation system.}
+% 
+% \subsubsection{Numerical system}
+% 
+% In the numerical reference system, an information source is cited by placing a number in parentheses on the text line at the appropriate place in the text. The number corresponds to the entry with the same number in the back matter REFERENCES CITED list. In this system, references are ordered numerically throughout the thesis, from its beginning to end. If more than one reference is cited at the same point in the text, the reference numbers in parentheses are arranged in ascending order. These reference numbers may also be placed as superscripts. Here are two examples:
+% \begin{itemize}
+% 	\item {\ldots} likely to occur in natural hydrothermal systems~(1).
+% 	\item {\ldots} is the subject of numerous solubility studies$^{(1, 5, 7)}$.
+% \end{itemize}
+% 
+% \subsubsection{Author-date system}
+% 
+% In the author-date system, the simplest source reference gives the author's last name and the source publication year enclosed in parentheses at the appropriate place in the thesis text. There may be slight differences in punctuation, so the author must choose a pattern from a good handbook, such as the latest edition of the \emph{Chicago Manual of Style}, and apply the pattern consistently throughout the thesis.
+% 
+% Source references are placed just before a mark of punctuation or at a logical place in the sentence being documented. If some or all of the source citation is incorporated into the text, the parentheses are not necessary.
+% 
+% \begin{quote}
+% 	Smith and Jones (1991) reported\ldots\newline
+% 	or\newline
+% 	In Smith and Jones 1990a, the case\ldots
+% \end{quote}
+% 
+% \begin{table}
+% 	\centering
+% 	\caption{\label{tab:author-date}Author-Date Reference Examples}
+% 	\begin{tabularx}{\linewidth}{|X|X|}
+% 		\hline
+% 		(Smith 1991) & (Smith et al. 1992) \\
+% 		\hline
+% 		(Jones 1990, 74) & (Exxon 1996) \\
+% 		\hline
+% 		(Brown 1989, vol. 25) & (Smith 1991; Jones 1990; Brown 1989) \\
+% 		\hline
+% 		(Jones 2003, table 12) & (Jones 1990a) \\
+% 		\hline
+% 		(Jones 1990, eq. [87]) & (Jones 1990b) \\
+% 		\hline
+% 		(Smith and Jones 1990) & (personal communication,\newline 1 August 2001) \\
+% 		\hline
+% 		(Smith, Jones, and Brown 1989) & (B. Smith, letter to author, 1 May 1991) \\
+% 		\hline
+% 	\end{tabularx}
+% \end{table}
+% Source information may include page, volume, illustration (table or equation, for example), multiple or group authors, more than one reference from different authors or the same author, or an unpublished source not listed in the REFERENCES CITED. See \ref{tab:author-date} for examples.
+% 
+%\newif\ifNAT %^^A Needed to keep the \ifNAT@numbers ... \fi within the block below from screwing up the documentation
+%\iffalse
+%% natbib requires some special configuration
+\global\let\csm@disallow@bibtopic=\@false%
+\CSM@AtEndPreamble{
+	%% Create a special bibliography style so the last defined style is the one used
+	\global\let\csm@orig@bibliographystyle=\bibliographystyle
+	\gdef\csm@bibliographystyle@set#1{%
+		\gdef\csm@bibliographystyle{#1}%
+	}
+	%% Warn about changing the bibliography style
+	\gdef\bibliographystyle{%
+		\csm@thesis@warning@with@line{The bibliography style is already defined by the template}%
+		\csm@bibliographystyle@set%
+	}
+	\AtEndDocument{
+		\expandafter\csm@orig@bibliographystyle{\csm@bibliographystyle}
+	}
+	\@ifpackageloaded{natbib}{
+		%% Activate the "sort and compress" natbib option and choose the correct reference style
+		\def\NAT@sort{\@ne}\def\NAT@cmprs{\@ne}
+		\ifNAT@numbers
+			\csm@bibliographystyle@set{unsrtnat}
+			\global\let\csm@disallow@bibtopic=\@true
+		\else
+			\csm@bibliographystyle@set{authordate1}
+		\fi
+		%% Fix a bug in author-date references where titles appear like so:
+		%% (Reference et al. , 2009)
+		\gdef\repair@authordate@space{}
+		\gdef\repair@authordate@start#1{%
+			\global\let\repair@authordate@savespace=\ %
+			\global\let\ =\repair@authordate@space#1%
+		}
+		\gdef\repair@authordate@done{%
+			\global\let\ =\repair@authordate@savespace%
+		}
+		\def\citename#1#2(@)(@)\@nil#3{\expandafter\repair@authordate@start\expandafter\NAT@apalk#1#2, \@nil{#3}\repair@authordate@done}
+	}{
+		\csm@bibliographystyle@set{unsrt}% assume traditional unsorted style
+	}
+}
+
+% \fi
+% 
+% \subsection{Using Footnotes}
+% 
+% Footnotes are used only to include extra, peripheral information that amplifies the text and might interest the reader, but that is not essential to the text. Footnotes may define acronyms or other terms, give copyright or trademark information, or provide supplementary information, \emph{but they are not used} to document sources of text information.
+% 
+% Footnotes are indicated by a superscript number at the appropriate place in the text, \emph{outside any punctuation}. Note that this differs from source reference numbers, which are placed inside punctuation. Footnotes are numbered consecutively throughout the thesis, and most word processing programs will automatically number and format footnotes on the page.
+% 
+%\iffalse
+%% Force footnotes to always appear at the very bottom of the page
+\RequirePackage[hang,flushmargin,bottom]{footmisc}
+
+%\fi
+% \subsection{Using Copyrighted Material}
+% \label{sec:using-copyrighted-material}
+% 
+% If you use copyrighted material in a limited way, permission to quote is not necessary. However, if you use extensive material from a copyrighted work, you must obtain the owner's permission in writing. The publisher usually has the authority to grant permission to quote excerpts from the copyrighted work or can refer requests to the copyright owner or designated representative. The copyright owner may charge a fee for permission to quote. Permissions should be credited in the Acknowledgments, and the source should appear in the References Cited. Include the written release to use copyrighted material in an appendix to the thesis.
+% 
+% In many fields, it is common for candidates to publish their research results prior to completion of the degree and to include material from these prior publications, in whole or in part, in the thesis. To the extent that this practice encourages student participation in the wider research enterprise and a wider dissemination of student research results, we encourage departments to adopt this model.
+% 
+% \textit{\textbf{Permission to include previously published material.}} The shelving of a thesis or dissertation in the Library and access to dissertations through UMI (ProQuest) Dissertation Publishing is a form of publication. Most journal and book publishers require authors to sign over copyright to articles or book chapters to the publisher. Publishers' copyright policies may, or may not, allow re-publication of these articles as part of a candidate's thesis or dissertation. Additionally, re-publication of journal articles as part of a thesis or dissertation is not explicitly covered under section 107 of the copyright act; the socalled ``fair use'' section.
+% 
+% \important{Thus, in the case where copyright of articles or book chapters included in a thesis or dissertation has been turned over to an external publisher, \emph{it is the responsibility of the candidate to obtain permission from the publisher to include these materials in a thesis or dissertation}. Copies of this permission should be included as an appendix to the thesis or dissertation.}
+% 
+% To obtain permission, candidates should initially look at the publisher's website. Some publishers (e.g., The American Chemical Society and Elsevier) provide a document or policy statement on their website that explicitly allows materials produced by the candidate to be included in their thesis or dissertation without obtaining explicit permission. Others (e.g., IEEE, SEG and ASME) provide links and directions as to how to obtain the necessary permission from the publisher.
+% 
+% In these latter cases, please be aware, that despite a candidate's best efforts, publishers are not obligated to respond to requests for permission to re-publish. If a candidate has attempted to contact a publisher but has received no response, existing Copyright Law requires that this non-response be interpreted as a denial of permission to re-publish.
+% 
+% \textit{\textbf{Permission to include multi-authored papers.}} In addition to the above permissions, in some disciplines, it is normal to consider the inclusion of materials that are multi-authored in a thesis or dissertation. This is particularly true when collaboration and co-operation are required for researchers to undertake basic research efforts at the frontiers of their disciplines, either because of the nature of the work or the nature of the facilities involved. For materials included in a thesis or dissertation, however, it is presumed that the candidate is the primary owner of the intellectual activities described.
+% 
+% If co-authored material is to be included in a candidate's thesis or dissertation, the Thesis Committee and the Department Head/Division Director of the candidate's home department/division must approve of the appropriateness of the inclusion of this material in the thesis or dissertation. Additionally, if the material was co-authored by authors other than the candidate's advisor or thesis committee members, the candidate must obtain permission from each co-author to reproduce the material as part of the thesis or dissertation. Copies of this permission should be included as an appendix to the thesis or dissertation.
+% 
+% It is the practice of the CSM library to provide copies of theses/dissertations to library patrons upon request for a reproduction fee. As such, the Library asks students to provide them permission to disseminate theses/dissertations through this means.
+% 
+% \note{It is unlikely the standard permission to include copyrighted material in a thesis or dissertation that you receive from a professional society will also include permission for the Library to reproduce and distribute your thesis/dissertation. Unless specific approval is received from the external copyright holder, for library reproduction and dissemination, the Library can not provide copies of your thesis/dissertation to its patrons when it includes significant sections of externally copyrighted material.}
+% 
+% \section{About the Back Matter}
+% 
+% Back matter is the documenting and reference material that follows the main body of a thesis, and other information that supplements the main thesis text.
+% 
+% \subsection{Page Sequence}
+% 
+% The back matter of the thesis may include the following:
+% \begin{itemize}
+% 	\item Glossary\dotfill (optional)
+% 	\item List of abbreviations\dotfill (optional)
+% 	\item References cited\dotfill (required)
+% 	\item Selected bibliography\dotfill (optional)
+% 	\item Appendix or appendices\dotfill (optional)
+% \end{itemize}
+% 
+% A glossary of terms and a list of \index{abbreviations} are optional in a thesis and may be placed either right before the list of references cited or immediately following the last list of illustrations in the front matter.
+% 
+% It is probable that a thesis would not need a Selected Bibliography section (sometimes called additional readings) because all sources of information for the discussion are included in the References Cited. A thesis is not required to have appendices; however, if you want to include supplementary information that is too long to place in a footnote, then appendices are appropriate.
+% 
+% \subsection{Titles and Headings}
+% 
+% The title for each part of the back matter is typed in all capital letters (for example, REFERENCES CITED or APPENDIX).
+% 
+% For references and bibliographies, the title is centered between the left and right text margins, one keyboard return below the one-inch top page margin. Appropriate space is left between the title and the line of text below. For appendices, the heading APPENDIX may either be placed at the top of the page as for the reference headings, or it may be centered on a separate page preceding the appendix. If there is more than one appendix, they are identified with capital letters APPENDIX A, APPENDIX B, etc.
+% 
+% \subsection{References Cited}
+% 
+% The References Cited list is the only back matter that is required in each thesis. The list includes only sources that are cited in the thesis front matter, main body, or back matter (appendices). Other related material on the thesis topic that may be of interest to the reader may be listed in a Selected Bibliography.
+% 
+% \subsubsection{Order of references}
+% 
+% The order of the items listed in the References Cited depends upon the citation system you choose to use in the thesis text. See the previous section (Referencing Sources in Text) for descriptions of the numerical and author-date reference systems.
+% 
+% In the numerical reference system, sources are ordered numerically as they appear from thesis beginning to end, and the sequence of the items in the references cited list in the thesis corresponds to those numbers in the text. In the author-date system, the list of sources is alphabetized by author's last name.
+% 
+% \subsubsection{Format of references}
+% 
+% The format for reference entries may be chosen by the writer, but must have the approval of the writer's department and thesis committee. You must keep the format consistent throughout the list.
+% 
+% The two common list entry styles{--}a traditional and a modern{--}differ mostly in the use of capitalization, punctuation marks, and abbreviations. The OGS recommends the simpler modern format, which the most recent edition of the \emph{Chicago Manual of Style} identifies as appropriate for a scientific bibliography.
+% 
+% \emph{The Chicago Manual of Style} has useful examples of entries for books, articles, public documents, anonymous or unpublished works, book series, and several works by the same author. Other examples of reference formats are found in the \emph{American Chemical Society Style Guide} (especially for patents, reports, abstracts, oral presentations, and unpublished material) and in the style guides of journals in the thesis writer's field.
+% 
+% \subsection{Selected Bibliography}
+% 
+% The Selected Bibliography may also be called additional readings. It lists sources of information that are related to the thesis topic and that might interest a reader who wants to pursue the topic. Selected bibliographies are optional and not typically included in a scientific thesis. The format and content of entries must be the same in both the References Cited and for the Selected Bibliography lists.
+% 
+% \subsection{Appendices}\index{appendices!contents}
+% 
+% Appendix material is information that is not essential to the text but that contributes to it. Appendices are used to include information such as the following:
+% \begin{itemize}
+% 	\item Original data
+% 	\item Long quotations
+% 	\item Supporting legal decisions or laws
+% 	\item Computer codes and programs
+% 	\item Lithologic and petrographic descriptions
+% 	\item Questionnaires
+% 	\item Forms and documents
+% 	\item Permissions to use copyrighted material
+% 	\item Long tables
+% \end{itemize}
+% 
+%\iffalse
+%% <<NOTE:>> No directions are given for inserting code in an Appendix, assuming that single spacing is desired.
+\AtBeginDocument{
+	\@ifpackageloaded{listings}{
+		\def\lst@basicstyle{\small \singlespacing}
+		\lstKV@SetIf{t}{\lst@ifbreaklines}
+	}{}
+}
+
+%\fi
+% 
+% \index{appendices!on CDs or DVDs}
+% You may include long appendices on CDs or DVDs, instead of including them in the printed thesis copies. These disks, in jewel cases, will be inserted in the thesis pocket during the binding process. In either instance, appendices are listed in the table of contents.
+% 
+% \subsubsection{Numbering in appendices}\index{appendices!numbering in}
+% 
+% Figure, table and equation numbers in appendices are preceded with the appropriate appendix letter, e.g., the first equation appearing in Appendix A, would be numbered (A-1).
+% 
+% \subsection{Thesis Pocket Contents}
+% \label{sec:thesis-pocket-contents}
+% 
+% If a thesis includes plates, maps, CDs/DVDs, or other material that is not bound into the text, heavy-paper box pockets constructed to hold the material are attached to the inside of the back cover when the thesis is bound.
+% 
+% \subsubsection{Special types of pages}
+% 
+% Plates and maps larger than the thesis page margins are folded to 7 by 10 inches to fit into the thesis cover pocket.
+% 
+% \subsubsection{Labeling pocket contents}
+% 
+% Each plate or map must have a title, plate number and the author's name on the outside fold. Computer disks are labeled as described below.
+% 
+% \subsubsection{Electronic material}
+% 
+% Original computer programs or data files that are part of a thesis may be included on a CD or DVD. Operating system formats may be Windows, Mac, or UNIX, but the operating system must be cited on the label. See page~\pageref{sec:computer-disks} of this guide for labeling instructions and \ref{apx:examples} for a label example.
+% 
+% \section{Printing Your Thesis}
+% \label{sec:printing-thesis}
+% 
+% After your thesis has been approved by the OGS, you are responsible for the printing of the required copies of the thesis that are submitted to the Arthur Lakes Library for binding and preservation.
+% 
+% \subsection{Volume thickness}
+% 
+% \important{Because of binding limitations, the thickness of the thesis must not total more than two inches. This limit includes thesis pages and foldout pages, maps, plates, and computer disks together (see \hyperref[sec:multi-volume-thesis]{Multi-volume thesis}, page~\pageref{sec:multi-volume-thesis}).}
+% 
+% \subsection{Number of copies}
+% 
+% You will deliver six copies of your thesis (seven copies, if there is a co-advisor) to Arthur Lakes Library Preservation Unit.
+% 
+% \begin{table}
+% 	\caption{\label{tab:copies}Distribution of Thesis Copies}
+% 	\begin{tabularx}{\linewidth}{|l|X|X|}
+% 		 \hline
+% 		  & \textbf{Owner/Use} & \textbf{Format} \\
+% 		 \hline
+% 		 Copy 1 & Library/Vault & Bound \\
+% 		 \hline
+% 		 Copy 2 & Library/Circulation & Bound \\
+% 		 \hline
+% 		 Copy 3 & Department & Bound or CD \\
+% 		 \hline
+% 		 Copy 4 & Student & Bound or CD \\
+% 		 \hline
+% 		 Copy 5 & Advisor & Bound or CD \\
+% 		 \hline
+% 		 Copy 6 & Library/Microfiche & Unbound \\
+% 		 \hline
+% 		 Copy 7 & Co-advisor & Bound or CD \\
+% 		 \hline
+% 	\end{tabularx}
+% \end{table}
+% \note{If you need seven bound copies, there is an additional fee paid, in addition to the graduation fee. Along with the hard copies of the thesis, you are advised to submit a back up of the entire thesis on a properly labeled CD/DVD. The copies are distributed as shown in \ref{tab:copies}.}
+% 
+% \subsection{Print quality}
+% 
+% The printing of all final thesis copies must be ``letter quality.'' Make certain that the type and graphics reproduce clearly, sharply, and with uniform blackness. Laser printing and superior quality inkjet printing are both acceptable methods.
+% 
+% \subsection{Printing one sided and two sided}
+% 
+% \important{You are encouraged to submit two-sided copies of the thesis. However, remember that although pages in the body and back matter of the thesis may be printed two sided, each page of the front matter and every new chapter must begin on a ``new,'' i.e., right-hand page.}
+% 
+% \subsection{Required paper}
+% 
+% \important{Required copies of the thesis or dissertation must be printed on acidfree bond paper. Acid-free paper is widely used in books and other important documents intended to last for at least 100 years. Paper that is not acid free quickly yellows and deteriorates and is therefore not acceptable for the Library's preservation purposes.}
+% 
+% In addition to acid-free paper, copies that are printed two-sided must be of 24-weight bond paper. For those printed single sided, 20-weight bond paper is acceptable.
+% 
+% Kinko's and CSM Copy Center (Guggenheim Hall) or other facilities can reproduce your thesis onto acid-free paper. Acid-free paper is also available from the CSM Bookstore for those students who wish to print using their own printer.
+% 
+% CSM Copy Center can also copy your thesis onto ``CSM watermark paper,'' a type of acid-free paper with the CSM logo embedded. Use of CSM watermark paper is not required, though many students prefer it.
+% 
+% \subsection{Proofing copies}
+% 
+% You are responsible for checking each printed copy of the thesis to ensure that there are no missing pages and that all pages are in order. Crossing out of letters or words, strikeovers, liquid-paper corrections, or erasures are not acceptable on final copies.
+% 
+% \subsection{Copying your thesis onto CD/DVD}
+% 
+% With permission of your advisor and department, you may submit three (or four) of your required thesis copies on separate CD/DVDs: one each for the department, the advisor(s), and the student. The other three copies printed on paper are submitted to the Library.
+% 
+% \note{Although you submit copies of your thesis on CD/DVD, there is no downward adjustment of the graduation fee.}
+% 
+% When the copies are delivered to the library for preservation, they must have all graphics and special materials (plates, figures, foldouts, maps, computer disks, etc.) folded, labeled, and placed in the same order as they are listed in the table of contents, just as is required when you submit your thesis to OGS for the final format approval.
+% 
+% \subsection{Photographs}
+% 
+% Actual photographs are not acceptable in the thesis. You must scan photographs to digital format or make copies of pages with original photographs. Color photographs must be color printed.
+% 
+% \subsection{Computer disks}
+% \label{sec:computer-disks}
+% 
+% To reduce the size of the thesis, you are encouraged to put long appendices, plates, maps, and other oversized pages on CD/DVD, rather than as physical additions to the thesis. Additionally, original program or data files may be submitted on ``readonly'' CD/DVD.
+% 
+% \important{The CD/DVD's must be submitted in a plastic jewel case at the same time the paper text of the thesis is submitted. The CD/DVD must have computer-printed (not handwritten) labels that contain the title of the thesis, the author's name, ``Colorado School of Mines,'' names and versions of all software used to create the files, and the contents of the disk. See the disk label example in \ref{apx:examples}.}
+% 
+% \paragraph{CD/DVD Virus-Scan Certification.}
+% 
+% Required beginning Fall 2008, all CD/DVDs submitted with final thesis copies to the Arthur Lakes Library must first be scanned for viruses and other malicious software by IT personnel in the Academic and Computing and Networking department (AC\&N). Disks proven to contain no problems will receive a signature of certification. Do not submit your CD/DVD for scanning until after your thesis receives final format approval by OGS.
+% 
+% \subsection{Plates}
+% 
+% Plates larger than the margins are folded to 7 by 10 inches and submitted with the thesis. All plates must be labeled on the outside fold with the plate title, plate number, author's name, and thesis title.
+% 
+% Oversized foldout pages With OGS approval, you may include foldout pages. The pages must be folded so that 1{\textonehalf} inches remain at the left (binding) side. The right-hand fold should be {\textonequarter} inch from the right edge of the text page and should be an engineer fold. OGS staff is able to advise you in this matter and examples are available in theses stored in Arthur Lakes Library.
+% 
+% \section{Submitting Your Thesis to Arthur Lakes Library}
+% \label{sec:submitting-your-thesis}
+% 
+% In order that the Library might protect and preserve Colorado School of Mines graduate theses and dissertations, each graduate student in a thesis program must submit required copies of their thesis to the Library Preservation Unit prior to the thesis deadline set by the OGS.
+% 
+% \subsection{Where to submit}
+% 
+% Submit your thesis or dissertation to Margaret Katz, Collections Conservator, Preservation Unit, Room 170. The Preservation Unit is open Monday through Friday, 8:00 a.m. to 11:30 a.m. and 12 noon to 4:00 p.m.
+% 
+% \emph{Directions to the Preservation Unit:} When you enter the library lobby, turn right toward the Reference Room. Turn left just before the Reference Room and go down the long east-west hallway until you reach the elevator. Take the elevator down to Level 1. Turn left as you exit the elevator. The Preservation Unit is immediately to the left of the elevator behind double doors.
+% 
+% \subsection{What to submit}
+% 
+% Arthur Lakes Library will accept from graduating students ONLY the six copies (or seven copies, if there is an officially designated co-advisor) that are required by the OGS. Binding of additional copies is the responsibility of the student or the department.
+% 
+% \subsection{Library thesis binding policy}
+% 
+% Certain library materials, such as graduate theses and journals, are bound according to special guidelines for academic libraries in order to ensure that the resulting book has longevity of at least 100 years. These materials are sent to a binding company that specializes in creating books to meet this archival standard. An average turnaround time is four months.
+% 
+% The binding will be done to the Library's specifications; custom binding is not possible.
+% 
+% Students or departments wishing to customize the binding of their thesis (i.e., style, color, cover and spine stamping) or desiring faster turnaround, should deal directly with a commercial binding vendor. If you wish to pursue custom binding, you must notify the Library in advance, and then submit to the Library only the three copies that ultimately reside there.
+% 
+% Following are suggested local binderies:
+% \begin{itemize}
+% 	\item Denver Bookbinding (hardcover archival binding).\newline Website: \url{http://www.denverbook.com/}.
+% 	\item Kinko's Copies (soft cover bindings) at various metro-area locations
+% 	\item CSM Copy Center (soft cover bindings), {\first} Floor, Guggenheim Hall.
+% \end{itemize}
+% 
+% \subsection{Submission checklist}
+% 
+% Before submitting your thesis or dissertation to the Library Preservation Unit, please take the following steps:
+% \begin{itemize}
+% 	\item Proofread your title page
+% 	\item Obtain submittal sheet signatures and dates from your advisor(s) and department head.
+% 	\item Receive final format approval from the OGS.
+% 	\item Make the required six copies on acidfree paper. Only those students who have an officially-designated co-advisor may submit seven copies for binding.
+% 	\item Check all thesis copies, making certain all pages are included and in proper order.
+% 	\item Obtain the required virus scan certification from\newline AC\&N for all CD/DVDs included with the thesis.\newline (See \hyperref[sec:computer-disks]{Computer disks}, p. \pageref{sec:computer-disks}.).
+% 	\item Include accompanying material (maps, CDs, etc.), if applicable.
+% 	\item Fold any maps and inserts.
+% 	\item Pay all applicable graduation fees to the CSM cashier.
+% 	\item Take the Graduate School's blue checkout card with you.
+% \end{itemize}
+% 
+% \subsection{Distributing the bound thesis}
+% 
+% After the thesis has been bound and delivered to the Library, the copies for the department, advisor(s), and student are forwarded to the department. Contact your department office for information about its distribution policies
+% 
+% \onecolumn
+% \appendix
+% 
+% \section{Check Lists}
+% \label{apx:checklists}
+% 
+% \subsection{Thesis Writing and Defense Process}
+% 
+% \begingroup
+% \def\labelitemi{\huge \Square}
+% \begin{itemize}
+% 	\item Select thesis topic: Master's students, 2nd semester of classes; Ph.D. students, at least one year before you plan to receive your degree
+% 	\item Select thesis advisor and committee\newline
+% 	\textbf{Submit Form to OGS:} Thesis Committee Form
+% 	\item Write and present thesis research proposal\newline
+% 	\textbf{Submit Form to OGS:} Admission to Candidacy
+% 	\item Submit thesis drafts to advisor and committee; revise and resubmit as necessary
+% 	\item Schedule thesis defense\newline
+% 	\textbf{Submit Form to Academic Department:} Thesis Defense Request (at least one week before defense date)
+% 	\item Defend thesis (at least five weeks prior to graduation)
+% 	\item Submit requested post-defense revisions to advisor and committee for review
+% 	\item Obtain required signatures (in black ink) on submittal sheet, page ii of the thesis
+% 	\item Submit clean, final draft copy, including plates, maps, CDs, etc., as well as signed signature sheet, to OGS for final format review
+% 	\item Pay graduation and all other outstanding fees to the CSM cashier
+% 	\item Submit required copies of thesis to Library Preservation Unit\newline
+% 	\textbf{Submit Form to OGS:} Check-out Card and Work Completion Form (at least four weeks before graduation). Take Check out Card to Library Preservation Unit when delivering copies for binding
+% \end{itemize}
+% \endgroup
+% 
+% \newpage
+% \subsection{Required Forms}
+% 
+% Forms and specific deadline dates for the current semester may be found online at \url{http://gradschool.mines.edu/GS-Forms}. Thesis and graduation deadlines are also in the current Graduate Student Handbook. Individual academic departments may also have specific deadlines.
+% 
+% \vspace{\baselineskip}
+% \begin{tabularx}{0.96\linewidth}{l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+% 	 & \textbf{Title} & \textbf{When to Submit} & \textbf{Where to Submit} \\
+% 	 \huge \Square & Thesis Committee Form & Upon selection of committee and advisor & Office of Graduate Studies \\
+% 	 \huge \Square & Admission to Candidacy Form &  Upon successful presentation of thesis research proposal &  Office of Graduate Studies \\
+% 	 \huge \Square &  Graduation Application &  Within 5 weeks of the beginning of the semester in which you expect to graduate &  Office of Graduate Studies \\
+% 	 \huge \Square & Thesis Defense Request Form & At least one week before defense date; and at least six weeks before graduation & Academic Department \\
+% 	 \huge \Square & Submittal Sheet & Signed and included as page ii in the thesis, following the successful defense and prior to the final format approval by OGS & Office of Graduate Studies \\
+% 	 \huge \Square & Statement of Work\newline Completion Form &  Prior to delivery of required thesis copies for binding and preservation & Office of Graduate Studies \\
+% 	 \huge \Square & Checkout Card & Obtained from OGS prior to delivery of required thesis copies for binding and preservation & Signed by Arthur Lakes Library Preservation Unit and returned to OGS \\
+% 	 \huge \Square & Proprietary Research Agreement\newline\emph{(if applicable)} & Submitted with delivery of thesis copies for binding and preservation & Signed by Dean of Graduate Studies and then submitted to Arthur Lakes Preservation Unit \\
+% 	 \huge \Square &  Copyright Application Form\newline\emph{(if applicable)} &  Submitted at any time & Library of Congress Copyright Office
+% \end{tabularx}
+% 
+% \newpage
+% \subsection{Required Formatting}
+% 
+% \begingroup
+% \def\labelitemi{\huge \Square}
+% \noindent\textbf{Is the required front matter properly formatted, placed in proper sequence, numbered with roman numerals, and printed single sided?}
+% \begin{itemize}
+% 	\item Title page
+% 	\item Copyright page (if applicable)
+% 	\item Submittal sheet (numbered as page ii)
+% 	\item Abstract\index{abstract} (numbered as page iii; does not exceed 350 words for Ph.D. dissertation)
+% 	\item Table of contents
+% 	\item List of Figures, Tables and Plates, etc. (if applicable)
+% \end{itemize}
+% 
+% \noindent\textbf{Are these formatting elements included and consistent throughout the thesis?}
+% \begin{itemize}
+% 	\item Margins: top and bottom text margin {---} 1 inch wide; inside text margin {---} 1{\textonehalf} inch wide; outside text margin {---} not less than 1 inch wide.
+% 	\item Alternating margin widths: If printed two sided, the inside and outside margin widths alternate with even- and odd-numbered pages.
+% 	\item Roman-numeral front matter page numbers: centered, {\textonehalf} inch from bottom edge of paper.
+% 	\item Arabic-numeral main body and back matter page numbers: begins as page 1 on first page of Introduction or Chapter 1.
+% 	\item First page of each chapter, if printing two-sided: begins on an odd-numbered (right-hand) page.
+% 	\item Line spacing: 1{\textonehalf} or 2 line spacing for body text; single line spacing for captions and multiple-line references
+% 	\item Text \addtoindex{alignment} is consistent: left-margin justification with ragged right edges; or left and right margin justification with NO extra white space between words.
+% 	\item Indentation: first line of each paragraph is indented
+% 	\item Fonts: use standard fonts only, i.e., Times, Times Roman, Arial, or Helvetica, 10-12 point type; no handwritten symbols in text or equations
+% 	\item Capitalization: proper capitalization for chapter or section titles and subheadings
+% 	\item Headings and subheadings: at least one paragraph of text between headings and subheadings; at least two lines of text after a heading or subheading before the end of the page.
+% 	\item Numbering: proper numbering for sections, subsections, figures, tables, equations, and footnotes; if numbering system not used for sections and subheadings, are they indented appropriately?
+% 	\item References: only references cited in the text are included in References Cited; and all references listed in References Cited are included in the text
+% 	\item Reference formatting: references are formatted consistently
+% 	\item Oversized elements: plates and maps larger than the thesis page are properly folded to 7 x 10 inches, and labeled on the outside fold
+% 	\item Photographs: import photographs into text as digital files; do not attach actual photographs
+% 	\item CDs or DVDs are labeled and included in jewel cases
+% \end{itemize}
+% 
+% \noindent\textbf{Have you remembered these requirements for printing and submitting your thesis?}
+% \begin{itemize}
+% 	\item Proofread the thesis carefully (including the title page and acknowledgements page)
+% 	\item Obtain the required signatures on the submittal page from the advisor(s) and department head
+% 	\item Print front matter pages one-sided only; thesis body and back matter pages may be printed either one sided or two sided.
+% 	\item Use acid-free bond paper (24-weight bond required for double-sided printing or 20-weight bond may be used for single sided printing); may use CSM watermark paper
+% 	\item Print 6 (or 7) copies for binding and preservation
+% 	\item Double check printed copies for out-of-order or missing pages
+% 	\item Obtain virus scan certification from AC\&N for all CD/DVDs included with the thesis
+% 	\item Include all inserts and accompanying material: properly folded maps, plates, CDs, etc.
+% 	\item Deliver copies to Arthur Lakes Library Preservation Unit with blue check out card
+% \end{itemize}
+% \endgroup
+% 
+% \cleardoublepage
+% \section{Additional Resources}
+% \label{apx:resources}
+% 
+% \subsection{Style Manuals}
+% 
+% Style manuals typically cover only one style of technical writing. Your committee advisor may have information about writing guides specific to your academic discipline. The following are some good references that may be helpful.
+% 
+% \begin{itemize}
+% 	\item \emph{Chicago Manual of Style} (15th Edition) Chicago: University of Chicago Press (2003).
+% 	\item \emph{Mastering APA Style: Instructor's Resource Guide}, Harold Gelfand \& Charles J. Walker, Washington, DC: American Psychological Association.
+% 	\item \emph{MLA Style Manual and Guide to Scholarly Publishing}, Joseph Gibaldi, New York: Modern Language Association of America.
+% 	\item \emph{ACS Style Guide: A Manual for Authors and Editors} (2nd Edition), Janet S. Dodd, Ed., Washington, DC: American Chemical Association.
+% 	\item \emph{How to Write and Publish a Scientific Paper} (6th Edition), Robert A.Day and Barbara Gastel, Oryx Press.
+% 	\item \emph{A Guide to Writing as an Engineer}, David F. Beer and David McMurrey, John Wiley and Sons (2005).
+% 	\item \emph{A Manual for Writers of Term Papers, Theses, and Dissertations}, Kate L. Turabian, 6th Ed.
+% \end{itemize}
+% 
+% \subsection{Web Resources}
+% 
+% \begin{itemize}
+% 	\item For MLA and APA styles: \url{http://www.english.uiuc.edu/}
+% 	\item Citing electronic sources: \url{http://www.georgetown.edu/spendelow/handouts/eleccite.htm}
+% \end{itemize}
+% 
+% \subsection{Campus Resources}
+% 
+% \begin{itemize}
+% 	\item Office of Graduate Studies\newline
+% 		Brenda Neely, 273-3412\newline
+% 		Guggenheim Hall, Room 318\newline
+% 		\href{mailto:bneely@mines.edu}{bneely@mines.edu}\newline
+% 		\url{http://gradschool.mines.edu/GS-Graduate-Office-Staff}
+% 	\item Campus Writing Center, 273-3085\newline
+% 		Stratton Hall, Room 311\newline
+% 		\url{http://writing.mines.edu/}
+% 	\item Arthur Lakes Library\newline
+% 		Margaret Katz, Collections Conservator\newline
+% 		Preservation Unit, Room 170.\newline
+% 		\href{mailto:mkatz@mines.edu}{mkatz@mines.edu}
+% 	\item CSM Copy Center\newline
+% 		Guggenheim Hall, {\first} floor
+% \end{itemize}
+% 
+% \cleardoublepage
+% \section{Example Pages}
+% \label{apx:examples}
+% 
+% \newtoks\exampleoutput
+% \exampleoutput{}
+% \newtoks\examplelist
+% \examplelist{}
+% \newcommand{\fullpageexample}[4]{
+% 	\examplelist\expandafter{\the\examplelist
+% 		\item \hyperref[#2]{#3}
+% 	}
+% 	\exampleoutput\expandafter{\the\exampleoutput
+% 		\cleardoublepage
+% 		\phantomsection
+% 		\label{#2}
+% 		#4
+% 		\addcontentsline{toc}{subsection}{#3}
+% 		\includepdf{#1}
+% 	}
+% }
+% 
+% \fullpageexample{doc-figures/example-title_page}{exa:title-page}{Title Page}{}
+% \fullpageexample{doc-figures/example-copyright_page}{exa:copyright-page}{Copyright Page}{}
+% \fullpageexample{doc-figures/example-submittal_page}{exa:submittal-page}{Submittal Page}{}
+% \fullpageexample{doc-figures/example-abstract_page}{exa:abstract-page}{Abstract Page}{\index{abstract}}
+% \fullpageexample{doc-figures/example-toc_page}{exa:toc-page}{Table of Contents}{}
+% \fullpageexample{doc-figures/example-list_page}{exa:list-page}{Combined List (Figures and Tables)}{}
+% \fullpageexample{doc-figures/example-chapter_double_page}{exa:chapter-double}{Chapter (double numbering system)}{}
+% \fullpageexample{doc-figures/example-chapter_threelevel_page}{exa:chapter-threelevel}{Chapter (three-level system)}{}
+% \fullpageexample{doc-figures/example-references_page}{exa:references-page}{References Cited}{}
+% \fullpageexample{doc-figures/example-figures_page}{exa:figures-page}{Figure in Text}{}
+% \fullpageexample{doc-figures/example-figures_sequential_page}{exa:figures-sequential-page}{Figures -- Sequential}{}
+% \fullpageexample{doc-figures/example-figures_landscape_page}{exa:figures-landscape-page}{Figures -- Landscape}{}
+% \fullpageexample{doc-figures/example-cd_label_page}{exa:cd-label-page}{CD Labels}{}
+% \fullpageexample{doc-figures/example-cd_caselabel_page}{exa:cd-caselabel-page}{CD Jewel Case Labels}{}
+% \fullpageexample{doc-figures/example-plate_label_page}{exa:plate-label-page}{Plate Labels}{}
+% 
+% \begin{itemize}
+% 	\the\examplelist
+% \end{itemize}
+% 
+% \the\exampleoutput
+% 
+% \Finale
+% 
+% \PrintIndex
+% 
+%\iffalse
+
+\let\@chapter@call\@empty
+
+% Some convenience commands for working with author footnotes in journal-article chapters
+\newcounter{csm@symbol@symbolnote}
+\newcommand{\authornotesymbol}[1]{%
+	\stepcounter{csm@symbol@symbolnote}%
+	\global\let\csm@old@footnote=\thefootnote%
+	\renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+	\setcounter{footnote}{\arabic{csm@symbol@symbolnote}}\footnotetext[\arabic{csm@symbol@symbolnote}]{#1}%
+	\setcounter{footnote}{0}%
+	\global\let\thefootnote=\csm@old@footnote%
+}
+\newcounter{csm@symbol@numberednote}
+\newcommand{\authornotenumbered}[1]{%
+	\stepcounter{csm@symbol@numberednote}%
+	\global\let\csm@old@footnote=\thefootnote%
+	\renewcommand{\thefootnote}{\arabic{footnote}}%
+	\setcounter{footnote}{\arabic{csm@symbol@numberednote}}\footnotetext[\arabic{csm@symbol@numberednote}]{#1}%
+	\setcounter{footnote}{0}%
+	\global\let\thefootnote=\csm@old@footnote%
+}
+
+%% Handle compatibility with a variety of packages (note: important to do this near the end)
+\RequirePackage{csm-thesis-compat}
+
+%% Fix bibliographical references that use special characters (for users without hyperref):
+\RequirePackage{url}
+
+%% Fix some character encoding to produce sane results (note: important to do this last)
+\RequirePackage{csm-thesis-encoding}
+
+%\fi
+\endinput
