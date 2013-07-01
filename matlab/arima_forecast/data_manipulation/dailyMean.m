@@ -35,7 +35,7 @@ for i = 1:7
     if smoothData
         newData = smooth(newData)';
     end
-    size(newData)
+    
     tmpData = reshape(newData, dayLength, newSize);
     means(i, :) = mean(tmpData, 2);
     stds(i, :) = std(tmpData, 1, 2);
