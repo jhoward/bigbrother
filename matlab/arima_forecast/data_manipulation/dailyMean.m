@@ -33,7 +33,7 @@ for i = 1:7
     newSize = floor(size(tmpData, 2)/dayLength);
     newData = tmpData(:, 1:newSize*dayLength);
     if smoothData
-        newData = smooth(newData)';
+        newData = smooth(newData, 3)';
     end
     
     tmpData = reshape(newData, dayLength, newSize);

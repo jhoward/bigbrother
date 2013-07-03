@@ -1,17 +1,23 @@
 %Aggregate Brown Building counts
 clear all
 load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/brown_hall/sensor_data_01_01_08_to_06_09_08.mat');
+%load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/brown_hall/sensor_data_09_10_07_to_12_31_07');
 %load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\brown_hall\sensor_data_01_01_08_to_06_09_08.mat');
+
 %sensorlist = sensorlist;
 counts = [];
 
 %Number of seconds to aggregate
 %Should make this evenly divisible by hours
 aggregateAmount = 600;
-superSampleAmount = 2;
+superSampleAmount = 1;
 
-startDate = '01-12-2008 00:00:00';
-endDate = '05-05-2008 24:00:00';
+% startDate = '09-10-2007 00:00:00';
+% endDate = '12-31-2007 24:00:00';
+
+startDate = '01-01-2008 00:00:00';
+endDate = '06-09-2008 24:00:00';
+
 
 sd = datenum(startDate);
 ed = datenum(endDate);
@@ -83,7 +89,7 @@ for i = 1:length(sensorlist)
     tmpData = zeros(size(agData, 1) * superSampleAmount, 1);
     count = 1;
 
-    if superSampleAmount > 1
+    if superSampleAmount >= 1
         for k = 1:size(nData, 1) - 1;
             tmp = linspace(nData(k, 1), nData(k + 1, 1), superSampleAmount + 1);
             tmpData(count:count+superSampleAmount - 1) = tmp(1:end - 1)';
@@ -101,7 +107,7 @@ end
 ssTimes = zeros(size(dayNums, 1) * superSampleAmount, 1);
 count = 1;
 
-if superSampleAmount > 1
+if superSampleAmount >= 1
     for k = 1:size(dayNums, 1) - 1;
         tmp = linspace(dayNums(k, 1), dayNums(k + 1, 1), superSampleAmount + 1);
         ssTimes(count:count+superSampleAmount - 1) = tmp(1:end - 1)';
@@ -122,7 +128,8 @@ data.endTime = ed;
 data.dayOfWeek = weekday(ssTimes)';
 data.blocksInDay = dayBlocks*superSampleAmount;
 
-save('./data/brownData.mat', 'data');
+save('./data/brownData_01_06.mat', 'data');
+%save('./data/brownData_09_12.mat', 'data');
 
 %tl = [48, 28, 11, 34];
 

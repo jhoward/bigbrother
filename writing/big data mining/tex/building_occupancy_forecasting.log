@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  6 JUN 2013 23:26
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  3 JUL 2013 16:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -326,35 +326,33 @@ File: ./images/real_forecasts_bcf_svm.png Graphic file (type QTm)
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [6]
-Underfull \vbox (badness 1776) has occurred while \output is active []
+Overfull \hbox (3.13205pt too wide) in paragraph at lines 425--434
+ [][] 
+ []
 
 File: ./images/brown_rmse.png Graphic file (type QTm)
-
 <use  "./images/brown_rmse.png" >
 File: ./images/merl_rmse.png Graphic file (type QTm)
  <use  "./images/merl_rmse.png" >
 Missing character: There is no “ in font aer9!
 Missing character: There is no ” in font aer9!
 
-Overfull \hbox (8.71034pt too wide) in paragraph at lines 447--449
+Overfull \hbox (8.71034pt too wide) in paragraph at lines 464--466
 \T1/aer/m/n/9 fu-ture er-ror dis-tri-bu-tion for a model (we sug-gest us-ing GA
 RCH
  []
 
-(./building_occupancy_forecasting.bbl [7]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-) [8]
+[7] (./building_occupancy_forecasting.bbl) [8]
 (./building_occupancy_forecasting.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2979 strings out of 494004
- 41241 string characters out of 3150890
+ 2980 strings out of 494004
+ 41258 string characters out of 3150890
  109836 words of memory out of 3000000
- 6209 multiletter control sequences out of 15000+200000
+ 6210 multiletter control sequences out of 15000+200000
  41313 words of font info for 52 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  42i,10n,40p,1164b,450s stack positions out of 5000i,500n,10000p,200000b,50000s

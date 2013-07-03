@@ -1,15 +1,6 @@
 %Aggregate Merl Data
 clear all
 
-% This is number of day 1 
-nDay1 = datenum('01/01/2008');
-
-%if averagedays is 1, then compute the average day for that day of the week
-%and save to data.
-AVERAGEDAYS = 1;
-superSampleAmount = 4; %value of one will keep data the same
-blocksInDay = superSampleAmount * 24;
-
 %dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\';
 dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/';
 
@@ -17,14 +8,14 @@ dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/build
 % allow for strings of varying length in the array.
 allFileNames = {
    {'0114.txt' '4503049'};
-%     '0115.txt';
-%     '0116.txt';
-%     '0117.txt';
-%     '0118.txt';
-%     '0119.txt';
-%     '0120.txt';
-%     '0121.txt';
-%     '0122.txt'
+   {'0115.txt' '9553016'};
+   {'0116.txt' '7543803'};
+   {'0117.txt' '5918874'};
+   {'0118.txt' '6353157'};
+   {'0119.txt' '5730246'};
+   {'0120.txt' '6023688'};
+   {'0121.txt' '6437525'};
+   {'0122.txt' '1165745'};
 };
 
 % Read text files and fill up the array D, size (d,365,24)
@@ -88,5 +79,6 @@ sensors = unique(rawData(1, :));
 times = datenum(rawData(2, :)/86400/1000 + datenum(1970,1,1));
 
 savefile = './data/merlDataRaw.mat';
+%savefile = 'merlDataRaw.mat';
 save(savefile, 'rawData', 'sensors', 'times');
 

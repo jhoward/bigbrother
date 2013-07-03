@@ -98,7 +98,7 @@ William Hoff\\\
 
 \maketitle
 \begin{abstract}
-Forecasting the occupancy of buildings can lead to significant improvement of smart heating and cooling systems. Using a sensor network of simple passive infrared motion sensors densely placed throughout a building, we perform data mining to forecast occupancy a short time ($i.e.$, up to 60 minutes) into the future.  Our approach is to train a set of standard models for time series data forecasting to the data.  Each model then forecasts occupancy at a specific time in the future.  We combine these forecasts using a modified Bayesian combined forecasting approach.  The method is demonstrated on two large building occupancy datasets, and shows promising results for forecasting horizons of up to 60 minutes.  Because the two datasets have such different occupancy profiles, we compare our algorithms on each dataset to evaluate the performance of the forecasting algorithm for the different conditions.
+Forecasting the occupancy of buildings can lead to significant improvement of smart heating and cooling systems. Using a sensor network of simple passive infrared motion sensors densely placed throughout a building, we perform data mining to forecast occupancy a short time ($i.e.$, up to 60 minutes) into the future.  Our approach is to train a set of standard forecasting models to our time series data.  Each model then forecasts occupancy a various horizons into the future.  We combine these forecasts using a modified Bayesian combined forecasting approach.  The method is demonstrated on two large building occupancy datasets, and shows promising results for forecasting horizons of up to 60 minutes.  Because the two datasets have such different occupancy profiles, we compare our algorithms on each dataset to evaluate the performance of the forecasting algorithm for the different conditions.
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -114,7 +114,7 @@ Forecasting the occupancy of buildings can lead to significant improvement of sm
 
 According to the U.S. Department of Energy, energy for heating and cooling accounts for approximately 35 - 45\% \cite{DOE2010} of the total expenditure within a building. With such a large investment of energy being used to regulate the temperature of a building, any possible areas of improvement in this area are heavily sought after.  Knowledge of occupancy of people within a building is an important component to intelligent heating, ventilating and air conditioning (HVAC) systems.  In particular, if occupancy can be accurately predicted, HVAC systems can potentially be controlled to operate more efficiently.  For example, an HVAC system can pre-heat or pre-cool a room just prior to its use, instead of always keeping the room at a set temperature.  Or, an HVAC system could take advantage of times when electricity cost is lower, to chill a cold water storage tank, in anticipation of needed cooling.
 
-Occupancy data is difficult to acquire and accurate ground truth values are rare as most buildings do not have sufficient infrastructure to properly sense people accurately throughout the building.  One approach is to use simulated models of occupancy \cite{PAGE2008, GOLDSTEIN2010}.  However, agent based models also tend not to scale well to large buildings where the where large numbers of agents, rooms and interactions lead to non-trivial solutions.  Thus, it is preferable to estimate occupancy from sensor data rather than simulated data.
+Occupancy data is difficult to acquire and accurate ground truth values are rare as most buildings do not have sufficient infrastructure to properly sense people accurately throughout the building.  One approach is to use simulated models of occupancy \cite{PAGE2008, GOLDSTEIN2010}.  However, agent based models also tend not to scale well to large buildings where the large numbers of agents, rooms and interactions lead to non-trivial solutions.  Thus, it is preferable to estimate occupancy from sensor data rather than simulated data.
 
 Estimating building occupancy from sensor data is an excellent application for data mining.  Systems have been developed that use a combination of simple sensors and wireless motes.  These systems generate a very large amount of data, and thus offer a challenge and opportunity for data mining algorithms.  Agarwal, et. al \cite{Agarwal2010} created motes using a combination of IR sensors and reed switches placed on doors to determine the likelihood that a room is occupied.  The focus was not on estimating the number of occupants, but instead if the room was occupied at all.  Mamidi \cite{Mamidi2012} and the University of Southern California have developed a building-level energy management system using a combination of motion detectors and environmental sensors to estimate the occupancy of rooms with multiple individuals present.  Ground truth was collected and used as the basis for target values which were then run through a machine learning algorithm to accurately estimate occupancy.  In both of these instances the researchers were more concerned with occupancy estimation instead of forecasting.
 
@@ -138,7 +138,7 @@ As mentioned previously, there is an important need for $forecasting$ building o
 \label{fig:test}
 \end{figure*}
 
-In this work, our occupancy estimates and forecasts are derived from a set of infrared sensors that are densely placed around a building.  The data is collected from two different types of buildings: one is an office building, the other a classroom and research building.  We focus on short-term and medium-term forecasts; i.e., between 10 minutes to 2 hours into the future.  Although building control systems can accept forecasts up to one day into the future \cite{Ma2010}, we have found that for forecasts more than a couple of hours into the future it is better to instead rely on historic averages.  
+In this work, our occupancy estimates and forecasts are derived from a set of infrared sensors that are densely placed around a building.  The data is collected from two different types of buildings.  The first data set is collected from an office building.  The other data set is collected from a classroom and research building.  We focus on short-term and medium-term forecasts; i.e., between 10 minutes to 2 hours into the future.  Although building control systems can accept forecasts up to one day into the future \cite{Ma2010}, we have found that for forecasts more than a couple of hours into the future it is better to instead rely on historic averages.  
 
 The contributions of this paper are as follows: (1) Our work is one of the first approaches to forecasting building occupancy, as opposed to estimating the current occupancy.  (2) We have developed a modified Bayesian combined forecaster (BCF), that is capable of performing short and medium-term forecasts.  (3) We demonstrate the efficacy of the modified BCF on actual building sensor datasets, and provide insights into what forecasting algorithms will perform best under the conditions present in these buildings.  
 
@@ -272,14 +272,14 @@ T_{t + \delta}^{ALL} = \sum_{k=1}^{K}p_{t}^{k} \cdot \bar{T}_{t + \delta}^{k}.
 In this subsection we discuss a number of modifications to maximize the effectiveness of BCF for our data.  We refer to the modified BCF algorithm as Bayesian Combined Forecasting for multiple Time Steps or BCF-TS for short.  These modifications  enable BCF to work with forecasting horizons greater than one in the future.
 
 \subsubsection{Forecast $\delta$ time steps into the future}
-Traditionally implementations of BCF in other domains \cite{Petridis2001, Zheng2006} are interested only in 1 time step ahead forecasts.  For our work we require forecasts that are $\delta$ steps ahead which requires a small change to the BCF method.  Instead of generating a model's error distribution from 
+Traditional implementations of BCF in other domains \cite{Petridis2001, Zheng2006} are interested only in 1 time step ahead forecasts.  For our work we require forecasts that are $\delta$ steps ahead which requires a small change to the BCF method.  Instead of generating a model's error distribution from 
 \begin{equation}
-e^{t}_{k} = \bar{T}_{t}^{k} - T_{t} = f(\bar{T}_{t}, ..., T_{1}; \theta_{k}) - T_{t}.
+e^{t}_{k} = \bar{T}_{t}^{k} - T_{t} = f(\bar{T}_{t},T_{t - 1} ..., T_{1}; \theta_{k}) - T_{t}.
 \end{equation}
 
 The error distribution is instead generated from 
 \begin{equation}
-e^{t}_{k} = f(\bar{T}_{t}, ..., \bar{T}_{t - \delta + 1}, T_{t - \delta}, ..., T_{1};\theta_{k}) - T_{t}).
+e^{t}_{k} = f(\bar{T}_{t}, ..., \bar{T}_{t - \delta + 1}, T_{t - \delta}, ..., T_{1};\theta_{k}) - T_{t}.
 \end{equation}
 The reason for this change is due to the assumption that our error distribution is an accurate representation forecasting accuracy.  
 The forecasting error distribution for models at $1$ time step into the future is not necessarily the same as models at $\delta$ time steps.  Thus we compute a different error distribution for each forecast time step.
@@ -325,7 +325,7 @@ ARIMA(p,d,q)(P,D,Q)_{s}
 \end{equation}
 where $p$ is the number of autoregressive terms, $d$ is the number of differences and $q$ is the number of moving average terms.  $P$, $D$, and $Q$ all correspond to the seasonal equivalents of $p$, $d$, and $q$.  The parameter $s$ is the seasonality of the model.  For a full discussion of seasonal ARIMA models see Box and Jenkins \cite{Box2008}.
 
-Finding the correct values of $p, d, q, P, D, Q, s$ is traditionally a hard problem.  To fit our parameters we use a method similar to Williams \cite{Williams2003}.  As a verification of our model, we applied the LJung-Box test \cite{Ljung1978} on our set of residual data for each model.  This tests the if any of the auto correlation values on the residual dataset are significantly different from 0.  To be valid, the LJung-Box test should return a value of $p > 0.05$.  Both residual sets passed: $p = 0.9964$ for MERL and $p = 0.1072$ for CSMBB.  Our final model parameters can be seen in Table~\ref{fig:sarimatab}.  Notice that the season is different for each model due to a difference in window of time for each day that we extracted data.
+Finding the correct values of $p, d, q, P, D, Q, s$ is traditionally a hard problem.  To fit our parameters we use a method similar to Williams \cite{Williams2003}.  As a verification of our model, we applied the LJung-Box test \cite{Ljung1978} on our set of residual data for each model.  This tests if any of the auto correlation values on the residual dataset are significantly different from 0.  To be valid, the LJung-Box test should return a value of $p > 0.05$.  Both residual sets passed: $p = 0.9964$ for MERL and $p = 0.1072$ for CSMBB.  Our final model parameters can be seen in Table~\ref{fig:sarimatab}.  Notice that the season is different for each model due to a difference in window of time for each day that we extracted data.
 
 \begin{table}[t]
 \centering
@@ -419,9 +419,25 @@ It is common for one model's normalized posterior probability to be near one whe
 
 Figure~\ref{fig:rmseplot} shows the results of the root mean squared error (RMSE) of forecasts across a forecast horizon up to 10 time steps (100 minutes) into the future for each model.  These plots show that BCF-TS has the lowest error.  However, the average model shows itself to be a strong indicator of future activity for forecasts beyond 60 minutes into the future.  Forecasts were performed for significantly longer horizons, but the results were uninteresting as the total RMSE of models converged to roughly the values at a forecasting horizon of 10 time steps.  
 
+\begin{table}
+\centering
+\caption{Run times (in seconds) for each forecasting horizon.}
+\begin{tabular}{|c|c|c|c|c|c|c|c|} \hline
+Algorithm & $1$ & $2$ & $3$ & $5$ & $8$ & $10$ \\ \hline
+Average & 0.001 & 0.001 & 0.001 & 0.001 & 0.001 & 0.001 \\ \hline
+ARIMA & 0.043 & 0.045 & 0.046 & 0.053 & 0.058 & 0.063\\ \hline
+SVM & 0.048 & 0.910 & 0.137 & 0.227 & 0.357 & 0.444 \\ \hline
+TDNN & 20.87 & 21.60 & 21.82 & 21.28 & 22.73 & 22.50 \\ \hline
+BCF-TS & 20.97 & 21.26 & 21.27 & 21.34 & 21.57 & 21.63\\ \hline
+\end{tabular}
+\label{fig:runtimestab}
+\end{table}
+
 In the CSMBB dataset the Seasonal ARIMA model was a good forecaster of future activity while in the MERL set it performed significantly worse than even the average model on all forecasting horizons.  This is likely due to a stronger seasonal component to the CSMBB dataset due class schedules.  Instead on the MERL dataset there is little seasonal correlation and thus natural variance from a prior season may incorrectly affect current forecasts.  This result is similar to that of other papers that use seasonal ARIMA models \cite{Newsham2010}; where in the case of strong seasonal data, results are better for short horizon forecasts, but longer forecasts favor historic averages.
 
 BCF and BCF-TS were both better at a horizon of one time step for all component models (see Table~\ref{fig:rmsetab}).  In the MERL dataset standard BCF was outperformed by SVM and later the average model for all forecast beyond one horizon.  However the BCF-TS model showed significant improvement in RMSE scores for all forecasting horizons unto 60 minutes.  For horizons of 10 time steps and greater, the average model is about as good as the BCF-TS approach.
+
+Table~\ref{fig:runtimestab} shows the run time in seconds of each forecasting algorithm at a given forecasting horizon.  The times are for forecasting the entire test set on the MERL dataset for a single sensor, approximately twenty weeks worth of data.  In general BCF-TS was slower than any component model, but the times are still such that real-time forecasting is possible.
 
 \begin{figure*}
 \centering

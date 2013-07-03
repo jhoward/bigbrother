@@ -7,7 +7,7 @@ nDay1 = datenum('01/01/2008');
 %if averagedays is 1, then compute the average day for that day of the week
 %and save to data.
 AVERAGEDAYS = 1;
-superSampleAmount = 4; %value of one will keep data the same
+superSampleAmount = 6; %value of one will keep data the same
 blocksInDay = superSampleAmount * 24;
 
 %dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\traffic\denver\';
@@ -16,10 +16,10 @@ dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/traff
 % Make a list of all file names.  Note curly brackets for cell array, to
 % allow for strings of varying length in the array.
 allFileNames = {
-    '006G283P.txt';
-    '006G283S.txt';
+    %'006G283P.txt';
+    %'006G283S.txt';
     '025A207P.txt';
-    '025A207S.txt';
+    %'025A207S.txt';
     %'044A2P.txt';
     %'044A2S.txt';
     %'070A270P.txt';
