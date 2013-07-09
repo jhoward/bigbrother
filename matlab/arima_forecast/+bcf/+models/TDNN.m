@@ -26,14 +26,6 @@ classdef TDNN < bcf.models.Model
         end
         
         function output = forecastAll(obj, data, ahead, varargin)
-            %             if ahead == 1
-            %                 net = obj.net1;
-            %             elseif ahead == obj.ahead 
-            %                 net = obj.netAhead;
-            %             else
-            %                 fprintf(1, 'No trained forecaster for this value of ahead\n');
-            %                 1/0;
-            %             end
             output = bcf.forecast.tdnnForecast(obj.net, data, ahead);
         end
         

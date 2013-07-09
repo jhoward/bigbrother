@@ -1,5 +1,3 @@
-clear all
-load('./data/merlDataRaw.mat');
 
 %Aggregate Brown Building counts
 clear all
@@ -13,7 +11,7 @@ counts = [];
 aggregateAmount = 600;
 
 startDate = '23-mar-2006 00:00:00';
-endDate = '11-jun-2006 00:00:00';
+endDate = '28-aug-2008 00:00:00';
 
 sd = datenum(startDate);
 ed = datenum(endDate);
@@ -50,7 +48,6 @@ tmpVec = repmat(tmpVec, totalBlocks, 1);
 tmpVec(:, 6) = secCounting;
 dayNums = datenum(tmpVec);
 dayOfWeek = weekday(dayNums);
-
 
 %Convert the data to cell array per sensor
 for s = 1:length(sensors)
@@ -105,8 +102,7 @@ data.blocksInDay = dayBlocks;
 
 save('./data/merlData.mat', 'data');
 
-
-
+% 
 %Plot each sensor
 %x = 1:1:dayBlocks;
 x = 1:1:dayBlocks;

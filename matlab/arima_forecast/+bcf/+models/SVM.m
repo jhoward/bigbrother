@@ -1,24 +1,30 @@
 classdef SVM < bcf.models.Model
     %Support vector regression
-    %   Add multiple dimensions later    
+    %   Add multiple dimensions later   
+    
+    %For SVM models there is a "model parameters" function which dictates
+    %the accuracy of a given model
+    
     properties
         model
         modelParameters
+        window
     end
     
     methods
-        function obj = SVM(modelParameters)
+        function obj = SVM(modelParameters, window)
             obj.modelParameters = modelParameters;
+            obj.window = window;
         end
-        
-        function train(obj, data, window)
+
+        function train(obj, data)
             %Train the model from a single dimensional dataset
-            xWin = zeros(window, size(data, 2) - 1 - window);
-            for i = 1 : size(data, 2) - window
-                xWin(:, i) = data(1, i:i + window - 1);
+            xWin = zeros(obj.window, size(data, 2) - 1 - obj.window);
+            for i = 1 : size(data, 2) - obj.window
+                xWin(:, i) = data(1, i:i + obj.window - 1);
             end
             
-            yWin = data(window + 1:end);
+            yWin = data(obj.window + 1:end);
             
             obj.model = svmtrain(yWin',xWin',obj.modelParameters);
         end

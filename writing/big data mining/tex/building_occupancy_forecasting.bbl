@@ -52,6 +52,13 @@ C.~Hsu, C.~Chang, and C.~Lin.
 \newblock {A practical guide to support vector classification}.
 \newblock (1):1--16, 2003.
 
+\bibitem{Li2012}
+P.~Li, M.~Bari\'{c}, S.~Narayanan, and S.~Yuan.
+\newblock {A Simulation-Based Study of Model Predictive Control in a
+  Medium-Sized Commercial Building}.
+\newblock In {\em International High Performance Buildings Conference}, pages
+  1--10, 2012.
+
 \bibitem{Ljung1978}
 G.~M. Ljung and G.~E.~P. Box.
 \newblock {On a Measure of a Lack of Fit in Time Series Models}.

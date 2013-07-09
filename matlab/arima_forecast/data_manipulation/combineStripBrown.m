@@ -62,5 +62,6 @@ data.startTime = 0;
 data.endTime = 0;
 data.dayOfWeek = weekday(data.times);
 data.sensor = sensorNumber;
+data.stripDays = stripDays;
 
 save('./data/brownDataClean.mat', 'data');

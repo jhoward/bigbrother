@@ -28,6 +28,7 @@ for n=1:d
     fileName = allFileNames{n}{1};
     fileLen = str2num(allFileNames{n}{2}); %#ok<ST2NM>
     fileData = zeros(2, fileLen);
+    %fileData = zeros(2, 1000);
     fid = fopen(strcat(dataLocation, fileName), 'r');
     if fid ~= -1
         fprintf('File %s (%i)', fileName, fileLen);
@@ -72,7 +73,8 @@ for n=1:d
         index = index + 1;
     end
     fprintf(1, '\n');
-    rawData = [fileData];
+    rawData = [rawData fileData];
+    %rawData = [fileData];
 end
 
 sensors = unique(rawData(1, :));
