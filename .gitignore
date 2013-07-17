@@ -185,3 +185,4 @@ pip-log.txt
 /mote/sunspot/TestDeepSleep/nbproject/private/
 /mote/sunspot/SunSpotApplication/nbproject/private/
 /mote/sunspot/FileTest/nbproject/private/
+matlab/arima_forecast/runs/testHMM.m
