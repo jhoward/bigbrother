@@ -1,7 +1,7 @@
 clear all;
 
-%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
-dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
+dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
+%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
 
 load(dataLocation);
 
@@ -16,7 +16,7 @@ data.data(ind(1, end-nRemove:end)) = tmp(1, ind(1, end - nRemove - 1));
 %Normalize
 data.data = 2*(data.data - min(data.data))/(max(data.data) - min(data.data)) - 1;
 
-horizon = 3;
+horizon = 1;
 train = data.data(:, 1:7800);
 test = data.data(:, 7801:end);
 trainTimes = data.times(:, 1:7800);
@@ -25,6 +25,10 @@ testTimes = data.times(:, 7801:end);
 windowSize = 10;
 numWindows = 20;
 %removeWindow = 18;
+
+%smooth data one more time
+train = smooth(train, 3)';
+test = smooth(test, 3)';
 
 
 %Visualize raw data
@@ -43,7 +47,7 @@ numWindows = 20;
 %==========================================================================
 
 %Setup a simple forecasting model
-% model = bcf.models.Average(data.blocksInDayh);
+% model = bcf.models.Average(data.blocksInDay);
 % model.train(train);
 
 svmParam = '-s 4 -t 2 -q';
@@ -161,6 +165,41 @@ modelAvg.calculateNoiseDistribution(test, horizon);
 modelGaussian = bcf.models.Gaussian(mean(resTest), std(resTest));
 modelGaussian.calculateNoiseDistribution(resTest);
 
+%Now make a HMM model again
+%Train a hidden markov model
+%Make one cluster data
+index = find(idx == 3);
+clustData = window(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
+clusterDays = data.times(ind(index));
+M = 2; %Number of Gaussians
+Q = 40; %Number of states
+
+modelHMM2 = bcf.models.HMM(Q, M);
+modelHMM2.train(clustData(:, :, :));
+
+modelHMM2.calculateNoiseDistribution(clustData(:, :, :));
+
+%Modify and test transition matrix
+%model.transmat(model.transmat < 0.005) = 0.005;
+%model.transmat = normalize(model.transmat, 2);
+modelHMM2.prior(modelHMM2.prior < 0.001) = 0.001;
+modelHMM2.prior = normalize(modelHMM2.prior);
+
+cd2d = reshape(clustData, size(clustData, 2), size(clustData, 3));
+cd2d = cd2d';
+tmpOut = [];
+%Plot HMM Model forecasts
+for i = 1:size(cd2d, 1)
+    tmpOut = [tmpOut; modelHMM2.forecastAll(cd2d(i, :), 1, 'window', 0)];
+end
+
+plot(1:1:10, cd2d, 'color', 'b')
+hold on
+plot(1:1:10, tmpOut, 'color', 'g')
+
+
 
 %Now make a HMM model
 %Train a hidden markov model
@@ -184,14 +223,40 @@ modelHMM.calculateNoiseDistribution(clustData(:, :, :));
 modelHMM.prior(modelHMM.prior < 0.001) = 0.001;
 modelHMM.prior = normalize(modelHMM.prior);
 
+
+cd2d = reshape(clustData, size(clustData, 2), size(clustData, 3));
+cd2d = cd2d';
+tmpOut = [];
+%Plot HMM Model forecasts
+for i = 1:size(cd2d, 1)
+    tmpOut = [tmpOut; modelHMM.forecastAll(cd2d(i, :), 1, 'window', 0)];
+end
+
+tmpBad = modelHMM.forecastAll(resTest, 1, 'window', 5);
+tmpRes = resTest - tmpBad;
+tmpProbs = modelHMM.probabilityNoise(tmpRes');
+
+plot(1:1:10, cd2d, 'color', 'b')
+hold on
+plot(1:1:10, tmpOut, 'color', 'g')
+
+plot(1:1:21, [resTest(1, 420:440); tmpBad(1, 420:440)]) 
+
+
+
 %Make a bcf model
 %Combine and forecast
-models = {modelGaussian modelHMM};
+models = {modelGaussian modelHMM modelHMM2};
 
 modelBcf = bcf.BayesianForecaster(models);
-[resBCFTest, probs, ~] = modelBcf.forecastAll(resTest, horizon, horizon, 'aggregate', 0.001, 1); 
+[resBCFTest, probs, rawProbs] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.05, 1); 
 
-fullTest = test + resBCFTest;
+fullTest = mTest + resBCFTest;
 
-plot(1:1:100, [test(1, 300:399); fullTest(1, 300:399)]);
-plot(1:1:100, [probs(1, 300:399)]);
+testRmse = errperf(test(horizon + 1:end), mTest(horizon + 1:end), 'rmse');
+bcfTestRmse = errperf(test(horizon + 1:end), fullTest(horizon + 1:end), 'rmse');
+
+fprintf(1, 'Test rmse: %f    BCF test rmse: %f\n', testRmse, bcfTestRmse);
+
+plot(1:1:100, [test(1, 550:580); fullTest(1, 550:580); mTest(1, 550:580)]);
+%plot(1:1:100, [probs(:, 700:799)]);

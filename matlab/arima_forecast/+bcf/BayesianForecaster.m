@@ -113,13 +113,13 @@ classdef BayesianForecaster < handle
             dexpand = repmat(data, [1 1 size(obj.models, 2)]);
             for k = 1:size(obj.models, 2)
                 %fprintf(1, 'Forcast for model %i\n', k);
-                fcasts(:, :, k) = obj.models{k}.forecastAll(data, modelAhead, 'window', 5);
+                fcasts(:, :, k) = obj.models{k}.forecastAll(data, modelAhead, 'window', 0);
             end
             
             if ahead ~= modelAhead
                 for k = 1:size(obj.models, 2)
                     %fprintf(1, 'Forcast for model %i\n', k);
-                    fcastsAhead(:, :, k) = obj.models{k}.forecastAll(data, ahead, 'window', 5);
+                    fcastsAhead(:, :, k) = obj.models{k}.forecastAll(data, ahead, 'window', 0);
                 end
             else
                 fcastsAhead = fcasts;
@@ -183,13 +183,17 @@ classdef BayesianForecaster < handle
             aPmodels(:, 1) = pmodels';
             pks = ones(size(pmodels, 2), size(diffs, 2));
             
+            diffs(:, 150:170, 1)
+            
             for k = 1:size(obj.models, 2)
                 pks(k, :) = obj.models{k}.probabilityNoise(diffs(:, :, k)');
             end
             
+            pks(:, 150:170)
+            
             %Reset values
             pks(pks <= obj.minProb) = obj.minProb;
-            pks(pks >= obj.maxProb) = obj.maxProb;
+            %pks(pks >= obj.maxProb) = obj.maxProb;
             
             for i = 2:size(diffs, 2)
                 %First compute the normalizing constant
@@ -197,7 +201,7 @@ classdef BayesianForecaster < handle
                 aPmodels(:, i) = (aPmodels(:, i - 1) .* pks(:, i)) ./ nc;
                 
                 aPmodels(aPmodels(:, i) <= obj.minProb, i) = obj.minProb;
-                aPmodels(aPmodels(:, i) >= obj.maxProb, i) = obj.maxProb;
+                %aPmodels(aPmodels(:, i) >= obj.maxProb, i) = obj.maxProb;
                 
                 %Renormalize
                 aPmodels(:, i) = aPmodels(:, i) ./ sum(aPmodels(:, i), 1);
