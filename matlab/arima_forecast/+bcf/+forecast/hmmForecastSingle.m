@@ -7,12 +7,18 @@ function output = hmmForecastSingle(obj, data, ahead)
     [alpha, ~, ~, ~] = fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1);
     
     futureState = alpha(:, end);
+    
+    fprintf(1, 'Before\n');
+    futureState
         
     for i = 1:ahead
         futureState = obj.transmat' * futureState;
         futureState(futureState < 0.0001) = 0.0001;
         futureState = futureState / sum(futureState);
     end
+    
+    fprintf(1, 'After\n');
+    futureState
         
     %Compute the output from the future state.
     output = sum(futureState' .* obj.stateEVal, 2);    

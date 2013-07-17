@@ -38,6 +38,12 @@ classdef HMM < bcf.models.Model
             [~, prior1, transmat1, mu1, Sigma1, mixmat1] = ...  
                 mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 40);
             
+            %Renormalize the transition matrix
+            minTransValue = 1 / (obj.Q * 4);
+            transmat1(transmat1 < minTransValue) = minTransValue;
+            tmp = repmat(sum(transmat1, 2), 1, obj.Q);
+            transmat1 = transmat1 ./ tmp;
+            
             obj.mu = mu1;
             obj.sigma = Sigma1;
             obj.prior = prior1;
@@ -60,6 +66,7 @@ classdef HMM < bcf.models.Model
             
             if window > 0
                 for i = window:size(data, 2) - ahead
+                    data(:, i - window + 1:i)
                     output(:, i + ahead) = bcf.forecast.hmmForecastSingle(obj, data(:, i - window + 1:i), ahead);
                 end
             else

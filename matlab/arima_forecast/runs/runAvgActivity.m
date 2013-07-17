@@ -10,7 +10,7 @@ trainTimes = data.times(:, 1:7800);
 testTimes = data.times(:, 7801:end);
 
 %Setup a simple forecasting model
-% model = bcf.models.Average(data.blocksInDay);
+% model = bcf.models.Average(data.blocksInDayh);
 % model.train(train);
 
 svmParam = '-s 4 -t 2 -q';
