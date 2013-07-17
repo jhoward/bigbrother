@@ -232,7 +232,7 @@ for i = 1:size(cd2d, 1)
     tmpOut = [tmpOut; modelHMM.forecastAll(cd2d(i, :), 1, 'window', 0)];
 end
 
-tmpBad = modelHMM.forecastAll(resTest, 1, 'window', 5);
+tmpBad = modelHMM.forecastAll(resTest, 1, 'window', 0);
 tmpRes = resTest - tmpBad;
 tmpProbs = modelHMM.probabilityNoise(tmpRes');
 
@@ -258,5 +258,5 @@ bcfTestRmse = errperf(test(horizon + 1:end), fullTest(horizon + 1:end), 'rmse');
 
 fprintf(1, 'Test rmse: %f    BCF test rmse: %f\n', testRmse, bcfTestRmse);
 
-plot(1:1:100, [test(1, 550:580); fullTest(1, 550:580); mTest(1, 550:580)]);
+plot(1:1:100, [test(1, 800:899); fullTest(1, 800:899); mTest(1, 800:899)]);
 %plot(1:1:100, [probs(:, 700:799)]);
