@@ -1,6 +1,8 @@
 clear all;
 
-dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
+%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
+dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
+
 load(dataLocation);
 
 %Remove the top n% of outliers and renormalize
@@ -22,7 +24,7 @@ testTimes = data.times(:, 7801:end);
 
 windowSize = 10;
 numWindows = 20;
-removeWindow = 18;
+%removeWindow = 18;
 
 
 %Visualize raw data
@@ -45,7 +47,7 @@ removeWindow = 18;
 % model.train(train);
 
 svmParam = '-s 4 -t 2 -q';
-svmWindow = 5;
+svmWindow = 4;
 model = bcf.models.SVM(svmParam, svmWindow);
 model.train(train);
 
@@ -106,34 +108,38 @@ for i = 1:6
     clf
 end
 
-%Plot raw data of each cluster
-for i = 1:6
-    index = find(idx == i);
-    
-    plotData = [];
-    for j = 1:size(index, 1)
-        currentIndex = ind(index(j));
-        plotData = [plotData; test(1,currentIndex:currentIndex + windowSize - 1)]; %#ok<AGROW>
-    end
-    
-    %plotData = window(index, :);
-    x = linspace(1, windowSize, windowSize);
-    xflip = [x(1 : end - 1) fliplr(x)];
-    for j = 1:size(plotData, 1)
-        y = plotData(j, :);
-        yflip = [y(1 : end - 1) fliplr(y)];
-        patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
-        hold on
-    end
-    hold off
-    
-    clusterDays = data.times(ind(index));
-    datestr(clusterDays)
-    %weekday(clusterDays)
-    
-    waitforbuttonpress;
-    clf
-end
+% %Plot raw data of each cluster
+% for i = 1:6
+%     index = find(idx == i);
+%     
+%     plotData = [];
+%     for j = 1:size(index, 1)
+%         currentIndex = ind(index(j));
+%         plotData = [plotData; test(1,currentIndex:currentIndex + windowSize - 1)]; %#ok<AGROW>
+%     end
+%     
+%     %plotData = window(index, :);
+%     x = linspace(1, windowSize, windowSize);
+%     xflip = [x(1 : end - 1) fliplr(x)];
+%     for j = 1:size(plotData, 1)
+%         y = plotData(j, :);
+%         yflip = [y(1 : end - 1) fliplr(y)];
+%         patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
+%         hold on
+%     end
+%     hold off
+%     
+%     clusterDays = data.times(ind(index));
+%     datestr(clusterDays)
+%     %weekday(clusterDays)
+%     
+%     waitforbuttonpress;
+%     clf
+% end
+
+
+
+
 
 %==========================================================================
 
@@ -147,7 +153,45 @@ avgResMean = mean(trainResMeans(data.stripDays, :));
 avgResStd = mean(trainResStds(data.stripDays, :));
 
 %Make models
-modelAvg = bcf.models.Average(windowSize);
-modelAvg.train();
-modelAvg.calculateNoiseDistribution(input, horizon);
+modelAvg = bcf.models.Average(data.blocksInDay);
+modelAvg.train(test);
+modelAvg.calculateNoiseDistribution(test, horizon);
 
+%First make a Gaussian Model
+modelGaussian = bcf.models.Gaussian(mean(resTest), std(resTest));
+modelGaussian.calculateNoiseDistribution(resTest);
+
+
+%Now make a HMM model
+%Train a hidden markov model
+%Make one cluster data
+index = find(idx == 4);
+clustData = window(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
+clusterDays = data.times(ind(index));
+M = 2; %Number of Gaussians
+Q = 40; %Number of states
+
+modelHMM = bcf.models.HMM(Q, M);
+modelHMM.train(clustData(:, :, :));
+
+modelHMM.calculateNoiseDistribution(clustData(:, :, :));
+
+%Modify and test transition matrix
+%model.transmat(model.transmat < 0.005) = 0.005;
+%model.transmat = normalize(model.transmat, 2);
+modelHMM.prior(modelHMM.prior < 0.001) = 0.001;
+modelHMM.prior = normalize(modelHMM.prior);
+
+%Make a bcf model
+%Combine and forecast
+models = {modelGaussian modelHMM};
+
+modelBcf = bcf.BayesianForecaster(models);
+[resBCFTest, probs, ~] = modelBcf.forecastAll(resTest, horizon, horizon, 'aggregate', 0.001, 1); 
+
+fullTest = test + resBCFTest;
+
+plot(1:1:100, [test(1, 300:399); fullTest(1, 300:399)]);
+plot(1:1:100, [probs(1, 300:399)]);

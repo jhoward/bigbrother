@@ -10,9 +10,6 @@ data = sensors(1).data;
 times = sensors(1).dayNums;
 cData = zeros(size(data, 1) * size(data, 2), 1);
 
-for i = 1:size(data, 2);
-
-
 ar = 1;
 diff = 1;
 ma = 1;

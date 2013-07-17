@@ -8,8 +8,8 @@ function output = hmmForecastSingle(obj, data, ahead)
     
     futureState = alpha(:, end);
     
-    fprintf(1, 'Before\n');
-    futureState
+    %fprintf(1, 'Before\n');
+    %futureState
         
     for i = 1:ahead
         futureState = obj.transmat' * futureState;
@@ -17,8 +17,8 @@ function output = hmmForecastSingle(obj, data, ahead)
         futureState = futureState / sum(futureState);
     end
     
-    fprintf(1, 'After\n');
-    futureState
+    %fprintf(1, 'After\n');
+    %futureState
         
     %Compute the output from the future state.
     output = sum(futureState' .* obj.stateEVal, 2);    

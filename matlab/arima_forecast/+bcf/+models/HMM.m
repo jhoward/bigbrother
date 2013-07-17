@@ -31,6 +31,10 @@ classdef HMM < bcf.models.Model
             Sigma0 = reshape(Sigma0, [size(data, 1) size(data, 1) obj.Q obj.M]);
             mixmat0 = mk_stochastic(rand(obj.Q,obj.M));
             
+            %mu0
+            %Sigma0
+            %mixmat0
+            
             if obj.M == 1
                 mixmat0 = ones(obj.Q, 1);
             end
@@ -66,7 +70,7 @@ classdef HMM < bcf.models.Model
             
             if window > 0
                 for i = window:size(data, 2) - ahead
-                    data(:, i - window + 1:i)
+                    %data(:, i - window + 1:i)
                     output(:, i + ahead) = bcf.forecast.hmmForecastSingle(obj, data(:, i - window + 1:i), ahead);
                 end
             else
