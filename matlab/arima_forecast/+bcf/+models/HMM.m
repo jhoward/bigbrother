@@ -97,7 +97,7 @@ classdef HMM < bcf.models.Model
             end
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
-            obj.noiseSigma = pd.std^2;
+            obj.noiseSigma = pd.std;
         end
         
         function calculateExpectedValueStates(obj)

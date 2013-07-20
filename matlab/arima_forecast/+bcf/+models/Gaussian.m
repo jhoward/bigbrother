@@ -29,7 +29,7 @@ classdef Gaussian < bcf.models.Model
         function val = probability(obj, data)
             %Forecast for a model the probability of each observation
             %TODO Change this later
-            val = 1;
+            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
         end
         
         
@@ -38,7 +38,7 @@ classdef Gaussian < bcf.models.Model
             res = data - out;
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
-            obj.noiseSigma = pd.std^2;
+            obj.noiseSigma = pd.std;
         end
         
         
