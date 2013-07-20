@@ -15,6 +15,9 @@ classdef Gaussian < bcf.models.Model
             obj.history = 0;
         end
         
+        function train(obj, data)
+        end
+        
         function output = forecastSingle(obj, data, ahead, varargin)
             output = obj.mu;
         end

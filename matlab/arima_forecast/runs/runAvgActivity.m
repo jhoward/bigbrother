@@ -165,7 +165,7 @@ modelGaussian.calculateNoiseDistribution(resTest);
 %Now make a HMM model
 %Train a hidden markov model
 %Make one cluster data
-index = find(idx == 4);
+index = find(idx == 2);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
@@ -178,18 +178,20 @@ modelHMM.train(clustData(:, :, :));
 
 modelHMM.calculateNoiseDistribution(clustData(:, :, :));
 
+
 %Modify and test transition matrix
 %model.transmat(model.transmat < 0.005) = 0.005;
 %model.transmat = normalize(model.transmat, 2);
 modelHMM.prior(modelHMM.prior < 0.001) = 0.001;
 modelHMM.prior = normalize(modelHMM.prior);
 
+
 %Make a bcf model
 %Combine and forecast
 models = {modelGaussian modelHMM};
 
 modelBcf = bcf.BayesianForecaster(models);
-[resBCFTest, probs, ~] = modelBcf.forecastAll(resTest, horizon, horizon, 'aggregate', 0.001, 1); 
+[resBCFTest, probs, ~] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.001, 1); 
 
 fullTest = test + resBCFTest;
 

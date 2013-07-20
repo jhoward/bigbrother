@@ -13,6 +13,9 @@ classdef NARNET < bcf.models.Model
             val = 1;
         end
         
+        function train(obj, data)
+        end
+        
         function output = forecastAll(obj, data, ahead, varargin)
             if ~iscell(data)
                 data = num2cell(data);
