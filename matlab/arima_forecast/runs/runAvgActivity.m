@@ -1,7 +1,7 @@
 clear all;
 
-dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
-%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
+%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
+dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
 
 load(dataLocation);
 
@@ -174,7 +174,7 @@ clustData = window(index, :);
 clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
 clusterDays = data.times(ind(index));
 M = 2; %Number of Gaussians
-Q = 40; %Number of states
+Q = 20; %Number of states
 
 modelHMM2 = bcf.models.HMM(Q, M);
 modelHMM2.train(clustData(:, :, :));
@@ -185,14 +185,14 @@ modelHMM2.calculateNoiseDistribution(clustData(:, :, :));
 %model.transmat(model.transmat < 0.005) = 0.005;
 %model.transmat = normalize(model.transmat, 2);
 modelHMM2.prior(modelHMM2.prior < 0.001) = 0.001;
-modelHMM2.prior = normalize(modelHMM2.prior);
+modelHMM2.prior = modelHMM2.prior ./ sum(modelHMM2.prior);
 
 cd2d = reshape(clustData, size(clustData, 2), size(clustData, 3));
 cd2d = cd2d';
 tmpOut = [];
 %Plot HMM Model forecasts
 for i = 1:size(cd2d, 1)
-    tmpOut = [tmpOut; modelHMM2.forecastAll(cd2d(i, :), 1, 'window', 0)];
+    tmpOut = [tmpOut; modelHMM2.forecastAll(cd2d(i, :), 1, 'window', 4)];
 end
 
 plot(1:1:10, cd2d, 'color', 'b')
@@ -204,13 +204,13 @@ plot(1:1:10, tmpOut, 'color', 'g')
 %Now make a HMM model
 %Train a hidden markov model
 %Make one cluster data
-index = find(idx == 2);
+index = find(idx == 4);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
 clusterDays = data.times(ind(index));
-M = 2; %Number of Gaussians
-Q = 40; %Number of states
+M = 1; %Number of Gaussians
+Q = 12; %Number of states
 
 modelHMM = bcf.models.HMM(Q, M);
 modelHMM.train(clustData(:, :, :));
@@ -222,17 +222,14 @@ modelHMM.calculateNoiseDistribution(clustData(:, :, :));
 %model.transmat(model.transmat < 0.005) = 0.005;
 %model.transmat = normalize(model.transmat, 2);
 modelHMM.prior(modelHMM.prior < 0.001) = 0.001;
-modelHMM.prior = normalize(modelHMM.prior);
+modelHMM.prior = modelHMM.prior ./ sum(modelHMM.prior);
 
-
-<<<<<<< HEAD
-=======
 cd2d = reshape(clustData, size(clustData, 2), size(clustData, 3));
 cd2d = cd2d';
 tmpOut = [];
 %Plot HMM Model forecasts
 for i = 1:size(cd2d, 1)
-    tmpOut = [tmpOut; modelHMM.forecastAll(cd2d(i, :), 1, 'window', 0)];
+    tmpOut = [tmpOut; modelHMM.forecastAll(cd2d(i, :), 1, 'window', 4)];
 end
 
 tmpBad = modelHMM.forecastAll(resTest, 1, 'window', 0);
@@ -243,28 +240,25 @@ plot(1:1:10, cd2d, 'color', 'b')
 hold on
 plot(1:1:10, tmpOut, 'color', 'g')
 
-plot(1:1:21, [resTest(1, 420:440); tmpBad(1, 420:440)]) 
+plot(1:1:121, [resTest(1, 400:520); tmpBad(1, 400:520)]) 
 
 
-
->>>>>>> a903db74f4ccc80d235b825452bf5ff863df3727
 %Make a bcf model
 %Combine and forecast
-models = {modelGaussian modelHMM modelHMM2};
+models = {modelGaussian modelHMM};
 
 modelBcf = bcf.BayesianForecaster(models);
-<<<<<<< HEAD
-[resBCFTest, probs, ~] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.001, 1); 
-=======
-[resBCFTest, probs, rawProbs] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.05, 1); 
+
+%[resBCFTest, probs, ~] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.001, 1); 
+[resBCFTest, probs, rawProbs] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.001, 1); 
 
 fullTest = mTest + resBCFTest;
 
 testRmse = errperf(test(horizon + 1:end), mTest(horizon + 1:end), 'rmse');
 bcfTestRmse = errperf(test(horizon + 1:end), fullTest(horizon + 1:end), 'rmse');
->>>>>>> a903db74f4ccc80d235b825452bf5ff863df3727
+
 
 fprintf(1, 'Test rmse: %f    BCF test rmse: %f\n', testRmse, bcfTestRmse);
 
-plot(1:1:100, [test(1, 800:899); fullTest(1, 800:899); mTest(1, 800:899)]);
+plot(1:1:121, [test(1, 400:520); fullTest(1, 400:520); mTest(1, 400:520)]);
 %plot(1:1:100, [probs(:, 700:799)]);
