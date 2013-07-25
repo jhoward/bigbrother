@@ -22,16 +22,31 @@ classdef Average < handle
             tmp = obj.avgValues(1:1:size(data, 2)) - data;
             
             for i = 1:size(tmp, 2)
-                foo = normpdf(tmp(1, i), 0, obj.noiseValues(1, i));
-                tmp(1, i) = foo;
+                %First discretize the pdf
+                %For now just always go from -2 to 2 by .1
+                range = -2:0.04:2;
+                dValues = normpdf(range, 0, obj.noiseValues(1, i));
+                dValues(dValues < 0.000000001) = 0.000000001;
+                dValues = dValues ./ sum(dValues);
+                dValues
+                tmp(1, i)
+                range
+                %Change this to include values equal to zero
+                foo = max(find(range <= tmp(1, i))) + 1;
+                foo = min([length(dValues), foo]); 
+                
+                
+                
+                tmp(1, i) = log(dValues(foo));
             end
             
-            ll = prod(tmp, 2);
+            %This should be prod if I remove the sum
+            ll = sum(tmp, 2);
             
             %Should we threshold this here????
-            if ll > 0.9999
-                ll = 0.9999;
-            end
+            %if ll > 0.9999
+            %    ll = 0.9999;
+            %end
             
             %if ll < 0.0001
             %    ll = 0;

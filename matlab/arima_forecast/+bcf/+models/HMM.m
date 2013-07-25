@@ -85,19 +85,41 @@ classdef HMM < bcf.models.Model
         function prob = probabilityNoise(obj, data)
             %Computes the probability that some noise lies within this
             %models forecasted noise
-            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
+            
+            %First discretize the pdf
+            %For now just always go from -2 to 2 by .1
+            range = -2:0.04:2;
+            dValues = normpdf(range, 0, obj.noiseSigma);
+            dValues(dValues < 0.000000001) = 0.000000001;
+            dValues = dValues ./ sum(dValues);
+            prob = zeros(size(data));
+            
+            for i = 1:size(data, 2)
+                %Change this to include values equal to zero
+                foo = max(find(range <= data(1, i))) + 1;
+                foo = min([length(dValues), foo]); 
+                prob(1, i) = dValues(foo);
+            end
+            
+            %prob = normpdf(data, obj.noiseMu, obj.noiseSigma);
         end
         
         function calculateNoiseDistribution(obj, data)
             %Computes the models distribution for common noise forecasts
-            res = [];
+            %res = [];
+            out = [];
             for i = 1:size(data, 3)
-                out = obj.forecastAll(data(:, :, i), 1, 'window', 0);
-                res = [res (data(:, 2:end, i) - out(:, 2:end))]; %#ok<AGROW>
+                out = [out; obj.forecastAll(data(:, :, i), 1, 'window', 0)];
             end
-            pd =  fitdist(res', 'Normal');
-            obj.noiseMu = pd.mean;
-            obj.noiseSigma = pd.std^2;
+            data2d = reshape(data, size(data, 2), size(data, 3));
+            data2d = data2d';
+            
+            foo = out - data2d;
+            obj.noiseSigma = mean(std(foo, 1, 1));
+            obj.noiseMu = mean(mean(foo, 1));
+            %pd =  fitdist(res', 'Normal');
+            %obj.noiseMu = pd.mean;
+            %obj.noiseSigma = pd.std^2;
         end
         
         function calculateExpectedValueStates(obj)

@@ -32,9 +32,25 @@ classdef Average < bcf.models.Model
         function prob = probabilityNoise(obj, data)
             %Computes the probability that some noise lies within this
             %models forecasted noise
-            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
+
+            %First discretize the pdf
+            %For now just always go from -2 to 2 by .1
+            range = -2:0.04:2;
+            dValues = normpdf(range, 0, obj.noiseSigma);
+            dValues(dValues < 0.000000001) = 0.000000001;
+            dValues = dValues ./ sum(dValues);
+            prob = zeros(size(data));
+            
+            for i = 1:size(data, 2)
+                %Change this to include values equal to zero
+                foo = max(find(range <= data(1, i))) + 1;
+                foo = min([length(dValues), foo]); 
+                prob(1, i) = log(dValues(foo));
+            end
+            %prob = normpdf(data, obj.noiseMu, obj.noiseSigma);
         end
         
+        %TODO CHECK THIS VALUE
         function calculateNoiseDistribution(obj, data, ahead)
             %Computes the models distribution for common noise forecasts
             out = obj.forecastAll(data, ahead);
@@ -42,7 +58,7 @@ classdef Average < bcf.models.Model
             tmpRes = reshape(res, size(res, 1), obj.blocksInDay, size(res, 2)/obj.blocksInDay);
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
-            obj.noiseSigma = pd.std^2;
+            obj.noiseSigma = pd.std;
             obj.dayNoiseMu = mean(tmpRes, 3);
             obj.dayNoiseSigma = std(tmpRes, 0, 3);
         end

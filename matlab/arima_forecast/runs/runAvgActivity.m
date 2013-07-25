@@ -1,7 +1,7 @@
 clear all;
 
-%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
-dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
+dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
+%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
 
 load(dataLocation);
 
@@ -27,8 +27,8 @@ numWindows = 20;
 %removeWindow = 18;
 
 %smooth data one more time
-train = smooth(train, 3)';
-test = smooth(test, 3)';
+%train = smooth(train, 3)';
+%test = smooth(test, 3)';
 
 
 %Visualize raw data
@@ -168,12 +168,12 @@ modelGaussian.calculateNoiseDistribution(resTest);
 %Now make a HMM model again
 %Train a hidden markov model
 %Make one cluster data
-index = find(idx == 3);
+index = find(idx == 5);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
-clusterDays = data.times(ind(index));
-M = 2; %Number of Gaussians
+%clusterDays = data.times(ind(index));
+M = 1; %Number of Gaussians
 Q = 20; %Number of states
 
 modelHMM2 = bcf.models.HMM(Q, M);
@@ -192,12 +192,16 @@ cd2d = cd2d';
 tmpOut = [];
 %Plot HMM Model forecasts
 for i = 1:size(cd2d, 1)
-    tmpOut = [tmpOut; modelHMM2.forecastAll(cd2d(i, :), 1, 'window', 4)];
+    tmpOut = [tmpOut; modelHMM2.forecastAll(cd2d(i, :), 1, 'window', 0)];
 end
 
 plot(1:1:10, cd2d, 'color', 'b')
 hold on
 plot(1:1:10, tmpOut, 'color', 'g')
+
+%Plot noise
+plot(1:1:10, tmpOut - cd2d, 'color', 'b')
+
 
 
 
@@ -245,7 +249,7 @@ plot(1:1:121, [resTest(1, 400:520); tmpBad(1, 400:520)])
 
 %Make a bcf model
 %Combine and forecast
-models = {modelGaussian modelHMM};
+models = {modelGaussian modelHMM2};
 
 modelBcf = bcf.BayesianForecaster(models);
 
@@ -260,5 +264,5 @@ bcfTestRmse = errperf(test(horizon + 1:end), fullTest(horizon + 1:end), 'rmse');
 
 fprintf(1, 'Test rmse: %f    BCF test rmse: %f\n', testRmse, bcfTestRmse);
 
-plot(1:1:121, [test(1, 400:520); fullTest(1, 400:520); mTest(1, 400:520)]);
+plot(1:1:121, [test(1, 800:920); fullTest(1, 800:920); mTest(1, 800:920)]);
 %plot(1:1:100, [probs(:, 700:799)]);
