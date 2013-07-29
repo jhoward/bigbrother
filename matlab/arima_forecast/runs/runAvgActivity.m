@@ -1,7 +1,7 @@
 clear all;
 
-dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
-%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
+%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
+dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
 
 load(dataLocation);
 
@@ -24,11 +24,6 @@ testTimes = data.times(:, 7801:end);
 
 windowSize = 10;
 numWindows = 20;
-%removeWindow = 18;
-
-%smooth data one more time
-%train = smooth(train, 3)';
-%test = smooth(test, 3)';
 
 
 %Visualize raw data
@@ -46,10 +41,6 @@ numWindows = 20;
 %==========================================================================
 %==========================================================================
 
-%Setup a simple forecasting model
-% model = bcf.models.Average(data.blocksInDay);
-% model.train(train);
-
 svmParam = '-s 4 -t 2 -q';
 svmWindow = 4;
 model = bcf.models.SVM(svmParam, svmWindow);
@@ -62,8 +53,6 @@ resTest = test - mTest;
 
 plot(1:1:200, [test(200:399); mTest(200:399)]);
 
-%sax.sax_demo(resTrain(:, 1:500))
-
 trainRmse = errperf(train(horizon + 1:end), mTrain(horizon + 1:end), 'rmse');
 testRmse = errperf(test(horizon + 1:end), mTest(horizon + 1:end), 'rmse');
 
@@ -74,11 +63,6 @@ fprintf(1, 'Train rmse: %f    Test rmse: %f\n', trainRmse, testRmse);
 [testMeans, testStds] = dailyMean(resTest(1, :), testTimes, data.blocksInDay, 'smooth', false);
 
 fprintf(1, 'residual avg std ---- Train: %f     Test: %f\n', mean(trainStds(data.stripDays, :)), mean(testStds(data.stripDays, :)));
-
-% plotMean(trainMeans(data.stripDays, :), 'std', trainStds(data.stripDays, :));
-% figure
-% plotMean(testMeans(data.stripDays, :), 'std', testStds(data.stripDays, :));
-
 
 %Figure out a threshold for now
 meanStd = mean(trainStds(4, :));
@@ -112,38 +96,6 @@ for i = 1:6
     clf
 end
 
-% %Plot raw data of each cluster
-% for i = 1:6
-%     index = find(idx == i);
-%     
-%     plotData = [];
-%     for j = 1:size(index, 1)
-%         currentIndex = ind(index(j));
-%         plotData = [plotData; test(1,currentIndex:currentIndex + windowSize - 1)]; %#ok<AGROW>
-%     end
-%     
-%     %plotData = window(index, :);
-%     x = linspace(1, windowSize, windowSize);
-%     xflip = [x(1 : end - 1) fliplr(x)];
-%     for j = 1:size(plotData, 1)
-%         y = plotData(j, :);
-%         yflip = [y(1 : end - 1) fliplr(y)];
-%         patch(xflip, yflip, 'r', 'EdgeAlpha', 0.15, 'FaceColor', 'none');
-%         hold on
-%     end
-%     hold off
-%     
-%     clusterDays = data.times(ind(index));
-%     datestr(clusterDays)
-%     %weekday(clusterDays)
-%     
-%     waitforbuttonpress;
-%     clf
-% end
-
-
-
-
 
 %==========================================================================
 
@@ -165,50 +117,11 @@ modelAvg.calculateNoiseDistribution(test, horizon);
 modelGaussian = bcf.models.Gaussian(mean(resTest), std(resTest));
 modelGaussian.calculateNoiseDistribution(resTest);
 
-%Now make a HMM model again
-%Train a hidden markov model
-%Make one cluster data
-index = find(idx == 5);
-clustData = window(index, :);
-%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
-clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
-%clusterDays = data.times(ind(index));
-M = 1; %Number of Gaussians
-Q = 20; %Number of states
-
-modelHMM2 = bcf.models.HMM(Q, M);
-modelHMM2.train(clustData(:, :, :));
-
-modelHMM2.calculateNoiseDistribution(clustData(:, :, :));
-
-%Modify and test transition matrix
-%model.transmat(model.transmat < 0.005) = 0.005;
-%model.transmat = normalize(model.transmat, 2);
-modelHMM2.prior(modelHMM2.prior < 0.001) = 0.001;
-modelHMM2.prior = modelHMM2.prior ./ sum(modelHMM2.prior);
-
-cd2d = reshape(clustData, size(clustData, 2), size(clustData, 3));
-cd2d = cd2d';
-tmpOut = [];
-%Plot HMM Model forecasts
-for i = 1:size(cd2d, 1)
-    tmpOut = [tmpOut; modelHMM2.forecastAll(cd2d(i, :), 1, 'window', 0)];
-end
-
-plot(1:1:10, cd2d, 'color', 'b')
-hold on
-plot(1:1:10, tmpOut, 'color', 'g')
-
-%Plot noise
-plot(1:1:10, tmpOut - cd2d, 'color', 'b')
-
-
-
 
 %Now make a HMM model
 %Train a hidden markov model
 %Make one cluster data
-index = find(idx == 4);
+index = find(idx == 2);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
@@ -225,7 +138,7 @@ modelHMM.calculateNoiseDistribution(clustData(:, :, :));
 %Modify and test transition matrix
 %model.transmat(model.transmat < 0.005) = 0.005;
 %model.transmat = normalize(model.transmat, 2);
-modelHMM.prior(modelHMM.prior < 0.001) = 0.001;
+modelHMM.prior(modelHMM.prior < 0.01) = 0.01;
 modelHMM.prior = modelHMM.prior ./ sum(modelHMM.prior);
 
 cd2d = reshape(clustData, size(clustData, 2), size(clustData, 3));
@@ -236,7 +149,7 @@ for i = 1:size(cd2d, 1)
     tmpOut = [tmpOut; modelHMM.forecastAll(cd2d(i, :), 1, 'window', 4)];
 end
 
-tmpBad = modelHMM.forecastAll(resTest, 1, 'window', 0);
+tmpBad = modelHMM.forecastAll(resTest(1, 200:250), 1, 'window', 3);
 tmpRes = resTest - tmpBad;
 tmpProbs = modelHMM.probabilityNoise(tmpRes');
 
@@ -244,17 +157,56 @@ plot(1:1:10, cd2d, 'color', 'b')
 hold on
 plot(1:1:10, tmpOut, 'color', 'g')
 
-plot(1:1:121, [resTest(1, 400:520); tmpBad(1, 400:520)]) 
+plot(1:1:51, [resTest(1, 200:250); tmpBad]) 
+
+
+
+%Now make a HMM model
+%Train a hidden markov model
+%Make one cluster data
+index = find(idx == 6);
+clustData = window(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
+clusterDays = data.times(ind(index));
+M = 1; %Number of Gaussians
+Q = 12; %Number of states
+
+modelHMM2 = bcf.models.HMM(Q, M);
+modelHMM2.train(clustData(:, :, :));
+
+modelHMM2.calculateNoiseDistribution(clustData(:, :, :));
+
+
+%Modify and test transition matrix
+%model.transmat(model.transmat < 0.005) = 0.005;
+%model.transmat = normalize(model.transmat, 2);
+modelHMM2.prior(modelHMM.prior < 0.01) = 0.01;
+modelHMM2.prior = modelHMM.prior ./ sum(modelHMM.prior);
+
+
+%Make avgModel
+index = find(idx == 6);
+clustData = window(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
+
+modelAvg = bcf.models.Average(windowSize);
+modelAvg.train(clustData);
+
+modelAvg.calculateNoiseDistribution(clustData, 1);
+
 
 
 %Make a bcf model
 %Combine and forecast
-models = {modelGaussian modelHMM2};
+models = {modelGaussian modelHMM};
 
 modelBcf = bcf.BayesianForecaster(models);
 
 %[resBCFTest, probs, ~] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.001, 1); 
-[resBCFTest, probs, rawProbs] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.001, 1); 
+%[resBCFTest, probs, rawProbs] = modelBcf.forecastAll(resTest, 1, 1, 'aggregate', 0.001, 1); 
+[resBCFTest, probs, models, windows, modelForecasts] = modelBcf.windowForecast(resTest, 3, 10, 1, 'aggregate');
 
 fullTest = mTest + resBCFTest;
 
@@ -264,5 +216,5 @@ bcfTestRmse = errperf(test(horizon + 1:end), fullTest(horizon + 1:end), 'rmse');
 
 fprintf(1, 'Test rmse: %f    BCF test rmse: %f\n', testRmse, bcfTestRmse);
 
-plot(1:1:121, [test(1, 800:920); fullTest(1, 800:920); mTest(1, 800:920)]);
+plot(1:1:51, [test(1, 330:380); fullTest(1, 330:380); mTest(1, 330:380)]);
 %plot(1:1:100, [probs(:, 700:799)]);

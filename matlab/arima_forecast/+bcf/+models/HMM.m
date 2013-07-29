@@ -88,7 +88,7 @@ classdef HMM < bcf.models.Model
             
             %First discretize the pdf
             %For now just always go from -2 to 2 by .1
-            range = -2:0.04:2;
+            range = -2:0.02:2;
             dValues = normpdf(range, 0, obj.noiseSigma);
             dValues(dValues < 0.000000001) = 0.000000001;
             dValues = dValues ./ sum(dValues);

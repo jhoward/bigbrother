@@ -7,6 +7,7 @@ function output = hmmForecastSingle(obj, data, ahead)
     [alpha, ~, ~, ~] = fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1);
     
     futureState = alpha(:, end);
+    %futureState
     
     %fprintf(1, 'Before\n');
     %futureState
