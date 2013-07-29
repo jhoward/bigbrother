@@ -112,13 +112,13 @@ classdef BayesianForecaster < handle
             dexpand = repmat(data, [1 1 size(obj.models, 2)]);
             for k = 1:size(obj.models, 2)
                 %fprintf(1, 'Forcast for model %i\n', k);
-                fcasts(:, :, k) = obj.models{k}.forecastAll(data, modelAhead, 'window', 4);
+                fcasts(:, :, k) = obj.models{k}.forecastAll(data, modelAhead, 'window', 3);
             end
             
             if ahead ~= modelAhead
                 for k = 1:size(obj.models, 2)
                     %fprintf(1, 'Forcast for model %i\n', k);
-                    fcastsAhead(:, :, k) = obj.models{k}.forecastAll(data, ahead, 'window', 4);
+                    fcastsAhead(:, :, k) = obj.models{k}.forecastAll(data, ahead, 'window', 3);
                 end
             else
                 fcastsAhead = fcasts;

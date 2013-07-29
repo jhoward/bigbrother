@@ -1,7 +1,7 @@
 clear all;
 
 lengths = [20 20 5];
-noiseStds = [0.2 0.2 0.5];
+noiseStds = [0.1 0.1 0.5];
 
 yA = generateData(lengths(1), 15, 1, noiseStds(1));
 yB = generateData(lengths(2), 15, 2, noiseStds(2));

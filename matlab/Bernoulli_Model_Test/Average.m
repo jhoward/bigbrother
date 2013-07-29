@@ -19,29 +19,28 @@ classdef Average < handle
         end
         
         function ll = likelihood(obj, data)
-            tmp = obj.avgValues(1:1:size(data, 2)) - data;
+            %tmp = obj.avgValues(1:1:size(data, 2)) - data;
+            tmp = data;
             
-            for i = 1:size(tmp, 2)
+            for i = 1:size(data, 2)
+                %fprintf(1, 'value: %f\n', data(1, i));
+                %fprintf(1, 'avg value: %f\n', obj.avgValues(1, i));
                 %First discretize the pdf
                 %For now just always go from -2 to 2 by .1
-                range = -2:0.04:2;
-                dValues = normpdf(range, 0, obj.noiseValues(1, i));
+                range = (obj.avgValues(1, i) - 3 * obj.noiseValues(1, i)):(obj.noiseValues(1, i) / 25):(obj.avgValues(1, i) + 3 * obj.noiseValues(1, i));
+                dValues = normpdf(range, obj.avgValues(1, i), obj.noiseValues(1, i));
                 dValues(dValues < 0.000000001) = 0.000000001;
                 dValues = dValues ./ sum(dValues);
-                dValues
-                tmp(1, i)
-                range
+                
                 %Change this to include values equal to zero
-                foo = max(find(range <= tmp(1, i))) + 1;
+                foo = max(find(range <= data(1, i))) + 1;
                 foo = min([length(dValues), foo]); 
-                
-                
-                
-                tmp(1, i) = log(dValues(foo));
+                %dValues(foo)
+                tmp(1, i) = dValues(foo);
             end
             
             %This should be prod if I remove the sum
-            ll = sum(tmp, 2);
+            ll = prod(tmp, 2);
             
             %Should we threshold this here????
             %if ll > 0.9999

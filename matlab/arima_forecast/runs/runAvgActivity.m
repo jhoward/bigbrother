@@ -1,7 +1,7 @@
 clear all;
 
-%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
-dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
+dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
+%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
 
 load(dataLocation);
 
@@ -149,7 +149,7 @@ for i = 1:size(cd2d, 1)
     tmpOut = [tmpOut; modelHMM.forecastAll(cd2d(i, :), 1, 'window', 4)];
 end
 
-tmpBad = modelHMM.forecastAll(resTest(1, 200:250), 1, 'window', 3);
+tmpBad = modelHMM.forecastAll(resTest, 1, 'window', 0);
 tmpRes = resTest - tmpBad;
 tmpProbs = modelHMM.probabilityNoise(tmpRes');
 
@@ -157,7 +157,7 @@ plot(1:1:10, cd2d, 'color', 'b')
 hold on
 plot(1:1:10, tmpOut, 'color', 'g')
 
-plot(1:1:51, [resTest(1, 200:250); tmpBad]) 
+plot(1:1:51, [resTest(1, 240:290); tmpBad(1, 240:290)]) 
 
 
 
@@ -186,7 +186,7 @@ modelHMM2.prior = modelHMM.prior ./ sum(modelHMM.prior);
 
 
 %Make avgModel
-index = find(idx == 6);
+index = find(idx == 5);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
@@ -200,7 +200,7 @@ modelAvg.calculateNoiseDistribution(clustData, 1);
 
 %Make a bcf model
 %Combine and forecast
-models = {modelGaussian modelHMM};
+models = {modelGaussian modelAvg};
 
 modelBcf = bcf.BayesianForecaster(models);
 
@@ -216,5 +216,5 @@ bcfTestRmse = errperf(test(horizon + 1:end), fullTest(horizon + 1:end), 'rmse');
 
 fprintf(1, 'Test rmse: %f    BCF test rmse: %f\n', testRmse, bcfTestRmse);
 
-plot(1:1:51, [test(1, 330:380); fullTest(1, 330:380); mTest(1, 330:380)]);
+plot(1:1:51, [test(1, 1000:1050); fullTest(1, 1000:1050); mTest(1, 1000:1050)]);
 %plot(1:1:100, [probs(:, 700:799)]);
