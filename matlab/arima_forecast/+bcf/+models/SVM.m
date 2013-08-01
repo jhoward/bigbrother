@@ -12,9 +12,6 @@ classdef SVM < bcf.models.Model
         end
         
         function train(obj, data, window)
-            
-            data = data ./ max(abs(data));
-            
             %Train the model from a single dimensional dataset
             xWin = zeros(window, size(data, 2) - 1 - window);
             for i = 1 : size(data, 2) - window
@@ -31,10 +28,7 @@ classdef SVM < bcf.models.Model
         end
         
         function output = forecastAll(obj, data, ahead, varargin)
-            nc = max(abs(data));
-            data = data ./ nc;
             output = bcf.forecast.svmForecast(obj.model, data, ahead);
-            output = output .* nc;
         end
             
         function prob = probabilityNoise(obj, data)
