@@ -40,7 +40,7 @@ classdef HMM < bcf.models.Model
             end
 
             [~, prior1, transmat1, mu1, Sigma1, mixmat1] = ...  
-                mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 40);
+                mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 50);
             
             %Renormalize the transition matrix
             minTransValue = 1 / (obj.Q * 4);

@@ -7,6 +7,7 @@ function output = hmmForecastSingle(obj, data, ahead)
     [alpha, ~, ~, ~] = fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1);
     
     futureState = alpha(:, end);
+    
     %futureState
     
     %fprintf(1, 'Before\n');
@@ -20,6 +21,11 @@ function output = hmmForecastSingle(obj, data, ahead)
     
     %fprintf(1, 'After\n');
     %futureState
+    
+    futureState
+    
+    [~, foo] = max(futureState);
+    output = obj.stateEVal(1, foo);
         
     %Compute the output from the future state.
     output = sum(futureState' .* obj.stateEVal, 2);    

@@ -26,6 +26,11 @@ function output = hmmForecast(obj, data, ahead)
             futureState = futureState / sum(futureState);
         end
         
+        [foo, bar] =  max(abs(futureState));
+        if bar == size(futureState, 1)
+            futureState
+            fprintf(1, '%i\n', t);
+        end
         %Compute the output from the future state.
         output(:, t + ahead) = sum(futureState' .* obj.stateEVal, 2);
     end

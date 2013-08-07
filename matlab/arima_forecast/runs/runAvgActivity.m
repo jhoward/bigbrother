@@ -121,12 +121,12 @@ modelGaussian.calculateNoiseDistribution(resTest);
 %Now make a HMM model
 %Train a hidden markov model
 %Make one cluster data
-index = find(idx == 2);
+index = find(idx == 5);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData', 1), size(clustData', 2));
 clusterDays = data.times(ind(index));
-M = 1; %Number of Gaussians
+M = 2; %Number of Gaussians
 Q = 12; %Number of states
 
 modelHMM = bcf.models.HMM(Q, M);
@@ -138,24 +138,29 @@ modelHMM.calculateNoiseDistribution(clustData(:, :, :));
 %Modify and test transition matrix
 %model.transmat(model.transmat < 0.005) = 0.005;
 %model.transmat = normalize(model.transmat, 2);
-modelHMM.prior(modelHMM.prior < 0.01) = 0.01;
+modelHMM.prior(modelHMM.prior < 0.04) = 0.04;
 modelHMM.prior = modelHMM.prior ./ sum(modelHMM.prior);
 
 cd2d = reshape(clustData, size(clustData, 2), size(clustData, 3));
 cd2d = cd2d';
 tmpOut = [];
+
+cd3d = [];
+
 %Plot HMM Model forecasts
 for i = 1:size(cd2d, 1)
-    tmpOut = [tmpOut; modelHMM.forecastAll(cd2d(i, :), 1, 'window', 4)];
+    bar = 0.3 * rand(1, 5);
+    cd3d = [cd3d; [bar cd2d(i, :)]];
+    tmpOut = [tmpOut; modelHMM.forecastAll(cd3d(i, :), 1, 'window', 0)];
 end
 
 tmpBad = modelHMM.forecastAll(resTest, 1, 'window', 0);
 tmpRes = resTest - tmpBad;
 tmpProbs = modelHMM.probabilityNoise(tmpRes');
 
-plot(1:1:10, cd2d, 'color', 'b')
+plot(1:1:15, cd3d, 'color', 'b')
 hold on
-plot(1:1:10, tmpOut, 'color', 'g')
+plot(1:1:15, tmpOut, 'color', 'g')
 
 plot(1:1:51, [resTest(1, 240:290); tmpBad(1, 240:290)]) 
 

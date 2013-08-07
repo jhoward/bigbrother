@@ -1,0 +1,26 @@
+Copyright (c) 2004 Matthew Krauski (mkrauski@uci.edu), CNLM, UC Irvine
+               Written the original class
+Copyright (c) 2010 Dean Mark
+               Repackaged the class in modern form.
+
+
+This is basically a repackage of the old "Simple Hashtable" by Matthew Krauski, in the new style of matlab classes. The only thing that has changed is that now the class is a handle, and I included some minor fixes to the original code. e.g. type checking that the keys inputed are really strings. 
+
+If you want to get a basic feeling of how to use the Hashtable class, look at the included file "hash_test.m" .
+
+Notes:
+a) As Ryan Rifkin noted, this isn't a Hashtable at all, this is a lookup table. But in order not to shadow simulink's builtin lookup table i left the class name as Hashtable.
+b) I'll quote Ryan Rifkin again : "A good lookup table in Matlab is a very useful thing to have, but a hashtable implies some effort to provide O(1) access times --- this code simply does a string comparison on all the keys, and is therefore O(n). It's great for small tables, but it doesn't scale too well"
+c) Some have noted that it is possible to use java's builtin "java.util.Hashtable" instead. But note that java's hastable does not allow you to use user made matlab classes as data. The advantage of this implementation is that it allows you to use classes as data, and that you can save and load it to disk without a problem.
+
+Methods:
+  Clear     - Clear hash table
+  Elements  - Get all hash table elements
+  Get       - Get data from the hash table
+  Hashtable - Constructor for Hashtable class
+  IsEmpty   - Check to see if the hash is empty
+  IsKey     - Check to see if the hash is currently using a key
+  Keys      - Get all the keys currently being used in the hash
+  Put       - Put data in the hash table
+  Remove    - Remove element from the hash
+  Values    - Get all data contained in the hash table
