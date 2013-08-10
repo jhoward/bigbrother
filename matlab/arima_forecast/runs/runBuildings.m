@@ -93,24 +93,24 @@ set(gca,'XTick',[]);
 
 %=====================PERFORM SEASONAL ARIMA FORECASTS=====
 
-% %%%%%%%%%%BROWN PARAMETERS%%%%%%%%
-ar = 0;
-diff = 1;
-ma = 1;
-sar = 0;
-sdiff = data.blocksInDay;
-sma = 4;
-%%%%%%%%%%%%%BROWN PARAMETERS%%%%%%
-
-
-%%%%%%%%MERL PARAMETERS%%%%%%%%%%%
+% % %%%%%%%%%%BROWN PARAMETERS%%%%%%%%
 % ar = 0;
-% diff = 0;
+% diff = 1;
 % ma = 1;
 % sar = 0;
 % sdiff = data.blocksInDay;
-% sma = 5;
-%%%%%%%%MERL PARAMETERS%%%%%%%%%%%
+% sma = 4;
+% %%%%%%%%%%%%%BROWN PARAMETERS%%%%%%
+
+
+%%%%%%%MERL PARAMETERS%%%%%%%%%%%
+ar = 0;
+diff = 0;
+ma = 1;
+sar = 0;
+sdiff = data.blocksInDay;
+sma = 5;
+%%%%%%%MERL PARAMETERS%%%%%%%%%%%
 
 %%%%%%%%%%%%TRAIN FOR TWENTY FORECAST HORIZONS%%%%%%%%%%%%%
 dataVals = {zeros(6, horizon), zeros(6, horizon), zeros(6, horizon), zeros(6, horizon), zeros(6, horizon), zeros(6, horizon)};
@@ -135,12 +135,14 @@ modelVals{1} = modelArima;
 
 arimaInput = {};
 arimaOutput = {};
+arimaTimes = [];
 
 for i = 1:horizon
 
     arimaInput{i} = modelArima.forecastAll(input, i);
+    tic
     arimaOutput{i} = modelArima.forecastAll(output, i);
-
+    arimaTimes = [arimaTimes toc];
     arimaResInput = arimaInput{i} - input;
     arimaResOutput = arimaOutput{i} - output;
 
@@ -165,7 +167,6 @@ end
 plot(1:1:data.blocksInDay, [output(data.blocksInDay:data.blocksInDay * 2 -1); arimaOutput{15}(1, data.blocksInDay:data.blocksInDay * 2 - 1)]);
 plot(1:1:horizon, [dataVals{1}(1, :); dataVals{1}(4, :)])
 xlim([1, horizon]);
-
 
 %plot(arimaResInput(500:1099))
 % [h, p, s, c] = lbqtest(arimaResInput(400:480))
@@ -246,9 +247,10 @@ net.divideParam.testRatio = 15/100;
     
 tdnnInput = {};
 tdnnOutput = {};
+tdnnTimes = [];
 
 %THIS RUN TAKES A WHILE
-for i = 3:horizon
+for i = 1:horizon
 
     %COMMENT THIS OUT LATER
     [xs, xi, ai, ts] = preparets(net, cdata(:, 1:end - i), cdata(:, 1 + i:end)); 
@@ -256,8 +258,10 @@ for i = 3:horizon
     
     modelTDNN = bcf.models.TDNN(netahead, i);
     
-    tdnnInput{i} = modelTDNN.forecastAll(input(1, :), i); 
+    tdnnInput{i} = modelTDNN.forecastAll(input(1, :), i);
+    tic
     tdnnOutput{i} = modelTDNN.forecastAll(output(1, :), i); 
+    tdnnTimes = [tdnnTimes toc];
     tdnnResOutput = tdnnOutput{i} - output;
     tdnnResInput = tdnnInput{i} - input;
 
@@ -286,6 +290,7 @@ end
 
 avgInput = {};
 avgOutput = {};
+avgTimes = [];
 
 modelAvg = bcf.models.Average(data.blocksInDay);
 modelAvg.train(input);
@@ -296,7 +301,9 @@ modelVals{3} = modelAvg;
 
 for i = 1:horizon
     avgInput{i} = modelAvg.forecastAll(input(1, :), i);
+    tic
     avgOutput{i} = modelAvg.forecastAll(output(1, :), i); 
+    avgTimes = [avgTimes toc];
     avgResOutput = avgOutput{i} - output;
     avgResInput = avgInput{i} - input;
 
@@ -326,6 +333,7 @@ xlim([1, 20]);
 
 svmInput = {};
 svmOutput = {};
+svmTimes = [];
 %horizon = 20;
 
 svmParam = '-s 4 -t 2 -q';
@@ -339,7 +347,9 @@ modelVals{4} = modelSVM;
 
 for i = 1:horizon
     svmInput{i} = modelSVM.forecastAll(input(1, :), i);
+    tic
     svmOutput{i} = modelSVM.forecastAll(output(1, :), i); 
+    svmTimes = [svmTimes toc];
     svmResOutput = svmOutput{i} - output;
     svmResInput = svmInput{i} - input;
 
@@ -413,7 +423,7 @@ bcf2Input = {};
 bcf2Output = {};
 
 %Combine and forecast
-models = {modelArima modelAvg};
+models = {modelArima modelAvg modelTDNN modelSVM};
 
 model2Bcf = bcf.BayesianForecaster(models);
 modelVals{6} = model2Bcf;
@@ -461,9 +471,10 @@ bcf3Input = {};
 bcf3Output = {};
 bcf3Probs = {};
 bcf3RawProbs = {};
+bcfTimes = [];
 
 %Combine and forecast
-models = {modelArima modelAvg modelSVM};
+models = {modelArima modelAvg modelSVM modelTDNN};
 modelNums = [1 3 4];
 
 model3Bcf = bcf.BayesianForecaster(models);
@@ -486,7 +497,9 @@ for i = 1:horizon
     end
     
     bcf3Input{i} = model3Bcf.forecastAll(input(1, :), i, i, 'aggregate', 0.001, defaultModel);
+    tic
     [bcf3Output{i}, bcf3Probs{i}, bcf3RawProbs{i}] = model3Bcf.forecastAll(output(1, :), i, i, 'aggregate', 0.001, defaultModel); 
+    bcfTimes = [bcfTimes toc];
     bcfResOutput = bcf3Output{i} - output;
     bcfResInput = bcf3Input{i} - input;
 
