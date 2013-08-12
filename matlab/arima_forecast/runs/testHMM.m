@@ -20,7 +20,7 @@ end
 xlim([0, pi]);
 
 M = 2; %Number of Gaussians
-Q = 20; %Number of states
+Q = 50; %Number of states
 
 model = bcf.models.HMM(Q, M);
 model.train(data(:, :, 1:trainSplit));
@@ -35,7 +35,7 @@ model.prior = normalize(model.prior);
 
 output = data(:, :, trainSplit + 1:end);
 for i = 1:size(output, 3)
-    output(:, :, i) = model.forecastAll(output(:, :, i), 1, 'window', 3);
+    output(:, :, i) = model.forecastAll(output(:, :, i), 6, 'window', 1);
 end
 
 for i = 1:size(output, 3)

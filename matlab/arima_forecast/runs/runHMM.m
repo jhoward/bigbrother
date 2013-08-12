@@ -1,3 +1,4 @@
+clear all;
 O = 1; %Number of dimensions
 T = 10; %Time series length
 nex = 20; %Number of examples
@@ -45,6 +46,8 @@ for i = 1:size(data, 3)
     plot(data(1, :, i));
     hold on
 end
+
+hold off;
 
 
 d2 = num2cell(data, [1 2]); % each elt of the 3rd dim gets its own cell
