@@ -65,7 +65,7 @@ for t = 1:1%size(y, 2) - horizon
     %then p(a^(t + 1)_(j + 1)|x^(t), ..., x^(1)) 
     
     %First compute p(x^(t + 1)|a_(j + 1), x^(t), ..., x^(1))
-    p
+    
 
 end
 

@@ -4,8 +4,10 @@ ahead = 1;
 
 lengths = [10 10 1];
 backgroundLen = 10;
-noiseStds = [0.1 0.1 0.5];
+noiseStds = [0.3 0.3 0.2];
 priorCDF = [0.1 0.2 1];
+
+modelConstants = [0.01, 0.01];
 
 yA = generateData(lengths(1), 15, 1, noiseStds(1));
 yB = generateData(lengths(2), 15, 2, noiseStds(2));
@@ -17,6 +19,15 @@ modelA.train(yA);
 
 modelB = Average(lengths(2));
 modelB.train(yB);
+
+tmpA = reshape(yA, 10, size(yA, 2)/10);
+tmpA = tmpA';
+hold on
+for i = 1:size(tmpA, 2)
+    plot(1:1:10, tmpA(i, :));
+end
+plot(1:1:10, modelA.avgValues(1, :), 'Color', 'g');
+hold off
 
 backModel = Average(1);
 backModel.noiseValues = [noiseStds(1, end)];
@@ -33,33 +44,34 @@ for i = 1:50
         typeLen = backgroundLen;
     end
     yT = [yT ones(1, typeLen) * type];
-    y = [y generateData(lengths(type), 1, type, noiseStds(type))];
+    y = [y generateData(typeLen, 1, type, noiseStds(type))];
 end
 
 
 yp = zeros(size(y));
 
-%p = {};
+p = {};
 
-p = ones(size(lengths));
+%p = ones(size(lengths));
 
 l = {};
 post = {};
 for j = 1:size(lengths, 2)
-    %p{j} = ones(1, lengths(j));
+    p{j} = ones(1, lengths(j));
     l{j} = ones(1, lengths(j));
     post{j} = ones(1, lengths(j));
 end
-%cellTotal = sum(cellfun(@sum, p));
-%p = cellfun(@(v)v./cellTotal, p, 'UniformOutput', false)
+
+cellTotal = sum(cellfun(@sum, p));
+p = cellfun(@(v)v./cellTotal, p, 'UniformOutput', false);
 
 
 %TODO attempt this with model based prior later instead of prior per model
 %unit. work with this being an array instead of a cell model.
-p = p ./ sum(p, 2);
+%p = p ./ sum(p, 2);
 
 %Go through whole dataset
-for t = 1:size(y, 2) - ahead
+for t = 1:300%size(y, 2) - ahead
     
     %compute model likelihoods
     for m = 1:length(models)
@@ -78,7 +90,7 @@ for t = 1:size(y, 2) - ahead
     end
     
     for m = 1:length(models)
-        post{m}(post{m} <= 0.0001) = 0.0001;
+        post{m}(post{m} <= 0.00001) = 0.00001;
     end
         
     
@@ -86,13 +98,19 @@ for t = 1:size(y, 2) - ahead
     cellTotal = sum(cellfun(@sum, post));
     post = cellfun(@(v)v./cellTotal, post, 'UniformOutput', false);
             
-    
+    %Update the priors
     for m = 1:length(models)
-        for j = 1:lengths(1, m)
-            p{m}(1, j) = post{m}(1, j);
+        for j = 2:lengths(1, m)
+            p{m}(1, j) = post{m}(1, j - 1);
+        end
+        if m < length(models)
+            p{m}(1, 1) = modelConstants(1, m);
         end
     end
     
+    %normalize priors
+    cellTotal = sum(cellfun(@sum, p));
+    p = cellfun(@(v)v./cellTotal, p, 'UniformOutput', false);
     
     %forecast based weighted posteriors
     for m = 1:length(models)
@@ -102,3 +120,4 @@ for t = 1:size(y, 2) - ahead
     end    
 end
 
+plot(1:1:300, [y(1, 1:300); yp(1, 1:300)]);
