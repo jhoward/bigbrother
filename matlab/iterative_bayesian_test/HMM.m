@@ -60,12 +60,16 @@ classdef HMM < bcf.models.Model
         
         
         function ll = likelihood(obj, data, offset)
+            %Data is of a shape of (dim X time)
+            
+            
             
             %Compute the observation likelihood for the given data
             obslik = mixgauss_prob(data(:, :, 1), obj.mu, obj.Sigma, obj.mixmat);
             [alpha, beta, gamma, ll]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
 
             %From alpha compute p(x|alpha)
+            
             
         end
 
