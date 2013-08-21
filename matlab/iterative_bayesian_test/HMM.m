@@ -1,4 +1,4 @@
-classdef HMM < bcf.models.Model
+classdef HMM < handle
     %HMM Hidden Markov model class
     
     properties
@@ -59,18 +59,15 @@ classdef HMM < bcf.models.Model
         end
         
         
-        function ll = likelihood(obj, data, offset)
+        function like = likelihood(obj, data, offset)
             %Data is of a shape of (dim X time)
-            
-            
-            
-            %Compute the observation likelihood for the given data
-            obslik = mixgauss_prob(data(:, :, 1), obj.mu, obj.Sigma, obj.mixmat);
-            [alpha, beta, gamma, ll]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
 
-            %From alpha compute p(x|alpha)
+            %Compute the observation likelihood for the given data
+            obslik = mixgauss_prob(data(1, :), obj.mu, obj.Sigma, obj.mixmat);
+            [alpha, ~, ~, ~]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
             
-            
+            %From alpha compute p(data(1, end)|alpha(:, end))
+             like = exp(mhmm_logprob(data(1, end), alpha(:, end), obj.transmat, obj.mu, obj.sigma, obj.mixmat));
         end
 
         
@@ -80,6 +77,12 @@ classdef HMM < bcf.models.Model
             tmpMix = repmat(tmpMix, [size(obj.mu, 1) 1 1]);
             tmpMu = obj.mu .* tmpMix;
             obj.stateEVal = sum(tmpMu, 3);
+        end
+        
+        function samples = sampleData(obj, sampleLen, numSamples)
+            %generate samples for the model
+            [obs, ~] = mhmm_sample(sampleLen, numSamples, obj.prior, obj.transmat, obj.mu, obj.sigma, obj.mixmat);
+            samples = obs;
         end
     end
 end
