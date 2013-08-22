@@ -8,7 +8,8 @@ function data = generateData(unitSize, numUnits, type, noiseStd)
         stepSize = numUnits * 2 * pi / (unitSize * numUnits);
         endData = numUnits * 2 * pi - stepSize;
         x = 0:stepSize:endData;
-        data = 2.5 .* (sin(x) + noiseStd .* randn(size(x)));
+        data = 1.0 .* (sin(x) + noiseStd .* randn(size(x)));
+        %data = 2.5 .* (sin(x) + noiseStd .* randn(size(x)));
     end
     
     %y = x^2
@@ -17,7 +18,8 @@ function data = generateData(unitSize, numUnits, type, noiseStd)
         yB = yB .* yB;
         yB = yB ./ max(yB);
         yB = repmat(yB, [1 numUnits]);
-        data = 1.5 .* (yB + noiseStd .* randn(size(yB)));
+        %data = 1.5 .* (yB + noiseStd .* randn(size(yB)));
+        data = 1.0 .* (yB + noiseStd .* randn(size(yB)));
     end
     
     %y = 0 + noise

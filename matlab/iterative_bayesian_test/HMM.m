@@ -39,7 +39,7 @@ classdef HMM < handle
                 mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 50);
             
             %Renormalize the transition matrix
-            minTransValue = 1 / (obj.Q * 4);
+            minTransValue = 1 / (obj.Q * 8);
             transmat1(transmat1 < minTransValue) = minTransValue;
             tmp = repmat(sum(transmat1, 2), 1, obj.Q);
             transmat1 = transmat1 ./ tmp;

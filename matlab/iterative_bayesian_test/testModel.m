@@ -4,7 +4,7 @@ ahead = 1;
 
 lengths = [10 10 1];
 backgroundLen = 10;
-noiseStds = [0.3 0.3 0.2];
+noiseStds = [0.15 0.15 0.3];
 priorCDF = [0.1 0.2 1];
 
 modelConstants = [0.01, 0.01];
@@ -14,11 +14,11 @@ yB = generateData(lengths(2), 15, 2, noiseStds(2));
 yC = generateData(lengths(3), 15, 3, noiseStds(3));
 
 %%Generate model for data
-%modelA = Average(lengths(1));
-%modelA.train(yA);
-
-%modelB = Average(lengths(2));
-%modelB.train(yB);
+% modelA = Average(lengths(1));
+% modelA.train(yA);
+% 
+% modelB = Average(lengths(2));
+% modelB.train(yB);
 
 %Models for HMMs
 %For now reshape the data to work with HMM
@@ -32,11 +32,13 @@ modelB.train(tmpB);
 
 
 foo = modelA.sampleData(lengths(1), 15);
-%tmpA = reshape(yA, 10, size(yA, 2)/10);
-%tmpA = tmpA';
+tmpA = reshape(yA, 10, size(yA, 2)/10);
+tmpA = tmpA';
+
 hold on
 for i = 1:size(tmpA, 2)
     plot(1:1:10, tmpA(1, :, i), 'Color', 'b');
+    %plot(1:1:10, tmpA(i, :), 'Color', 'b');
     plot(1:1:10, foo(1, :, i), 'Color', 'g');
 end
 %plot(1:1:10, modelA.avgValues(1, :), 'Color', 'g');
@@ -89,8 +91,8 @@ for t = 1:300%size(y, 2) - ahead
     %compute model likelihoods
     for m = 1:length(models)
         for j = 1:lengths(1, m)
-            %l{m}(1, j) = models{m}.likelihood(y(1, t), j);
-            l{m}(1, j) = models{m}.likelihood(y(1, t - j + 1:t), j);
+            l{m}(1, j) = models{m}.likelihood(y(1, t), j);
+            %l{m}(1, j) = models{m}.likelihood(y(1, t - j + 1:t), j);
         end    
     end
     
