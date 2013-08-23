@@ -39,7 +39,7 @@ classdef HMM < handle
                 mhmm_em(data, prior0, transmat0, mu0, Sigma0, mixmat0, 'max_iter', 50);
             
             %Renormalize the transition matrix
-            minTransValue = 1 / (obj.Q * 8);
+            minTransValue = 1 / (obj.Q * 16);
             transmat1(transmat1 < minTransValue) = minTransValue;
             tmp = repmat(sum(transmat1, 2), 1, obj.Q);
             transmat1 = transmat1 ./ tmp;
@@ -55,7 +55,29 @@ classdef HMM < handle
         
 
         function output = forecastSingle(obj, data, ahead, varargin)
-            output = bcf.forecast.hmmForecastSingle(obj, data, ahead);
+            output = hmmForecastSingle(obj, data, ahead);
+        end
+        
+        
+        function output = forecastAll(obj, data, ahead, varargin)
+            %Forecast every spot in a dataset as though it came from ahead
+            %spots before.
+            parser = inputParser;
+            parser.CaseSensitive = true;
+            parser.addOptional('window', 4, @isnumeric);
+            parser.parse(varargin{:});
+            window = parser.Results.window;
+            
+            output = data;
+            
+            if window > 0
+                for i = window:size(data, 2) - ahead
+                    %data(:, i - window + 1:i)
+                    output(:, i + ahead) = hmmForecastSingle(obj, data(:, i - window + 1:i), ahead);
+                end
+            else
+                output = hmmForecast(obj, data, ahead);
+            end
         end
         
         
@@ -63,7 +85,7 @@ classdef HMM < handle
             %Data is of a shape of (dim X time)
 
             %Compute the observation likelihood for the given data
-            obslik = mixgauss_prob(data(1, :), obj.mu, obj.Sigma, obj.mixmat);
+            obslik = mixgauss_prob(data(1, :), obj.mu, obj.sigma, obj.mixmat);
             [alpha, ~, ~, ~]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
             
             %From alpha compute p(data(1, end)|alpha(:, end))

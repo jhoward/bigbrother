@@ -25,8 +25,8 @@ yC = generateData(lengths(3), 15, 3, noiseStds(3));
 tmpA = reshape(yA, 1, 10, size(yA, 2)/10);
 tmpB = reshape(yB, 1, 10, size(yB, 2)/10);
 
-modelA = HMM(lengths(1), 2);
-modelB = HMM(lengths(1), 2);
+modelA = HMM(lengths(1)*5, 2);
+modelB = HMM(lengths(1)*5, 2);
 modelA.train(tmpA);
 modelB.train(tmpB);
 
@@ -34,15 +34,25 @@ modelB.train(tmpB);
 foo = modelA.sampleData(lengths(1), 15);
 tmpA = reshape(yA, 10, size(yA, 2)/10);
 tmpA = tmpA';
+% 
+% hold on
+% for i = 1:size(tmpA, 2)
+%     %plot(1:1:10, tmpA(1, :, i), 'Color', 'b');
+%     plot(1:1:10, tmpA(i, :), 'Color', 'b');
+%     plot(1:1:10, foo(1, :, i), 'Color', 'g');
+% end
+% %plot(1:1:10, modelA.avgValues(1, :), 'Color', 'g');
+% hold off
 
+%Perform a forecast for each data element
 hold on
 for i = 1:size(tmpA, 2)
-    plot(1:1:10, tmpA(1, :, i), 'Color', 'b');
-    %plot(1:1:10, tmpA(i, :), 'Color', 'b');
-    plot(1:1:10, foo(1, :, i), 'Color', 'g');
+    tmpFoo = modelA.forecastAll(tmpA(i, :), 1, 'window', 0);
+    plot(1:1:10, tmpA(i, :), 'Color', 'b');
+    plot(1:1:10, tmpFoo(1, :), 'Color', 'g');
 end
-%plot(1:1:10, modelA.avgValues(1, :), 'Color', 'g');
 hold off
+
 
 backModel = Average(1);
 backModel.noiseValues = [noiseStds(1, end)];
@@ -61,7 +71,6 @@ for i = 1:50
     yT = [yT ones(1, typeLen) * type];
     y = [y generateData(typeLen, 1, type, noiseStds(type))];
 end
-
 
 yp = zeros(size(y));
 
@@ -86,13 +95,13 @@ p = cellfun(@(v)v./cellTotal, p, 'UniformOutput', false);
 %p = p ./ sum(p, 2);
 
 %Go through whole dataset
-for t = 1:300%size(y, 2) - ahead
+for t = 11:300%size(y, 2) - ahead
     
     %compute model likelihoods
     for m = 1:length(models)
         for j = 1:lengths(1, m)
-            l{m}(1, j) = models{m}.likelihood(y(1, t), j);
-            %l{m}(1, j) = models{m}.likelihood(y(1, t - j + 1:t), j);
+            %l{m}(1, j) = models{m}.likelihood(y(1, t), j);
+            l{m}(1, j) = models{m}.likelihood(y(1, t - j + 1:t), j);
         end    
     end
     
@@ -108,7 +117,6 @@ for t = 1:300%size(y, 2) - ahead
     for m = 1:length(models)
         post{m}(post{m} <= 0.00001) = 0.00001;
     end
-        
     
     %normalize
     cellTotal = sum(cellfun(@sum, post));

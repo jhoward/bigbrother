@@ -84,8 +84,13 @@ currentState = alpha(:, 3);
 futureState = transmat1' * currentState;
 o2(:, 4) = sum(futureState' .* eVals, 2);
 
+foo = mhmm_sample(10, 20, prior1, transmat1, mu1, Sigma1, mixmat1);
+
+hold on;
 for i = 1:size(data, 3)
     %plot(x, [data(1, :, i); samples(1, :, i)]);
-    plot(x, [data(:, :, i); output(:, :, i)]);
-    hold on
+    plot(1:1:10, data(:, :, i), 'Color', 'b');
+    %plot(1:1:10, output(:, :, i), 'Color', 'g');
+    plot(1:1:10, foo(:, :, i), 'Color', 'r');
 end
+hold off;
