@@ -85,11 +85,18 @@ classdef HMM < handle
             %Data is of a shape of (dim X time)
 
             %Compute the observation likelihood for the given data
-            obslik = mixgauss_prob(data(1, :), obj.mu, obj.sigma, obj.mixmat);
-            [alpha, ~, ~, ~]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
-            
             %From alpha compute p(data(1, end)|alpha(:, end))
-             like = exp(mhmm_logprob(data(1, end), alpha(:, end), obj.transmat, obj.mu, obj.sigma, obj.mixmat));
+%             obslik = mixgauss_prob(data(1, :), obj.mu, obj.sigma, obj.mixmat);
+%             [alpha, ~, ~, ~]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
+%             like = exp(mhmm_logprob(data(1, end), alpha(:, end), obj.transmat, obj.mu, obj.sigma, obj.mixmat));
+
+
+            %TODO - GET THIS TO WORK YOU IDIOT!
+            obslik = mixgauss_prob(data(1, 1:end - 1), obj.mu, obj.sigma, obj.mixmat);
+            [alpha, ~, ~, ~]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
+            %I need a single set in my transition matrix here
+            
+            like = exp(mhmm_logprob(data(1, end), alpha(:, end), obj.transmat, obj.mu, obj.sigma, obj.mixmat));
         end
 
         
