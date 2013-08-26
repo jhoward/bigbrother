@@ -4,7 +4,7 @@ ahead = 1;
 
 lengths = [10 10 1];
 backgroundLen = 10;
-noiseStds = [0.15 0.15 0.3];
+noiseStds = [0.1 0.1 0.3];
 priorCDF = [0.1 0.2 1];
 
 modelConstants = [0.01, 0.01];
@@ -32,7 +32,7 @@ modelB.train(tmpB);
 
 
 foo = modelA.sampleData(lengths(1), 15);
-tmpA = reshape(yA, 10, size(yA, 2)/10);
+tmpA = reshape(yB, 10, size(yB, 2)/10);
 tmpA = tmpA';
 % 
 % hold on
@@ -47,7 +47,7 @@ tmpA = tmpA';
 %Perform a forecast for each data element
 hold on
 for i = 1:size(tmpA, 2)
-    tmpFoo = modelA.forecastAll(tmpA(i, :), 1, 'window', 0);
+    tmpFoo = modelB.forecastAll(tmpA(i, :), 1, 'window', 0);
     plot(1:1:10, tmpA(i, :), 'Color', 'b');
     plot(1:1:10, tmpFoo(1, :), 'Color', 'g');
 end
@@ -95,7 +95,7 @@ p = cellfun(@(v)v./cellTotal, p, 'UniformOutput', false);
 %p = p ./ sum(p, 2);
 
 %Go through whole dataset
-for t = 11:300%size(y, 2) - ahead
+for t = 200:440%size(y, 2) - ahead
     
     %compute model likelihoods
     for m = 1:length(models)
@@ -144,4 +144,4 @@ for t = 11:300%size(y, 2) - ahead
     end    
 end
 
-plot(1:1:300, [y(1, 1:300); yp(1, 1:300)]);
+plot(200:1:400, [y(1, 200:400); yp(1, 200:400)]);

@@ -90,13 +90,17 @@ classdef HMM < handle
 %             [alpha, ~, ~, ~]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
 %             like = exp(mhmm_logprob(data(1, end), alpha(:, end), obj.transmat, obj.mu, obj.sigma, obj.mixmat));
 
-
-            %TODO - GET THIS TO WORK YOU IDIOT!
-            obslik = mixgauss_prob(data(1, 1:end - 1), obj.mu, obj.sigma, obj.mixmat);
-            [alpha, ~, ~, ~]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
-            %I need a single set in my transition matrix here
-            
-            like = exp(mhmm_logprob(data(1, end), alpha(:, end), obj.transmat, obj.mu, obj.sigma, obj.mixmat));
+            if size(data, 2) == 1
+                like = exp(mhmm_logprob(data(1, end), obj.prior, obj.transmat, obj.mu, obj.sigma, obj.mixmat));
+            else
+                %TODO - GET THIS TO WORK YOU IDIOT!
+                obslik = mixgauss_prob(data(1, 1:end - 1), obj.mu, obj.sigma, obj.mixmat);
+                [alpha, ~, ~, ~]= fwdback(obj.prior, obj.transmat, obslik, 'fwd_only', 1, 'scaled', 1);
+                %I need a single set in my transition matrix here
+                
+                currentState = obj.transmat' * alpha(:, end);
+                like = exp(mhmm_logprob(data(1, end), currentState, obj.transmat, obj.mu, obj.sigma, obj.mixmat));
+            end
         end
 
         
