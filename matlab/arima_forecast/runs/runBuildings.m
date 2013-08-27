@@ -82,7 +82,7 @@ y1 = weeklyMean(dayOfWeek, :) - weeklySigma(dayOfWeek, :);
 y2 = weeklyMean(dayOfWeek, :) + weeklySigma(dayOfWeek, :);
 yvals = [y1, fliplr(y2)];
 tmp = fill(xvals, yvals, [0.7, 0, 0]);
-set(tmp,'EdgeColor',[0.7, 0, 0],'FaceAlpha',0.5,'EdgeAlpha',0.5);%s
+set(tmp,'EdgeColor',[0.7, 0, 0],'FaceAlpha',0.5,'EdgeAlpha',0.5);
 hold on;
 plot(1:1:data.blocksInDay, weeklyMean(dayOfWeek, :), 'LineWidth', 2, 'Color', [0, 0, 1]); 
 xlim([1, data.blocksInDay]);
