@@ -101,27 +101,45 @@ modelGaussian.calculateNoiseDistribution(resTest);
 
 
 %Now make an avg model of the anomalies
+index = find(idx == 4);
+clustData = window(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
+
+modelAvg1 = bcf.models.AvgGaussian(windowSize);
+modelAvg1.train(clustData);
+
+%Now make an avg model of the anomalies
 index = find(idx == 5);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
 
-modelAvg = bcf.models.AvgGaussian(windowSize);
-modelAvg.train(clustData);
+modelAvg2 = bcf.models.AvgGaussian(windowSize);
+modelAvg2.train(clustData);
+
+%Now make an avg model of the anomalies
+index = find(idx == 8);
+clustData = window(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
+
+modelAvg3 = bcf.models.AvgGaussian(windowSize);
+modelAvg3.train(clustData);
 
 backModel = bcf.models.AvgGaussian(1);
 backModel.noiseValues = [std(resTest)];
 backModel.avgValues = [mean(resTest)];
 
-models = {modelAvg; backModel};
+models = {modelAvg1; modelAvg2; modelAvg3; backModel};
 
 %--------------------------------------------------------------------------
 %
 %PERFORM BCF2
 %
 %--------------------------------------------------------------------------
-lengths = [8 1];
-modelConstants = [0.02, 0.01];
+lengths = [8 8 8 1];
+modelConstants = [0.02, 0.02, 0.02, 0.01];
 ahead = 1;
 yp = zeros(size(resTest));
 
@@ -133,6 +151,7 @@ for j = 1:size(lengths, 2)
     p{j} = ones(1, lengths(j));
     l{j} = ones(1, lengths(j));
     post{j} = ones(1, lengths(j));
+    histPost{j} = ones(lengths(j), size(test, 2));
 end
 
 cellTotal = sum(cellfun(@sum, p));
@@ -169,7 +188,14 @@ for t = 1:1000%size(y, 2) - ahead
     %normalize
     cellTotal = sum(cellfun(@sum, post));
     post = cellfun(@(v)v./cellTotal, post, 'UniformOutput', false);
-            
+    
+	%Save the posteriors
+    for m = 1:length(models)
+        for j = 1:lengths(1, m)
+            histPost{m}(j, t) = post{m}(1, j); %#ok<SAGROW>
+        end
+    end
+    
     %Update the priors
     for m = 1:length(models)
         for j = 2:lengths(1, m)
@@ -193,12 +219,57 @@ for t = 1:1000%size(y, 2) - ahead
 end
 
 newTest = mTest + yp;
-plot(1:1:60, [test(1, 721:780); mTest(1, 721:780); newTest(1, 721:780)])
 newRes = test - newTest;
 
-plot(1:1:60, [resTest(1, 721:780); yp(1, 721:780)]);
 
-plot(1:1:60, [resTest(1, 721:780); newRes(1, 721:780)]);
+plotStart = 600;
+plotEnd = 900;
+plotRange = plotEnd - plotStart + 1;
+
+% plotStart = 721;
+% plotEnd = 800;
+% plotRange = plotEnd - plotStart + 1;
+
+hold on
+%plot(1:1:plotRange, [test(1, plotStart:plotEnd); mTest(1, plotStart:plotEnd); newTest(1, plotStart:plotEnd)]);
+plot(1:1:plotRange, [resTest(1, plotStart:plotEnd); yp(1, plotStart:plotEnd)]);
+for i = 1:8
+    plot(1:1:plotRange, histPost{3}(i, plotStart:plotEnd) - i, 'color', 'red');
+end
+plot(1:1:plotRange, histPost{4}(1, plotStart:plotEnd) - 9, 'color', 'green');
+
+xlim([1, plotRange]);
+
+%Plot the histories of the models here
+%plot(1:1:60, [resTest(1, 721:780); yp(1, 721:780)]);
+%plot(1:1:60, [resTest(1, 721:780); newRes(1, 721:780)]);
+
+
+%Compute the RMSE
+BCFRMSE = errperf(test(1:end), mTest(1:end), 'rmse')
+modBCFRMSE = errperf(test(1:end), newTest(1:end), 'rmse')
+
+%Compute the std of testRes
+resTestStd = std(resTest);
+resTestMean = mean(resTest);
+
+%Display std of residual
+xvals = 1:1:plotRange;
+xvals = [xvals, fliplr(xvals)];
+y1 = resTestMean + ones(1, plotRange) * resTestStd * 1;
+y2 = resTestMean - ones(1, plotRange) * resTestStd * 1;
+%y2 = weeklyMean(dayOfWeek, :) + weeklySigma(dayOfWeek, :);
+yvals = [y1, fliplr(y2)];
+tmp = fill(xvals, yvals, [0.1, 0.3, 0]);
+set(tmp,'EdgeColor',[0.1, 0.3, 0],'FaceAlpha',0.5,'EdgeAlpha',0.5);
+hold on;
+plot(1:1:plotRange, resTest(1, plotStart:plotEnd), 'LineWidth', 2, 'Color', [0, 0.3, 1]);
+plot(1:1:plotRange, newRes(1, plotStart:plotEnd), 'LineWidth', 2, 'Color', [1, 0.3, 0]);
+xlim([1, plotRange]);
+%ylim([0, ysize]);
+%xlabel('Time of day', 'FontSize', 14)
+%ylabel('Sensor activations', 'FontSize', 14)
+set(gca,'XTick',[]);
 
 
 
