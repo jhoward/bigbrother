@@ -1,7 +1,9 @@
 clear all;
 
-dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
+%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
 %dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
+dataLocation = './data/brownDataClean.mat';
+
 
 load(dataLocation);
 
@@ -17,10 +19,15 @@ data.data(ind(1, end-nRemove:end)) = tmp(1, ind(1, end - nRemove - 1));
 data.data = 2*(data.data - min(data.data))/(max(data.data) - min(data.data)) - 1;
 
 horizon = 1;
-train = data.data(:, 1:7800);
-test = data.data(:, 7801:end);
-trainTimes = data.times(:, 1:7800);
-testTimes = data.times(:, 7801:end);
+train = data.data(:, 1:1716);
+test = data.data(:, 1717:end);
+trainTimes = data.times(:, 1:1716);
+testTimes = data.times(:, 1717:end);
+
+% train = data.data(:, 1:7800);
+% test = data.data(:, 7801:end);
+% trainTimes = data.times(:, 1:7800);
+% testTimes = data.times(:, 7801:end);
 
 windowSize = 10;
 numWindows = 20;

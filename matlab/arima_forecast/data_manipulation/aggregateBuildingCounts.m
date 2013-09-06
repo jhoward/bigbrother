@@ -1,8 +1,9 @@
 %Aggregate Brown Building counts
 clear all
-load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/brown_hall/sensor_data_01_01_08_to_06_09_08.mat');
+%load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/brown_hall/sensor_data_01_01_08_to_06_09_08.mat');
 %load('/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/brown_hall/sensor_data_09_10_07_to_12_31_07');
 %load('C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\brown_hall\sensor_data_01_01_08_to_06_09_08.mat');
+load('c:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\brown_hall\sensor_data_09_10_07_to_12_31_07');
 
 %sensorlist = sensorlist;
 counts = [];
@@ -12,11 +13,11 @@ counts = [];
 aggregateAmount = 600;
 superSampleAmount = 1;
 
-% startDate = '09-10-2007 00:00:00';
-% endDate = '12-31-2007 24:00:00';
+ startDate = '09-10-2007 00:00:00';
+ endDate = '12-31-2007 24:00:00';
 
-startDate = '01-01-2008 00:00:00';
-endDate = '06-09-2008 24:00:00';
+%startDate = '01-01-2008 00:00:00';
+%endDate = '06-09-2008 24:00:00';
 
 
 sd = datenum(startDate);
@@ -128,8 +129,8 @@ data.endTime = ed;
 data.dayOfWeek = weekday(ssTimes)';
 data.blocksInDay = dayBlocks*superSampleAmount;
 
-save('./data/brownData_01_06.mat', 'data');
-%save('./data/brownData_09_12.mat', 'data');
+%save('./data/brownData_01_06.mat', 'data');
+save('./data/brownData_09_12.mat', 'data');
 
 %tl = [48, 28, 11, 34];
 

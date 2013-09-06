@@ -3,16 +3,20 @@
 clear all;
 
 sensorNumber = 21;
-stripDays = [4];
+%stripeDays = [4];
+stripDays = [3 5];
 
 load('./data/brownData_01_06.mat');
 data01 = data;
 
-load('./data/brownData_09_12.mat');
-data09 = data;
+%load('./data/brownData_09_12.mat');
+%data09 = data;
 
-dataCombined = [data09.data data01.data];
-timesCombined = [data09.times data01.times];
+%dataCombined = [data09.data data01.data];
+%timesCombined = [data09.times data01.times];
+
+dataCombined = [data01.data];
+timesCombined = [data01.times];
 
 dataCombined = dataCombined(sensorNumber, :);
 
@@ -52,9 +56,8 @@ st = reshape(stripTimes', 1, size(stripTimes, 1)*size(stripTimes, 2));
 
 sd = smooth(sd, 3)';
 
-
 [means, stds] = dailyMean(sd, st, data.blocksInDay, 'smooth', false);
-plotMean(means(stripDays(1), :), 'std', stds(stripDays(1), :));
+%plotMean(means(stripDays(1), :), 'std', stds(stripDays(1), :));
 
 data.data = sd;
 data.times = st;
