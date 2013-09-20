@@ -4,7 +4,7 @@ clear all;
 
 sensorNumber = 21;
 %stripeDays = [4];
-stripDays = [3 5];
+stripDays = [2 4 6];
 
 load('./data/brownData_01_06.mat');
 data01 = data;

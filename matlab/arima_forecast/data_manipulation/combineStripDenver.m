@@ -3,7 +3,7 @@
 clear all;
 
 sensorNumber = 4;
-stripDays = 4;
+stripDays = [2 3 4 5];
 
 load('./data/denverData.mat');
 
@@ -14,10 +14,17 @@ dataCombined = dataCombined(sensorNumber, :);
 
 dayOfWeek = weekday(timesCombined);
 
-%[means, stds] = dailyMean(dataCombined, timesCombined, data.blocksInDay, 'smooth', true);
-%plotMean(means(stripDay, :), 'std', stds(stripDay, :));
-
 %Strip down combined data to one day of the week.
+for i = 1:size(stripDays, 2)
+    dayOfWeek(dayOfWeek == stripDays(i)) = 10;
+end
+
+tmp = (dayOfWeek == 10);
+stripData = dataCombined(tmp);
+stripTimes = timesCombined(tmp);
+
+dataCombined = stripData;
+timesCombined = stripTimes;
 
 newSize = floor(size(dataCombined, 2)/data.blocksInDay);
 newData = dataCombined(:, 1:newSize*data.blocksInDay);
@@ -51,6 +58,6 @@ data.startTime = 0;
 data.endTime = 0;
 data.dayOfWeek = weekday(data.times);
 data.sensor = sensorNumber;
-data.stripDays = [stripDay];
+data.stripDays = stripDays;
 
 save('./data/denverDataClean.mat', 'data');

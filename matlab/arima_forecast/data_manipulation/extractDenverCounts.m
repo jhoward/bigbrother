@@ -7,7 +7,7 @@ nDay1 = datenum('01/01/2008');
 %if averagedays is 1, then compute the average day for that day of the week
 %and save to data.
 AVERAGEDAYS = 1;
-superSampleAmount = 2; %value of one will keep data the same
+superSampleAmount = 4; %value of one will keep data the same
 blocksInDay = superSampleAmount * 24;
 
 %dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\traffic\denver\';
@@ -215,6 +215,8 @@ data.data = data.data';
 data.replacedDays = data.replacedDays';
 data.times = data.times';
 data.dayOfWeek = data.dayOfWeek';
+data.dayTimeStart = 1;
+data.dayTimeEnd = 24;
 
 for i = 1:size(data.weekAvg, 3)
     tmpArray(i, :, :) = data.weekAvg(:, :, i); %#ok<SAGROW>

@@ -18,6 +18,8 @@ ed = datenum(endDate);
 
 dayTimeStart = '00-00-0000 07:00:00';
 dayTimeEnd = '00-00-0000 20:00:00';
+dayTimeStartInt = 7;
+dayTimeEndInt = 20;
 
 dayTS = datenum(dayTimeStart);
 dayTE = datenum(dayTimeEnd);
@@ -99,6 +101,8 @@ data.startTime = sd;
 data.endTime = ed;
 data.dayOfWeek = weekday(dayNums)';
 data.blocksInDay = dayBlocks;
+data.dayTimeStart = dayTimeStartInt;
+data.dayTimeEnd = dayTimeEndInt;
 
 save('./data/merlData.mat', 'data');
 
