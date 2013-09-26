@@ -22,13 +22,19 @@ classdef MyConstants
         DATASET_SENSOR = [59, 21, 1, 1];
         
         DATA_SETS = {'Merl', 'Brown', 'Denver', 'Simulated'};
+        MODEL_NAMES = {'TSNN', 'ARIMA', 'Average', 'SVM', 'NARNET'}
         THESIS_LOCATION = '/Users/jahoward/Documents/Dropbox/jim_thesis/';
     
+        
+        %MODEL PARAMETERS
+        ARIMA_PARAMETERS = {[1 0 1 0 78 1], [0 0 1 0 78 3]};
         
         %Old constants
         %FILE_LOCATIONS_MAC = {'/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat'}
         %IMAGE_LOCATION = '../../images/'
     
+        
+        
     end
 end
 

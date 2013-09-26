@@ -67,4 +67,13 @@ data.dayOfWeek = weekday(data.times);
 data.sensor = sensorNumber;
 data.stripDays = stripDays;
 
+[trainData, validData, testData, trainTimes, validTimes, testTimes] = cutdata(data);
+data.trainData = trainData;
+data.trainTimes = trainTimes;
+data.validData = validData;
+data.validTimes = validTimes;
+data.testData = testData;
+data.testTimes = testTimes;
+
+
 save('./data/brownDataClean.mat', 'data');

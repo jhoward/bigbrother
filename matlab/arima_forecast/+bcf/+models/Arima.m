@@ -1,6 +1,5 @@
 classdef Arima < bcf.models.Model
-    %GAUSSIANMODEL Summary of this class goes here
-    %   Detailed explanation goes here
+    %Arima model container to make it work with our BCF model
     
     properties
         model
@@ -8,27 +7,49 @@ classdef Arima < bcf.models.Model
     end
     
     methods
-        function obj = Arima(model, blocksInDay)
+        function obj = Arima(model, blocksInDay, varargin)
+            %if varargin is not empty then an arima model is created using
+            %parameters specified by varargin{1}
+            %
+            %varargin{1} = 1X6 array of the six values for an seasonal
+            %arima model.
             obj.model = model;
             obj.blocksInDay = blocksInDay;
+            
+            
+            if ~isempty(varargin) 
+                t = varargin{1};
+                obj.model = arima('ARLags', 1:t(1), 'D', t(2), ...
+                    'MALags', 1:t(3), 'SARLags', 1:t(4), ...
+                    'Seasonality', t(5), 'SMALags', 1:t(6)); 
+            end
         end
+        
+        
         
         function val = forecastSingle(obj, data, ahead)
             val = obj.mu;
         end
         
+        
         function train(obj, data, varargin)
-
+            obj.model = estimate(obj.model, data', 'print', false);
         end
+        
+        function inferedData = inferData(obj, data)
+            inferedData = infer(obj.model, data');
+        end
+        
         
         function output = forecastAll(obj, data, ahead, varargin)
             output = bcf.forecast.arimaForecast(obj.model, ahead, data');
         end
-            
+        
+        
         function prob = probabilityNoise(obj, data)
-            
             prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
         end
+        
         
         function calculateNoiseDistribution(obj, data, ahead)
             out = obj.forecastAll(data, ahead);

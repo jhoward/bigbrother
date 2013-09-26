@@ -66,4 +66,13 @@ data.dayOfWeek = weekday(st);
 data.sensor = sensorNumber;
 data.stripDays = [stripDay];
 
+%Add train, test and validation sets
+[trainData, validData, testData, trainTimes, validTimes, testTimes] = cutdata(data);
+data.trainData = trainData;
+data.trainTimes = trainTimes;
+data.validData = validData;
+data.validTimes = validTimes;
+data.testData = testData;
+data.testTimes = testTimes;
+
 save('./data/merlDataClean.mat', 'data');
