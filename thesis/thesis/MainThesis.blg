@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: MainThesis.aux
+A level-1 auxiliary file: sampleChapter.aux
+A level-1 auxiliary file: ch2LitReview.aux
+The style file: unsrtnat.bst
+Database file #1: Thesis.bib
+Warning--I didn't find a database entry for "ref:A"
+Warning--I didn't find a database entry for "ref:B"
+Warning--I didn't find a database entry for "ref:C"
+Warning--I didn't find a database entry for "ref:Wikipedia"
+Warning--I didn't find a database entry for "ref:D"
+You've used 3 entries,
+            2481 wiz_defined-function locations,
+            590 strings with 4983 characters,
+and the built_in function-call counts, 973 in all, are:
+= -- 80
+> -- 43
+< -- 2
++ -- 18
+- -- 12
+* -- 62
+:= -- 167
+add.period$ -- 12
+call.type$ -- 3
+change.case$ -- 6
+chr.to.int$ -- 3
+cite$ -- 3
+duplicate$ -- 57
+empty$ -- 91
+format.name$ -- 17
+if$ -- 204
+int.to.chr$ -- 1
+int.to.str$ -- 4
+missing$ -- 6
+newline$ -- 26
+num.names$ -- 9
+pop$ -- 30
+preamble$ -- 1
+purify$ -- 3
+quote$ -- 0
+skip$ -- 31
+stack$ -- 0
+substring$ -- 6
+swap$ -- 6
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 12
+warning$ -- 0
+while$ -- 6
+width$ -- 0
+write$ -- 52
+(There were 5 warnings)

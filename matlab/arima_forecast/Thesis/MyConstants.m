@@ -27,12 +27,15 @@ classdef MyConstants
     
         
         %MODEL PARAMETERS
-        ARIMA_PARAMETERS = {[1 0 1 0 78 1], [0 0 1 0 78 3]};
+        ARIMA_PARAMETERS = {[0 1 1 0 78 4], [0 0 1 0 78 3]};
         
         %Old constants
         %FILE_LOCATIONS_MAC = {'/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat'}
         %IMAGE_LOCATION = '../../images/'
-    
+        
+        
+        
+        
         
         
     end

@@ -1,3 +1,0 @@
-* Examine how "centering" works on (around) an entire float - apparently it screws stuff up (but only in LyX).
-  # Need to explore putting together a patch for LyX (they don't want to fix the problem, see http://www.lyx.org/trac/ticket/8121). Alternatively, we might be able to detect the issue and spew a warning.
-* Put together an example "journal articles" document to show people the new, alternative, format.

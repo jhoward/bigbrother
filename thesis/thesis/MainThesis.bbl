@@ -1,0 +1,26 @@
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Box et~al.(2008)Box, Jenkings, and Reinsel]{Box2008}
+George Box, Gwilym Jenkings, and Gregory Reinsel.
+\newblock \emph{{Time Series Analysis: Forecasting and Control}}.
+\newblock John Wiley \& Sons, Inc., 4th edition, 2008.
+\newblock ISBN 978 0 470 27284 8.
+
+\bibitem[Franses(1998)]{Franses1998}
+Philip~Hans Franses.
+\newblock \emph{{Time Series models for Business and Economic Forecasting}}.
+\newblock Cambridge University Press, 1st edition, 1998.
+\newblock ISBN 0 521 58404 3.
+
+\bibitem[Cryer and Chan(2008)]{Cryer2008}
+Jonathan~D. Cryer and Kung-Sik Chan.
+\newblock \emph{{Time Series Analysis With Applications in R}}.
+\newblock Springer, 2nd editio edition, 2008.
+\newblock ISBN 9780387759586.
+
+\end{thebibliography}

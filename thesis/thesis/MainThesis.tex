@@ -1,0 +1,526 @@
+\documentclass[letterpaper,12pt]{article}
+
+% csm-thesis automatically includes the following packages:
+%% float
+%% setspace
+%% geometry
+%% graphics
+%% textcase
+%% subfig
+
+% Note: Two package options exist for your convenience: ``insane'' and ``nolabel''.  To use these options together separate them by a comma, ie. \usepackage[insane,nolabel]{csm-thesis}
+% * \usepackage[insane]{csm-thesis}
+% Turn off all document sanity checks.  This option can be used to render a ``sub-document'' that is part of the root thesis document.  It is important to note that you should NEVER disable this check on your root thesis document, as important format errors and warnings will be disabled.
+% * \usepackage[nolabel]{csm-thesis}
+% Disables automatic reference ``labeling'' of figures and tables.  By default the thesis template prepends any reference to a figure or table with ``Figure~'' or ``Table~''.  This option is meant for disabling the labeling behavior when a document already has the appropriate labeling.  It is important to note that if your document DOES NOT have the appropriate labeling (the reference label must EXACTLY MATCH the caption label) then it will not pass the format review.
+\usepackage{csm-thesis}
+
+% For inserting large multi-page tables:
+\usepackage{array}
+\usepackage{longtable}
+
+% For inserting sideways tables and figures
+\usepackage{rotating}
+\usepackage[numbers]{natbib}
+\graphicspath{{./images/}}
+\usepackage{hyperref}
+
+% For inserting programming code:
+\usepackage{listings}
+
+% For inserting landscape-mode objects:
+\usepackage{pdflscape} % use ``lscape'' if you are not creating a PDF output
+
+% For matrices:
+\usepackage{amsmath}
+
+\title{Come up with a thesis title}
+
+\degreetitle{Doctor of Philosophy}
+\discipline{Computer Science}
+\department{Electrical Engineering and Computer Science}
+
+\author{James Howard}
+\advisor{Dr. William Hoff}
+\dpthead{Dr. Big Boss}{Professor and Head}
+
+\begin{document}
+
+% Parts of a Thesis
+\frontmatter
+
+\maketitle
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Copyright Page (optional)
+
+% If the copyright for your document spans multiple years, or does not match the current year, then replace ''\the\year`` below with the appropriate text.
+\makecopyright{\the\year}
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Signature Page (required)
+
+\makesubmittal
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Abstract (required)
+
+\begin{abstract}
+
+Sample Abstract
+\end{abstract}
+
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Table of Contents (required)
+
+\tableofcontents
+\newpage
+
+%%% Parts of a Thesis - Front Matter - List of Figures (if applicable)
+%%% Parts of a Thesis - Front Matter - List of Tables (if applicable)
+
+\listoffiguresandtables
+\newpage
+
+%\listofsymbols
+%Place symbols here
+
+\newpage
+
+%%% Parts of a Thesis - Front Matter - List of Abbreviations (if applicable)
+\listofabbreviations*
+\newpage
+
+\addabbreviation{Seasonal Auto Regressive Moving Average Model}{SARIMA}
+
+%%% Parts of a Thesis - Front Matter - Acknowledgments (optional)
+\begin{acknowledgments}
+That you everyone
+\end{acknowledgments}
+\newpage
+
+%%% Parts of a Thesis - Front Matter - Dedication (optional)
+
+\begin{dedication}
+For those that shall follow after.
+\end{dedication}
+\newpage
+
+%% Parts of a Thesis - Body
+
+\bodymatter
+
+%%% Parts of a Thesis - Body - Introduction (optional)
+%\chapter{Introduction}
+% A fun introduction would go here, just uncomment!
+
+%%% Parts of a Thesis - Body - All Chapters and Sections (required)
+\include{ch1Introduction}
+
+
+%%% Below is a quick test for a figure that moves to another page
+% asdfadsf
+% 
+% asdfasdf
+% 
+% dfsdfds
+% 
+% dsfsd
+% 
+% sdfdsfd
+% %% Note: the ''[H]`` below is optional and means ''always put it exactly here``, normally you do NOT want to use it.  However, in some rare circumstances you may wish to override the default placement.
+% \csmfigure[H]{Stomata}{figures/stomata}{4in}{A pretty picture from the Squier Group --- this is a test of the emergency long-title system.}
+%%% End special test
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If you would like to work on each chapter of your thesis in a separate document then use: %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{sampleChapter}
+
+\include{ch2LitReview}
+
+\chapter{Second Generation Chapter}
+\label{cha:important-chapter}
+Another chapter.
+
+\subsection{Lots of Mistakes Originally}
+Fun fun...
+
+\subsection{Figured out How to Fix Things}
+Ha-ha!
+
+\subsection{Could Still Be Better}
+Interesting huh?
+
+\subsection{Testing Procedure}
+I thought you'd like this.
+
+\subsection{Final Results}
+It's over (see \ref{fig:Strongbad})!  Also it is important to note the placement of labels in subfigures: \ref{fig:fsm}, and \ref{fig:fsm-pirates}.
+% NOTE: You may wish to provide a shortened caption in the list of figures, \csmlongfigure allows you to do this (the two captions are combined in the text):
+\csmlongfigure{Strongbad}{figures/strongbad}{1in}{A world-class hero}{ of awesomeness~\cite{ref:Wikipedia}.}
+
+\begin{figure}
+	\begin{center}
+		\subfigure[Him]{
+			% Example for including pictures when using the ``graphicx'' package:
+			%\includegraphics[width=4in]{figures/fsm}
+			% Example for including pictures when using the ``graphics'' package:
+			\resizebox{4in}{!}{\includegraphics{figures/fsm}}
+		} \\
+		\subfigure[Importance of Pirates]{
+			\resizebox{4in}{!}{\includegraphics{figures/fsm-pirates}}
+			\label{fig:fsm-pirates}
+		}
+		% Normal caption:
+		\caption{\label{fig:fsm}The Flying Spaghetti Monster Knows All}
+		% This caption is for testing purposes, it has borders :
+		%\caption{\label{fig:fsm}Total electron density isosurface at 1.7 electrons/\AA$^3$ (a) showing higher electron concentration at 6-6 interfaces compared to 6-5 interfaces. (b) Total wave function density isosurface of 0.04 electrons/\AA$^3$ shows the relatively uniform density over 5-6 membered rings and the definite wave function holes through the eight-membered rings.}
+	\end{center}
+\end{figure}
+
+\chapter{The Way Ahead}
+Ugh, another chapter~\cite{ref:D}!
+
+\subsection{How Things Could Be Better}
+We thought that was the end!
+
+\subsection{Why We Think Things Aren't Better}
+We really hoped it was anyway.
+
+\subsection{We Love Our Advisors}
+Are you really still reading this? Ok, then check out \ref{tab:magic}!
+
+\begin{table}
+	\caption{\label{tab:magic} A table of tabular goodness.}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			& B & b \\
+			\hline
+			B & BB & Bb \\
+			\hline
+			b & Bb & bb \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+%% Below is a test for sideways figure and table floats (it also works to wrap figures and tables in a ``landscape'' environment, but the method below is preferred)
+% magic text a
+% 
+% \begin{sidewaystable}
+% 
+% \centering
+% 
+% \caption[Grooved Ware and Beaker Features, their Finds and Radiocarbon
+% Dates]{Grooved Ware and Beaker Features, their Finds and Radiocarbon
+% Dates; For a breakdown of the Pottery Assemblages see Tables I and
+% III; for the Flints see Tables II and IV; for the Animal Bones see
+% Table V.}
+% 
+% \begin{tabular}{|llllllllp{1in}lp{1in}|}
+% \hline
+% Context   &Length   &Breadth/   &Depth   &Profile   &Pottery   &Flint   &Animal   &Stone   &Other    &C14 Dates \\
+%   &         &Diameter   &        &          &          &        & 
+% Bones&&&\\
+% \hline
+% &&&&&&&&&&\\
+% \multicolumn{10}{|l}{\bf Grooved Ware}&\\
+% 784 &---   &0.90m &0.18m &Sloping U &P1    &$\times$46  &  $\times$8  &&$\times$2 bone&  2150$\pm$ 100 BC\\
+% 785 &---   &1.00m &0.12  &Sloping U &P2--4 &$\times$23  &  $\times$21 & Hammerstone &---&---\\
+% 962 &---   &1.37m &0.20m &Sloping U &P5--6 &$\times$48  &  $\times$57* & ---&     ---&1990 $\pm$ 80 BC (Layer 4) 1870 $\pm$90 BC (Layer 1)\\
+% 983 &0.83m &0.73m &0.25m &Stepped U &---   &$\times$18  &  $\times$8 & ---& Fired clay&---\\
+% &&&&&&&&&&\\
+% \multicolumn{10}{|l}{\bf Beaker}&\\
+% 552 &---   &0.68m &0.12m &Saucer    &P7--14 &---        & --- & --- &--- &---\\
+% 790 &---   &0.60m &0.25m &U         &P15    &$\times$12 & --- & Quartzite-lump&--- &---\\
+% 794 &2.89m &0.75m &0.25m &Irreg.    &P16    $\times$3   & --- & --- &--- &---\\
+% \hline
+% \end{tabular}
+% \end{sidewaystable} 
+% 
+% \begin{sidewaystable}
+% \centering
+% 
+% \caption[Grooved Ware and Beaker Features, their Finds and Radiocarbon
+% Dates]{Grooved Ware and Beaker Features, their Finds and Radiocarbon
+% Dates; For a breakdown of the Pottery Assemblages see Tables I and
+% III; for the Flints see Tables II and IV; for the Animal Bones see
+% Table V.}
+% 
+% \begin{tabular}{|llllllllp{1in}lp{1in}|}
+% \hline
+% Context   &Length   &Breadth/   &Depth   &Profile   &Pottery   &Flint   &Animal   &Stone   &Other    &C14 Dates \\
+%   &         &Diameter   &        &          &          &        & 
+% Bones&&&\\
+% \hline
+% &&&&&&&&&&\\
+% \multicolumn{10}{|l}{\bf Grooved Ware}&\\
+% 784 &---   &0.90m &0.18m &Sloping U &P1    &$\times$46  &  $\times$8  &&$\times$2 bone&  2150$\pm$ 100 BC\\
+% 785 &---   &1.00m &0.12  &Sloping U &P2--4 &$\times$23  &  $\times$21 & Hammerstone &---&---\\
+% 962 &---   &1.37m &0.20m &Sloping U &P5--6 &$\times$48  &  $\times$57* & ---&     ---&1990 $\pm$ 80 BC (Layer 4) 1870 $\pm$90 BC (Layer 1)\\
+% 983 &0.83m &0.73m &0.25m &Stepped U &---   &$\times$18  &  $\times$8 & ---& Fired clay&---\\
+% &&&&&&&&&&\\
+% \multicolumn{10}{|l}{\bf Beaker}&\\
+% 552 &---   &0.68m &0.12m &Saucer    &P7--14 &---        & --- & --- &--- &---\\
+% 790 &---   &0.60m &0.25m &U         &P15    &$\times$12 & --- & Quartzite-lump&--- &---\\
+% 794 &2.89m &0.75m &0.25m &Irreg.    &P16    $\times$3   & --- & --- &--- &---\\
+% \hline
+% \end{tabular}
+% \end{sidewaystable} 
+% 
+% magic text b
+
+%% Parts of a Thesis - Back Matter
+\backmatter
+
+%%% Parts of a Thesis - Back Matter - References Cited (required)
+
+% Use "Advanced" Bibliography Techniques
+\bibliography{Thesis}
+%\printbibliography % <-- For using biblatex instead of natbib or the built-in bibliography utility
+
+%%% Parts of a Thesis - Back Matter - Selected Bibliography (optional)
+%\cleardoublepage
+%\begin{selected-bibliography}
+% Your selected bibliogrpahy would go here, a page break might also be necessary above.
+%\end{selected-bibliography}
+
+%%% Parts of a Thesis - Back Matter - Appendices (if applicable)
+\appendix{Magical Encoding Awesomeness}\label{app:encoding}
+\ref{tab:encoding} shows how several symbols appear in the rendered document.
+
+\begin{table}[H]
+	\caption{\label{tab:encoding}This is where we have fun testing encoding}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			& Normal & Math \\
+			\hline
+			The greater than: & > & $>$ \\
+			\hline
+			The lesss than: & < & $<$ \\
+			\hline
+			The tilde: & \textasciitilde{} & $\sim$ \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\subsection{Test Appendix Sub-Section}\label{sec:longtable}
+\ref{tab:longtable} is an example of a very large ``longtable.''
+\begin{landscape}
+\begin{longtable}{|>{\centering}p{1.02in}|>{\centering}p{1.15in}|>{\centering}p{1in}|>{\centering}p{0.7in}|>{\centering}p{0.7in}|>{\centering}p{0.67in}|>{\centering}p{2.55in}|} %
+	\endfirsthead % Remove this line to use the main header for the first page
+	\hline%
+	Age & Formation  & Thickness (feet)   & Thickness (feet)  & Thickness (feet)  & Aquifer?  & Lithology%
+	\endhead%
+	\caption{Stratigraphy of the Granite Mountains and Lost Creek areas\label{tab:longtable}}\\ %
+	\hline
+	Age & Formation%
+	\footnote{Only major unconformities shown, indicated by break in table.%
+	} & Thickness (feet)%
+	\footnote{Generalized thicknesses from.%
+	}  & Thickness (feet)%
+	\footnote{Thicknesses shown are approximate and apply to Lost Creek vicinity
+	only.%
+	} & Thickness (feet)%
+	\footnote{Thicknesses shown are from a public screened dataset of logged formation
+	tops from the 12 townships surrounding Lost Creek.%
+	} & Aquifer?%
+	\footnote{Aquifer designations \textendash{} Lost Creek vicinity only.%
+	} & Lithology \tabularnewline
+	\hline 
+	Quaternary  & Alluvium & - & 0-20 & - & Yes & Sands and clays derived chiefly from the Tertiary formations in the
+	area. \tabularnewline
+	\hline 
+	Paleocene & Fort Union  & up to 3,000 & 4,650 & 6,500? & Yes & Consists of alternating fine to coarse grained sandstone siltstone
+	and mudstone. Contains various layers of lignitic coal beds. \tabularnewline
+	\hline
+	\hline 
+	Cretaceous  & Lance  & 1,700 to 2,700 & 2,950 & 4,000? & Yes & Interbedded sandstone, siltstone and mudstone. Gray to brownish gray.
+	Locally carbonaceous. Sandstone is white to grayish orange. \tabularnewline
+	\hline 
+	Cretaceous & Fox Hills  &  & 550 & 1,800? & No & Consists of coarsening upward shale and fine-grained sand with thin
+	coal beds near the top. Represents a transition from marine to non-marine
+	environment. Grades into Lewis Shale at the base. \tabularnewline
+	\hline 
+	Cretaceous & Lewis Shale  & 1,250 & 1,200 & 1,050 to 2,000 & No & Interbedded dark-gray and olive-gray shale and olive-gray sandstone. \tabularnewline
+	\hline
+	\hline 
+	Cretaceous & Mesaverde Group  & 0 to 1,000 & 800 & 300 to 500? & No & Gray to dark gray shales with interbedded buff to tan fine to medium
+	grained sandstones. \tabularnewline
+	\hline 
+	Cretaceous & Steele and Niobrara Shales  & Cody Shale 4,500 to 5,000 & 2,000 to 2,500 & 2,400 to 5,000 & No & Steele shale is soft gray marine, Niobrara shale is dark gray and
+	contains calcareous zones. \tabularnewline
+	\hline 
+	Cretaceous & Frontier  & 700 to 900 & 500 to 1,000 & 750 to 1,500 & Yes & Gray sandstone and sandy shale. \tabularnewline
+	\hline 
+	Cretaceous & Dakota  &  & 300 to 400 &  & Yes & Marine sandstone, tan to buff, fine to medium grained may contain
+	carbonaceous shale layer. \tabularnewline
+	\hline 
+	Jurassic  & Nugget Sandstone  & 400 to 525 & 500 &  & Yes & Grayish to dull red coarse grained cross-bedded quartz sandstone. \tabularnewline
+	\hline 
+	Triassic  & Chugwater  & 1,275 & 1,500 &  & No & Red shale and siltstone contains gypsum partings near the base. \tabularnewline
+	\hline 
+	Permian  & Phosphoria  & 275 to 325 & 300 &  & No & Black to dark gray shale, chert and phosphorite. \tabularnewline
+	\hline 
+	Pennsylvanian  & Tensleep and Amsden and Madison  & 600 to 700 & 750 &  & No & White to gray sandstone containing thin limestone and dolomite partings.
+	Red and green shale and dolomite, sandstone near base. \tabularnewline
+	\hline 
+	Cambrian  & Undifferentiated  & 900 to 1,000 & 1,000 &  & No & Siltstone and quartzite, including Flathead sandstone. \tabularnewline
+	\hline
+	\hline 
+	Precambrian  & Basement  & - & - &  & No & Granites, metamorphic and igneous rocks. \tabularnewline
+	\hline
+% %% Extend the above example to cross a double-page boundary
+% 	%\hline
+% 	Quaternary  & Alluvium & - & 0-20 & - & Yes & Sands and clays derived chiefly from the Tertiary formations in the
+% 	area. \tabularnewline
+% 	\hline 
+% 	Paleocene & Fort Union  & up to 3,000 & 4,650 & 6,500? & Yes & Consists of alternating fine to coarse grained sandstone siltstone
+% 	and mudstone. Contains various layers of lignitic coal beds. \tabularnewline
+% 	\hline
+% 	\hline 
+% 	Cretaceous  & Lance  & 1,700 to 2,700 & 2,950 & 4,000? & Yes & Interbedded sandstone, siltstone and mudstone. Gray to brownish gray.
+% 	Locally carbonaceous. Sandstone is white to grayish orange. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Fox Hills  &  & 550 & 1,800? & No & Consists of coarsening upward shale and fine-grained sand with thin
+% 	coal beds near the top. Represents a transition from marine to non-marine
+% 	environment. Grades into Lewis Shale at the base. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Lewis Shale  & 1,250 & 1,200 & 1,050 to 2,000 & No & Interbedded dark-gray and olive-gray shale and olive-gray sandstone. \tabularnewline
+% 	\hline
+% 	\hline 
+% 	Cretaceous & Mesaverde Group  & 0 to 1,000 & 800 & 300 to 500? & No & Gray to dark gray shales with interbedded buff to tan fine to medium
+% 	grained sandstones. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Steele and Niobrara Shales  & Cody Shale 4,500 to 5,000 & 2,000 to 2,500 & 2,400 to 5,000 & No & Steele shale is soft gray marine, Niobrara shale is dark gray and
+% 	contains calcareous zones. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Frontier  & 700 to 900 & 500 to 1,000 & 750 to 1,500 & Yes & Gray sandstone and sandy shale. \tabularnewline
+% 	\hline 
+% 	Cretaceous & Dakota  &  & 300 to 400 &  & Yes & Marine sandstone, tan to buff, fine to medium grained may contain
+% 	carbonaceous shale layer. \tabularnewline
+% 	\hline 
+% 	Jurassic  & Nugget Sandstone  & 400 to 525 & 500 &  & Yes & Grayish to dull red coarse grained cross-bedded quartz sandstone. \tabularnewline
+% 	\hline 
+% 	Triassic  & Chugwater  & 1,275 & 1,500 &  & No & Red shale and siltstone contains gypsum partings near the base. \tabularnewline
+% 	\hline 
+% 	Permian  & Phosphoria  & 275 to 325 & 300 &  & No & Black to dark gray shale, chert and phosphorite. \tabularnewline
+% 	\hline 
+% 	Pennsylvanian  & Tensleep and Amsden and Madison  & 600 to 700 & 750 &  & No & White to gray sandstone containing thin limestone and dolomite partings.
+% 	Red and green shale and dolomite, sandstone near base. \tabularnewline
+% 	\hline 
+% 	Cambrian  & Undifferentiated  & 900 to 1,000 & 1,000 &  & No & Siltstone and quartzite, including Flathead sandstone. \tabularnewline
+% 	\hline
+% 	\hline 
+% 	Precambrian  & Basement  & - & - &  & No & Granites, metamorphic and igneous rocks. \tabularnewline
+% 	\hline
+% %% END DOUBLE PAGE BOUNDARY EXAMPLE
+\end{longtable}
+\end{landscape}
+
+\begin{landscape}
+\begin{longtable}{|c|c|c|}
+	\endfirsthead
+	\caption{Test of a small longtable.} \\
+	\hline
+	A & B & C \\
+	\hline
+	1 & 2 & 3 \\
+	\hline
+\end{longtable}
+\end{landscape}
+
+\begin{landscape}
+\begin{longtable}{|c|c|c|}
+	\endfirsthead
+	\caption{Test of a small longtable on the alternate page.} \\
+	\hline
+	1 & 2 & 3 \\
+	\hline
+	A & B & C \\
+	\hline
+\end{longtable}
+\end{landscape}
+
+\subsection{Sub-Sections are Fun}
+Sorta...
+
+\appendix{Special Coolness}
+
+Insert ice cubes here (\ref{lst:hello-world}).
+
+\lstinputlisting[language=Matlab,label={lst:hello-world},caption={A MATLAB ``Hello World`` Example}]{matlab_code.m}
+
+%% Example for use with ``breqn'' automatic equation breaking:
+\ifbreqn
+	\appendix{Equation Breaking Tests}
+
+	\begin{equation*}
+	r = \frac{i}{n F} = k' c_i \exp\left\{ \frac{-G^{\ddagger}}{R T} \right\}
+	\end{equation*}
+	\begin{equation*}
+	r = \frac{i}{n F} = k' c_i \exp\left\{ \frac{-G^{\ddagger}}{R T} \right\}
+	\end{equation*}
+
+	Replace $j$ by $h-j$ and by $k-j$ in these sums to get [cf.~(\ref{sna74})]
+	\begin{equation*}
+	\label{sna74}
+	\frac{1}{6} \left(\sigma(k,h,0) +\frac{3(h-1)}{h}\right)
+	+\frac{1}{6} \left(\sigma(h,k,0) +\frac{3(k-1)}{k}\right)
+	=\frac{1}{6} \left(\frac{h}{k} +\frac{k}{h} +\frac{1}{hk}\right)
+	+\frac{1}{2} -\frac{1}{2h} -\frac{1}{2k},
+	\end{equation*}
+	which is equivalent to the desired result.
+\fi
+
+
+% %% For figuring out the LyX multi-row problem
+% \begin{table}
+% \caption{\label{tab:Important-experimental-propertie}General experimental
+% properties}
+% \centering{}%
+% \begin{tabular}{|c|c|c|}
+% \cline{2-3} 
+% \multicolumn{1}{c|}{} & Parameter & \tabularnewline
+% \hline 
+% \multirow{8}{*}{Silurian dolomite} & Speed, rpm (drainage) & 1200 \tabularnewline
+% \cline{2-3} 
+%  & Speed, rpm (forced imbibition) & 884\tabularnewline
+% \cline{2-3} 
+%  & Surfactant type  & S13D\tabularnewline
+% \cline{2-3} 
+%  & Surfactant concentration, ppm  & 5000\tabularnewline
+% \cline{2-3} 
+%  & IFT$\left(\frac{dyne}{cm}\right)$ & 16\tabularnewline
+% \cline{2-3} 
+%  & $\mu_{o}(cp)$ & 22\tabularnewline
+% \cline{2-3} 
+%  & $k_{f}(md)$ & 10000\tabularnewline
+% \cline{2-3} 
+%  & $\phi_{f}$ & 0.9\tabularnewline
+% \cline{2-3} 
+% \multirow{8}{*}{Thamama} & Speed, rpm (drainage) & 4000\tabularnewline
+% \cline{2-3} 
+%  & Speed, rpm (forced imbibition) & 3000\tabularnewline
+% \cline{2-3} 
+%  & Surfactant type  & Ethoxylated alcohol\tabularnewline
+% \cline{2-3} 
+%  & Surfactant concentration, ppm  & 20000\tabularnewline
+% \cline{2-3} 
+%  & IFT$\left(\frac{dyne}{cm}\right)$ & 18\tabularnewline
+% \cline{2-3} 
+%  & $\mu_{o}(cp)$ & 9.5\tabularnewline
+% \cline{2-3} 
+%  & $k_{f}(md)$ & 7000-10000\tabularnewline
+% \cline{2-3} 
+%  & $\phi_{f}$ & 0.9\tabularnewline
+% \hline 
+% \end{tabular}
+% \end{table}
+
+\end{document}

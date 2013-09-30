@@ -1,10 +1,10 @@
 \contentsline {section}{\texorpdfupper {Abstract}}{iii}{section*.1}
-\contentsline {section}{\texorpdfupper {List of Figures}}{vii}{section*.2}
-\contentsline {section}{\texorpdfupper {List of Tables}}{viii}{section*.3}
-\contentsline {section}{\texorpdfupper {List of Symbols}}{ix}{section*.4}
-\contentsline {section}{\texorpdfupper {List of Abbreviations}}{x}{section*.5}
-\contentsline {section}{\texorpdfupper {Acknowledgments}}{xi}{section*.6}
-\contentsline {section}{\texorpdfupper {Dedication}}{xii}{section*.7}
+\contentsline {section}{\texorpdfupper {List of Figures}}{vi}{section*.2}
+\contentsline {section}{\texorpdfupper {List of Tables}}{vii}{section*.3}
+\contentsline {section}{\texorpdfupper {List of Symbols}}{viii}{section*.4}
+\contentsline {section}{\texorpdfupper {List of Abbreviations}}{ix}{section*.5}
+\contentsline {section}{\texorpdfupper {Acknowledgments}}{x}{section*.6}
+\contentsline {section}{\texorpdfupper {Dedication}}{xi}{section*.7}
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 1}In the Beginning}}{1}{section*.8}
 \contentsline {subsection}{\numberline {1.1}A Subsection}{1}{subsection.1.1}
 \contentsline {subsection}{\numberline {1.2}AA Subsection}{1}{subsection.1.2}
@@ -25,8 +25,7 @@
 \contentsline {subsection}{\numberline {4.1}How Things Could Be Better}{7}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Why We Think Things Aren't Better}{7}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}We Love Our Advisors}{7}{subsection.4.3}
-\contentsline {section}{\texorpdfupper {References Cited}}{8}{section*.16}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Magical Encoding Awesomeness}}{9}{section*.17}
-\contentsline {subsection}{\numberline {A.1}Test Appendix Sub-Section}{9}{subsection.A.1}
-\contentsline {subsection}{\numberline {A.2}Sub-Sections are Fun}{14}{subsection.A.2}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Special Coolness}}{15}{section*.19}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Magical Encoding Awesomeness}}{8}{section*.16}
+\contentsline {subsection}{\numberline {A.1}Test Appendix Sub-Section}{8}{subsection.A.1}
+\contentsline {subsection}{\numberline {A.2}Sub-Sections are Fun}{13}{subsection.A.2}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Special Coolness}}{14}{section*.18}

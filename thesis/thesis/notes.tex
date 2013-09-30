@@ -1,0 +1,135 @@
+%Notes of tex documents
+
+
+% For using helvetica instead of Computer Modern
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+
+%% For automatic equation breaking (experimental!):
+%\usepackage{breqn}
+
+% For using row-spanning and column-spanning in tables:
+%\usepackage{multirow}
+
+% The thesis title MUST be in an inverted pyramid shape.  To do this you can either specify the returns in the title manually or have the thesis style attempt to automatically build the title in the shape of an inverted pyramid.  The thesis style will automatically choose the appropriate behavior by detecting the presence of returns (\\) in the title.
+% Please note that by ``inverted pyramid'' the graduate office really means a regular trapezoid with the larger base on the top.
+% <<MANUAL PYRAMID:>>
+% Use ``\\" to end a line, all normal LaTeX should function properly.
+	%\title{%
+	%	Developing a \atom{12}{6}{Th}{2+}{3}esis Template\\%
+	%	to Help Students Graduate\\%
+	%	in a Reasonable Time%
+	%}
+% <<AUTOMATIC PYRAMID:>>
+% Do not put any carriage returns (\\), all normal LaTeX should function properly.
+
+
+
+% Please note: If you are generating a title containing math mode then it is best to use \texorpdfstring to provide an alternative text for the PDF Title.  If you do not do this then you will see a ''Token not allowed in a PDFDocEncoded string`` warning when rendering your document.
+% eg. \texorpdfstring{H$_2$O}{Water}
+% One final word of caution: The usage of atoms/molecules in titles <may> need to be spelled out on the cover since the binding company cannot typeset them.
+
+
+% NOTE: If you have more than 2 items in either list they must be separate.
+% This case is generally handled automatically, but if you are told to separate the lists then comment or remove the two lines below:
+
+
+
+
+% ... and then uncomment these four lines to force separate lists:
+%\listoffigures
+%\newpage
+%\listoftables
+%\newpage
+
+
+%% NOTE: If included in the front matter, a glossary, a list of abbreviations, or a list of symbols is placed as the last list. If these lists are included in the back matter, they are placed immediately before the REFERENCES CITED.
+
+%%% Parts of a Thesis - Front Matter - Glossary (if applicable)
+%\glossary
+
+%%% Parts of a Thesis - Front Matter - List of Symbols (if applicable)
+
+% Place this call before ''\listofsymbols`` to make the symbols appear on the left instead of the right:
+%\ShowSymbolFirst
+% To call the “List of Symbols” “Nomenclature” instead use:
+%\listofsymbols[Nomenclature]
+% To autosort the list use a star after the command (ie. \listofsymbols*[Nomenclature] or \listofsymbols*)
+
+
+% With very large symbol lists it is sometimes good to split the list into multiple sub-lists.  To output the lists just use the extended \listofsymbols command (below) and to add an element to the list use the optional parameter to ''\addsymbol``.
+%\listofsymbols{General Nomenclature}
+%\listofsymbols{Greek Letters}
+\addsymbol{absorption coefficient}{$\alpha_c$}
+\addsymbol{absorption cross section}{$\alpha_{\sigma}$}
+\addsymbol{average radius of cylindrical shell}{$c$}
+\addsymbol{activation energy of oxidation reaction of a-C in excited state}{$E^{\ast}_{act}$}
+
+
+% Example for sub-list symbols (optional parameter specifies which list to use):
+%\addsymbol[General Nomenclature]{absorption coefficient}{$\alpha_c$}
+%\addsymbol[General Nomenclature]{absorption cross section}{$\alpha_{\sigma}$}
+%\addsymbol[Greek Letters]{average radius of cylindrical shell}{$c$}
+%\addsymbol[Greek Letters]{activation energy of oxidation reaction of a-C in excited state}{$E^{\ast}_{act}$}
+
+
+\chapter{In the Beginning}
+A chapter~\cite{ref:A,ref:B,ref:C}. See nifty ``longtables'' in Appendix~\ref{sec:longtable}.
+
+Nam eget congue lacus. Lorem ipsum dolor sit amet, consectetur faucibus tempor.
+
+\begin{equation}
+x+y=7
+\end{equation}
+
+Maecenas posuere luctus ligula sit amet ornare. Pellentesque vitae velit nulla. Ut a turpis massa, id ullamcorper odio.
+
+\subsection{A Subsection}% adsfsadf fdaskldf fdslkfds  adslkfj;lads asdfklasdflk sadfladsf adsfadsf asdfadsf}
+A subsection of the chapter.  In this particular chapter we're going to an include an example of a list:
+\begin{itemize}
+	\item This little listy went to market
+	\item This little listy stayed home
+	\item This little listy had roast beef
+	\item This little listy had none
+	\item And this little listy graduated, and went ''wee wee wee`` all the way home
+\end{itemize}
+See? Wasn't that fun.
+
+\subsection{AA Subsection}
+Another subsection of the chapter.  See cool encoding stuff in Appendix~\ref{app:encoding}.
+
+\subsubsection{Transport of U Through Porous Media: General Elution Procedures}
+\label{sec:important-section}
+I wonder why there's so much detail?
+
+\paragraph{i Subsection}
+Note that using ``three deep'' sections is HIGHLY discouraged.
+
+\paragraph{ii Subsection}
+So don't make sections this deep unless you really must.
+	
+\subsubsection{aa Subsection}
+Oooo - this topic must be really important! Its importance might be described by Equation~\ref{eq:importance}, which is nothing like the awesome Equation~\ref{eq:newton} or the uber-nifty vector example in Equation~\ref{eq:vector}.
+
+\begin{eqnarray}
+	\label{eq:importance}
+		\textrm{Importance} & \approx & 0 \\
+	\label{eq:newton}
+		\sum_{i}^{\infty}\vec{F_{i}} & = & m\,\vec{a}
+\end{eqnarray}
+
+\begin{align}
+	\label{eq:vector}
+	\newcommand{\Tmat}[3][]{{^{#2}_{#3}}#1\mathrm{\mathbf{T}}\;\,}
+	{\left[\begin{matrix}x\\ y\\ 1\end{matrix}\right]}=\Tmat{S}{W}{\left[\begin{matrix}0\\ 0\\ 1\end{matrix}\right]}
+\end{align}
+
+\subsection{AAA Subsection}
+Yet another subsection (for more information, see Section~\ref{sec:important-section} or Chapter~\ref{cha:important-chapter}).
+
+\subsection{AAAA Subsection}
+Last subsection\footnote{this is evil}, see \ref{fig:Stomata}.
+
+\csmfigure{Stomata}{figures/stomata}{4in}{A pretty picture from the Squier Group --- this is a test of the emergency long-title system.}
+
+

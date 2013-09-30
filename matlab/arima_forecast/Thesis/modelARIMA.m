@@ -37,10 +37,12 @@ trainR = data.trainData - trainF;
 trainR4 = data.trainData - trainF4;
 testR = data.testData - testF;
 
-[h, p, s, c] = lbqtest(testR(300:400))
+[h, p, s, c] = lbqtest(trainI(100:end))
+[h, p, s, c] = lbqtest(trainR(100:end))
+
 autocorr(trainI, 100);
-autocorr(trainR, 100);
+%autocorr(trainR, 100);
 parcorr(trainI, 100);
-parcorr(trainR, 100);
+%parcorr(trainR, 100);
 
 %Saved the trained model
