@@ -1,0 +1,71 @@
+\chapter{Improved Ensemble}
+Discuss our improved ensemble method here
+
+\subsection{Activity recog}
+discuss activity recognition and its importance here
+
+\subsection{HMM vs TSMG}
+discuss why we are not using hidden markov models as stated in the proposal
+
+\subsection{TSMG derivation}
+
+A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  Traditionally, a mixture of Gaussians is implemented for either a one dimensional time series (CITE PAPER TO SUPPORT THIS) or for data vectors with no time element.  Here we combine the two approaches, creating a mixture of Gaussians for multi-dimensional time series data.  While this approach has not yet been implemented, based on the success of mixture of Gaussians in other domains, we expect good results.
+
+The goal of mixture of Gaussians is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given dataset $\{x^{(i)}\}$ we maximize
+\begin{equation}
+\ell(\theta) = \sum_{i = 1}^{\bf M}log\{p(x^{(i)}|\theta)\}
+\end{equation}
+\noindent 
+where ${\bf M}$ is the total number of time series instances.
+
+The expectation maximization (EM) algorithm is commonly used to maximize dataset likelihood.  To use this algorithm we need to define a set of variables
+\begin{equation}
+w_{k}^{(i)} = p(z = k|x^{(i)})
+\end{equation}
+\noindent
+where ${\bf K}$ is the total number of Gaussians to train and $k$ is an index of ${\bf K}$.  
+
+The general equation for the likelihood of the models is: 
+\begin{equation}
+\label{eq:em_likelihood}
+\ell(\theta|x) = \sum_{i = 1}^{{\bf M}}\sum_{k = 1}^{{\bf K}}w_{k}^{(i)}\log \{ \frac{p(x^{(i)}|z=k)p(z = k)}{w_{k}^{(i)}} \}
+\end{equation}
+
+In the traditional mixture of Gaussians algorithm each model is ostensibly a Gaussian.  To make this algorithm work with multi-dimensional time series, we define the models instead by
+\begin{equation}
+\label{eq:model}
+p(x^{(i)}|z = k) = \prod_{n = 1}^{{\bf N}}\mathcal{N}_{n}(x^{(i)})
+\end{equation}
+\noindent
+where ${\bf N}$ is the length of each time series instance.  Thus our model for each time series is ${\bf N}$ independent multivariate Gaussians.
+
+Combining equations~\ref{eq:em_likelihood} and~\ref{eq:model} gives the following log likelihood
+\begin{equation}
+\label{eq:em_combined}
+\ell(\theta|x) = \sum_{i = 1}^{{\bf M}}\sum_{k = 1}^{{\bf K}}w_{k}^{(i)}\{ \log\frac{p(z = k)}{w_{k}} + \sum_{n = 1}^{{\bf N}} \log \mathcal{N}_{n}(x^{(i)})\}
+\end{equation}
+
+\textbf{E-Step}
+The E-step hardly changes from the traditional EM mixture of Gaussians algorithm.  We simply need to calculate 
+\begin{equation}
+w^{(i)}_{k} = p(z = k|x^{(i)})
+\end{equation}
+
+\textbf{M-Step}
+For the maximization step, it is assumed that we know the values of $w_{k}^{(i)}$.  Thus, we need to maximize equation~\ref{eq:em_combined} with respect to $\mu$,  $\Sigma$, and $\theta$.
+The results of these maximizations are given below:
+\begin{equation}
+\theta_{k} = \frac{1}{{\bf M}}\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}
+\end{equation}
+\begin{equation}
+\mu_{k, n} = \frac{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}x^{(i)}_{n}}{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}}
+\end{equation}
+\begin{equation}
+\Sigma_{k, n} = \frac{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}(x^{(i)} - \mu_{k, n})(x^{(i)} - \mu_{k, n})^{\mathrm{T}}}{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}}
+\end{equation}
+
+
+\subsection{Improved Ensemble Derivation}
+Derive our improved ensemble method here.
+
+

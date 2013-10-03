@@ -32,6 +32,7 @@ trainF4 = aMod.forecastAll(data.trainData, 10);
 
 %Inferred data
 trainI = aMod.inferData(data.trainData);
+testI = aMod.inferData(data.testData);
 
 trainR = data.trainData - trainF;
 trainR4 = data.trainData - trainF4;
@@ -39,10 +40,13 @@ testR = data.testData - testF;
 
 [h, p, s, c] = lbqtest(trainI(100:end))
 [h, p, s, c] = lbqtest(trainR(100:end))
+[h, p, s, c] = lbqtest(testI(100:300))
 
 autocorr(trainI, 100);
 %autocorr(trainR, 100);
 parcorr(trainI, 100);
 %parcorr(trainR, 100);
+autocorr(testI, 100);
+parcorr(testI, 100);
 
 %Saved the trained model

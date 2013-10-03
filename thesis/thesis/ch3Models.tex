@@ -1,0 +1,133 @@
+\chapter{Models}
+Discuss the relevant models which make up the BCF here.
+
+\subsection{Seasonal ARIMA model}
+The Auto Regressive Moving Average Model (ARMA) or derivations on its form (Auto Regressive Integrated Moving Average, Seasonal Auto Regressive Moving Average, $etc$) have been used in numerous forecasting applications from economics to vehicle traffic systems.  While we have been unable to find ARMA based models used on building occupancy data directly, we have found it used to forecast building energy usage and vehicle occupancy \cite{Williams2003, Hong2011, Newsham2010}.  Its forecasting accuracy is quite strong and it can serve as a strong baseline of comparison for a forecasting problem.  
+
+Due to that fact that our building data has periodic trends and a non stationary mean, a seasonal ARIMA model is best suited to fit our data from the class of ARMA models.  The seasonal ARIMA model is defined as:
+\begin{equation}
+\label{eq:sarima}
+\phi_{p}(B)\Phi_{p}(B^{s})\nabla^{d}\nabla^{D}_{s}T_{t} = \theta_{q}(B)\Theta_{Q}(B^{s})e_{t}
+\end{equation}
+\noindent
+where $\{T_{t}\}$ is our observed time series and $\{e_t\}$ represents an unobserved white noise series ($e_{t} \sim N(0, \sigma^{2})$ )the values of which are computed through model training and are not known a priori.  $B$ is the backshift operator which is a function that allows access to older time readings.  For example $BT_{t} = T_{t-1}$ and $B^{5}T_{t} = T_{t-5}$.  $\nabla^{D}_{s}$ is the seasonal difference operator ($\nabla^{D}_{s}T_{t} = (1 - B^{s})^{D}T_{t}$)and $\phi,\  \Phi,\  \theta,\ \Theta$ are trainable parameters.  
+
+Seasonal ARIMA models are notated as
+\begin{equation}
+ARIMA(p,d,q)(P,D,Q)_{s}
+\end{equation}
+where $p$ is the number of autoregressive terms, $d$ is the number of differences and $q$ is the number of moving average terms.  $P$, $D$, and $Q$ all correspond to the seasonal equivalents of $p$, $d$, and $q$.  The parameter $s$ is the seasonality of the model.  For a full discussion of seasonal ARIMA models see Box and Jenkins \cite{Box2008}.
+
+Finding the correct values of $p, d, q, P, D, Q, s$ is traditionally a hard problem.  To fit our parameters we use a method similar to Williams \cite{Williams2003}.  As a verification of our model, we applied the LJung-Box test \cite{Ljung1978} on our set of residual data for each model.  This tests if any of the auto correlation values on the residual dataset are significantly different from 0.  To be valid, the LJung-Box test should return a value of $p > 0.05$.  Both residual sets passed: $p = 0.9964$ for MERL and $p = 0.1072$ for CSMBB.  Our final model parameters can be seen in Table~\ref{fig:sarimatab}.  Notice that the season is different for each model due to a difference in window of time for each day that we extracted data.
+
+\begin{table}[t]
+\centering
+\caption{The parameter values that were fit for MERL and CSMBB datasets for a Seasonal ARIMA model}
+\begin{tabular}{|c|c|c|c|c|c|c|c|} \hline
+Dataset & $p$ & $d$ & $q$ & $P$ & $D$ & $Q$ & $s$\\ \hline
+MERL & 0 & 0 & 1 & 0 & 1 & 5 & 78\\ \hline
+CSMBB & 0 & 1 & 1 & 0 & 1 & 3 & 72\\ \hline
+\end{tabular}
+\label{fig:sarimatab}
+\end{table}
+
+Forecasting from this model is performed by iteratively forward feeding values of the model into itself.  Since the set of residuals $e$ from a properly trained seasonal ARIMA model is described by a white noise Gaussian distribution $N(0, \sigma^{2})$, we can take the expected value of the residual at time $e_{t + 1}$ to be 0.  This leaves us with the following forecasting equation: 
+\begin{equation}
+\label{eq:sarima}
+\phi_{p}(B)\Phi_{p}(B^{s})\nabla^{d}\nabla^{D}_{s}T_{t + 1} = \theta_{q - 1}(B)\Theta_{Q - 1}(B^{s})e_{t}
+\end{equation}
+
+\subsubsection{Fitting a Seasonal ARIMA}
+The underlying math of ARMA models stems from a linear filter operating on input from a stationary stochastic process.  ARIMA models were created to handle non-stationary data by differencing the data to induce stationarity.  Thus, a necessary step in fitting a ARIMA model to the data is first to determine the steps necessary to make the time series weakly stationary.  For a time series to be weakly stationary two conditions must be satisfied: The expected value of $x^{(t)}$ is the same for all $t$ and the covariance between any two observations depends only on the lag.  
+
+In general it is difficult to prove stationarity, but there exists a number of methods which assist in determining if a time series is close enough to stationary to be modeled by an ARMA model.  Visual inspection of both the raw data and the autocorrelation function is a useful tool to test for stationarity.  Figure~\ref{fig:raw_data} shows the raw counts and autocorrelation values at hourly lags of vehicle counts for one sensor over a two week period.  The data shows no constant mean and thus can not be stationary.  The graph of autocorrelation values shows local peaks every 24 hours with a significant peak at one week of lag (168 hours).
+
+Intuitively a one week seasonal difference should yield a stationary time series and visually, outside of an anomalous reading, Figure~\ref{fig:acf_lag} shows such stationarity.  Applying the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) \cite{Kwiatkowski1992} test for stationarity on the seasonally differenced data confirms the visual inspection.  Using R's implementation of KPSS gives a p-value greater than 0.1.  This is significantly higher than the standard value to reject the stationarity hypothesis of 0.05.  
+
+\begin{figure}[t]
+\begin{center}
+\subfloat[][Seasonal difference counts] {
+\includegraphics[width=0.45\textwidth]{lag_counts.png}
+\label{fig:acf_counts}
+}
+\subfloat[][Autocorrelation of seasonal difference counts] {
+\includegraphics[width=0.45\textwidth]{acf_lag.png}
+\label{fig:acf_lag}
+}
+\end{center}
+\caption{One week seasonal difference counts and autocorrelation over a two week period.}
+\label{fig:lag_data}
+\end{figure}
+
+~\ref{fig:acf_counts}
+~\ref{fig:lag_data}
+
+Most of the input parameter values for seasonal ARIMA models tend to be 0, 1, 2, or 3 \cite{Box2008}.  Due to this small range of input values the total input space is relatively small (Six parameters with four possible values equates to $4^6 = 4096$) allowing us to apply a brute-force search for the best model.  Model performance is determined by the Akaike information criterion (AIC) \cite{Akaike1974}.  Our optimal model is a seasonal ARIMA $(1,0,1)(0,1,1)_{168}$.  
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{broncos_predicted.png}
+\end{center}
+\caption{One-step ahead prediction for a sample week.  Black line is original data.  Red line is forecasted data.  Dotted box shows an example of mis-forecasting due to a broncos game.}
+\label{fig:arima_prediction}
+\end{figure}
+
+Figure~\ref{fig:arima_prediction} shows an example of one-step ahead prediction performed on a sample week of test data.  The dotted line boxes a time when a Broncos game was occurring.  Forecasting during the Broncos game was initially low while traffic was unusually high as people were traveling to the game and then too high for much of the duration of the game.  This pattern of mis-forecasting is inline with the pattern demonstrated in Figure~\ref{fig:broncos_residual}.  The mean absolute percentage error (MAPE) for this week was approximately 8.2\%.  This MAPE is close to the results from other authors on other vehicle traffic datasets \cite{Williams2003,Smith1997}.  
+
+
+
+\subsection{Historic average}
+This model is simply the per day average of readings at each time step.  For certain types of data this model is has been shown to be more accurate than seasonal ARIMA forecasting \cite{Newsham2010}, specifically when the data has a strong historic correlation.  Average forecasts have the advantage of being extremely computationally fast and having a forecast accuracy that does not depend on the forecasting horizon.  This result will be shown later.
+
+\subsection{Time delayed neural networks}
+
+Time delayed neural networks are a special subset of regression neural networks where the input data is a local history of data from the time series.  Commonly the output is a single point forecast from that same time series at some point $t + \delta$ in the future.   The form of our 1 hidden layer time delayed neural network is:
+\begin{equation}
+T_{t + 1} = \phi \{ \sum_{j = 1}^{J} w_{j}\psi_{j} \bigg[ \sum_{l = 0}^{m}w_{ji}T_{t - l\delta} + w_{j0} \bigg] + w_0 \}
+\end{equation}
+\noindent where $\phi()$ is a linear activation function on the output layer and $\psi()$ is the standard sigmoid function.  A visual representation of the node architecture of a time delayed neural network is displayed in Figure~\ref{fig:tdnnarch}.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[width = .8\linewidth]{time_delay_neural_network.png}
+		\caption{Architecture of a time delayed neural network with $m + 1$ inputs and J outputs \cite{Hansen2003}.}
+	\label{fig:tdnnarch}
+\end{figure}
+
+Forecasting is performed by computing the output for a $m + 1$ length window of time and then iteratively forecasting a set of time steps in the future by using forecast data as inputs into the next forecast. 
+
+The number of input nodes and hidden nodes for each dataset is given in Table~\ref{fig:tdnntab}.
+
+\begin{table}[h]
+\centering
+\caption{Number of delayed input nodes and hidden nodes for MERL and CSMBB datasets}
+\begin{tabular}{|c|c|c|} \hline
+Dataset & Delayed input nodes & Hidden nodes\\ \hline
+MERL & 15 & 8\\ \hline
+CSMBB & 12 & 8\\ \hline
+\end{tabular}
+\label{fig:tdnntab}
+\end{table}
+
+
+\begin{table}[t!]
+\centering
+\caption{RMSE forecast values per model for a horizon equal to one.}
+\begin{tabular}{|c|c|c|c|c|c|c|} \hline
+Dataset & ARIMA & TDNN & AVG & SVM & BCF & BCF-TS\\ \hline
+MERL & 5.5 & 2.67 & 4.35 & 2.29 & 2.28 & \textbf{2.26}\\ \hline
+CSMBB & 10.94 & 14.13 & 27.14 & 11.01 & 8.72 & \textbf{8.72}\\ \hline
+\end{tabular}
+\label{fig:rmsetab}
+\end{table}
+
+\subsection{Support Vector Regression}
+Support Vector Machine Regression (SVM) offers a powerful way to forecast time series.  It has been used in the past successfully to forecast travel times for vehicle traffic \cite{Wu2004}.  
+
+As training SVM's is not done in the same way as other time series models, we first had to transform our dataset to a series of examples with a fixed window.  For a fixed window of size $w$, training input data is of the form $\{T_{t}, T_{t - 1}, ..., T_{t - w + 1}\}$.  Target data is of the form $T_{t + 1}$.  Thus the training examples which we provided to our SVM was $\{T_{t + 1}, [T_{t}, T_{t - 1}, ..., T_{t - w + 1}]\}$.
+
+To perform SVM training we used the popular $libsvm$ package and as parameter selection is a notoriously difficult problem for SVM.  We followed the guidelines as outlined by Hsu, Chih-Chang and Lin, creators of the libsvm package \cite{Hsu2003}.  We first scaled the data by normalizing it between $[0, 1]$.  Then we searched for our best values of $C$, $\epsilon$ and $\gamma$ using the root mean squared error of the validation set a factor to determine performance of those parameters. 
+
+For both the MERL and CSMBB datasets we used a window of 5.  This happened to be the same window length used by \cite{Wu2004}.
+
+~\ref{fig:rmsetab}

@@ -1,26 +1,57 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{8}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Box et~al.(2008)Box, Jenkings, and Reinsel]{Box2008}
-George Box, Gwilym Jenkings, and Gregory Reinsel.
-\newblock \emph{{Time Series Analysis: Forecasting and Control}}.
-\newblock John Wiley \& Sons, Inc., 4th edition, 2008.
-\newblock ISBN 978 0 470 27284 8.
+\bibitem[DOE(2010)]{DOE2010}
+US~DOE.
+\newblock {Building Energy Databook}, 2010.
+\newblock URL \url{http://buildingsdatabook.eren.doe.gov/}.
 
-\bibitem[Franses(1998)]{Franses1998}
-Philip~Hans Franses.
-\newblock \emph{{Time Series models for Business and Economic Forecasting}}.
-\newblock Cambridge University Press, 1st edition, 1998.
-\newblock ISBN 0 521 58404 3.
+\bibitem[Controls(2013{\natexlab{a}})]{Controls2013}
+KMC Controls.
+\newblock {Understanding Building Automation and Control Systems},
+  2013{\natexlab{a}}.
 
-\bibitem[Cryer and Chan(2008)]{Cryer2008}
-Jonathan~D. Cryer and Kung-Sik Chan.
-\newblock \emph{{Time Series Analysis With Applications in R}}.
-\newblock Springer, 2nd editio edition, 2008.
-\newblock ISBN 9780387759586.
+\bibitem[Controls(2013{\natexlab{b}})]{Controls2013a}
+KMC Controls.
+\newblock {Zone Control with Variable Air Volume Controls (VAV)},
+  2013{\natexlab{b}}.
+
+\bibitem[Yang and Kim(2004)]{yang2004}
+In-Ho Yang and Kwang-Woo Kim.
+\newblock {Prediction of the time of room air temperature descending for
+  heating systems in buildings}.
+\newblock \emph{Building and Environment}, 39\penalty0 (1):\penalty0 19--29,
+  January 2004.
+\newblock ISSN 0360-1323.
+\newblock \doi{http://dx.doi.org/10.1016/j.buildenv.2003.08.003}.
+
+\bibitem[Ma et~al.(2010)Ma, Borrelli, and Hencey]{Ma2010}
+Yudong Ma, Francesco Borrelli, and Brandon Hencey.
+\newblock {Model predictive control for the operation of building cooling
+  systems}.
+\newblock In \emph{America Control Conference}, 2010.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=5739562}.
+
+\bibitem[DOT(2007)]{DOT2007}
+US~DOT.
+\newblock {National Traffic Signal Report Card}, 2007.
+\newblock URL \url{http://www.ite.org/reportcard/NTSRC Exec Summary final.pdf}.
+
+\bibitem[Koonce et~al.(2008)Koonce, Kittelson, Rodegerdts, Lee, and
+  Swartz]{Koonce2008}
+Peter Koonce, Wayne Kittelson, Lee Rodegerdts, Kevin Lee, and Caroline Swartz.
+\newblock {The Signal Timing Manual}.
+\newblock Technical report, Federal Highway Administration, 2008.
+
+\bibitem[Hyndman and Koehler(2006)]{Hyndman2006}
+R.J. Hyndman and A.B. Koehler.
+\newblock {Another look at measures of forecast accuracy}.
+\newblock \emph{International Journal of Forecasting}, 22\penalty0
+  (4):\penalty0 679--688, 2006.
 
 \end{thebibliography}
