@@ -1,4 +1,4 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -48,10 +48,83 @@ Peter Koonce, Wayne Kittelson, Lee Rodegerdts, Kevin Lee, and Caroline Swartz.
 \newblock {The Signal Timing Manual}.
 \newblock Technical report, Federal Highway Administration, 2008.
 
+\bibitem[ESPN(2013)]{ESPN2013}
+ESPN.
+\newblock {NFL Attendance}, 2013.
+
 \bibitem[Hyndman and Koehler(2006)]{Hyndman2006}
 R.J. Hyndman and A.B. Koehler.
 \newblock {Another look at measures of forecast accuracy}.
 \newblock \emph{International Journal of Forecasting}, 22\penalty0
   (4):\penalty0 679--688, 2006.
+
+\bibitem[Wren and Rao(2003)]{Wren2003}
+Christopher~R. Wren and Srinivasa~G Rao.
+\newblock {Self-configuring , Lightweight Sensor Networks for Ubiquitous
+  Computing}.
+\newblock In \emph{International Conference Ubiquitous Computing}, 2003.
+
+\bibitem[Wren and Tapia(2006)]{Wren2006}
+Christopher~R. Wren and E.~Tapia.
+\newblock {Toward scalable activity recognition for sensor networks}.
+\newblock \emph{Location-and Context-Awareness}, pages 168--185, 2006.
+\newblock URL \url{http://www.springerlink.com/index/7114556523154474.pdf}.
+
+\bibitem[Wren et~al.(2007{\natexlab{a}})Wren, Ivanov, Kaur, Leigh, and
+  Westhues]{Wren2007a}
+Christopher~R. Wren, Yuri Ivanov, Ishwinder Kaur, Darren Leigh, and Jonathan
+  Westhues.
+\newblock {SocialMotion : Measuring the Hidden Social Life of a Building}.
+\newblock 2007{\natexlab{a}}.
+
+\bibitem[Dong et~al.(2011)Dong, Lepri, and Pentland]{Dong2011}
+Wen Dong, Bruno Lepri, and Alex~(Sandy) Pentland.
+\newblock {Modeling the co-evolution of behaviors and social relationships
+  using mobile phone data}.
+\newblock In \emph{Proceedings of the 10th International Conference on Mobile
+  and Ubiquitous Multimedia - MUM '11}, pages 134--143, New York, New York,
+  USA, 2011. ACM Press.
+\newblock ISBN 9781450310963.
+\newblock \doi{10.1145/2107596.2107613}.
+\newblock URL \url{http://dl.acm.org/citation.cfm?doid=2107596.2107613}.
+
+\bibitem[Minnen and Wren(2004)]{Minnen2004}
+D.C. Minnen and Christopher~R. Wren.
+\newblock {Finding temporal patterns by data decomposition}.
+\newblock In \emph{Sixth IEEE International Conference on Automatic Face and
+  Gesture Recognition, 2004. Proceedings.}, pages 608--613. Ieee, 2004.
+\newblock ISBN 0-7695-2122-3.
+\newblock \doi{10.1109/AFGR.2004.1301600}.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1301600}.
+
+\bibitem[Wren et~al.(2006)Wren, Minnen, and Rao]{Wren2006a}
+Christopher~R. Wren, D.~C. Minnen, and S.~Rao.
+\newblock {Similarity-based analysis for large networks of ultra-low resolution
+  sensors}.
+\newblock \emph{Pattern Recognition}, 39\penalty0 (10):\penalty0 1918--1931,
+  October 2006.
+\newblock ISSN 00313203.
+\newblock \doi{10.1016/j.patcog.2006.04.009}.
+\newblock URL
+  \url{http://linkinghub.elsevier.com/retrieve/pii/S0031320306001610}.
+
+\bibitem[Wren et~al.(2007{\natexlab{b}})Wren, Ivanov, Leigh, and
+  Westbues]{Wren2007}
+CR~Wren, YA~Ivanov, Darren Leigh, and J~Westbues.
+\newblock {The MERL motion detector dataset: 2007 workshop on massive
+  datasets}.
+\newblock In \emph{ICMI Workshop on Massive Datasets}, 2007{\natexlab{b}}.
+\newblock URL \url{https://merl.com/reports/docs/TR2007-069.pdf}.
+
+\bibitem[Petridis et~al.(2001)Petridis, Kehagias, Petrou, Bakirtzis, Kiartzis,
+  Panagiotou, and Maslaris]{Petridis2001}
+V~Petridis, A~Kehagias, L~Petrou, A~Bakirtzis, S~Kiartzis, H~Panagiotou, and
+  N~Maslaris.
+\newblock {A Bayesian multiple models combination method for time series
+  prediction}.
+\newblock \emph{Journal of intelligent and robotic systems}, 31\penalty0
+  (1):\penalty0 69--89, 2001.
+\newblock URL \url{http://www.springerlink.com/index/X6UR20K8780000T2.pdf}.
 
 \end{thebibliography}

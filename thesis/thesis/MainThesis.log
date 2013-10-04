@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  3 OCT 2013 15:55
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  4 OCT 2013 17:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -625,17 +625,12 @@ LaTeX Font Info:    Font shape `OMS/cmr/bx/n' in size <12> not available
  (./ch1Introduction.tex [1
 
 
-] [2]
-
-Package natbib Warning: Citation `ESPN2013' on page 3 undefined on input line 4
-6.
-
-[3]
+] [2] [3]
 File: ./images/broncos_off4.png Graphic file (type QTm)
- <use  "./images/broncos_off4.png" >
+
+<use  "./images/broncos_off4.png" >
 File: ./images/broncos4.png Graphic file (type QTm)
- <use  "./images/broncos4.png" >
-[4]
+ <use  "./images/broncos4.png" > [4]
 
 Package natbib Warning: Citation `2001' on page 5 undefined on input line 69.
 
@@ -652,15 +647,15 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 
 ]
 
-LaTeX Warning: Reference `fig:merlday' on page 8 undefined on input line 33.
-
-
-LaTeX Warning: Reference `fig:csmbbfloor' on page 8 undefined on input line 40.
-
+LaTeX Warning: Reference `fig:merlday' on page 8 undefined on input line 44.
 
 [8]
 
-LaTeX Warning: Reference `fig:csmday' on page 9 undefined on input line 75.
+LaTeX Warning: Reference `fig:csmbbfloor' on page 9 undefined on input line 51.
+
+
+
+LaTeX Warning: Reference `fig:csmday' on page 9 undefined on input line 86.
 
 ) [9]
 \openout2 = `ch3Models.aux'.
@@ -764,25 +759,17 @@ Package natbib Warning: Citation `Wu2004' on page 16 undefined on input line 13
 ) [16]
 \openout2 = `ch4Ensemble.aux'.
 
- (./ch4Ensemble.tex
-
-Package natbib Warning: Citation `Petridis2001' on page 17 undefined on input l
-ine 5.
-
-[17
+ (./ch4Ensemble.tex [17
 
 
 
 ]
 File: ./images/svm_standard_deviations_vs_horizon.png Graphic file (type QTm)
- <use  "./images/svm_standard_deviations_vs_horizon.png" >
 
-Package natbib Warning: Citation `Petridis2001' on page 18 undefined on input l
-ine 34.
-
-[18]
+<use  "./images/svm_standard_deviations_vs_horizon.png" > [18]
 File: ./images/posterior_probs.png Graphic file (type QTm)
- <use  "./images/posterior_probs.png" > [19]
+
+<use  "./images/posterior_probs.png" > [19]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 81.
@@ -794,10 +781,6 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 81.
-
-
-Package natbib Warning: Citation `Petridis2001' on page 20 undefined on input l
-ine 82.
 
 
 Package natbib Warning: Citation `Zheng2006' on page 20 undefined on input line
@@ -852,10 +835,10 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 163--169
 
 
 
-] (./MainThesis.bbl) [30
+] (./MainThesis.bbl [30
 
 
-]
+]) [31]
 
 Package natbib Warning: There were undefined citations.
 
@@ -878,12 +861,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 154.
  ) 
 Here is how much of TeX's memory you used:
- 11152 strings out of 494004
- 164582 string characters out of 3150890
- 271708 words of memory out of 3000000
- 14218 multiletter control sequences out of 15000+200000
+ 11179 strings out of 494004
+ 165057 string characters out of 3150890
+ 272409 words of memory out of 3000000
+ 14245 multiletter control sequences out of 15000+200000
  8749 words of font info for 32 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 48i,10n,140p,1187b,449s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,10n,140p,1187b,485s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (41 pages).
+Output written on MainThesis.pdf (42 pages).

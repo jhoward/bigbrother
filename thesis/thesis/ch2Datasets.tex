@@ -24,9 +24,20 @@ Discuss MAPE, MASE, RMSE, and our approach here
 TODO: Perhaps remove this to another section
 This could be represented by a hypothesis function $h(x, \delta)$.  We use mean absolute scale error (MASE) \cite{Hyndman2006} and root mean squared error (RMSE) as cost functions to compare with other previously implemented techniques.
 
-\subsection{MERL Dataset} 
+\subsection{Building Datasets}
+INSERT IMAGE OF IRSENSOR HERE 
+DISCUSS BUILDING DATASETS
+DISCUSS PRIOR WORK to Collect the data
 
-The Mitsubishi Electronic Research Labs dataset is derived from a collection of over 200 passive infrared sensors place densely throughout the 7th and 8th floor of a research office building.  The sensors are placed roughly two meters apart on the ceilings, creating a dense sensing area with little non-sensed space.  Readings are taken at the millisecond level, but due to the sensors' settling times the inter-detection time of motion is approximately 1.5 seconds.
+\subsubsection{MERL Dataset} 
+
+INSERT IMAGE OF BUILDING LAYOUT
+INSERT IMAGE OF TYPICAL WEEKEND DAY  FOR A COUPLE OF DIFFERENT SENSORS
+DISCUSS OUR FINAL "CLEAN DATASET"
+
+The Mitsubishi Electronic Research Labs dataset is derived from a collection of over 200 passive infrared sensors place densely throughout the 7th and 8th floor of a research office building.  This dataset has been used as the basis for multiple papers \cite{Wren2003, Wren2006, Wren2007a, Dong2011, Minnen2004, Wren2006a, Wren2007}.  DISCUSS THE TYPES OF RESEARCH THE DATASET HAS BEEN USED FOR BRIEFLY HERE.
+
+The sensors are placed roughly two meters apart on the ceilings, creating a dense sensing area with little non-sensed space.  Readings are taken at the millisecond level, but due to the sensors' settling times the inter-detection time of motion is approximately 1.5 seconds.
 
 The data was collected from March 2006 through March 2008 and there are roughly 53 million sensor readings.  This building is similar to most office buildings with a number of personal offices along with labs and conference rooms.  Employees have roughly set schedules and holidays are observed as normal. 
 
@@ -35,7 +46,7 @@ The counts of sensor activations have been aggregated every 10 minutes.  Because
 Peak motion unsurprisingly occurs during the middle of the day corresponding to lunch time.  There is another small peak of motion near the start of the day corresponding to people entering.  Near the end of the day, instead of a peak there is a region corresponding to high variance.  This seems to imply that while people enter at roughly the same time, there is a significant variance on when people leave the building.
 
 
-\subsection{Colorado School of Mines Dataset}
+\subsubsection{Colorado School of Mines Dataset}
 
 The Colorado School of Mines dataset is a collection of 50 passive infrared sensors mounted on the ceiling of the second floor of a class and office room building.  The density of the sensor placement depends on the location within the building.  Outside the auditorium in the lower right of Figure~\ref{fig:csmbbfloor} is a dense collection of sensors placed approximately every few meters.  Throughout the rest of the building the sensors are placed roughly every 5 meters.  Data was collected for one academic school year from 2008 to 2009 and there are more than 23 million sensor readings.  To acquire readings, the sensors were polled every second and recorded data if motion was detected.  
 

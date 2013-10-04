@@ -13,9 +13,10 @@
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Datasets}}{7}{section*.10}
 \contentsline {subsection}{\numberline {2.1}Notation}{7}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Forecast measurements}{7}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}MERL Dataset}{8}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Colorado School of Mines Dataset}{8}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Denver traffic dataset}{9}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.3}Building Datasets}{8}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}MERL Dataset}{8}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Colorado School of Mines Dataset}{9}{subsubsection.2.3.2}
+\contentsline {subsection}{\numberline {2.4}Denver traffic dataset}{9}{subsection.2.4}
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 3}Models}}{10}{section*.11}
 \contentsline {subsection}{\numberline {3.1}Seasonal ARIMA model}{10}{subsection.3.1}
 \contentsline {subsubsection}{\numberline {3.1.1}Fitting a Seasonal ARIMA}{11}{subsubsection.3.1.1}
