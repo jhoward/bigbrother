@@ -1,50 +1,70 @@
-\chapter{Datasets}
-This chapter contains dataset information
+\chapter{Datasets and Performance Metrics}
+This chapter contains information pertaining to the datasets used for our work along with a description of the performance metrics  we used to determine the efficacy of our approach.  Our datasets are from three different sources.  We have two building datasets and one freeway traffic dataset.
 
-\subsection{Notation}
-As already stated, we define a time series dataset used within as  $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$. 
-
-Forecasts for a given model $k$ from the set of all models $K$ are represented by 
-\begin{equation}
-\bar{T}_{t + 1}^{k, m} = f(T_{t}, ..., T_{1}; \theta_{k}).
-\end{equation}
-\noindent
-Thus the forecast of $T_{t + 1}$ is a function of all past data and some trained parameterization $\theta_{k}$ for that model. 
-
-In this work we need to forecast more than one time step into the future.  Future forecasts are performed through iterative one step ahead forecasts.  Also for this work we forecast a model for each individual sensor and for convenience drop the $m$ from our forecasting notation.  An example of a forecast two time steps ahead of current time $t$ is given by 
-\begin{equation}
-\bar{T}_{t + 2}^{k} = f(\bar{T}_{t + 1}, T_{t}, ..., T_{1}; \theta_{k}).
-\end{equation}
-\noindent
-Such a forecast is simply the forecast for one time step into the future but now with the forecasted value of $\bar{T}_{t + 1}$ used as the most recent datapoint to forecast $\bar{T}_{t + 2}$.  Forecasting in this nature allows for forecasts any number of time steps into the future. 
-
-\subsection{Forecast measurements}
-Discuss MAPE, MASE, RMSE, and our approach here
-
-TODO: Perhaps remove this to another section
-This could be represented by a hypothesis function $h(x, \delta)$.  We use mean absolute scale error (MASE) \cite{Hyndman2006} and root mean squared error (RMSE) as cost functions to compare with other previously implemented techniques.
+TODO DISCUSS DATA NORMALIZATION TO VALUES BETWEEN -1 to 1 HERE
 
 \subsection{Building Datasets}
-INSERT IMAGE OF IRSENSOR HERE 
-DISCUSS BUILDING DATASETS
-DISCUSS PRIOR WORK to Collect the data
+TODO: DISCUSS BUILDING DATASETS HERE AND METHODS TO COLLECT DATA.  EXPLAIN WHY MANY OF THE DATASETS ARE INSUFFICIENT DUE TO EITHER SIZE, LENGTH OF READING, OR SIMULATION ONLY/APPLICATION
+
+Our building datasets come from two sources.  The first is a combined research and office building from Mitsubishi's Electronic Research Lab (MERL) dataset \cite{Wren2007}.  The second is a classroom and office building from the Colorado School of Mines (CSMBB) \cite{Hoff2009, Howard2013}.  Both datasets use passive infrared sensors (\ref{fig:pirsensor}) to estimate motion in an area.  
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width = .4\linewidth]{pir_sensor}
+	\end{center}
+	\caption{Passive infrared motion detector}
+	\label{fig:pirsensor}
+\end{figure}
+
+Due to the nature of IR sensors, we are only able to detect motion instead of actual occupancy; for example, a group of three people would occur as one reading in both systems.  Despite this drawback, real occupancy data would likely be similar to our data, but with higher variance and higher means.  As the range of occupancy estimates in our two datasets are quite different and we are able to achieve accurate estimates in both scenarios, we do not foresee problems when applying our forecasting techniques to more accurate estimated values.  We thus believe this data sufficient to test our occupancy estimation algorithms.
 
 \subsubsection{MERL Dataset} 
+The Mitsubishi Electronic Research Labs dataset is derived from a collection of over 200 passive infrared sensors place densely throughout the 7th and 8th floor of a research office building.  This dataset has been used as the basis for multiple papers \cite{Wren2003, Wren2006, Wren2007a, Dong2011, Minnen2004, Wren2006a, Wren2007}.  TODO: DISCUSS THE TYPES OF RESEARCH THE DATASET HAS BEEN USED FOR BRIEFLY HERE.
 
-INSERT IMAGE OF BUILDING LAYOUT
-INSERT IMAGE OF TYPICAL WEEKEND DAY  FOR A COUPLE OF DIFFERENT SENSORS
-DISCUSS OUR FINAL "CLEAN DATASET"
+\begin{figure}[!ht]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{merl_floorplan.png}
+			%\label{fig:merl_floor}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.40\textwidth]{merl_map.png}
+			%\label{fig:merl_sensors}
+		}
+	\end{center}
+	\caption{Floor plan and sensor locations for the MERL office building dataset.}
+	\label{fig:merlfloor}
+\end{figure}
 
-The Mitsubishi Electronic Research Labs dataset is derived from a collection of over 200 passive infrared sensors place densely throughout the 7th and 8th floor of a research office building.  This dataset has been used as the basis for multiple papers \cite{Wren2003, Wren2006, Wren2007a, Dong2011, Minnen2004, Wren2006a, Wren2007}.  DISCUSS THE TYPES OF RESEARCH THE DATASET HAS BEEN USED FOR BRIEFLY HERE.
+TODO HIGHLIGHT OUR SENSOR ON IMAGE AND DISCUSS THAT SENSOR
 
-The sensors are placed roughly two meters apart on the ceilings, creating a dense sensing area with little non-sensed space.  Readings are taken at the millisecond level, but due to the sensors' settling times the inter-detection time of motion is approximately 1.5 seconds.
+The sensors are placed roughly two meters apart on the ceilings, creating a dense sensing area with little non-sensed space.  Readings are taken at the millisecond level, but due to the sensors' settling times the inter-detection time of motion is approximately 1.5 seconds.  A representation of this floor plan is given in Figure ~\ref{fig:merlfloor}.
 
 The data was collected from March 2006 through March 2008 and there are roughly 53 million sensor readings.  This building is similar to most office buildings with a number of personal offices along with labs and conference rooms.  Employees have roughly set schedules and holidays are observed as normal. 
 
-The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion in the night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all Wednesdays for a single sensor along with a range of one standard deviation is given in Figure~\ref{fig:merlday}.  
+The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion in the night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all Tuesdays for a single sensor along with a range of one standard deviation is given in Figure~\ref{fig:merl_day_raw}.  
+
+\begin{figure}[!ht]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{merl_day_raw_tues.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{merl_day_raw_fri.png}
+		}
+	\end{center}
+	\caption{Floor plan and sensor locations for the MERL office building dataset.}
+	\label{fig:merl_day_raw}
+\end{figure}
+
+
+TODO INSERT AVERAGE IMAGE OF ALL DAYS OF THE WEEK
+TODO DISCUSS THE DIFFERENT THE DAYS OF THE WEEK MAKE AND SHOW A SAMPLE LINE GRAPH TO SHOW HOW NOISE REAL DATA IS
 
 Peak motion unsurprisingly occurs during the middle of the day corresponding to lunch time.  There is another small peak of motion near the start of the day corresponding to people entering.  Near the end of the day, instead of a peak there is a region corresponding to high variance.  This seems to imply that while people enter at roughly the same time, there is a significant variance on when people leave the building.
 
+
+TODO DISCUSS AVERAGE STD OF DATASET AND PERHAPS TALK ABOUT THE CLEAN DATASET USED FOR ALL FUTURE FIGURES.
 
 \subsubsection{Colorado School of Mines Dataset}
 
@@ -87,3 +107,40 @@ This dataset is much different than the MERL dataset as classes typically provid
 
 \subsection{Denver traffic dataset}
 Discuss the denver traffic dataset here.
+
+
+\subsection{Dataset Variation}
+TODO SHOW TWO SENSOR LOCATIONS HERE FOR MERL AND DISCUSS THE DIFFERENT SHAPES OF THE DATA.  TALK ABOUT WHY IT IS NOT NECESSARY TO GENERATE RESULTS FROM EACH LOCATION AS OUR DATASETS ALREADY HAND DIFFERENT SHAPES AND SCALES OF READINGS
+
+\subsection{Notation}
+TODO CLEAN UP NOTATION
+As already stated, we define a time series dataset used within as  $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$. 
+
+Forecasts for a given model $k$ from the set of all models $K$ are represented by 
+\begin{equation}
+\bar{T}_{t + 1}^{k, m} = f(T_{t}, ..., T_{1}; \theta_{k}).
+\end{equation}
+\noindent
+Thus the forecast of $T_{t + 1}$ is a function of all past data and some trained parameterization $\theta_{k}$ for that model. 
+
+In this work we need to forecast more than one time step into the future.  Future forecasts are performed through iterative one step ahead forecasts.  Also for this work we forecast a model for each individual sensor and for convenience drop the $m$ from our forecasting notation.  An example of a forecast two time steps ahead of current time $t$ is given by 
+\begin{equation}
+\bar{T}_{t + 2}^{k} = f(\bar{T}_{t + 1}, T_{t}, ..., T_{1}; \theta_{k}).
+\end{equation}
+\noindent
+Such a forecast is simply the forecast for one time step into the future but now with the forecasted value of $\bar{T}_{t + 1}$ used as the most recent datapoint to forecast $\bar{T}_{t + 2}$.  Forecasting in this nature allows for forecasts any number of time steps into the future. 
+
+\subsection{Forecast measurements}
+TODO Discuss MAPE, MASE, RMSE, and our approach here
+
+This could be represented by a hypothesis function $h(x, \delta)$.  We use mean absolute scale error (MASE) \cite{Hyndman2006} and root mean squared error (RMSE) as cost functions to compare with other previously implemented techniques.
+
+\noindent \textbf{RMSE} \\
+TODO SHOW EQUATION FOR RMSE
+
+\noindent \textbf{MASE} \\
+TODO SHOW EQUATION FOR MASE
+
+\noindent \textbf{OUR APPROACH} \\
+TODO SHOW EQUATION FOR OUR APPROACH AND DISCUSS IT HERE
+

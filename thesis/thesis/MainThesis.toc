@@ -1,41 +1,47 @@
 \contentsline {section}{\texorpdfupper {Abstract}}{iii}{section*.1}
-\contentsline {section}{\texorpdfupper {List of Figures}}{vi}{section*.2}
-\contentsline {section}{\texorpdfupper {List of Tables}}{vii}{section*.3}
-\contentsline {section}{\texorpdfupper {List of Abbreviations}}{viii}{section*.4}
-\contentsline {section}{\texorpdfupper {Acknowledgments}}{ix}{section*.5}
-\contentsline {section}{\texorpdfupper {Dedication}}{x}{section*.6}
+\contentsline {section}{\texorpdfupper {List of Figures}}{vii}{section*.2}
+\contentsline {section}{\texorpdfupper {List of Tables}}{viii}{section*.3}
+\contentsline {section}{\texorpdfupper {List of Abbreviations}}{ix}{section*.4}
+\contentsline {section}{\texorpdfupper {Acknowledgments}}{x}{section*.5}
+\contentsline {section}{\texorpdfupper {Dedication}}{xi}{section*.6}
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 1}Introduction}}{1}{section*.7}
 \contentsline {subsection}{\numberline {1.1}Problem and Objective}{3}{subsection.1.1}
 \contentsline {subsubsection}{\numberline {1.1.1}A motivating example}{3}{subsubsection.1.1.1}
 \contentsline {subsection}{\numberline {1.2}Approach}{5}{subsection.1.2}
 \contentsline {subsection}{\numberline {1.3}Contributions}{6}{subsection.1.3}
 \contentsline {subsection}{\numberline {1.4}Structure of the Proposal}{6}{subsection.1.4}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Datasets}}{7}{section*.10}
-\contentsline {subsection}{\numberline {2.1}Notation}{7}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Forecast measurements}{7}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Building Datasets}{8}{subsection.2.3}
-\contentsline {subsubsection}{\numberline {2.3.1}MERL Dataset}{8}{subsubsection.2.3.1}
-\contentsline {subsubsection}{\numberline {2.3.2}Colorado School of Mines Dataset}{9}{subsubsection.2.3.2}
-\contentsline {subsection}{\numberline {2.4}Denver traffic dataset}{9}{subsection.2.4}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 3}Models}}{10}{section*.11}
-\contentsline {subsection}{\numberline {3.1}Seasonal ARIMA model}{10}{subsection.3.1}
-\contentsline {subsubsection}{\numberline {3.1.1}Fitting a Seasonal ARIMA}{11}{subsubsection.3.1.1}
-\contentsline {subsection}{\numberline {3.2}Historic average}{14}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Time delayed neural networks}{14}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}Support Vector Regression}{15}{subsection.3.4}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}ENSEMBLE APPROACH}}{17}{section*.18}
-\contentsline {subsection}{\numberline {4.1}Bayesian Combined Forecasting}{17}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Notation}{17}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Bayesian Combined Forecasting Derivation}{18}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}BCF Modifications}{19}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Forecast $\delta $ time steps into the future}{20}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}Improving model error distributions}{21}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}Model selection thresholding}{21}{subsubsection.4.4.3}
-\contentsline {subsection}{\numberline {4.5}Results of Ensemble}{22}{subsection.4.5}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{26}{section*.25}
-\contentsline {subsection}{\numberline {5.1}Activity recog}{26}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}HMM vs TSMG}{26}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}TSMG derivation}{26}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Improved Ensemble Derivation}{28}{subsection.5.4}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{29}{section*.26}
-\contentsline {section}{\texorpdfupper {References Cited}}{30}{section*.27}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Datasets and Performance Metrics}}{7}{section*.10}
+\contentsline {subsection}{\numberline {2.1}Building Datasets}{7}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}MERL Dataset}{8}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Colorado School of Mines Dataset}{10}{subsubsection.2.1.2}
+\contentsline {subsection}{\numberline {2.2}Denver traffic dataset}{10}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Dataset Variation}{10}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Notation}{11}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Forecast measurements}{11}{subsection.2.5}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 3}Models}}{13}{section*.14}
+\contentsline {subsection}{\numberline {3.1}Seasonal ARIMA model}{13}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Fitting a Seasonal ARIMA}{14}{subsubsection.3.1.1}
+\contentsline {subsection}{\numberline {3.2}Historic average}{17}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Time delayed neural networks}{17}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Support Vector Regression}{18}{subsection.3.4}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}ENSEMBLE APPROACH}}{20}{section*.21}
+\contentsline {subsection}{\numberline {4.1}Bayesian Combined Forecasting}{20}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Notation}{20}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Bayesian Combined Forecasting Derivation}{21}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}BCF Modifications}{22}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Forecast $\delta $ time steps into the future}{23}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Improving model error distributions}{24}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Model selection thresholding}{24}{subsubsection.4.4.3}
+\contentsline {subsection}{\numberline {4.5}Results of Ensemble}{25}{subsection.4.5}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{29}{section*.28}
+\contentsline {subsection}{\numberline {5.1}Activity recog}{29}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}HMM vs TSMG}{29}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}TSMG derivation}{29}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Clustering activities}{31}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}FINDING POTENTIAL DATAPOINTS}{31}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}HMM Clusters}{31}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}On the limitations of BCF}{31}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.8}Improved Ensemble Derivation}{31}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.9}RESULTS ON Improved Ensemble Derivation}{31}{subsection.5.9}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{32}{section*.29}
+\contentsline {section}{\texorpdfupper {References Cited}}{33}{section*.30}

@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{19}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -52,11 +52,27 @@ Peter Koonce, Wayne Kittelson, Lee Rodegerdts, Kevin Lee, and Caroline Swartz.
 ESPN.
 \newblock {NFL Attendance}, 2013.
 
-\bibitem[Hyndman and Koehler(2006)]{Hyndman2006}
-R.J. Hyndman and A.B. Koehler.
-\newblock {Another look at measures of forecast accuracy}.
-\newblock \emph{International Journal of Forecasting}, 22\penalty0
-  (4):\penalty0 679--688, 2006.
+\bibitem[Wren et~al.(2007{\natexlab{a}})Wren, Ivanov, Leigh, and
+  Westbues]{Wren2007}
+CR~Wren, YA~Ivanov, Darren Leigh, and J~Westbues.
+\newblock {The MERL motion detector dataset: 2007 workshop on massive
+  datasets}.
+\newblock In \emph{ICMI Workshop on Massive Datasets}, 2007{\natexlab{a}}.
+\newblock URL \url{https://merl.com/reports/docs/TR2007-069.pdf}.
+
+\bibitem[Hoff and Howard(2009)]{Hoff2009}
+William~A Hoff and James~W Howard.
+\newblock {Activity recognition in a dense sensor network}.
+\newblock In \emph{1st International Conference on Sensor Networks and
+  Applications (SNA2009)}, page~6, 2009.
+
+\bibitem[Howard and Hoff(2013)]{Howard2013}
+James Howard and William Hoff.
+\newblock {Forecasting building occupancy using sensor network data}.
+\newblock In \emph{BigMine '13 Proceeding of the 2nd International Workshop on
+  Big Data, Streams and Heterogeneous Source Mining: Algorithms, Systems,
+  Programming Models and Applications}, pages 87--94, Chicago, IL, 2013.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=2501233}.
 
 \bibitem[Wren and Rao(2003)]{Wren2003}
 Christopher~R. Wren and Srinivasa~G Rao.
@@ -70,12 +86,12 @@ Christopher~R. Wren and E.~Tapia.
 \newblock \emph{Location-and Context-Awareness}, pages 168--185, 2006.
 \newblock URL \url{http://www.springerlink.com/index/7114556523154474.pdf}.
 
-\bibitem[Wren et~al.(2007{\natexlab{a}})Wren, Ivanov, Kaur, Leigh, and
+\bibitem[Wren et~al.(2007{\natexlab{b}})Wren, Ivanov, Kaur, Leigh, and
   Westhues]{Wren2007a}
 Christopher~R. Wren, Yuri Ivanov, Ishwinder Kaur, Darren Leigh, and Jonathan
   Westhues.
 \newblock {SocialMotion : Measuring the Hidden Social Life of a Building}.
-\newblock 2007{\natexlab{a}}.
+\newblock 2007{\natexlab{b}}.
 
 \bibitem[Dong et~al.(2011)Dong, Lepri, and Pentland]{Dong2011}
 Wen Dong, Bruno Lepri, and Alex~(Sandy) Pentland.
@@ -109,13 +125,11 @@ Christopher~R. Wren, D.~C. Minnen, and S.~Rao.
 \newblock URL
   \url{http://linkinghub.elsevier.com/retrieve/pii/S0031320306001610}.
 
-\bibitem[Wren et~al.(2007{\natexlab{b}})Wren, Ivanov, Leigh, and
-  Westbues]{Wren2007}
-CR~Wren, YA~Ivanov, Darren Leigh, and J~Westbues.
-\newblock {The MERL motion detector dataset: 2007 workshop on massive
-  datasets}.
-\newblock In \emph{ICMI Workshop on Massive Datasets}, 2007{\natexlab{b}}.
-\newblock URL \url{https://merl.com/reports/docs/TR2007-069.pdf}.
+\bibitem[Hyndman and Koehler(2006)]{Hyndman2006}
+R.J. Hyndman and A.B. Koehler.
+\newblock {Another look at measures of forecast accuracy}.
+\newblock \emph{International Journal of Forecasting}, 22\penalty0
+  (4):\penalty0 679--688, 2006.
 
 \bibitem[Petridis et~al.(2001)Petridis, Kehagias, Petrou, Bakirtzis, Kiartzis,
   Panagiotou, and Maslaris]{Petridis2001}

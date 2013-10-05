@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  4 OCT 2013 17:09
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  5 OCT 2013 17:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -602,24 +602,24 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/bx/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 58.
  [2] [2]
-[3] (./MainThesis.toc [4])
+[3] (./MainThesis.toc [4] [5])
 \tf@toc=\write4
 \openout4 = `MainThesis.toc'.
 
- [5] (./MainThesis.lof)
+ [6] (./MainThesis.lof)
 \tf@lof=\write5
 \openout5 = `MainThesis.lof'.
 
- [6] (./MainThesis.lot)
+ [7] (./MainThesis.lot)
 \tf@lot=\write6
 \openout6 = `MainThesis.lot'.
 
 
-[7] (./MainThesis.loa)
+[8] (./MainThesis.loa)
 \tf@loa=\write7
 \openout7 = `MainThesis.loa'.
 
- [8] [9] [10]
+ [9] [10] [11]
 \openout2 = `ch1Introduction.aux'.
 
  (./ch1Introduction.tex [1
@@ -641,61 +641,75 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 ) [6]
 \openout2 = `ch2Datasets.aux'.
 
- (./ch2Datasets.tex [7
+ (./ch2Datasets.tex
+File: ./images/pir_sensor.png Graphic file (type QTm)
+
+<use  "./images/pir_sensor.png" > [7
 
 
 
 ]
+File: ./images/merl_floorplan.png Graphic file (type QTm)
+ <use  "./images/merl_floorplan.png" >
+File: ./images/merl_map.png Graphic file (type QTm)
 
-LaTeX Warning: Reference `fig:merlday' on page 8 undefined on input line 44.
+<use  "./images/merl_map.png" > [8]
+File: ./images/merl_day_raw_tues.png Graphic file (type QTm)
+ <use  "./images/merl_day_raw_tues.png" >
+File: ./images/merl_day_raw_fri.png Graphic file (type QTm)
 
-[8]
+<use  "./images/merl_day_raw_fri.png" >
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 51--55
+ [][][] 
+ []
 
-LaTeX Warning: Reference `fig:csmbbfloor' on page 9 undefined on input line 51.
+[9]
+
+LaTeX Warning: Reference `fig:csmbbfloor' on page 10 undefined on input line 71
+.
 
 
+LaTeX Warning: Reference `fig:csmday' on page 10 undefined on input line 106.
 
-LaTeX Warning: Reference `fig:csmday' on page 9 undefined on input line 86.
-
-) [9]
+[10] [11]) [12]
 \openout2 = `ch3Models.aux'.
 
  (./ch3Models.tex
 
-Package natbib Warning: Citation `Williams2003' on page 10 undefined on input l
+Package natbib Warning: Citation `Williams2003' on page 13 undefined on input l
 ine 5.
 
 
-Package natbib Warning: Citation `Hong2011' on page 10 undefined on input line 
+Package natbib Warning: Citation `Hong2011' on page 13 undefined on input line 
 5.
 
 
-Package natbib Warning: Citation `Newsham2010' on page 10 undefined on input li
+Package natbib Warning: Citation `Newsham2010' on page 13 undefined on input li
 ne 5.
 
 
-Package natbib Warning: Citation `Box2008' on page 10 undefined on input line 1
+Package natbib Warning: Citation `Box2008' on page 13 undefined on input line 1
 9.
 
-[10
+[13
 
 
 
 ]
 
-Package natbib Warning: Citation `Williams2003' on page 11 undefined on input l
+Package natbib Warning: Citation `Williams2003' on page 14 undefined on input l
 ine 21.
 
 
-Package natbib Warning: Citation `Ljung1978' on page 11 undefined on input line
+Package natbib Warning: Citation `Ljung1978' on page 14 undefined on input line
  21.
 
-[11]
+[14]
 
-LaTeX Warning: Reference `fig:raw_data' on page 12 undefined on input line 43.
+LaTeX Warning: Reference `fig:raw_data' on page 15 undefined on input line 43.
 
 
-Package natbib Warning: Citation `Kwiatkowski1992' on page 12 undefined on inpu
+Package natbib Warning: Citation `Kwiatkowski1992' on page 15 undefined on inpu
 t line 45.
 
 File: ./images/lag_counts.png Graphic file (type QTm)
@@ -703,73 +717,73 @@ File: ./images/lag_counts.png Graphic file (type QTm)
 File: ./images/acf_lag.png Graphic file (type QTm)
  <use  "./images/acf_lag.png" >
 
-Package natbib Warning: Citation `Box2008' on page 12 undefined on input line 6
+Package natbib Warning: Citation `Box2008' on page 15 undefined on input line 6
 5.
 
 
-Package natbib Warning: Citation `Akaike1974' on page 12 undefined on input lin
+Package natbib Warning: Citation `Akaike1974' on page 15 undefined on input lin
 e 65.
 
-[12]
+[15]
 File: ./images/broncos_predicted.png Graphic file (type QTm)
  <use  "./images/broncos_predicted.png" >
 
-LaTeX Warning: Reference `fig:broncos_residual' on page 13 undefined on input l
+LaTeX Warning: Reference `fig:broncos_residual' on page 16 undefined on input l
 ine 75.
 
 
-Package natbib Warning: Citation `Williams2003' on page 13 undefined on input l
+Package natbib Warning: Citation `Williams2003' on page 16 undefined on input l
 ine 75.
 
 
-Package natbib Warning: Citation `Smith1997' on page 13 undefined on input line
+Package natbib Warning: Citation `Smith1997' on page 16 undefined on input line
  75.
 
 
-Package natbib Warning: Citation `Newsham2010' on page 13 undefined on input li
+Package natbib Warning: Citation `Newsham2010' on page 16 undefined on input li
 ne 80.
 
-[13]
+[16]
 File: ./images/time_delay_neural_network.png Graphic file (type QTm)
  <use  "./images/time_delay_neural_network.png" >
 
-Package natbib Warning: Citation `Hansen2003' on page 14 undefined on input lin
+Package natbib Warning: Citation `Hansen2003' on page 17 undefined on input lin
 e 93.
 
 
-Package natbib Warning: Citation `Hansen2003' on page 14 undefined on input lin
+Package natbib Warning: Citation `Hansen2003' on page 17 undefined on input lin
 e 93.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Package natbib Warning: Citation `Wu2004' on page 14 undefined on input line 12
+Package natbib Warning: Citation `Wu2004' on page 17 undefined on input line 12
 5.
 
-[14] [15]
+[17] [18]
 
-Package natbib Warning: Citation `Hsu2003' on page 16 undefined on input line 1
+Package natbib Warning: Citation `Hsu2003' on page 19 undefined on input line 1
 29.
 
 
-Package natbib Warning: Citation `Wu2004' on page 16 undefined on input line 13
+Package natbib Warning: Citation `Wu2004' on page 19 undefined on input line 13
 1.
 
-) [16]
+) [19]
 \openout2 = `ch4Ensemble.aux'.
 
- (./ch4Ensemble.tex [17
+ (./ch4Ensemble.tex [20
 
 
 
 ]
 File: ./images/svm_standard_deviations_vs_horizon.png Graphic file (type QTm)
 
-<use  "./images/svm_standard_deviations_vs_horizon.png" > [18]
+<use  "./images/svm_standard_deviations_vs_horizon.png" > [21]
 File: ./images/posterior_probs.png Graphic file (type QTm)
 
-<use  "./images/posterior_probs.png" > [19]
+<use  "./images/posterior_probs.png" > [22]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 81.
@@ -783,35 +797,35 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 81.
 
 
-Package natbib Warning: Citation `Zheng2006' on page 20 undefined on input line
+Package natbib Warning: Citation `Zheng2006' on page 23 undefined on input line
  82.
 
-[20]
+[23]
 
-Package natbib Warning: Citation `Box2008' on page 21 undefined on input line 1
+Package natbib Warning: Citation `Box2008' on page 24 undefined on input line 1
 00.
 
 
-Package natbib Warning: Citation `Diebold1991' on page 21 undefined on input li
+Package natbib Warning: Citation `Diebold1991' on page 24 undefined on input li
 ne 103.
 
-[21]
+[24]
 File: ./images/real_forecasts_bcf.png Graphic file (type QTm)
  <use  "./images/real_forecasts_bcf.png" >
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[22]
+[25]
 File: ./images/real_forecasts_bcf_svm.png Graphic file (type QTm)
  <use  "./images/real_forecasts_bcf_svm.png" >
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Package natbib Warning: Citation `Newsham2010' on page 23 undefined on input li
+Package natbib Warning: Citation `Newsham2010' on page 26 undefined on input li
 ne 151.
 
-[23] [24]
+[26] [27]
 File: ./images/brown_rmse.png Graphic file (type QTm)
  <use  "./images/brown_rmse.png" >
 File: ./images/merl_rmse.png Graphic file (type QTm)
@@ -820,25 +834,25 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 163--169
  [][][] 
  []
 
-) [25]
+) [28]
 \openout2 = `ch5ImprovedEnsemble.aux'.
 
- (./ch5ImprovedEnsemble.tex [26
+ (./ch5ImprovedEnsemble.tex [29
 
 
 
-]) [27] [28]
+] [30]) [31]
 \openout2 = `ch6Conclusion.aux'.
 
  (./ch6Conclusion.tex)
-[29
+[32
 
 
 
-] (./MainThesis.bbl [30
+] (./MainThesis.bbl [33
 
 
-]) [31]
+]) [34]
 
 Package natbib Warning: There were undefined citations.
 
@@ -861,12 +875,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 154.
  ) 
 Here is how much of TeX's memory you used:
- 11179 strings out of 494004
- 165057 string characters out of 3150890
- 272409 words of memory out of 3000000
- 14245 multiletter control sequences out of 15000+200000
+ 11225 strings out of 494004
+ 165910 string characters out of 3150890
+ 273452 words of memory out of 3000000
+ 14284 multiletter control sequences out of 15000+200000
  8749 words of font info for 32 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 48i,10n,140p,1187b,485s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,10n,150p,1187b,485s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (42 pages).
+Output written on MainThesis.pdf (46 pages).
