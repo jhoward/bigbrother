@@ -2,20 +2,37 @@
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{4}{subfigure.1.1}
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{4}{subfigure.1.2}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 1}.2}{\ignorespaces Forecasting is based on activities and a background model\relax }}{5}{figure.caption.9}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.1}{\ignorespaces Passive infrared motion detector\relax }}{7}{figure.caption.11}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.2}{\ignorespaces Floor plan and sensor locations for the MERL office building dataset.\relax }}{8}{figure.caption.12}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{8}{subfigure.2.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{8}{subfigure.2.2}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.3}{\ignorespaces Floor plan and sensor locations for the MERL office building dataset.\relax }}{9}{figure.caption.13}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{9}{subfigure.3.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{9}{subfigure.3.2}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.1}{\ignorespaces One week seasonal difference counts and autocorrelation over a two week period.\relax }}{15}{figure.caption.16}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.2}{\ignorespaces One-step ahead prediction for a sample week. Black line is original data. Red line is forecasted data. Dotted box shows an example of mis-forecasting due to a broncos game.\relax }}{16}{figure.caption.17}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.3}{\ignorespaces Architecture of a time delayed neural network with $m + 1$ inputs and J outputs \cite {Hansen2003}.\relax }}{18}{figure.caption.18}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.1}{\ignorespaces Standard deviation of support vector machine residuals for all Wednesdays in MERL dataset. Time index represents 10 minute intervals from 6:00am to 7:00pm.\relax }}{21}{figure.caption.22}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.2}{\ignorespaces Normalized posterior probabilities of component models on a section of MERL dataset.\relax }}{23}{figure.caption.23}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.3}{\ignorespaces A comparison of forecasts at various horizons against real data for an sample time segment using BCF-TS.\relax }}{26}{figure.caption.24}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.4}{\ignorespaces A comparison of BCF-TS and SVM forecasts at horizon equal to three against real data.\relax }}{27}{figure.caption.25}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.5}{\ignorespaces Root mean square error of forecasting for each model vs forecasting horizon.\relax }}{28}{figure.caption.27}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{28}{subfigure.5.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{28}{subfigure.5.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.1}{\ignorespaces Passive infrared motion detector\relax }}{9}{figure.caption.11}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.2}{\ignorespaces Floor plan and sensor locations for the MERL office building dataset. The red rectangle is the location of our sensor for this work.\relax }}{10}{figure.caption.12}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{10}{subfigure.2.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{10}{subfigure.2.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.3}{\ignorespaces Average readings from Tuesdays and Fridays for a given sensor from the MERL dataset.\relax }}{11}{figure.caption.13}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{11}{subfigure.3.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{11}{subfigure.3.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.4}{\ignorespaces Scaled average readings for a given day and scaled readings for two days from the MERL dataset.\relax }}{11}{figure.caption.14}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{11}{subfigure.4.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{11}{subfigure.4.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.5}{\ignorespaces Sensor locations for the Colorado School of Mines Brown Building\relax }}{12}{figure.caption.15}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.6}{\ignorespaces Average readings from Wednesdays and Thursdays for a given sensor from the MERL dataset.\relax }}{13}{figure.caption.16}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{13}{subfigure.6.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{13}{subfigure.6.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.7}{\ignorespaces Scaled average readings for a given day and scaled readings for two days from the CSMBB dataset.\relax }}{14}{figure.caption.17}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{14}{subfigure.7.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{14}{subfigure.7.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.8}{\ignorespaces City of Denver traffic sensors.\relax }}{14}{figure.caption.18}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.9}{\ignorespaces Average readings from Sunday and Monday for a given sensor from the Denver traffic dataset.\relax }}{15}{figure.caption.19}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{15}{subfigure.9.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{15}{subfigure.9.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.10}{\ignorespaces Scaled average readings for a given day and scaled readings for two days from the Denver traffic dataset.\relax }}{16}{figure.caption.20}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{16}{subfigure.10.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{16}{subfigure.10.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.1}{\ignorespaces One week seasonal difference counts and autocorrelation over a two week period.\relax }}{22}{figure.caption.23}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.2}{\ignorespaces One-step ahead prediction for a sample week. Black line is original data. Red line is forecasted data. Dotted box shows an example of mis-forecasting due to a broncos game.\relax }}{23}{figure.caption.24}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.3}{\ignorespaces Architecture of a time delayed neural network with $m + 1$ inputs and J outputs \cite {Hansen2003}.\relax }}{24}{figure.caption.25}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.1}{\ignorespaces Standard deviation of support vector machine residuals for all Wednesdays in MERL dataset. Time index represents 10 minute intervals from 6:00am to 7:00pm.\relax }}{27}{figure.caption.29}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.2}{\ignorespaces Normalized posterior probabilities of component models on a section of MERL dataset.\relax }}{29}{figure.caption.30}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.3}{\ignorespaces A comparison of forecasts at various horizons against real data for an sample time segment using BCF-TS.\relax }}{32}{figure.caption.31}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.4}{\ignorespaces A comparison of BCF-TS and SVM forecasts at horizon equal to three against real data.\relax }}{33}{figure.caption.32}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.5}{\ignorespaces Root mean square error of forecasting for each model vs forecasting horizon.\relax }}{34}{figure.caption.34}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{34}{subfigure.5.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{34}{subfigure.5.2}

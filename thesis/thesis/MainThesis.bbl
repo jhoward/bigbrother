@@ -1,4 +1,4 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{28}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -52,6 +52,49 @@ Peter Koonce, Wayne Kittelson, Lee Rodegerdts, Kevin Lee, and Caroline Swartz.
 ESPN.
 \newblock {NFL Attendance}, 2013.
 
+\bibitem[Page et~al.(2008)Page, Robinson, Morel, and Scartezzini]{page2008}
+J.~Page, D.~Robinson, N.~Morel, and J.-L. Scartezzini.
+\newblock {A generalised stochastich model for the simulation of occupant
+  presence}.
+\newblock \emph{Energy and Buildings}, 40:\penalty0 83--98, 2008.
+
+\bibitem[Goldstein et~al.(2010)Goldstein, Tessier, and Khan]{goldstein2010}
+Rhys Goldstein, Alex Tessier, and Azam Khan.
+\newblock {Schedule-calibrated occupant behavior simulation}.
+\newblock In \emph{Proceedings of the 2010 Spring Simulation Multiconference on
+  - SpringSim '10}, page~1, New York, New York, USA, 2010. ACM Press.
+\newblock ISBN 9781450300698.
+\newblock \doi{10.1145/1878537.1878725}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1878537.1878725}.
+
+\bibitem[Agarwal et~al.(2010)Agarwal, Balaji, Gupta, Lyles, Wei, and
+  Weng]{agarwal2010}
+Yuvraj Agarwal, Bharathan Balaji, Rajesh Gupta, Jacob Lyles, Michael Wei, and
+  Thomas Weng.
+\newblock {Occupancy-driven energy management for smart building automation}.
+\newblock In \emph{Proceedings of the 2nd ACM Workshop on Embedded Sensing
+  Systems for Energy-Efficiency in Building - BuildSys '10}, page~1, New York,
+  New York, USA, 2010. ACM Press.
+\newblock ISBN 9781450304580.
+\newblock \doi{10.1145/1878431.1878433}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1878431.1878433}.
+
+\bibitem[Mamidi et~al.(2012)Mamidi, Chang, and Maheswaran]{mamidi2012}
+Sunil Mamidi, YH~Chang, and R~Maheswaran.
+\newblock {Improving building energy efficiency with a network of sensing,
+  learning and prediction agents}.
+\newblock In \emph{International Conference on Autonomous Agents and Multi
+  Agent Systems. AAMAS 2012}, 2012.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=2343582}.
+
+\bibitem[Meyn et~al.(2009)Meyn, Surana, Lin, and Oggianu]{meyn2009}
+Sean Meyn, Amit Surana, Yiqing Lin, and SM~Oggianu.
+\newblock {A sensor-utility-network method for estimation of occupancy
+  distribution in buildings}.
+\newblock \emph{Proceedings of IEEE}, pages 1494--1500, 2009.
+\newblock URL
+  \url{http://scholar.google.com/scholar?hl=en\&btnG=Search\&q=intitle:A+Sensor-Utility-Network+Method+for+Estimation+of+Occupancy+Distribution+in+Buildings\#0}.
+
 \bibitem[Wren et~al.(2007{\natexlab{a}})Wren, Ivanov, Leigh, and
   Westbues]{Wren2007}
 CR~Wren, YA~Ivanov, Darren Leigh, and J~Westbues.
@@ -91,7 +134,8 @@ Christopher~R. Wren and E.~Tapia.
 Christopher~R. Wren, Yuri Ivanov, Ishwinder Kaur, Darren Leigh, and Jonathan
   Westhues.
 \newblock {SocialMotion : Measuring the Hidden Social Life of a Building}.
-\newblock 2007{\natexlab{b}}.
+\newblock In \emph{International Symposium on Location and Context Awareness
+  (LoCA)}, pages 85--102, 2007{\natexlab{b}}.
 
 \bibitem[Dong et~al.(2011)Dong, Lepri, and Pentland]{Dong2011}
 Wen Dong, Bruno Lepri, and Alex~(Sandy) Pentland.
@@ -124,6 +168,44 @@ Christopher~R. Wren, D.~C. Minnen, and S.~Rao.
 \newblock \doi{10.1016/j.patcog.2006.04.009}.
 \newblock URL
   \url{http://linkinghub.elsevier.com/retrieve/pii/S0031320306001610}.
+
+\bibitem[Kamarianakis and Prastacos(2003)]{Kamarianakis2003}
+Yiannis Kamarianakis and Poulicos Prastacos.
+\newblock {Forecasting traffic flow conditions in an urban network: comparison
+  of multivariate and univariate approaches}.
+\newblock \emph{Transportation Research Record: Journal of the Transportation
+  Research Board}, 1857:\penalty0 74--84, 2003.
+\newblock URL \url{http://trb.metapress.com/index/W863M1341762TU51.pdf}.
+
+\bibitem[Smith et~al.(2002)Smith, Williams, and Oswald]{Smith2002}
+Brian~L. Smith, Billy~M. Williams, and R.~Keith Oswald.
+\newblock {Comparison of parametric and nonparametric models for traffic flow
+  forecasting}.
+\newblock \emph{Transportation Research Part C: Emerging Technologies},
+  10\penalty0 (4):\penalty0 303--321, August 2002.
+\newblock ISSN 0968090X.
+\newblock \doi{10.1016/S0968-090X(02)00009-8}.
+\newblock URL
+  \url{http://linkinghub.elsevier.com/retrieve/pii/S0968090X02000098}.
+
+\bibitem[Williams and Hoel(2003)]{Williams2003}
+Billy~M. Williams and Lester~a. Hoel.
+\newblock {Modeling and Forecasting Vehicular Traffic Flow as a Seasonal ARIMA
+  Process: Theoretical Basis and Empirical Results}.
+\newblock \emph{Journal of Transportation Engineering}, 129\penalty0
+  (6):\penalty0 664, 2003.
+\newblock ISSN 0733947X.
+\newblock \doi{10.1061/(ASCE)0733-947X(2003)129:6(664)}.
+\newblock URL \url{http://link.aip.org/link/JTPEDI/v129/i6/p664/s1\&Agg=doi}.
+
+\bibitem[Zhang and Liu(2009)]{Zhang2009}
+Yang Zhang and Yuncai Liu.
+\newblock {Comparison of Parametric and Nonparametric Techniques for Non-peak
+  Traffic Forecasting}.
+\newblock \emph{World Academy of Science, Engineering and Technology},
+  51:\penalty0 8--14, 2009.
+\newblock URL
+  \url{http://www.akademik.unsri.ac.id/download/journal/files/waset/v51-40.pdf}.
 
 \bibitem[Hyndman and Koehler(2006)]{Hyndman2006}
 R.J. Hyndman and A.B. Koehler.

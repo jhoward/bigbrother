@@ -48,9 +48,21 @@ st = reshape(timesCombined', 1, size(timesCombined, 1)*size(timesCombined, 2));
 
 %sd = smooth(sd, 3)';
 
-
 [means, stds] = dailyMean(sd, st, data.blocksInDay, 'smooth', false);
 plotMean(means(stripDays(1), :), 'std', stds(stripDays(1), :));
+
+
+%Remove the top n% of outliers and renormalize
+% removePercent = 0.001;
+% nRemove = floor(removePercent * size(sd, 2));
+% 
+% [tmp, ind] = sort(sd, 'descend');
+% sd(ind(1, 1:nRemove)) = tmp(1, ind(1, nRemove + 1));
+% sd(ind(1, end-nRemove:end)) = tmp(1, ind(1, end - nRemove - 1));
+
+%Normalize
+%sd = 2*(sd - min(sd))/(max(sd) - min(sd)) - 1;
+sd = sd/max(sd);
 
 data.data = sd;
 data.times = st;
@@ -60,4 +72,4 @@ data.dayOfWeek = weekday(data.times);
 data.sensor = sensorNumber;
 data.stripDays = stripDays;
 
-save('./data/denverDataClean.mat', 'data');
+save('./data/denverDataThesisDay.mat', 'data');

@@ -9,8 +9,6 @@ if nargin < 1
    error(message('plotMean - Not enough inputs'))
 end
 
-width = 3;
-
 parser = inputParser;
 parser.CaseSensitive = false;
 parser.addOptional('std', zeros(size(means)));
@@ -24,6 +22,10 @@ parser.addOptional('smoothData', true);
 parser.addOptional('startTime', -1);
 parser.addOptional('endTime', -1);
 parser.addOptional('blocksInDay', 78);
+parser.addOptional('width', 3);
+parser.addOptional('meanColor', [0, 0.5, 0.5]);
+parser.addOptional('stdColor', [0.5, 0, 0]);
+parser.addOptional('lineGraph', false);
 
 
 try 
@@ -44,6 +46,10 @@ smoothData = parser.Results.smoothData;
 startTime = parser.Results.startTime;
 endTime = parser.Results.endTime;
 blocksInDay = parser.Results.blocksInDay;
+width = parser.Results.width;
+meanColor = parser.Results.meanColor;
+stdColor = parser.Results.stdColor;
+lineGraph = parser.Results.lineGraph;
 
 %Reguarding the fliplr function used: Must flip the values due to fill 
 %attempting to make a closed polygon.
@@ -58,23 +64,24 @@ fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 xvals = 1:1:dataLen;
 xvals = [xvals, fliplr(xvals)];
 
-means1 = means - floor((width - 1)/2);
-means2 = means + floor((width - 1)/2);
-meanVals = [means1, fliplr(means2)];
-tmp2 = fill(xvals, meanVals, [0, 0.5, 0.5]);
-set(tmp2, 'EdgeColor', [0, 0.5, 0.5], 'FaceAlpha', 1.0, 'EdgeAlpha', 1.0);
-hold on;
-
 y1 = means - stds;
 y2 = means + stds;
 yvals = [y1, fliplr(y2)];
-tmp = fill(xvals, yvals, [0.5, 0, 0]);
-set(tmp,'EdgeColor',[0.5, 0, 0],'FaceAlpha',0.5,'EdgeAlpha',0.5);
+tmp = fill(xvals, yvals, stdColor);
+set(tmp,'EdgeColor',stdColor,'FaceAlpha',0.5,'EdgeAlpha',0.5);
 hold on;
 
-%plot(1:1:dataLen, means, 'LineWidth', 2, 'Color', [0, 0, 1]); 
-%Instead try a miniture fill here
-
+if ~lineGraph
+    means1 = means - (width/2);
+    means2 = means + (width/2);
+    meanVals = [means1, fliplr(means2)];
+    tmp2 = fill(xvals, meanVals, meanColor);
+    set(tmp2, 'EdgeColor', meanColor, 'FaceAlpha', 1.0, 'EdgeAlpha', 1.0);
+    hold on;
+else
+    plot(1:1:dataLen, means, 'LineWidth', width, 'Color', meanColor); 
+    hold on
+end
 xlim([1, dataLen]);
 %set(gca,'DefaultAxesFontName', 'Symbol')
 xlabel(graph_xlabel, 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)

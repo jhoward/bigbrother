@@ -1,6 +1,38 @@
 \chapter{Models}
 Discuss the relevant models which make up the BCF here.
 
+\subsection{Notation}
+As already stated, we define a time series dataset used within as  $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.
+
+Forecasts for a given model $k$ from the set of all models $K$ are represented by 
+\begin{equation}
+y_{t + 1}^{k, m} = f(x_{t}, ..., x_{1}; \theta_{k}).
+\end{equation}
+\noindent
+Thus the forecast of $x_{t + 1}$ is a function of all past data and some trained parameterization $\theta_{k}$ for that model. 
+
+In this work we need to forecast more than one time step into the future.  Future forecasts are performed through iterative one step ahead forecasts.  Also for this work we forecast a model for each individual sensor and for convenience often drop the $m$ and $k$ from our forecast notation.  An example of a forecast two time steps ahead of current time $t$ is given by 
+\begin{equation}
+y_{t + 2} = f(y_{t + 1}, x_{t}, ..., x_{1}; \theta_{k}).
+\end{equation}
+\noindent
+Such a forecast is simply the forecast for one time step into the future but now with the forecasted value of $y_{t + 1}$ used as the most recent datapoint to forecast $y_{t + 2}$.  Forecasting in this nature allows for forecasts any number of time steps into the future. 
+
+This could be represented by a hypothesis function $h(x, \delta)$.  We use mean absolute scale error (MASE) \cite{Hyndman2006} and root mean squared error (RMSE) as cost functions to compare with other previously implemented techniques.
+
+\subsection{Forecast measurements}
+TODO Discuss MAPE, MASE, RMSE, and our approach here
+
+\noindent \textbf{RMSE} \\
+TODO SHOW EQUATION FOR RMSE
+
+\noindent \textbf{MASE} \\
+TODO SHOW EQUATION FOR MASE
+
+\noindent \textbf{OUR APPROACH} \\
+TODO SHOW EQUATION FOR OUR APPROACH AND DISCUSS IT HERE
+
+
 \subsection{Seasonal ARIMA model}
 The Auto Regressive Moving Average Model (ARMA) or derivations on its form (Auto Regressive Integrated Moving Average, Seasonal Auto Regressive Moving Average, $etc$) have been used in numerous forecasting applications from economics to vehicle traffic systems.  While we have been unable to find ARMA based models used on building occupancy data directly, we have found it used to forecast building energy usage and vehicle occupancy \cite{Williams2003, Hong2011, Newsham2010}.  Its forecasting accuracy is quite strong and it can serve as a strong baseline of comparison for a forecasting problem.  
 

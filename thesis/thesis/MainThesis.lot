@@ -1,4 +1,4 @@
-\contentsline {table}{\numberline {\relax Table\nobreakspace {\relax 3}.1}{\ignorespaces The parameter values that were fit for MERL and CSMBB datasets for a Seasonal ARIMA model\relax }}{14}{table.caption.15}
-\contentsline {table}{\numberline {\relax Table\nobreakspace {\relax 3}.2}{\ignorespaces Number of delayed input nodes and hidden nodes for MERL and CSMBB datasets\relax }}{17}{table.caption.19}
-\contentsline {table}{\numberline {\relax Table\nobreakspace {\relax 3}.3}{\ignorespaces RMSE forecast values per model for a horizon equal to one.\relax }}{18}{table.caption.20}
-\contentsline {table}{\numberline {\relax Table\nobreakspace {\relax 4}.1}{\ignorespaces Run times (in seconds) for each forecasting horizon.\relax }}{26}{table.caption.26}
+\contentsline {table}{\numberline {\relax Table\nobreakspace {\relax 3}.1}{\ignorespaces The parameter values that were fit for MERL and CSMBB datasets for a Seasonal ARIMA model\relax }}{20}{table.caption.22}
+\contentsline {table}{\numberline {\relax Table\nobreakspace {\relax 3}.2}{\ignorespaces Number of delayed input nodes and hidden nodes for MERL and CSMBB datasets\relax }}{25}{table.caption.26}
+\contentsline {table}{\numberline {\relax Table\nobreakspace {\relax 3}.3}{\ignorespaces RMSE forecast values per model for a horizon equal to one.\relax }}{25}{table.caption.27}
+\contentsline {table}{\numberline {\relax Table\nobreakspace {\relax 4}.1}{\ignorespaces Run times (in seconds) for each forecasting horizon.\relax }}{32}{table.caption.33}

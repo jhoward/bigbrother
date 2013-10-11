@@ -2,7 +2,7 @@
 clear all;
 
 sensorNumber = 59;
-stripDay = 4;
+stripDay = [4 5];
 
 load('./data/merlData.mat');
 
@@ -12,14 +12,25 @@ timesCombined = data.times;
 dayOfWeek = weekday(timesCombined);
 
 %Extract a day
+% 
+% tmp = (dayOfWeek == stripDay);
+% dataCombined = dataCombined(tmp);
+% timesCombined = timesCombined(tmp);
 
-tmp = (dayOfWeek == stripDay);
-dataCombined = dataCombined(tmp);
-timesCombined = timesCombined(tmp);
+%Strip down combined data to one day of the week.
+for i = 1:size(stripDay, 2)
+    dayOfWeek(dayOfWeek == stripDay(i)) = 10;
+end
 
+tmp = (dayOfWeek == 10);
+stripData = dataCombined(tmp);
+stripTimes = timesCombined(tmp);
 % 
 % [means, stds] = dailyMean(dataCombined, timesCombined, data.blocksInDay, 'smooth', true);
 % plotMean(means(stripDay, :), 'std', stds(stripDay, :));
+
+dataCombined = stripData;
+timesCombined = stripTimes;
 
 newSize = floor(size(dataCombined, 2)/data.blocksInDay);
 newData = dataCombined(:, 1:newSize*data.blocksInDay);
@@ -41,10 +52,10 @@ daySums = sum(dataCombined, 2)';
 sd = reshape(dataCombined', 1, size(dataCombined, 1)*size(dataCombined, 2));
 st = reshape(timesCombined', 1, size(timesCombined, 1)*size(timesCombined, 2));
 
-%sd = smooth(sd, 3)';
+sd = smooth(sd, 2)';
 
 [means, stds] = dailyMean(sd, st, data.blocksInDay, 'smooth', false);
-plotMean(means(stripDay, :), 'std', stds(stripDay, :));
+%plotMean(means(stripDay, :), 'std', stds(stripDay, :));
 
 
 %Remove the top n% of outliers and renormalize
@@ -56,7 +67,8 @@ sd(ind(1, 1:nRemove)) = tmp(1, ind(1, nRemove + 1));
 sd(ind(1, end-nRemove:end)) = tmp(1, ind(1, end - nRemove - 1));
 
 %Normalize
-sd = 2*(sd - min(sd))/(max(sd) - min(sd)) - 1;
+%sd = 2*(sd - min(sd))/(max(sd) - min(sd)) - 1;
+sd = sd/max(sd);
 
 data.data = sd;
 data.times = st;
@@ -64,7 +76,7 @@ data.startTime = 0;
 data.endTime = 0;
 data.dayOfWeek = weekday(st);
 data.sensor = sensorNumber;
-data.stripDays = [stripDay];
+data.stripDays = stripDay;
 
 %Add train, test and validation sets
 [trainData, validData, testData, trainTimes, validTimes, testTimes] = cutdata(data);
@@ -75,4 +87,4 @@ data.validTimes = validTimes;
 data.testData = testData;
 data.testTimes = testTimes;
 
-save('./data/merlDataClean.mat', 'data');
+save('./data/merlDataThesisDay.mat', 'data');

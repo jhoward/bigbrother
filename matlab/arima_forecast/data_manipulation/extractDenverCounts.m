@@ -7,7 +7,7 @@ nDay1 = datenum('01/01/2008');
 %if averagedays is 1, then compute the average day for that day of the week
 %and save to data.
 AVERAGEDAYS = 1;
-superSampleAmount = 4; %value of one will keep data the same
+superSampleAmount = 2; %value of one will keep data the same
 blocksInDay = superSampleAmount * 24;
 
 %dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\traffic\denver\';
@@ -225,6 +225,6 @@ end
 data.weekAvg = tmpArray;
 
 
-save('./data/denverData.mat', 'data')
+save('./data/denverDataRaw.mat', 'data')
 
 

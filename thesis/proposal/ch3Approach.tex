@@ -86,7 +86,7 @@ Intuitively a one week seasonal difference should yield a stationary time series
 \label{fig:lag_data}
 \end{figure}
 
-Most of the input parameter values for seasonal ARIMA models tend to be 0, 1, 2, or 3 \cite{Box2008}.  Due to this small range of input values the total input space is relatively small (Six parameters with four possible values equates to $4^6 = 4096$) allowing us to apply a brute-force search for the best model.  Model performance is determined by the Akaike information criterion (AIC) \cite{Akaike1974}.  Our optimal model is a seasonal ARIMA $(1,0,1)(0,1,1)_{168}$.  
+Most of the input parameter values for seasonal ARIMA models tend to be 0, 1, 2, or 3 \cite{Box2008}.  Due to this small range of input values the total input space is relatively small (Six parameters with four possible values equates to $4^6 = 4096$) allowing us to apply a brute-force search for the best model.  Model performance is determined by the Akaike information criterion (AIC) \cite{akaike1974}.  Our optimal model is a seasonal ARIMA $(1,0,1)(0,1,1)_{168}$.  
 
 \begin{figure}[h]
 \begin{center}
@@ -163,7 +163,7 @@ P(x_{t}|x_{t - 1}, x_{t-2}, ...) = P(x_{t}|x^{t - 1})
 \noindent
 where $x_{t}$ is the value of time series $x$ at time $t$.
 
-To cluster the time series and construct HMM activities models we implement a k-means clustering algorithm of HMMs.  This work is similar to that of \cite{Wren2006a} with the notable exception that we initialize parameters according to the K-Means++ algorithm \cite{Arthur2007} instead of randomly and that we remove outliers.  Convergence is based on the silhouette \cite{Kaufman1990} score of the current clustering.  
+To cluster the time series and construct HMM activities models we implement a k-means clustering algorithm of HMMs.  This work is similar to that of \cite{wren2006a} with the notable exception that we initialize parameters according to the K-Means++ algorithm \cite{arthur2007} instead of randomly and that we remove outliers.  Convergence is based on the silhouette \cite{Kaufman1990} score of the current clustering.  
 
 {\singlespace
 The algorithm we use to create HMMs is described below:

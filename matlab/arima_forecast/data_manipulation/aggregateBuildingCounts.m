@@ -17,8 +17,8 @@ superSampleAmount = 1;
 %startDate = '09-10-2007 00:00:00';
 %endDate = '12-31-2007 24:00:00';
 
-%startDate = '01-01-2008 00:00:00';
-%endDate = '06-09-2008 24:00:00';
+startDate = '01-10-2008 00:00:00';
+endDate = '05-20-2008 24:00:00';
 
 
 sd = datenum(startDate);
@@ -132,8 +132,8 @@ data.blocksInDay = dayBlocks*superSampleAmount;
 data.dayTimeStart = 7;
 data.dayTimeEnd = 20;
 
-%save('./data/brownData_01_06.mat', 'data');
-save('./data/brownData_09_12.mat', 'data');
+save('./data/brownData_01_06.mat', 'data');
+%save('./data/brownData_09_12.mat', 'data');
 
 %tl = [48, 28, 11, 34];
 

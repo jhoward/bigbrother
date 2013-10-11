@@ -10,7 +10,6 @@ A level-1 auxiliary file: ch6Conclusion.aux
 The style file: unsrtnat.bst
 Database file #1: Final_Thesis.bib
 Warning--I didn't find a database entry for "2001"
-Warning--I didn't find a database entry for "Williams2003"
 Warning--I didn't find a database entry for "Hong2011"
 Warning--I didn't find a database entry for "Newsham2010"
 Warning--I didn't find a database entry for "Box2008"
@@ -23,46 +22,45 @@ Warning--I didn't find a database entry for "Wu2004"
 Warning--I didn't find a database entry for "Hsu2003"
 Warning--I didn't find a database entry for "Zheng2006"
 Warning--I didn't find a database entry for "Diebold1991"
-Warning--empty journal in Wren2007a
-You've used 19 entries,
+You've used 28 entries,
             2481 wiz_defined-function locations,
-            719 strings with 8656 characters,
-and the built_in function-call counts, 7363 in all, are:
-= -- 647
-> -- 341
-< -- 17
-+ -- 138
-- -- 98
-* -- 516
-:= -- 1139
-add.period$ -- 72
-call.type$ -- 19
-change.case$ -- 39
-chr.to.int$ -- 17
-cite$ -- 20
-duplicate$ -- 388
-empty$ -- 693
-format.name$ -- 131
-if$ -- 1611
+            788 strings with 11399 characters,
+and the built_in function-call counts, 11463 in all, are:
+= -- 1029
+> -- 542
+< -- 24
++ -- 214
+- -- 156
+* -- 841
+:= -- 1782
+add.period$ -- 117
+call.type$ -- 28
+change.case$ -- 57
+chr.to.int$ -- 26
+cite$ -- 28
+duplicate$ -- 596
+empty$ -- 1050
+format.name$ -- 204
+if$ -- 2511
 int.to.chr$ -- 3
-int.to.str$ -- 20
-missing$ -- 13
-newline$ -- 116
-num.names$ -- 57
-pop$ -- 187
+int.to.str$ -- 29
+missing$ -- 22
+newline$ -- 177
+num.names$ -- 84
+pop$ -- 253
 preamble$ -- 1
-purify$ -- 19
+purify$ -- 28
 quote$ -- 0
-skip$ -- 251
+skip$ -- 373
 stack$ -- 0
-substring$ -- 254
-swap$ -- 84
-text.length$ -- 5
+substring$ -- 431
+swap$ -- 130
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 133
-warning$ -- 1
-while$ -- 59
+type$ -- 196
+warning$ -- 0
+while$ -- 94
 width$ -- 0
-write$ -- 274
-(There were 15 warnings)
+write$ -- 428
+(There were 13 warnings)
