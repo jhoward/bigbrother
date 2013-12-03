@@ -1,17 +1,14 @@
-\chapter{Datasets and Performance Metrics}
+\chapter{Datasets}
 
 TODO FOR THIS CHAPTER:
 \begin{enumerate}
 	\item Why we use a constrained time window instead of the whole day
-	\item Why not use multiple sensors
-	\item How do we handle missing values in the dataset?
 	\item show two sensor location for a dataset (MERL) and discuss the different shapes of the data.  Talk about why it is not necessary to generate results from each location as our datasets already have different shapes and scales of counts
 	\item put a marker on the CSMBB sensor we use
-	\item write denver dataset section
 	\item put a marker on Denver sensor we use
-	\item Write information on Denver traffic dataset
 	\item solve the problem of references subfigures - this CSM latex package is different than other packages I've used before for subfigure reference
 	\item discuss the noise in the final datasets
+	\item figure out proper name of Denver traffic sensors
 \end{enumerate}
 
 This chapter contains information pertaining to the datasets used for our work along with a description of the performance metrics  we used to determine the efficacy of our approach.  Our datasets are from three different sources.  We have two building datasets and one freeway traffic dataset.  Due to certainly the forecasting capabilities of some algorithms such as time series neural networks and support vector machines.  All data is scaled to values between 0 and 1.
@@ -188,10 +185,7 @@ Count data is aggregated per hour for each direction of traffic at every sensor 
 %	\label{fig:merl_scaled}
 \end{figure}
 
-TODO discuss briefly our final scaled dataset and our choice of Monday through Thursday for our example data.  ALSO discuss our example days and show how much smoother a given day is compared to our other datasets.
-
-\ref{fig:denver_scaled_aggregate}
-\ref{fig:denver_scaled_raw}
+The scaled dataset that we use for this work is shown in figure \ref{fig:denver_scaled_aggregate}.  This is an average of all Monday through Thursdays for the sensor indicated earlier.  Also, unlike in the other datasets, we do not cut the data down to specific times of day.  This is done, both because there is more traffic during the early morning and late night on this dataset compared to the others and because the data is aggregated only every Hour, do not want to remove more reading from the dataset.  Finally figure \ref{fig:denver_scaled_raw} shows an example of two days of scaled data.  Due to the one hour readings instead of 10 minute readings, the data appears much smoother.  
 
 \subsection{Additional notes on the datasets} 
 
@@ -207,7 +201,7 @@ We believe the same results hold when it comes to building datasets instead of v
 
 \noindent
 \textbf{Missing values in the dataset} \\
-Discuss our approach to historic average for missing values in the dataset.
+Due to data collection problems with sensors, the raw data from all of our datasets all had segments with missing values.  These missing values were replace with the historic average value for that sensor at that time on that day.  For example a missing value at 3pm on a Tuesday in the Denver dataset would be replaced by the average value of all Tuesdays at 3pm.
 
 
 

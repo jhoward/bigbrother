@@ -27,11 +27,18 @@ classdef AvgGaussian < bcf.models.Model
         end
         
         function ll = likelihood(obj, data, offset)
-            ll = normpdf(data, obj.avgValues(1, offset), obj.noiseValues(1, offset));
+            if offset > obj.modelLength
+                ll = 0.0001;
+            else            
+                %data = data .* obj.noiseMult;
+                ll = normpdf(data, obj.avgValues(1, offset), obj.noiseValues(1, offset));
+            end
             
             if ll <= 0.0001
                 ll = 0.0001;
             end
+            
+           
         end
         
         

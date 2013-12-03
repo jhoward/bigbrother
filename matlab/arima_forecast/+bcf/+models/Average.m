@@ -39,19 +39,20 @@ classdef Average < bcf.models.Model
 
             %First discretize the pdf
             %For now just always go from -2 to 2 by .1
-            range = (obj.noiseMu - 2 * obj.noiseSigma):(obj.noiseSigma / 50):(obj.noiseMu + 2 * obj.noiseSigma);
-            dValues = normpdf(range, obj.noiseMu, obj.noiseSigma);
-            dValues(dValues < 0.000000001) = 0.000000001;
-            dValues = dValues ./ sum(dValues);
-            prob = zeros(size(data));
-            
-            for i = 1:size(data, 2)
-                %Change this to include values equal to zero
-                foo = max(find(range <= data(1, i))) + 1;
-                foo = min([length(dValues), foo]); 
-                prob(1, i) = log(dValues(foo));
-            end
-            %prob = normpdf(data, obj.noiseMu, obj.noiseSigma);
+%             range = (obj.noiseMu - 2 * obj.noiseSigma):(obj.noiseSigma / 50):(obj.noiseMu + 2 * obj.noiseSigma);
+%             dValues = normpdf(range, obj.noiseMu, obj.noiseSigma);
+%             dValues(dValues < 0.000000001) = 0.000000001;
+%             dValues = dValues ./ sum(dValues);
+%             prob = zeros(size(data));
+%             
+%             for i = 1:size(data, 2)
+%                 %Change this to include values equal to zero
+%                 foo = max(find(range <= data(1, i))) + 1;
+%                 foo = min([length(dValues), foo]); 
+%                 prob(1, i) = log(dValues(foo));
+%             end
+            data = data .* obj.noiseMult;
+            prob = mvnpdf(data', obj.noiseMu^2, obj.noiseSigma);
         end
         
         %TODO CHECK THIS VALUE
@@ -59,7 +60,9 @@ classdef Average < bcf.models.Model
             %Computes the models distribution for common noise forecasts
             out = obj.forecastAll(data, ahead);
             res = out - data;
+            res = res .* obj.noiseMult;
             tmpRes = reshape(res, size(res, 1), obj.blocksInDay, size(res, 2)/obj.blocksInDay);
+            tmpRes = tmpRes .* obj.noiseMult;
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
             obj.noiseSigma = pd.std;

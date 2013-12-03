@@ -135,6 +135,7 @@ classdef BayesianForecaster < handle
             %then set default model to 1 and all others to zero.
             for t = 1:size(aPmodels, 2)
                 if all(rawProbs(:, t) < threshold)
+                    %fprintf(1, 'Happened\n');
                     aPmodels(:, t) = zeros(size(obj.models, 2), 1);
                     aPmodels(defaultModel, t) = 1;
                 end
@@ -182,14 +183,14 @@ classdef BayesianForecaster < handle
             aPmodels(:, 1) = pmodels';
             pks = ones(size(pmodels, 2), size(diffs, 2));
             
-            diffs(:, 150:170, :)
-            size(diffs(:, :, 1))
+            %diffs(:, 150:170, :)
+            %size(diffs(:, :, 1))
             
             for k = 1:size(obj.models, 2)
                 pks(k, :) = obj.models{k}.probabilityNoise(diffs(:, :, k));
             end
             
-            pks(:, 150:170)
+            %pks(:, 150:170)
             
             %Reset values
             pks(pks <= obj.minProb) = obj.minProb;
@@ -197,9 +198,11 @@ classdef BayesianForecaster < handle
             
             for i = 2:size(diffs, 2)
                 %First compute the normalizing constant
+                %i
                 nc = aPmodels(:, i - 1)' * pks(:, i);
+                %nc
                 aPmodels(:, i) = (aPmodels(:, i - 1) .* pks(:, i)) ./ nc;
-                
+                %aPmodels(:, i)
                 aPmodels(aPmodels(:, i) <= obj.minProb, i) = obj.minProb;
                 %aPmodels(aPmodels(:, i) >= obj.maxProb, i) = obj.maxProb;
                 

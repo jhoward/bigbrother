@@ -10,7 +10,7 @@
 \contentsline {subsection}{\numberline {1.2}Approach}{5}{subsection.1.2}
 \contentsline {subsection}{\numberline {1.3}Contributions}{6}{subsection.1.3}
 \contentsline {subsection}{\numberline {1.4}Structure of the Proposal}{6}{subsection.1.4}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Datasets and Performance Metrics}}{7}{section*.10}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Datasets}}{7}{section*.10}
 \contentsline {subsection}{\numberline {2.1}Building Datasets}{8}{subsection.2.1}
 \contentsline {subsubsection}{\numberline {2.1.1}MERL Dataset}{9}{subsubsection.2.1.1}
 \contentsline {subsubsection}{\numberline {2.1.2}Colorado School of Mines Dataset}{12}{subsubsection.2.1.2}

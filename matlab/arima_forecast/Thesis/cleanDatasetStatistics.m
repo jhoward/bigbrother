@@ -1,7 +1,7 @@
 %Visualize Clean Datasets
 clear all;
 
-dataSet = 3;
+dataSet = 2;
 sensor = MyConstants.DATASET_SENSOR(dataSet);
 
 dataLocation = MyConstants.FILE_LOCATIONS_CLEAN{dataSet};
@@ -63,5 +63,6 @@ fig = plotMean(data.data(1, st:ed), ...
         'stdColor', [0, 0, 0], ...
         'xlabel', 'Hours', ...
         'ylabel', 'Scaled sensor activations', ...
-        'lineGraph', true);
+        'lineGraph', true, ...
+        'smoothData', false);
 saveas(fig, saveLocationRaw, 'png');

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  10 OCT 2013 16:47
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  10 OCT 2013 22:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -658,17 +658,17 @@ File: ./images/merl_day_raw_tues.png Graphic file (type QTm)
 File: ./images/merl_day_raw_fri.png Graphic file (type QTm)
 
 <use  "./images/merl_day_raw_fri.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 68--72
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 65--69
  [][][] 
  []
 
 
-Package caption Warning: \label without proper \caption on input line 84.
+Package caption Warning: \label without proper \caption on input line 81.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `fig:merl_scaled_aggregate' on page 10 undefined on in
-put line 77.
+put line 74.
 
 [10]
 File: ./images/merl_aggregate.png Graphic file (type QTm)
@@ -676,12 +676,12 @@ File: ./images/merl_aggregate.png Graphic file (type QTm)
 File: ./images/merl_oneDay.png Graphic file (type QTm)
  <use  "./images/merl_oneDay.png" >
 
-Package caption Warning: \label without proper \caption on input line 88.
+Package caption Warning: \label without proper \caption on input line 85.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `fig:merl_scaled_raw' on page 11 undefined on input li
-ne 94.
+ne 91.
 
 File: ./images/brown_motes.png Graphic file (type QTm)
 <use  "./images/brown_motes.png" > [11]
@@ -691,7 +691,7 @@ File: ./images/brown_day_raw_wed.png Graphic file (type QTm)
 File: ./images/brown_day_raw_thurs.png Graphic file (type QTm)
 
 <use  "./images/brown_day_raw_thurs.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 113--117
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 110--114
  [][][] 
  []
 
@@ -699,7 +699,7 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 113--117
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-LaTeX Warning: Reference `fig:csmday' on page 12 undefined on input line 126.
+LaTeX Warning: Reference `fig:csmday' on page 12 undefined on input line 123.
 
 [12]
 File: ./images/brown_aggregate.png Graphic file (type QTm)
@@ -708,20 +708,20 @@ File: ./images/brown_oneDay.png Graphic file (type QTm)
 
 <use  "./images/brown_oneDay.png" >
 
-Package caption Warning: \label without proper \caption on input line 133.
+Package caption Warning: \label without proper \caption on input line 130.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `fig:brown_scaled_aggregate' on page 13 undefined on i
-nput line 143.
+nput line 140.
 
 
-Package caption Warning: \label without proper \caption on input line 137.
+Package caption Warning: \label without proper \caption on input line 134.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `fig:brown_scaled_raw' on page 13 undefined on input l
-ine 143.
+ine 140.
 
 File: ./images/denver_sensors.png Graphic file (type QTm)
 <use  "./images/denver_sensors.png" > [13] [14]
@@ -731,7 +731,7 @@ File: ./images/denver_day_raw_sun.png Graphic file (type QTm)
 File: ./images/denver_day_raw_mon.png Graphic file (type QTm)
 
 <use  "./images/denver_day_raw_mon.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 165--169
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 162--166
  [][][] 
  []
 
@@ -742,38 +742,37 @@ File: ./images/denver_oneDay.png Graphic file (type QTm)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+Package caption Warning: \label without proper \caption on input line 178.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:denver_scaled_aggregate' on page 15 undefined on 
+input line 188.
+
+
+Package caption Warning: \label without proper \caption on input line 182.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:denver_scaled_raw' on page 15 undefined on input 
+line 188.
+
 [15]
-
-Package caption Warning: \label without proper \caption on input line 181.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:denver_scaled_aggregate' on page 16 undefined on 
-input line 193.
-
-
-Package caption Warning: \label without proper \caption on input line 185.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:denver_scaled_raw' on page 16 undefined on input 
-line 194.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 198--201
+Underfull \hbox (badness 10000) in paragraph at lines 192--195
 
  []
 
 
 LaTeX Warning: Reference `kamarianakis2003' on page 16 undefined on input line 
-204.
+198.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 206--207
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 200--201
 
  []
 
-[16]) [17]
+) [17]
 \openout2 = `ch3Models.aux'.
 
  (./ch3Models.tex [18
@@ -979,7 +978,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 149.
 Here is how much of TeX's memory you used:
  11355 strings out of 494004
  168453 string characters out of 3150890
- 276531 words of memory out of 3000000
+ 276493 words of memory out of 3000000
  14402 multiletter control sequences out of 15000+200000
  8749 words of font info for 32 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191

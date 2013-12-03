@@ -54,7 +54,7 @@ stripTimes = stripTimes(nonZeroDays, :);
 sd = reshape(stripData', 1, size(stripData, 1)*size(stripData, 2));
 st = reshape(stripTimes', 1, size(stripTimes, 1)*size(stripTimes, 2));
 
-sd = smooth(sd, 2)';
+sd = smooth(sd, 3)';
 
 [means, stds] = dailyMean(sd, st, data.blocksInDay, 'smooth', false);
 %plotMean(means(stripDays(1), :), 'std', stds(stripDays(1), :));

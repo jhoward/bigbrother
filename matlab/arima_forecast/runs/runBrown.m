@@ -165,7 +165,7 @@ parcorr(res, [100]);
 % fprintf(1, 'Arima fit Error rates -- train rmse:%f      test rmse %f\n', trainRmse, testRmse);
 
 %=========================END ARIMA=========================
->>>>>>> blah
+
 
 %=========================NEURAL NETWORK====================
 %Format the data

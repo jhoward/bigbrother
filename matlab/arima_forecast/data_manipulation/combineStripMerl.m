@@ -2,7 +2,7 @@
 clear all;
 
 sensorNumber = 59;
-stripDay = [4 5];
+stripDay = [5];
 
 load('./data/merlData.mat');
 
@@ -52,7 +52,7 @@ daySums = sum(dataCombined, 2)';
 sd = reshape(dataCombined', 1, size(dataCombined, 1)*size(dataCombined, 2));
 st = reshape(timesCombined', 1, size(timesCombined, 1)*size(timesCombined, 2));
 
-sd = smooth(sd, 2)';
+sd = smooth(sd, 3)';
 
 [means, stds] = dailyMean(sd, st, data.blocksInDay, 'smooth', false);
 %plotMean(means(stripDay, :), 'std', stds(stripDay, :));

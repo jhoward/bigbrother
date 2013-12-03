@@ -38,15 +38,17 @@ classdef SVM < bcf.models.Model
         end
             
         function prob = probabilityNoise(obj, data)
-            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
+            data = data .* obj.noiseMult;
+            prob = mvnpdf(data', obj.noiseMu^2, obj.noiseSigma);
         end
         
         function calculateNoiseDistribution(obj, data, ahead)
             out = obj.forecastAll(data, ahead);
             res = data - out;
+            res = res .* obj.noiseMult;
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
-            obj.noiseSigma = pd.std^2;
+            obj.noiseSigma = pd.std;
         end
     end
 end

@@ -1,12 +1,14 @@
 %bcf2Building.m
 clear all;
 
-dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataClean.mat';
-%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataClean.mat';
+%dataLocation = 'C:\Users\JamesHoward\Documents\Dropbox\Projects\bigbrother\data\building\merl\data\merlDataThesisDay.mat';
+%dataLocation = '/Users/jahoward/Documents/Dropbox/Projects/bigbrother/data/building/merl/data/merlDataThesisDay.mat';
 
-%dataLocation = './data/brownDataClean.mat';
+dataLocation = './data/merlDataThesisDay.mat';
 
 load(dataLocation);
+
+%data.data = smooth(data.data, 3)';
 
 %Remove the top n% of outliers and renormalize
 removePercent = 0.001;
@@ -17,7 +19,7 @@ data.data(ind(1, 1:nRemove)) = tmp(1, ind(1, nRemove + 1));
 data.data(ind(1, end-nRemove:end)) = tmp(1, ind(1, end - nRemove - 1));
 
 %Normalize
-data.data = 2*(data.data - min(data.data))/(max(data.data) - min(data.data)) - 1;
+%data.data = 2*(data.data - min(data.data))/(max(data.data) - min(data.data)) - 1;
 
 horizon = 1;
 % train = data.data(:, 1:1716);
@@ -30,7 +32,7 @@ test = data.data(:, 7801:end);
 trainTimes = data.times(:, 1:7800);
 testTimes = data.times(:, 7801:end);
 
-windowSize = 8;
+windowSize = 10;
 
 svmParam = '-s 4 -t 2 -q';
 svmWindow = 4;
@@ -57,18 +59,17 @@ fprintf(1, 'residual avg std ---- Train: %f     Test: %f\n', mean(trainStds(data
 
 %Figure out a threshold for now
 %CHANGE AS NEEDED
-meanStd = mean(trainStds(4, :));
+meanStd = mean(trainStds(5, :));
 
 %Work on removing residuals
 [window, ind, val] = simpleExtraction(resTest, windowSize, meanStd * windowSize, true);
-[idx, centers] = kmeans(window, 8);
+[idx, centers] = kmeans(window, 6);
 sval = silhouette(window, idx);
 mean(sval)
 
 
-
 %Plot each cluster
-for i = 1:8
+for i = 1:6
     index = find(idx == i);
     plotData = window(index, :);
     x = linspace(1, windowSize, windowSize);
@@ -83,6 +84,7 @@ for i = 1:8
     
     clusterDays = data.times(ind(index));
     datestr(clusterDays)
+    ind(index)
     %weekday(clusterDays)
     
     waitforbuttonpress;
@@ -107,7 +109,7 @@ modelGaussian.calculateNoiseDistribution(resTest);
 
 
 %Now make an avg model of the anomalies
-index = find(idx == 3);
+index = find(idx == 2);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
@@ -116,7 +118,7 @@ modelAvg1 = bcf.models.AvgGaussian(windowSize);
 modelAvg1.train(clustData);
 
 %Now make an avg model of the anomalies
-index = find(idx == 4);
+index = find(idx == 5);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
@@ -125,7 +127,7 @@ modelAvg2 = bcf.models.AvgGaussian(windowSize);
 modelAvg2.train(clustData);
 
 %Now make an avg model of the anomalies
-index = find(idx == 5);
+index = find(idx == 6);
 clustData = window(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
 clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
@@ -144,8 +146,8 @@ models = {modelAvg1; modelAvg2; modelAvg3; backModel};
 %PERFORM BCF2
 %
 %--------------------------------------------------------------------------
-lengths = [8 8 8 1];
-modelConstants = [0.02, 0.02, 0.02, 0.01];
+lengths = [10 10 10 1];
+modelConstants = [0.02, 0.02, 0.02, 0.99];
 ahead = 1;
 yp = zeros(size(resTest));
 
@@ -168,7 +170,7 @@ p = cellfun(@(v)v./cellTotal, p, 'UniformOutput', false);
 %p = p ./ sum(p, 2);
 
 %Go through whole dataset
-for t = 1:1000%size(y, 2) - ahead
+for t = 1:size(resTest, 2) - ahead
     
     %compute model likelihoods
     for m = 1:length(models)
@@ -227,20 +229,19 @@ end
 newTest = mTest + yp;
 newRes = test - newTest;
 
-
-% plotStart = 300;
+% plotStart = 530;
 % plotEnd = 600;
 % plotRange = plotEnd - plotStart + 1;
 
-plotStart = 761;
-plotEnd = 820;
+plotStart = 1030;
+plotEnd = 1150;
 plotRange = plotEnd - plotStart + 1;
 
 hold on
 %plot(1:1:plotRange, [test(1, plotStart:plotEnd); mTest(1, plotStart:plotEnd); newTest(1, plotStart:plotEnd)]);
 plot(1:1:plotRange, [resTest(1, plotStart:plotEnd); yp(1, plotStart:plotEnd)]);
 for i = 1:8
-    plot(1:1:plotRange, histPost{3}(i, plotStart:plotEnd) - i, 'color', 'red');
+    plot(1:1:plotRange, histPost{1}(i, plotStart:plotEnd) - i, 'color', 'red');
 end
 plot(1:1:plotRange, histPost{4}(1, plotStart:plotEnd) - 9, 'color', 'green');
 
@@ -313,8 +314,3 @@ xlim([1, plotRange]);
 %xlabel('Time of day', 'FontSize', 14)
 %ylabel('Sensor activations', 'FontSize', 14)
 set(gca,'XTick',[]);
-
-
-
-
-

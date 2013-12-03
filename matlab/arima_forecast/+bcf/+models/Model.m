@@ -8,6 +8,10 @@ classdef Model < handle
         dayNoiseSigma
     end
     
+    properties (Constant = true)
+        noiseMult = 200;
+    end
+    
     methods(Abstract)
         output = forecastAll(obj, data, ahead, varargin)
         train(obj, data)

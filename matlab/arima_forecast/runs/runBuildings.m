@@ -430,6 +430,7 @@ modelVals{6} = model2Bcf;
 
 lowRMSE = dataVals{modelNums(1)}(4, i);
 defaultModel = modelNums(1);
+
 %Compute best model for horizon
 for k = 2:length(modelNums)
     if (dataVals{modelNums(k)}(4, i) < lowRMSE)

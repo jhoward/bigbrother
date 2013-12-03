@@ -72,4 +72,13 @@ data.dayOfWeek = weekday(data.times);
 data.sensor = sensorNumber;
 data.stripDays = stripDays;
 
+%Add train, test and validation sets
+[trainData, validData, testData, trainTimes, validTimes, testTimes] = cutdata(data);
+data.trainData = trainData;
+data.trainTimes = trainTimes;
+data.validData = validData;
+data.validTimes = validTimes;
+data.testData = testData;
+data.testTimes = testTimes;
+
 save('./data/denverDataThesisDay.mat', 'data');

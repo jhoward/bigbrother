@@ -1,20 +1,32 @@
 classdef TDNN < bcf.models.Model
     %TDNNMODEL time delayed neural network model
     properties
-        %netAhead
         net
         ahead
+        hiddenNodes
+        timeDelay
+        
     end
     
     methods        
-        function obj = TDNN(net, ahead)
-            obj.net = net;
-            %obj.netAhead = netAhead;
-            obj.ahead = ahead;
+        function obj = TDNN(timeDelay, hiddenNodes)
+            obj.timeDelay = timeDelay;
+            obj.hiddenNodes = hiddenNodes;
         end
         
-        function train(obj, data)
+        function train(obj, data, ahead)
+            cdata = tonndata(data, true, false);
+            
+            obj.net = timedelaynet(1:obj.timeDelay, obj.hiddenNodes);
+
+            obj.net.divideParam.trainRatio = 70/100;
+            obj.net.divideParam.valRatio = 15/100;
+            obj.net.divideParam.testRatio = 15/100;
+            
+            [xs, xi, ai, ts] = preparets(obj.net, cdata(:, 1:end - ahead), cdata(:, 1 + ahead:end)); 
+            obj.net = train(obj.net, xs, ts, xi, ai);
         end
+        
         
         function val = forecastSingle(obj, data, ahead, varagin)
             %TODO Change this to handle vector values
@@ -28,20 +40,25 @@ classdef TDNN < bcf.models.Model
             val = cell2num(val);
         end
         
+        
         function output = forecastAll(obj, data, ahead, varargin)
             output = bcf.forecast.tdnnForecast(obj.net, data, ahead);
         end
         
+        
         function calculateNoiseDistribution(obj, data, ahead)
             out = obj.forecastAll(data, ahead);
             res = data - out;
+            res = res .* obj.noiseMult;
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
-            obj.noiseSigma = pd.std^2;
+            obj.noiseSigma = pd.std;
         end
         
+        
         function prob = probabilityNoise(obj, data)
-            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
+            data = data .* obj.noiseMult;
+            prob = mvnpdf(data', obj.noiseMu^2, obj.noiseSigma);
         end
     end 
 end

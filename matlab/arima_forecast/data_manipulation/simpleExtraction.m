@@ -2,12 +2,15 @@ function [windows, ind, values] = simpleExtraction(data, windowSize, threshold, 
 %Scan through windows and search for ones that are sufficiently "deviant"
 %the center option givens the ability to center the largest error
 
-    numWindows = size(data, 2) / windowSize;
+    %data = smooth(abs(data), 10);
+    %data = data';
+
+    numWindows = floor(size(data, 2) / windowSize);
     ind = [];
     windows = [];
     values = [];
     
-    for i = 0:numWindows-1
+    for i = 0:numWindows-2
         currentIndex = i * windowSize + 1;
         tmp = data(1, currentIndex:currentIndex + windowSize - 1);
         val = sum(abs(tmp));
@@ -22,7 +25,7 @@ function [windows, ind, values] = simpleExtraction(data, windowSize, threshold, 
                 val = sum(abs(tmp));
                 
                 if val < threshold
-                    fprintf('Would have removed the window\n');
+                    %fprintf('Would have removed the window\n');
                 end
             end
 

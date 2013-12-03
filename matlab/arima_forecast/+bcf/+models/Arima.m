@@ -47,19 +47,23 @@ classdef Arima < bcf.models.Model
         
         
         function prob = probabilityNoise(obj, data)
-            prob = mvnpdf(data, obj.noiseMu, obj.noiseSigma);
+            data = data .* obj.noiseMult;
+            prob = mvnpdf(data', obj.noiseMu^2, obj.noiseSigma);
         end
         
         
         function calculateNoiseDistribution(obj, data, ahead)
             out = obj.forecastAll(data, ahead);
             res = data - out;
+            res = res .* obj.noiseMult;
             tmpRes = reshape(res, size(res, 1), obj.blocksInDay, size(res, 2)/obj.blocksInDay);
+            tmpRes = tmpRes .* obj.noiseMult;
+            
             pd =  fitdist(res', 'Normal');
             obj.noiseMu = pd.mean;
-            obj.noiseSigma = pd.std^2;
+            obj.noiseSigma = pd.std;
             obj.dayNoiseMu = mean(tmpRes, 3);
-            obj.dayNoiseSigma = std(tmpRes, 0, 3)^2;
+            obj.dayNoiseSigma = std(tmpRes, 0, 3);
         end
     end
 end
