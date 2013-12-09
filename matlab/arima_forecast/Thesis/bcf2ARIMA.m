@@ -41,7 +41,7 @@ minClusters = 4;
 minWindows = 30;
 numAvgRuns = 8;
 
-for ws = 14:-1:12
+for ws = 8:-1:8
     
     fprintf(1, 'Windowsize: %i\n', ws);
     
@@ -131,7 +131,6 @@ clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
 modelAvg1 = bcf.models.AvgGaussian(bestWS);
 modelAvg1.train(clustData);
 
-%Now make an avg model of the anomalies
 index = find(idx == 2);
 clustData = windows(index, :);
 %clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
@@ -140,11 +139,47 @@ clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
 modelAvg2 = bcf.models.AvgGaussian(bestWS);
 modelAvg2.train(clustData);
 
+index = find(idx == 3);
+clustData = windows(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
+
+modelAvg3 = bcf.models.AvgGaussian(bestWS);
+modelAvg3.train(clustData);
+
+%Now make an avg model of the anomalies
+index = find(idx == 4);
+clustData = windows(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
+
+modelAvg4 = bcf.models.AvgGaussian(bestWS);
+modelAvg4.train(clustData);
+
 backModel = bcf.models.AvgGaussian(1);
 backModel.noiseValues = std(resTest);
 backModel.avgValues = mean(resTest);
 
-models = {modelAvg1; modelAvg2; backModel};
+models = {modelAvg1; modelAvg2; modelAvg3; modelAvg4; backModel};
 
 forecaster = bcf.BayesianLocalForecaster(models);
-forecaster.forecastAll(resTest(78:78*10), 1, 'aggregate')
+adjRes = forecaster.forecastAll(resTest, 1);
+
+adjTest = testData + adjRes;
+
+BCFRMSE = errperf(testData(1:end), fTest(1:end), 'rmse')
+modBCFRMSE = errperf(testData(1:end), adjTest(1:end), 'rmse')
+[ponanValue rmseonanValue sseonanValue ~] = ponan(resTest, testStds(data.stripDays, :));
+[ponanValue rmseonanValue sseonanValue2 ~] = ponan(adjRes, testStds(data.stripDays, :));
+sseonanValue
+sseonanValue2
+
+
+st = 600;
+ed = 899;
+plot(resTest(1, st:ed))
+hold on
+plot(adjRes(1, st:ed), 'Color', [1 0 0])
+
+
+

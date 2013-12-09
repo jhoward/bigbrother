@@ -2,8 +2,8 @@ function [windows, ind, values] = simpleExtraction(data, windowSize, threshold, 
 %Scan through windows and search for ones that are sufficiently "deviant"
 %the center option givens the ability to center the largest error
 
-    %data = smooth(abs(data), 10);
-    %data = data';
+    data = smooth(data, 5);
+    data = data';
 
     numWindows = floor(size(data, 2) / windowSize);
     ind = [];

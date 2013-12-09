@@ -12,6 +12,11 @@ classdef AvgGaussian < bcf.models.Model
         end
 
         function train(obj, data) 
+            
+            if size(data, 1) > 1
+                data = reshape(data', 1, size(data, 1) * size(data, 2));
+            end
+            
             tmp = reshape(data, size(data, 1), obj.modelLength, size(data, 2)/obj.modelLength);
             obj.avgValues = mean(tmp, 3);
             
