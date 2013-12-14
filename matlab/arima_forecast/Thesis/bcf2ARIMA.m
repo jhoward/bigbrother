@@ -7,7 +7,7 @@ clear all;
 
 dataSet = 1;
 model = 2; %Set MODEL to ARIMA
-horizon = 2;
+horizon = 3;
 
 dataLocation = MyConstants.FILE_LOCATIONS_CLEAN{dataSet};
 saveLocationStart = strcat(MyConstants.THESIS_LOCATION, 'images/bcfimproved/');
