@@ -23,7 +23,7 @@ classdef BayesianLocalForecaster < handle
             obj.maxProb = maxProb;
         end
                 
-        function [fdata] = forecastAll(obj, data, ahead)
+        function [fdata, p, post, l, histPost] = forecastAll(obj, data, ahead)
             
             %First compute models lengths
             ml = zeros(1, length(obj.models));
@@ -33,8 +33,8 @@ classdef BayesianLocalForecaster < handle
             end
             
             %compute the constant priors
-            cp = zeros(1, length(obj.models)) + 0.02;
-            cp(1, end) = 0.98;
+            cp = zeros(1, length(obj.models)) + 0.005;
+            cp(1, end) = 0.995;
             cp = cp / sum(cp);
             
             %setup variables - likelihoods, priors, and posteriors
@@ -54,7 +54,7 @@ classdef BayesianLocalForecaster < handle
             cellTotal = sum(cellfun(@sum, p));
             p = cellfun(@(v)v./cellTotal, p, 'UniformOutput', false);
             
-            fdata = data;
+            fdata = zeros(size(data));
 
             
             %Go through whole dataset

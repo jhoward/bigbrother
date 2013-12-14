@@ -7,7 +7,7 @@ clear all;
 
 dataSet = 1;
 model = 2; %Set MODEL to ARIMA
-horizon = 1;
+horizon = 2;
 
 dataLocation = MyConstants.FILE_LOCATIONS_CLEAN{dataSet};
 saveLocationStart = strcat(MyConstants.THESIS_LOCATION, 'images/bcfimproved/');
@@ -41,13 +41,13 @@ minClusters = 4;
 minWindows = 30;
 numAvgRuns = 8;
 
-for ws = 8:-1:8
+for ws = 10:-1:8
     
     fprintf(1, 'Windowsize: %i\n', ws);
     
     for smoothAmount = 1:1
-        for numClusters = 4:12
-            for thresholdMult = 8:14
+        for numClusters = 4:6
+            for thresholdMult = 1:1
                 avgSilh = 0;
                 
                 %smooth
@@ -57,15 +57,18 @@ for ws = 8:-1:8
                 %Compute threshold
                 [testMeans, testStds] = dailyMean(resRunTest(1, :), resTimes, data.blocksInDay, 'smooth', false);
                 meanStd = mean(testStds(data.stripDays, :));
-                currentThreshold = meanStd * ws * (thresholdMult * 0.1 + 0.3);
+                currentThreshold = meanStd * ws * (thresholdMult * 0.1 + 0.01);
 
                 %extract
-                [windows, ind, val] = simpleExtraction(resRunTest, ws, currentThreshold, true);
+                %[windows, ind, val] = simpleExtraction(resRunTest, ws, currentThreshold, true, true);
                 
                 %TODO Fix number of windows extracted
-                %[windows, ind] = windowExtraction(resRunTest, ws, 50);
+                %[windows, ind] = windowExtraction(resRunTest, ws, 50, true);
+                [windows, ind] = largestWindow(resRunTest, ws, 60, false, true);
+                
                 
                 if size(windows, 1) < minWindows;
+                    %fprintf(1, 'Too few windows\n');
                     continue
                 end
                 
@@ -106,12 +109,13 @@ resRunTest = resTest;
 
 [testMeans, testStds] = dailyMean(resRunTest(1, :), resTimes, data.blocksInDay, 'smooth', false);
 meanStd = mean(testStds(data.stripDays, :));
-currentThreshold = meanStd * bestWS * (bestThresholdMult * 0.1 + 0.3);
+currentThreshold = meanStd * bestWS * (bestThresholdMult * 0.1 + 0.01);
 
 % %Work on removing residuals
-[windows, ind, val] = simpleExtraction(resRunTest, bestWS, currentThreshold, true);
-%[windows, ind] = windowExtraction(resRunTest, bestWS, 50);
+%[windows, ind, val] = simpleExtraction(resRunTest, bestWS, currentThreshold, true, true);
+%[windows, ind] = windowExtraction(resRunTest, bestWS, 50, true);
 % 
+[windows, ind] = largestWindow(resRunTest, bestWS, 60, false, true);
 % 
 %[idx, centers] = kmeans(windows, bestNumClusters);
 [idx, centers, kdists] = kmeans2(windows, bestNumClusters, 'minCl', 4, 'outFrac', 0.1);
@@ -156,27 +160,48 @@ clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
 modelAvg4 = bcf.models.AvgGaussian(bestWS);
 modelAvg4.train(clustData);
 
+%Now make an avg model of the anomalies
+index = find(idx == 5);
+clustData = windows(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
+
+modelAvg5 = bcf.models.AvgGaussian(bestWS);
+modelAvg5.train(clustData);
+
+
+%Now make an avg model of the anomalies
+index = find(idx == 6);
+clustData = windows(index, :);
+%clustData2 = repmat(clustData, [1 1 size(clustData, 1)]);
+clustData = reshape(clustData', 1, size(clustData, 1) * size(clustData, 2));
+
+modelAvg6 = bcf.models.AvgGaussian(bestWS);
+modelAvg6.train(clustData);
+
+
 backModel = bcf.models.AvgGaussian(1);
 backModel.noiseValues = std(resTest);
 backModel.avgValues = mean(resTest);
 
-models = {modelAvg1; modelAvg2; modelAvg3; modelAvg4; backModel};
+models = {modelAvg1; modelAvg2; modelAvg3; modelAvg4; modelAvg5; backModel};
 
 forecaster = bcf.BayesianLocalForecaster(models);
-adjRes = forecaster.forecastAll(resTest, 1);
+[adjRes, p, post, l, histPost] = forecaster.forecastAll(resTest, horizon);
 
-adjTest = testData + adjRes;
+adjData = fTest + adjRes;
+adjResTest = resTest - adjRes;
 
 BCFRMSE = errperf(testData(1:end), fTest(1:end), 'rmse')
-modBCFRMSE = errperf(testData(1:end), adjTest(1:end), 'rmse')
+modBCFRMSE = errperf(testData(1:end), adjData(1:end), 'rmse')
 [ponanValue rmseonanValue sseonanValue ~] = ponan(resTest, testStds(data.stripDays, :));
-[ponanValue rmseonanValue sseonanValue2 ~] = ponan(adjRes, testStds(data.stripDays, :));
+[ponanValue rmseonanValue sseonanValue2 ~] = ponan(adjResTest, testStds(data.stripDays, :));
 sseonanValue
 sseonanValue2
 
 
-st = 600;
-ed = 899;
+st = 900;
+ed = 1299;
 plot(resTest(1, st:ed))
 hold on
 plot(adjRes(1, st:ed), 'Color', [1 0 0])

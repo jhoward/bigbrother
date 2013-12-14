@@ -17,7 +17,7 @@ function [data] = ...
                                     actNoises(1, at));
             actTime = floor(rand * numPoints) + 1;
             activities{at} = [activities{at}; act];
-            activityTimes{at} = [activityTimes{at}; actTime];
+            activityTimes{at} = [activityTimes{at} actTime];
             
             %Set activity in data.
             d(1, actTime:actTime + actLengths(1, at) - 1) = act;
@@ -25,7 +25,7 @@ function [data] = ...
     end
         
     data.data = d;
-    data.actTime = activityTimes';
+    data.actTime = activityTimes;
     data.act = activities;
     data.mean = 0;
     data.noise = noise;
