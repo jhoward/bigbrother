@@ -5,7 +5,7 @@ function [windows, indexes] = largestWindow(data, windowSize, numWindows, remove
     %ndata = smooth(data, 0.009, 'lowess');
     %ndata = ndata';
     ndata = data;
-    if smoothData
+    if smoothData > 0
         ndata = smooth(abs(data), 5);
         ndata = ndata';
     end

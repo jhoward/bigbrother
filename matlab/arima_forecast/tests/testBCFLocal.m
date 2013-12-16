@@ -5,10 +5,10 @@ clear all
 
 numPoints = 1000;
 noise = 0.5;
-numActivities = 10;
-actTypes = [1]; %#ok<*NBRAK>
-actLengths = [15];
-actNoises = [0.3];
+numActivities = 15;
+actTypes = [1 2]; %#ok<*NBRAK>
+actLengths = [10 20];
+actNoises = [0.3 0.3];
 
 data = simulateData1d(numPoints, noise, numActivities, actTypes, actLengths, actNoises);
 

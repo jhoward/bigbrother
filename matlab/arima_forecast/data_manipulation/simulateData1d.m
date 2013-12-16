@@ -11,7 +11,8 @@ function [data] = ...
     activityTimes = cell(size(unique(actTypes), 2));
     
     %produce activities
-    for at = 1:actTypes    
+    for at = 1:size(actTypes, 2)
+        at
         for a = 1:numActivities
             act = generateActivity(at, actLengths(1, at), ...
                                     actNoises(1, at));
@@ -35,6 +36,10 @@ function [data] = ...
 end
 
 function [act] = generateActivity(at, al, an)
-    %For now just generate a mean shift activity
-    act = 1 + 0.2 .* randn(1, al);
+    %mean shift
+    if at == 1
+        act = 1 + an .* randn(1, al);
+    elseif at == 2
+        act = -1 + an .* randn(1, al);
+    end
 end
