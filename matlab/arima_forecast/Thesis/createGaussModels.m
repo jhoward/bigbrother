@@ -1,4 +1,4 @@
-function [models] = createGaussModels(windows, idx)
+function [models] = createGaussModels(windows, idx, data)
     models = {};
     
     for i = 1:max(idx)
@@ -9,4 +9,8 @@ function [models] = createGaussModels(windows, idx)
         models{i} = bcf.models.AvgGaussian(size(windows, 2)); %#ok<AGROW>
         models{i}.train(clustData);
     end
+    
+    models{max(idx) + 1} = bcf.models.AvgGaussian(1);
+    models{max(idx) + 1}.noiseValues = std(data);
+    models{max(idx) + 1}.avgValues = mean(data);
 end

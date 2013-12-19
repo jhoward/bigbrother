@@ -50,8 +50,5 @@ classdef MyConstants
         SVM_PARAMETERS = {'-s 4 -t 2 -q', '-s 4 -t 2 -q', '-s 4 -t 2 -q'};
         SVM_WINDOW = {5, 5, 5};
         TDNN_PARAMETERS = {[10, 8], [10, 8], [6, 6]};
-
-        
-        HORIZON = 15;
     end
 end
