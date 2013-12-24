@@ -4,11 +4,19 @@ Discuss our improved ensemble method here
 \subsection{Activity recog}
 discuss activity recognition and its importance here
 
-\subsection{HMM vs TSMG}
+\subsection{Identifying Anomalous data}
+First discuss extraction methods.  Look for peak anomalies.  
+Include a bit of change point detection
+Cite sources for this here
+
+TODO CODE: Display result of white noise test with anomalies removed
+
+\subsection{Cluster representation}
+HMM vs TSMG
 discuss why we are not using hidden markov models as stated in the proposal
+Discuss removal of outlier anomalies.
 
 \subsection{TSMG derivation}
-
 A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  Traditionally, a mixture of Gaussians is implemented for either a one dimensional time series (CITE PAPER TO SUPPORT THIS) or for data vectors with no time element.  Here we combine the two approaches, creating a mixture of Gaussians for multi-dimensional time series data.  While this approach has not yet been implemented, based on the success of mixture of Gaussians in other domains, we expect good results.
 
 The goal of mixture of Gaussians is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given dataset $\{x^{(i)}\}$ we maximize
@@ -64,24 +72,28 @@ The results of these maximizations are given below:
 \Sigma_{k, n} = \frac{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}(x^{(i)} - \mu_{k, n})(x^{(i)} - \mu_{k, n})^{\mathrm{T}}}{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}}
 \end{equation}
 
-\subsection{Clustering activities}
-TODO DISCUSS OUR CLUSTERING HERE
-
-\subsection{FINDING POTENTIAL DATAPOINTS}
-TODO DISCUSS OUR POTENTIAL DATAPOINTS HERE
-
-\subsection{HMM Clusters}
-DICUSS OUR HMM CLUSTERING METHOD AND REPRESENTATION HERE
+\subsection{Sample representative clusters}
+TODO IMAGE: Demonstrate representative clusters.  Show image with multiple small cluster images.  Do one for each dataset.  Potentially with different base forecasting algorithms.
 
 \subsection{On the limitations of BCF}
-DISCUSS OUR NEED FOR ANOTHER METHOD HERE
+Discuss the limitations of BCF and how this leads to a new derivation of an ensemble forecasting approach here.
 
 \subsection{Improved Ensemble Derivation}
 Derive our improved ensemble method here.
 
+\subsection{Example Improved Ensemble Working}
+TODO Image: Create image of our improved ENSEMBLE technique working.  This should show the top percentage change over time.
+
+TODO Image: This will also show the base residual and the representative clusters.
+
 \subsection{RESULTS ON Improved Ensemble Derivation}
 Discuss and display the results here
 
+TODO Code: Display sample Raw forecast before and after results.
+TODO Code: Display the effects of horizon on each dataset for Base BCF for Ponan and RMSE
+TODO Code: Do this same thing with Ponan with 2 and 3 std.
+TODO Code: Demonstrate an example with Broncos games extracted.
 
-
+\subsection{Future unexplored work on Improved Ensemble BCF}
+Discuss identification of various types of extraction techniques.  Types of clustering.  Automated modification of input variables.
 

@@ -2,35 +2,49 @@
 Discuss the relevant models which make up the BCF here.
 
 \subsection{Notation}
-As already stated, we define a time series dataset used within as  $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.
+As already stated, we define a time series dataset used within as  $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.  In total the number of time blocks are represented by $N$.
 
 Forecasts for a given model $k$ from the set of all models $K$ are represented by 
 \begin{equation}
 y_{t + 1}^{k, m} = f(x_{t}, ..., x_{1}; \theta_{k}).
 \end{equation}
 \noindent
-Thus the forecast of $x_{t + 1}$ is a function of all past data and some trained parameterization $\theta_{k}$ for that model. 
-
-In this work we need to forecast more than one time step into the future.  Future forecasts are performed through iterative one step ahead forecasts.  Also for this work we forecast a model for each individual sensor and for convenience often drop the $m$ and $k$ from our forecast notation.  An example of a forecast two time steps ahead of current time $t$ is given by 
+Thus the forecast of $x_{t + 1}$ is a function of all past data and some trained parameterization $\theta_{k}$ for that model.  For this work we forecast a model for each individual sensor and for convenience often drop the $m$ and $k$ from our forecast notation.  Also, in this work we need to forecast more than one time step into the future.  Future forecasts are performed through iterative one step ahead forecasts.    An example of a forecast two time steps ahead of current time $t$ is given by 
 \begin{equation}
 y_{t + 2} = f(y_{t + 1}, x_{t}, ..., x_{1}; \theta_{k}).
 \end{equation}
 \noindent
-Such a forecast is simply the forecast for one time step into the future but now with the forecasted value of $y_{t + 1}$ used as the most recent datapoint to forecast $y_{t + 2}$.  Forecasting in this nature allows for forecasts any number of time steps into the future. 
+Such a forecast is simply the forecast for one time step into the future but now with the forecasted value of $y_{t + 1}$ used as the most recent datapoint to forecast $y_{t + 2}$.  Forecasting in this nature allows for forecasts any number of time steps into the future.
 
-This could be represented by a hypothesis function $h(x, \delta)$.  We use mean absolute scale error (MASE) \cite{Hyndman2006} and root mean squared error (RMSE) as cost functions to compare with other previously implemented techniques.
+Another useful time series used in this work is the residual dataset defined as
+\begin{equation}
+r_{t,\delta} =  x_{t + \delta} - y_{t + \delta}.
+\end{equation}
+This set of residuals is the difference between the raw data and a forecasting function operating $\delta$ time steps into the future. 
+
 
 \subsection{Forecast measurements}
-TODO Discuss MAPE, MASE, RMSE, and our approach here
+We use mean absolute scale error (MASE) \cite{Hyndman2006, Hyndman2006a} and root mean squared error (RMSE) as cost functions to compare with other previously implemented techniques.  These forecasting cost functions are commonly used in forecasting literature (TODO: CITE) and provide a baseline by which to compare our novel forecasting approach to classic forecasting models.  
 
+Also, because some of our work is interested in reducing inaccurate forecasts during the presence of some anomalous event, we introduce another forecasting measurement which we call sum of squared error outside of noise against naive (SSEONAN).  This metric provides a convenient way to measure the improvement our approach yields which is not easily captured by RMSE and MASE.
+
+\bigskip
 \noindent \textbf{RMSE} \\
-TODO SHOW EQUATION FOR RMSE
+One of the most common error functions used to determine the quality of a set of forecasts.  It measures the average difference between two time series.  In this case, the input series $x$ and the forecast series $y$.
+\begin{equation}
+RMSE_{\delta} = \sqrt{\frac{\sum_{t = 1}^{N - \delta}{(x_{t + \delta} - y_{t + \delta})^{2}}}{N - \delta}}
+\end{equation}
 
+\bigskip
 \noindent \textbf{MASE} \\
-TODO SHOW EQUATION FOR MASE
+Mean absolute scaled error was developed to be a generally applicable measurement of forecast accuracy.  The metric is especially useful for datasets with intermittent demand unlike the common closely related measurement of mean absolute percentage error (MAPE).  The reason it works well with intermittent time is that it will not return undefined or infinite values unless all dataset is equal \cite{Hyndman2008}.
 
-\noindent \textbf{OUR APPROACH} \\
-TODO SHOW EQUATION FOR OUR APPROACH AND DISCUSS IT HERE
+\begin{equation}
+MASE_{\delta} = \frac{\sum_{t = 1}^{N}{r_{t, \delta}}}{\frac{N}{N - 1}\sum_{i = 2}^{N}|y_{i} - y_{i - 1}|}
+\end{equation}
+
+\noindent \textbf{SSEONAN} \\
+
 
 
 \subsection{Seasonal ARIMA model}
