@@ -1,5 +1,14 @@
 \chapter{Models}
-Discuss the relevant models which make up the BCF here.
+With this chapter we explore some of the most common forecasting models on our datasets.  These models are meant to be used as a baseline from which to compare our results. Also in this chapter, we introduce the metrics which will be used for our analysis.  We feel this analysis useful to empirically demonstrate the various forecasting capabilities of these established models.
+
+TODO IN THIS CHAPTER
+Citations
+Image for Historic Average
+Image for TDNN
+Image for ARIMA
+Image for SVM
+Analysis and Table of results
+
 
 \subsection{Notation}
 As already stated, we define a time series dataset used within as  $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.  In total the number of time blocks are represented by $N$.
@@ -26,7 +35,7 @@ This set of residuals is the difference between the raw data and a forecasting f
 \subsection{Forecast measurements}
 We use mean absolute scale error (MASE) \cite{Hyndman2006, Hyndman2006a} and root mean squared error (RMSE) as cost functions to compare with other previously implemented techniques.  These forecasting cost functions are commonly used in forecasting literature (TODO: CITE) and provide a baseline by which to compare our novel forecasting approach to classic forecasting models.  
 
-Also, because some of our work is interested in reducing inaccurate forecasts during the presence of some anomalous event, we introduce another forecasting measurement which we call sum of squared error outside of noise against naive (SSEONAN).  This metric provides a convenient way to measure the improvement our approach yields which is not easily captured by RMSE and MASE.
+Also, because some of our work is interested in reducing inaccurate forecasts during the presence of some anomalous event, we introduce another forecasting measurement which we call root mean squared error outside of noise against naive (RMSEONAN).  This metric provides a convenient way to measure the improvement our approach yields which is not easily captured by RMSE and MASE.
 
 \bigskip
 \noindent \textbf{RMSE} \\
@@ -40,13 +49,39 @@ RMSE_{\delta} = \sqrt{\frac{\sum_{t = 1}^{N - \delta}{(x_{t + \delta} - y_{t + \
 Mean absolute scaled error was developed to be a generally applicable measurement of forecast accuracy.  The metric is especially useful for datasets with intermittent demand unlike the common closely related measurement of mean absolute percentage error (MAPE).  The reason it works well with intermittent time is that it will not return undefined or infinite values unless all dataset is equal \cite{Hyndman2008}.
 
 \begin{equation}
-MASE_{\delta} = \frac{\sum_{t = 1}^{N}{r_{t, \delta}}}{\frac{N}{N - 1}\sum_{i = 2}^{N}|y_{i} - y_{i - 1}|}
+MASE_{\delta} = \frac{\sum_{t = 1}^{N - \delta}{r_{t, \delta}}}{\frac{N}{N - 1}\sum_{i = 2}^{N}|y_{i} - y_{i - 1}|}
 \end{equation}
 
-\noindent \textbf{SSEONAN} \\
+\bigskip
+\noindent \textbf{RMSEONAN} \\
+Root mean squared error outside noise against naive measures a forecast's accuracy during its worst case scenarios.  This is performed by measuring the sum of squared errors of forecasts outside a prescribed boundary.  We compute this boundary from the forecasting accuracy of a naive forecaster.  For our work, we consider the naive forecaster to be the historical average of the data for a given time.  
 
+Most of the results of this work deal with boundaries set by one standard deviation of the residual dataset formed but he historic average (naive) model.  Some later results will include larger boundaries such as two and three standard deviations.  RMSEONAN is defined as
+\begin{equation}
+RMSEONAN_{\delta, \sigma} = \frac{\sqrt{\sum_{t = 1}^{N - \delta}{A(r_{t, \delta}; \sigma)^{2}}}} {N - \delta}.
+\end{equation}
+Where $A(r_{\delta}; \sigma)$ is 
+\begin{equation}
+A(r_{t, \delta}; \sigma_{t}) = \begin{cases}
+			r_{t, \delta}    &    \text{If }r_{t, \delta} \ge \sigma_{t} \\
+			0                     &    \text{otherwise.}
+			\end{cases}
+\end{equation}
+$\sigma_{t}$ is the standard deviation of the data at that time step for that given day.  For certain comparisons, it is useful to use $n*\sigma$ with values of $n > 1$.  
 
+Notice that this function is an average of all values of $A(r_{\delta})$.  This is because RMSEONAN is used to compare between multiple forecasting algorithms of the same dataset the total effect of sufficiently inaccurate forecasts (by sufficiently inaccurate, we mean any forecast outside a defined  accuracy boundary).  If we were to measure only values where $A(r_{\delta}) > 0$, then an average value is not able to distinguish between forecasting models that leave few sufficiently inaccurate forecasts and many inaccurate forecasts assuming they are of similar value.  
 
+An example demonstrating the regions summed by RMSEONAN is given by ~\ref{fig:dem_RMSEONAN}.  In this image, only the area of the green spaces are squared and summed towards RMSEONAN.  All other regions are zero.  The large salmon colored region is the area that is one standard deviation for all days at that time for the residual dataset.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width = .5\linewidth]{demonstration_RMSEONAN}
+	\end{center}
+	\caption{Demonstration of the area measured by RMSEONAN}
+	\label{fig:dem_RMSEONAN}
+\end{figure}
+
+%MODELS
 \subsection{Seasonal ARIMA model}
 The Auto Regressive Moving Average Model (ARMA) or derivations on its form (Auto Regressive Integrated Moving Average, Seasonal Auto Regressive Moving Average, $etc$) have been used in numerous forecasting applications from economics to vehicle traffic systems.  While we have been unable to find ARMA based models used on building occupancy data directly, we have found it used to forecast building energy usage and vehicle occupancy \cite{Williams2003, Hong2011, Newsham2010}.  Its forecasting accuracy is quite strong and it can serve as a strong baseline of comparison for a forecasting problem.  
 
@@ -125,6 +160,8 @@ Figure~\ref{fig:arima_prediction} shows an example of one-step ahead prediction 
 \subsection{Historic average}
 This model is simply the per day average of readings at each time step.  For certain types of data this model is has been shown to be more accurate than seasonal ARIMA forecasting \cite{Newsham2010}, specifically when the data has a strong historic correlation.  Average forecasts have the advantage of being extremely computationally fast and having a forecast accuracy that does not depend on the forecasting horizon.  This result will be shown later.
 
+TODO: INSERT IMAGE OF HISTORIC AVERAGE
+
 \subsection{Time delayed neural networks}
 
 Time delayed neural networks are a special subset of regression neural networks where the input data is a local history of data from the time series.  Commonly the output is a single point forecast from that same time series at some point $t + \delta$ in the future.   The form of our 1 hidden layer time delayed neural network is:
@@ -167,6 +204,8 @@ CSMBB & 10.94 & 14.13 & 27.14 & 11.01 & 8.72 & \textbf{8.72}\\ \hline
 \label{fig:rmsetab}
 \end{table}
 
+TODO: INSERT IMAGE OF TDNN
+
 \subsection{Support Vector Regression}
 Support Vector Machine Regression (SVM) offers a powerful way to forecast time series.  It has been used in the past successfully to forecast travel times for vehicle traffic \cite{Wu2004}.  
 
@@ -177,3 +216,5 @@ To perform SVM training we used the popular $libsvm$ package and as parameter se
 For both the MERL and CSMBB datasets we used a window of 5.  This happened to be the same window length used by \cite{Wu2004}.
 
 ~\ref{fig:rmsetab}
+
+TODO INSERT IMAGES OF SVR

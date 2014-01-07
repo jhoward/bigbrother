@@ -41,6 +41,8 @@ classdef MyConstants
             '/Users/jahoward/Documents/Dropbox/jim_thesis/data/bcf_brown.mat', ...
             '/Users/jahoward/Documents/Dropbox/jim_thesis/data/bcf_denver.mat'}
         
+        HORIZON = 15;
+        
         TRAINDATA_CELL_INDEX = 10;
         TESTDATA_CELL_INDEX = 11;
         TEST_PROBS_INDEX = 12;

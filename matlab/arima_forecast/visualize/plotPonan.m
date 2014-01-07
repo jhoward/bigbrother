@@ -18,7 +18,6 @@ function fig = plotPonan(res, stds, drawPoints)
     
     plotRange = size(newData, 2);
     
-    
     %Display std of residual
     xvals = 1:1:plotRange;
     xvals = [xvals, fliplr(xvals)];
@@ -45,7 +44,7 @@ function fig = plotPonan(res, stds, drawPoints)
     if drawPoints
         title({'Demonstration of PONAN'}, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
     else
-        title({'Demonstration of SSEONAN'}, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
+        title({'Demonstration of RMSEONAN'}, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
     end
     set(gca,'XTickLabel',[]);
 

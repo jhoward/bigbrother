@@ -20,30 +20,30 @@
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 3}Models}}{18}{section*.21}
 \contentsline {subsection}{\numberline {3.1}Notation}{18}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Forecast measurements}{19}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Seasonal ARIMA model}{20}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Fitting a Seasonal ARIMA}{21}{subsubsection.3.3.1}
-\contentsline {subsection}{\numberline {3.4}Historic average}{23}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Time delayed neural networks}{24}{subsection.3.5}
-\contentsline {subsection}{\numberline {3.6}Support Vector Regression}{25}{subsection.3.6}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}ENSEMBLE APPROACH}}{27}{section*.28}
-\contentsline {subsection}{\numberline {4.1}Bayesian Combined Forecasting}{27}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Notation}{27}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Bayesian Combined Forecasting Derivation}{28}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}BCF Modifications}{29}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Forecast $\delta $ time steps into the future}{30}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}Improving model error distributions}{31}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}Model selection thresholding}{31}{subsubsection.4.4.3}
-\contentsline {subsection}{\numberline {4.5}Results of Ensemble}{32}{subsection.4.5}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{36}{section*.35}
-\contentsline {subsection}{\numberline {5.1}Activity recog}{36}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Identifying Anomalous data}{36}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Cluster representation}{36}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}TSMG derivation}{36}{subsection.5.4}
-\contentsline {subsection}{\numberline {5.5}Sample representative clusters}{38}{subsection.5.5}
-\contentsline {subsection}{\numberline {5.6}On the limitations of BCF}{38}{subsection.5.6}
-\contentsline {subsection}{\numberline {5.7}Improved Ensemble Derivation}{38}{subsection.5.7}
-\contentsline {subsection}{\numberline {5.8}Example Improved Ensemble Working}{38}{subsection.5.8}
-\contentsline {subsection}{\numberline {5.9}RESULTS ON Improved Ensemble Derivation}{38}{subsection.5.9}
-\contentsline {subsection}{\numberline {5.10}Future unexplored work on Improved Ensemble BCF}{39}{subsection.5.10}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{40}{section*.36}
-\contentsline {section}{\texorpdfupper {References Cited}}{41}{section*.37}
+\contentsline {subsection}{\numberline {3.3}Seasonal ARIMA model}{21}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Fitting a Seasonal ARIMA}{23}{subsubsection.3.3.1}
+\contentsline {subsection}{\numberline {3.4}Historic average}{24}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Time delayed neural networks}{25}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Support Vector Regression}{26}{subsection.3.6}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}ENSEMBLE APPROACH}}{28}{section*.29}
+\contentsline {subsection}{\numberline {4.1}Bayesian Combined Forecasting}{28}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Notation}{28}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Bayesian Combined Forecasting Derivation}{29}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}BCF Modifications}{30}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Forecast $\delta $ time steps into the future}{31}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Improving model error distributions}{32}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Model selection thresholding}{32}{subsubsection.4.4.3}
+\contentsline {subsection}{\numberline {4.5}Results of Ensemble}{33}{subsection.4.5}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{37}{section*.36}
+\contentsline {subsection}{\numberline {5.1}Activity Recognition}{38}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Identifying Anomalous data}{42}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Cluster representation}{42}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}TSMG derivation}{42}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Sample representative clusters}{44}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}On the limitations of BCF}{44}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}Anomaly BCF}{44}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.8}Example Improved Ensemble Working}{44}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.9}RESULTS ON Improved Ensemble Derivation}{45}{subsection.5.9}
+\contentsline {subsection}{\numberline {5.10}Future unexplored work on Improved Ensemble BCF}{45}{subsection.5.10}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{46}{section*.39}
+\contentsline {section}{\texorpdfupper {References Cited}}{47}{section*.40}

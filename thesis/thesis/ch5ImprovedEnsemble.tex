@@ -1,15 +1,78 @@
 \chapter{Improved Ensemble}
-Discuss our improved ensemble method here
+In the past chapter, we showed that a few simple changes can lead to some significant improvements in forecasting accuracy when ensemble Bayesian Combined Forecasting is applied to our traffic datasets.  This chapter describes more in depth some of the problems with BCF.  We look at some related work into potentially solving these problems and finally a new ensemble forecasting technique which solves theses problems.  
 
-\subsection{Activity recog}
-discuss activity recognition and its importance here
+
+\bigskip
+\noindent \textbf{The need for another ensemble forecaster} \\
+When analyzing the residual of these ensemble forecasts, we noticed a fundamental problem with our forecaster.  In the residual forecasts of both BCF and many of the forecasting algorithms, the resulting residual forecast would still have many repeated miss-forecasts that could not be explained by random noise.  As alluded to in Chapter 1, these repetitive miss-forecasts may come from large human controlled scheduled events (such as sporting events, public celebrations, or in the case of buildings meetings) or they may be from uncontrolled and unscheduled events (such as weather or traffic accidents).  
+
+\begin{figure}[]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sample_residual_event_804.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sample_residual_event_6024.png}
+		}
+	\end{center}
+	\caption{Two similar events occurring at different time in the same residual dataset.}
+	\label{fig:sample_residual_events}
+\end{figure}
+
+~\ref{fig:sample_residual_events} shows two of these events occurring.  Such an event clearly occurs outside the normal behavior noise of our data.  The light red region in this image represents the one standard deviation boundary for the residual data.  From chapter 4, we know that BCF residual data tends to be normally distributed per daily time step.  The residual datasets from each time step pass the one-sample Kolmogorov-Smirnov (TODO CITE) test for normality ($p \ge 0.1$).  Assuming this data is truly normally distributed then the odds of getting even one such datapoint outside the $\pm 3 \sigma$ should occur roughly 1 in every million data points.  Yet, in our Denver traffic data, we had 22 such instances in the testing dataset alone ($N=12000$).  
+
+Figure ~\ref{fig:denver_bcf_residual} shows these results graphically.  In this figure, a histogram of the data from four different time steps from the Denver traffic dataset, overlaid with the corresponding best fit normal distribution.  In each image the same pattern appears.  Residual values around the mean and on the tails tend to occur with a greater frequency than would be suggested by a normal distribution.  Clearly, values around the mean are not the problem.  These values correspond to accurate forecasts.  Values around the tail however are problematic and are further evidence of large events being one of the causes of noise in our residual data.
+
+\begin{figure}[!t]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{denver_bcf_residual_15.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{denver_bcf_residual_26.png}
+		} \\
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{denver_bcf_residual_32.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{denver_bcf_residual_38.png}
+		}
+	\end{center}
+	\caption{Scaled histogram of IBCF residual values for the Denver traffic dataset at various time steps.  The red line is the corresponding best fit Normal distribution.  Notice how in all plots there exist data points which exist after the tails of the Normal distributions have approached zero.}
+	\label{fig:denver_bcf_residual}
+\end{figure}
+
+The unlikely existence of these events along evidence that the remaining residual time series behaves as a white noise Gaussian process provides evidence that these events are likely not due to natural noise and instead due to other factors.  The remainder of this chapter discusses ways to identify and model these anomalous events along with providing an algorithm for using these events to improve our forecasting algorithm.
+
+
+\subsection{Activity Recognition}
+Activity recognition is a broad term which seems to apply to all attempts to model various actions that may occur within an environment.  Due to the broad nature of this term, we briefly discuss some of the ways in which Activity recognition has been utilized in the past as a way to familiarize the read with a discussion of the literature.
+
+\bigskip
+\noindent \textbf{Individual Activity Modeling and Recognition} \\
+Work in activity recognition has focused on recognizing either individual activities or group activities.  In this section we describe many of the individual activity recognition techniques.  One common type of individual activity recognition is from wearable sensors such as accelerometers or RFID tag readers.  This type of work is almost always supervised and the goal is to map sensor readings to a comprehensible activity such as dish washing or tooth brushing \cite{Wang2009,Bao2004}.  While some of this has potential applications to our goals, much of it is not applicable as the focus is typically on recognizing activities from fully labeled datasets.  Authors from this field have used many of the standard machine learning models: decision trees \cite{Bao2004}, support vector machines \cite{Krishnan2008,Bao2004,Lustrek2009}, naive Bayes \cite{Bao2004,Lustrek2009}, nearest neighbor \cite{Bao2004,Lustrek2009}, and hidden Markov Models (HMM) \cite{Wang2009,Oliver2002}.  Comparisons amongst models have shown that performance is data dependent and that no one model appears to be best for all types of activities \cite{Bao2004,Lustrek2009}
+
+Huynh \cite{Huynh2008} used a naive Bayes classifier in a different way for wearable sensor individual activity recognition.  Instead of using it to describe activity, it was used as a dimensionality reduction technique the results of which were the basis for a dictionary in latent Dirichlet allocation \cite{Blei2003}.  The topics generated from latent Dirichlet allocation are then clustered using k-means.  Each of these clusters represents a single activity.  This clustering approach proved effective for the recognition of repeated activities throughout the day, but due to its reliance of a fixed ratio of latent Dirichlet allocation projected topics, it is likely that recognizing combinations of activities will prove problematic.
+
+To account for activities of varying time lengths, probabilistic suffix trees \cite{Hamid2007} have shown to be an effective model for activities.  Trees are trained using all sequential subsets of an input sequence and a total model is then created from the set of trees using AdaBoost \cite{Freund1996}.  The performance level of suffix trees seems to be highly noise dependent.  \cite{Hamid2006} compared HMMs with suffix trees and found that suffix trees out performed HMMs when the data was without noise, but as the noise increased HMMs performed increasingly better, eventually surpassing the performance of suffix trees.
+
+\bigskip
+\noindent \textbf{Group Activity Modeling and Recognition} \\
+There are a limited number of publications that exist on group activity modeling recognition using a large number of sensors.  Within this problem domain the challenges to solve are different due to the type of data collected and due to group activities typically occurring over multiple sensors.  The data from the sensors is normally binary which leads to ambiguity determining true counts and direction of motion for cars or people.  Despite this ambiguity it is relatively easy to automatically construct the topology of the sensors \cite{Wren2003, Wren2006a}.  Empirically it seems as though this topology roughly correlates to the spatial distribution of the sensors.  We will use this spatial information later to better model events which occur over multiple sensors.
+	
+HMMs have been used as a model for learned activities.  These models are used to build a tree \cite{Minnen2004, Wren2006a} with each level described by a model with a different number of hidden nodes meaning that model accuracy is roughly correlated to tree depth.  At the top of the tree are simple models used to describe gross activities.  The leaves of the tree are highly complex models describing specific activities.  This tree structure has the advantage of being computationally efficient while maintaining accuracy on par with other techniques based on clustering of HMMs \cite{Clarkson1999}.  
+	
+In a method similar to the HMM tree, work has been done to create a hierarchy of fixed filters based on possible sensor topologies \cite{Wren2006}.  At each level of the hierarchy, the number of sensors and the amount of time history increases.  The probability of occurrence of each fixed arrangement is then computed when all levels are created, the resulting model represents the total classifier.  The usage of fixed sensor topologies is highly environment dependent and the fixed time lengths with each level of the hierarchy are likely too restraining for the types of activities we expect to observe.  
+
+From the results of all activity recognition papers, it appears that approaches which show the most promise tend to use a model which allows comparison of inputs with various time lengths.  Also, hierarchical techniques tend to perform better than multiple models of equal complexity.  In defense of these general observations is the work of Huynh \cite{Huynh2005} who found that empirically for his problem, there is not a single feature or time window of past history that will perform best for all activities.  Instead each activity is best modeled by a set of features and length of time unique to that activity.  Huynh postulates that his finding is true of most activity recognition problems and concludes that his finding demonstrates a fundamental flaw present in many of the activity recognition techniques to be described as the typical approach is to search for an optimal set of activity models for a fixed feature space and window of time.
+
 
 \subsection{Identifying Anomalous data}
 First discuss extraction methods.  Look for peak anomalies.  
 Include a bit of change point detection
 Cite sources for this here
 
-TODO CODE: Display result of white noise test with anomalies removed
+
 
 \subsection{Cluster representation}
 HMM vs TSMG
@@ -78,8 +141,20 @@ TODO IMAGE: Demonstrate representative clusters.  Show image with multiple small
 \subsection{On the limitations of BCF}
 Discuss the limitations of BCF and how this leads to a new derivation of an ensemble forecasting approach here.
 
-\subsection{Improved Ensemble Derivation}
-Derive our improved ensemble method here.
+\subsection{Anomaly BCF}
+Here we present the math behind our Anomaly BCF algorithm. (ABCF)  Similar to the Bayesian Combined Forecaster, our ABCF algorithm is recursive and computationally efficient.  
+
+We present the algorithm using two anomaly models $A$ and $B$ with a background model $C$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $A$ and $B$ are activity models from our time series mixture of Gaussians, however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(A^{(i)}_{t}|x_{t}, \ldots, x_{1})$.
+
+The model $C$ is assumed to be a background model which allows for the computation of $p(c_{t}|x_{t})$.  
+
+TODO Formally introduce the background model we will use.
+
+Let $A_{t}^{(i)} = $ the event that model $A$ is active at time $t$ at index $i$.  
+
+
+
+
 
 \subsection{Example Improved Ensemble Working}
 TODO Image: Create image of our improved ENSEMBLE technique working.  This should show the top percentage change over time.
