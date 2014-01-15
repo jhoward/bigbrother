@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  6 JAN 2014 22:58
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  14 JAN 2014 21:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -897,15 +897,15 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 36--40
  [][][][] 
  []
 
-[38] [39] [40] [41] [42] [43] [44]) [45]
+[38] [39] [40] [41] [42] [43] [44] [45]) [46]
 \openout2 = `ch6Conclusion.aux'.
 
- (./ch6Conclusion.tex) [46
+ (./ch6Conclusion.tex) [47
 
 
 
 ]
-(./MainThesis.bbl [47
+(./MainThesis.bbl [48
 
 
 ]
@@ -914,7 +914,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 91--97
  for + Estimation + of +
  []
 
-[48] [49] [50]
+[49] [50] [51]
 Underfull \hbox (badness 5161) in paragraph at lines 351--356
 []\OT1/cmr/m/n/12 Mitja Lu^^Tstrek and Bo^^Tstjan Kalu^^Tza.  Fall de-tec-tion 
 and ac-tiv-ity recog-ni-
@@ -932,13 +932,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 351--356
 nd _ activity _ recognition _
  []
 
-[51]
+[52]
 Underfull \hbox (badness 10000) in paragraph at lines 413--422
 \OT1/cmtt/m/n/12 wrapper . htm ? arnumber = 757481http : / / www . computer . o
 rg / portal / web / csdl / doi /
  []
 
-) [52]
+) [53]
 
 Package natbib Warning: There were undefined citations.
 
@@ -961,12 +961,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 148.
  ) 
 Here is how much of TeX's memory you used:
- 11485 strings out of 494004
- 171116 string characters out of 3150890
- 278643 words of memory out of 3000000
- 14525 multiletter control sequences out of 15000+200000
+ 11487 strings out of 494004
+ 171159 string characters out of 3150890
+ 278732 words of memory out of 3000000
+ 14527 multiletter control sequences out of 15000+200000
  8749 words of font info for 32 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  69i,10n,273p,1216b,558s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (65 pages).
+Output written on MainThesis.pdf (66 pages).

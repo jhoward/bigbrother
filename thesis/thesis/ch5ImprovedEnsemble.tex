@@ -1,10 +1,10 @@
 \chapter{Improved Ensemble}
-In the past chapter, we showed that a few simple changes can lead to some significant improvements in forecasting accuracy when ensemble Bayesian Combined Forecasting is applied to our traffic datasets.  This chapter describes more in depth some of the problems with BCF.  We look at some related work into potentially solving these problems and finally a new ensemble forecasting technique which solves theses problems.  
+In the past chapter, we showed that a few simple changes can lead to some significant improvements in forecasting accuracy when ensemble Bayesian Combined Forecasting is applied to our traffic datasets.  This chapter describes more in depth some of the problems with BCF.  We look at some related work into potentially solving these problems through the identification and modeling of activities and finally introduce a new ensemble forecasting technique which solves these problems.  
 
 
 \bigskip
 \noindent \textbf{The need for another ensemble forecaster} \\
-When analyzing the residual of these ensemble forecasts, we noticed a fundamental problem with our forecaster.  In the residual forecasts of both BCF and many of the forecasting algorithms, the resulting residual forecast would still have many repeated miss-forecasts that could not be explained by random noise.  As alluded to in Chapter 1, these repetitive miss-forecasts may come from large human controlled scheduled events (such as sporting events, public celebrations, or in the case of buildings meetings) or they may be from uncontrolled and unscheduled events (such as weather or traffic accidents).  
+When analyzing the residual datasets of these ensemble forecasts, we noticed a fundamental problem with our forecaster.  In the residual forecasts of BCF and many of the forecasting algorithms, the resulting residual forecast would still have many repeated misforecasts that could not be explained by random noise.  As alluded to in Chapter 1, these repetitive misforecasts may come from large human controlled scheduled events (such as sporting events, public celebrations, or in the case of buildings meetings) or they may be from uncontrolled and unscheduled events (such as weather or traffic accidents).  
 
 \begin{figure}[]
 	\begin{center}
@@ -19,7 +19,7 @@ When analyzing the residual of these ensemble forecasts, we noticed a fundamenta
 	\label{fig:sample_residual_events}
 \end{figure}
 
-~\ref{fig:sample_residual_events} shows two of these events occurring.  Such an event clearly occurs outside the normal behavior noise of our data.  The light red region in this image represents the one standard deviation boundary for the residual data.  From chapter 4, we know that BCF residual data tends to be normally distributed per daily time step.  The residual datasets from each time step pass the one-sample Kolmogorov-Smirnov (TODO CITE) test for normality ($p \ge 0.1$).  Assuming this data is truly normally distributed then the odds of getting even one such datapoint outside the $\pm 3 \sigma$ should occur roughly 1 in every million data points.  Yet, in our Denver traffic data, we had 22 such instances in the testing dataset alone ($N=12000$).  
+~\ref{fig:sample_residual_events} shows two of these events occurring.  Such an event clearly occurs outside the normal behavior noise of our data.  The light red region in this image represents the one standard deviation boundary for the residual data.  From chapter 4, we know that BCF residual data tends to be normally distributed per daily time step.  The residual datasets from each time step pass the one-sample Kolmogorov-Smirnov (TODO CITE) test for normality ($p \ge 0.1$).  Assuming this data is truly normally distributed then the odds of getting even one such datapoint outside the $\pm 3 \sigma$ should occur roughly 1 in every million data points.  Yet, in our Denver traffic data, we had 22 such instances in the testing dataset alone ($N \approx 12000$).  
 
 Figure ~\ref{fig:denver_bcf_residual} shows these results graphically.  In this figure, a histogram of the data from four different time steps from the Denver traffic dataset, overlaid with the corresponding best fit normal distribution.  In each image the same pattern appears.  Residual values around the mean and on the tails tend to occur with a greater frequency than would be suggested by a normal distribution.  Clearly, values around the mean are not the problem.  These values correspond to accurate forecasts.  Values around the tail however are problematic and are further evidence of large events being one of the causes of noise in our residual data.
 
@@ -45,8 +45,32 @@ Figure ~\ref{fig:denver_bcf_residual} shows these results graphically.  In this 
 The unlikely existence of these events along evidence that the remaining residual time series behaves as a white noise Gaussian process provides evidence that these events are likely not due to natural noise and instead due to other factors.  The remainder of this chapter discusses ways to identify and model these anomalous events along with providing an algorithm for using these events to improve our forecasting algorithm.
 
 
-\subsection{Activity Recognition}
-Activity recognition is a broad term which seems to apply to all attempts to model various actions that may occur within an environment.  Due to the broad nature of this term, we briefly discuss some of the ways in which Activity recognition has been utilized in the past as a way to familiarize the read with a discussion of the literature.
+\subsection{Background Literature on Activity Recognition and Anomaly Detection}
+To construct our approach we need to identify and model these anomalous events.  Considerable work has been done in the field of time series anomaly detection, however this work is typically limited to anomaly detection and not anomaly modeling as used for forecasting.  This is often due to the nature of anomalies, either they are random and seemingly unpredictable or they require some immediate attention and thus forecasting is an inappropriate response to the anomaly (as in the case of network attacks TODO CITE PAPERS).
+   
+Our anomalies tend to be repetitive and multiple time steps in length.  Data of this form is very closely related to another field of time series data analysis - that of activity recognition.   Due broad nature of this term and the breadth of research on anomaly detection, we briefly discuss some of the ways in which time series anomaly detection and activity recognition has been utilized in the past as a way to familiarize the reader with a discussion of the literature.
+
+\bigskip
+\noindent \textbf{Anomaly Detection} \\
+From Eamon Keogh, a prominent researcher in time-series anomaly detection, some is anomalous in a time-series if the 
+
+\begin{quote}
+"frequency of occurrences differed substantially from that expected, given previously seen data."
+\end{quote}
+
+
+Visual identification:
+Stoffel, 2013- system that allows analysts to overlay various groups and dimensions of the data so that browsing and searching for anomalies becomes easier.
+
+Spectral Methods:
+Widely used in other fields to distinguish hidden patterns and trends from a noisy background.
+Signal analysis of network traffic anomalies, 2002
+
+
+change-point methods
+Non-parametric: Does not assume an underlying model.  Many employ CUSUM to implement the change-point detection.  The CUSUM algorithm (Detection of Abrupt Changes: Theory and Application 1993) involves the calculation of a cumulative sum of the weighted observations.  When this sum exceeds a certain threshold value, a change is value is declared.  A problem with this approach is that the thresholds need to be known a priori.
+MNA-CUSUM (Tartakovsky)
+
 
 \bigskip
 \noindent \textbf{Individual Activity Modeling and Recognition} \\
