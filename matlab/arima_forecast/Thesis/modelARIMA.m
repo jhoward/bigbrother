@@ -29,16 +29,6 @@ endTime = endDay * data.blocksInDay;
 fStart = data.blocksInDay * 1;
 fEnd = size(data.testData, 2);
 
-%fStart = data.blocksInDay * 1;
-%fEnd = data.blocksInDay * 12;
-%if dataSet == 2
-%    fStart = data.blocksInDay * 1;
-%    fEnd = data.blocksInDay * 10;
-%elseif dataSet == 3
-%    fStart = data.blocksInDay * 10; %Used if the datasets are too large to just 
-%    fEnd = data.blocksInDay * 26;   %test with a small portion
-%end
-
 %==========================================================================
 %                           TRAIN ARIMA MODEL
 %==========================================================================
@@ -73,8 +63,6 @@ fprintf(fileID, 'Test data forecast 5 white noise test (stat value): %f\n', s5);
 
 fprintf(1, 'White noise tests train: %f    test1: %f   test5: %f\n', p, p1, p5);
 
-
-
 %==========================================================================
 %                           PLOT AUTO CORRELATIONS
 %==========================================================================
@@ -83,11 +71,9 @@ trainF = aMod.forecastAll(data.trainData, 1);
 testF = aMod.forecastAll(data.testData, 1);
 trainF4 = aMod.forecastAll(data.trainData, 10);
 
-
 trainR = data.trainData - trainF;
 trainR4 = data.trainData - trainF4;
 testR = data.testData - testF;
-
 
 [ac, aclags, acbounds] = autocorr(trainI, data.blocksInDay * 2 + 1);
 trainAutoCorr = plotCorr(ac, acbounds(1), ...
@@ -110,8 +96,6 @@ trainParCorr = plotCorr(pac, pacbounds(1), ...
 saveas(trainParCorr, ...
     strcat(saveLocationStart, 'train_parcorr_', saveLocationEnd), 'png');  
 
-
-
 %==========================================================================
 %                           Data setup for plots
 %==========================================================================
@@ -119,7 +103,7 @@ saveas(trainParCorr, ...
 res = testF - data.testData;
 %resMeans = data.testData - repmat(means, 1, size(data.testData, 2)/data.blocksInDay);
 
-numDays = size(data.testData, 2) / data.blocksInDay
+numDays = size(data.testData, 2) / data.blocksInDay;
 
 stdsrep = repmat(stds, 1, numDays);
 meansrep = repmat(means, 1, numDays);
@@ -201,18 +185,14 @@ saveas(fig, ...
 %==========================================================================
 %                           Produce a horizon forecast and save
 %==========================================================================
-
-load(MyConstants.HORIZON_DATA_LOCATIONS{dataSet})
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet})
 
 rmsehist = zeros(3, MyConstants.HORIZON);
 masehist = zeros(3, MyConstants.HORIZON);
-ponanhist = zeros(3, MyConstants.HORIZON);
 rmseonanhist = zeros(3, MyConstants.HORIZON);
-sseonanhist = zeros(3, MyConstants.HORIZON);
+sqeonanhist = zeros(3, MyConstants.HORIZON);
+sqeonan3hist = zeros(3, MyConstants.HORIZON);
 
-
-%fStart = data.blocksInDay * 10;
-%fEnd = data.blocksInDay * 26;
 
 for h = 1:MyConstants.HORIZON
     
@@ -221,49 +201,65 @@ for h = 1:MyConstants.HORIZON
     
     %Compute train and test rmse, mase, ponan and rmseonan
     testF = aMod.forecastAll(data.testData(fStart:fEnd), h);
+    testForecasts{h} = testF;
     trainF = aMod.forecastAll(data.trainData(fStart:fEnd), h);
     trainForecasts{h} = trainF;
-    testForecasts{h} = testF;
+    validF = aMod.forecastAll(data.validData(fStart:fEnd), h);
+    validForecasts{h} = validF;
     
     testRes = testF - data.testData(fStart:fEnd);
     trainRes = trainF - data.trainData(fStart:fEnd);
-    
-    testRes = testRes(1, data.blocksInDay:end);
-    trainRes = trainRes(1, data.blocksInDay:end);
+    validRes = validF - data.validData(fStart:fEnd);
     
     %Performance metrics
-    [ponanValue rmseonanValue sseonanValue ~] = ponan(trainRes, stds);
-    ponanhist(1, h) = ponanValue;
+    [ponanValue rmseonanValue sqeonan ~] = ponan(trainRes, stds);
     rmseonanhist(1, h) = rmseonanValue;
-    sseonanhist(1, h) = sseonanValue;
+    sqeonanhist(1, h) = sqeonan;
     
-    [ponanValue rmseonanValue sseonanValue ~] = ponan(testRes, stds)
-    ponanhist(3, h) = ponanValue;
+    [ponanValue rmseonanValue sqeonan ~] = ponan(validRes, stds);
+    rmseonanhist(2, h) = rmseonanValue;
+    sqeonanhist(2, h) = sqeonan;
+    
+    [ponanValue rmseonanValue sqeonan ~] = ponan(testRes, stds);
     rmseonanhist(3, h) = rmseonanValue;
-    sseonanhist(3, h) = sseonanValue;
+    sqeonanhist(3, h) = sqeonan;
+    
+    %SQEONAN3
+    [ponanValue rmseonanValue sqeonan ~] = ponan(trainRes, stds);
+    sqeonan3hist(1, h) = sqeonan;
+    
+    [ponanValue rmseonanValue sqeonan ~] = ponan(validRes, stds);
+    sqeonan3hist(2, h) = sqeonan;
+    
+    [ponanValue rmseonanValue sqeonan ~] = ponan(testRes, stds);
+    sqeonan3hist(3, h) = sqeonan;
     
     rmsehist(1, h) = errperf(data.trainData(1, fStart:fEnd), ...
-                             trainF, 'rmse');
+                            trainF, 'rmse');
+    rmsehist(2, h) = errperf(data.validData(1, fStart:fEnd), ...
+                            validF, 'rmse');
     rmsehist(3, h) = errperf(data.testData(1, fStart:fEnd), ...
-                             testF, 'rmse');
+                            testF, 'rmse');
                          
     masehist(1, h) = mase(data.trainData(1, fStart:fEnd), ...
                              trainF);
+    masehist(2, h) = mase(data.validData(1, fStart:fEnd), ...
+                             validF);
     masehist(3, h) = mase(data.testData(1, fStart:fEnd), ...
                              testF);
+                         
+    fprintf(1, 'rmse - %f \n', rmsehist(3, h));
 end
 
-horizons.arima{1} = rmsehist;
-horizons.arima{2} = masehist;
-horizons.arima{3} = ponanhist;
-horizons.arima{4} = rmseonanhist;
-horizons.arima{5} = sseonanhist;
-horizons.arima{MyConstants.TRAINDATA_CELL_INDEX} = trainForecasts;
-horizons.arima{MyConstants.TESTDATA_CELL_INDEX} = testForecasts;
+results.arima.rmse = rmsehist;
+results.arima.mase = masehist;
+results.arima.rmseonan = rmseonanhist;
+results.arima.sqeonan = sqeonanhist;
+results.arima.sqeonan3 = sqeonan3hist;
+results.arima.trainForecast = trainForecasts;
+results.arima.validForecast = validForecasts;
+results.arima.testForecast = testForecasts;
 
-save(MyConstants.HORIZON_DATA_LOCATIONS{dataSet}, 'horizons');
-
-
-%SAVE MODEL AND DATA
+save(MyConstants.RESULTS_DATA_LOCATIONS{dataSet}, 'results');
 
 

@@ -96,29 +96,6 @@ trainR4 = data.trainData - trainF4;
 testR = data.testData - testF;
 
 
-% [ac, aclags, acbounds] = autocorr(trainI, data.blocksInDay * 2 + 1);
-% trainAutoCorr = plotCorr(ac, acbounds(1), ...
-%     'xlabel', 'Lags', 'ylabel', 'Autocorrelations', ...
-%     'figsizeX', MyConstants.IMAGE_XSIZE, ...
-%     'figsizeY', MyConstants.IMAGE_YSIZE, ...
-%     'plotTitle', strcat({'Training data autocorrelations vs lags for '}, ...
-%                             MyConstants.DATA_SETS{dataSet}, ' dataset'));
-% 
-% saveas(trainAutoCorr, ...
-%     strcat(saveLocationStart, 'train_autocorr_', saveLocationEnd), 'png');                        
-%                         
-% [pac, paclags, pacbounds] = parcorr(trainI, data.blocksInDay * 2 + 1);
-% trainParCorr = plotCorr(pac, pacbounds(1), ...
-%     'xlabel', 'Lags', 'ylabel', 'Partial autocorrelations', ...
-%     'figsizeX', MyConstants.IMAGE_XSIZE, ...
-%     'figsizeY', MyConstants.IMAGE_YSIZE, ...
-%     'plotTitle', strcat({'Training data partial autocorrelations vs lags for '}, ...
-%                             MyConstants.DATA_SETS{dataSet}, ' dataset'));
-% saveas(trainParCorr, ...
-%     strcat(saveLocationStart, 'train_parcorr_', saveLocationEnd), 'png');  
-% 
-
-
 %==========================================================================
 %                           Data setup for plots
 %==========================================================================
@@ -209,16 +186,13 @@ saveas(fig, ...
 %                           Produce a horizon forecast and save
 %==========================================================================
 
-load(MyConstants.HORIZON_DATA_LOCATIONS{dataSet})
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet})
 
 rmsehist = zeros(3, MyConstants.HORIZON);
 masehist = zeros(3, MyConstants.HORIZON);
-ponanhist = zeros(3, MyConstants.HORIZON);
 rmseonanhist = zeros(3, MyConstants.HORIZON);
-sseonanhist = zeros(3, MyConstants.HORIZON);
-
-%fStart = data.blocksInDay * 10;
-%fEnd = data.blocksInDay * 26;
+sqeonanhist = zeros(3, MyConstants.HORIZON);
+sqeonan3hist = zeros(3, MyConstants.HORIZON);
 
 for h = 1:MyConstants.HORIZON
     
@@ -227,49 +201,66 @@ for h = 1:MyConstants.HORIZON
     
     %Compute train and test rmse, mase, ponan and rmseonan
     testF = aMod.forecastAll(data.testData(fStart:fEnd), h);
+    testForecasts{h} = testF;
     trainF = aMod.forecastAll(data.trainData(fStart:fEnd), h);
     trainForecasts{h} = trainF;
-    testForecasts{h} = testF;
-    
+    validF = aMod.forecastAll(data.validData(fStart:fEnd), h);
+    validForecasts{h} = validF;
     
     testRes = testF - data.testData(fStart:fEnd);
     trainRes = trainF - data.trainData(fStart:fEnd);
+    validRes = validF - data.validData(fStart:fEnd);
     
-    testRes = testRes(1, data.blocksInDay:end);
-    trainRes = trainRes(1, data.blocksInDay:end);
-    
-    %Performance metrics
-    [ponanValue rmseonanValue sseonanValue ~] = ponan(trainRes, stds);
-    ponanhist(1, h) = ponanValue;
+    [ponanValue rmseonanValue sqeonan ~] = ponan(trainRes, stds);
     rmseonanhist(1, h) = rmseonanValue;
-    sseonanhist(1, h) = sseonanValue;
+    sqeonanhist(1, h) = sqeonan;
     
-    [ponanValue rmseonanValue sseonanValue ~] = ponan(testRes, stds)
-    ponanhist(3, h) = ponanValue;
+    [ponanValue rmseonanValue sqeonan ~] = ponan(validRes, stds);
+    rmseonanhist(2, h) = rmseonanValue;
+    sqeonanhist(2, h) = sqeonan;
+    
+    [ponanValue rmseonanValue sqeonan ~] = ponan(testRes, stds);
     rmseonanhist(3, h) = rmseonanValue;
-    sseonanhist(3, h) = sseonanValue;
+    sqeonanhist(3, h) = sqeonan;
     
+    %SQEONAN3
+    [ponanValue rmseonanValue sqeonan ~] = ponan(trainRes, stds);
+    sqeonan3hist(1, h) = sqeonan;
+    
+    [ponanValue rmseonanValue sqeonan ~] = ponan(validRes, stds);
+    sqeonan3hist(2, h) = sqeonan;
+    
+    [ponanValue rmseonanValue sqeonan ~] = ponan(testRes, stds);
+    sqeonan3hist(3, h) = sqeonan;
+
     rmsehist(1, h) = errperf(data.trainData(1, fStart:fEnd), ...
-                             trainF, 'rmse');
+                            trainF, 'rmse');
+    rmsehist(2, h) = errperf(data.validData(1, fStart:fEnd), ...
+                            validF, 'rmse');
     rmsehist(3, h) = errperf(data.testData(1, fStart:fEnd), ...
-                             testF, 'rmse');
+                            testF, 'rmse');
                          
     masehist(1, h) = mase(data.trainData(1, fStart:fEnd), ...
                              trainF);
+    masehist(2, h) = mase(data.validData(1, fStart:fEnd), ...
+                             validF);
     masehist(3, h) = mase(data.testData(1, fStart:fEnd), ...
                              testF);
+                         
+    fprintf(1, 'rmse - %f \n', rmsehist(3, h));
 end
 
-horizons.average{1} = rmsehist;
-horizons.average{2} = masehist;
-horizons.average{3} = ponanhist;
-horizons.average{4} = rmseonanhist;
-horizons.average{5} = sseonanhist;
+results.average.rmse = rmsehist;
+results.average.mase = masehist;
+results.average.rmseonan = rmseonanhist;
+results.average.sqeonan = sqeonanhist;
+results.average.sqeonan3 = sqeonan3hist;
+results.average.trainForecast = trainForecasts;
+results.average.validForecast = validForecasts;
+results.average.testForecast = testForecasts;
 
-horizons.average{MyConstants.TRAINDATA_CELL_INDEX} = trainForecasts;
-horizons.average{MyConstants.TESTDATA_CELL_INDEX} = testForecasts;
+save(MyConstants.RESULTS_DATA_LOCATIONS{dataSet}, 'results');
 
-save(MyConstants.HORIZON_DATA_LOCATIONS{dataSet}, 'horizons');
 
 
 

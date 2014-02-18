@@ -1,10 +1,13 @@
 clear all
 
-dataSet = 3;
+dataSet = 1;
 
-load(MyConstants.HORIZON_DATA_LOCATIONS{dataSet});
-load(MyConstants.BCF_RESULTS_LOCATIONS{dataSet});
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+%load(MyConstants.BCF_RESULTS_LOCATIONS{dataSet});
 load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
 
 %==========================================================================
 %PLOT SAMPLE ANOMALOUS EVENT
@@ -99,4 +102,14 @@ title('Denver BCF Residual Histogram (TS 38)', 'FontSize', 24, 'FontName', MyCon
 %plot(x, normpdf(x, m, s), 'g')
 %plot(x, cauchypdf(x, m, s/3.7), 'r')
 %cauchypdf([0.8 0.6 0.4 -0.4], m, s/3.7)
+
+
+
+
+%==========================================================================
+% SAMPLE DATASET GRAPH
+%==========================================================================
+
+%Plot cont graph first
+contPlotMult({data.trainData(1, fStart:fEnd), results.arima.trainForecast{2}}, data.blocksInDay*2, zeros(data.blocksInDay * 2, 1))
 

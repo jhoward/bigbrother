@@ -13,20 +13,23 @@ function [] = contPlotMult(data, dataWidth, stds)
     colors = {[0 0 0], [0 0.7 0.7], [1, 0.3, 1]}
 
     for i = 1:numMoves + 1
-        y1 = -1 * stds;
-        y2 = stds;
-        yvals = [y1, fliplr(y2)];
-        tmp = fill(xvals, yvals, [0.5, 0, 0]);
-        set(tmp,'EdgeColor',[0.5, 0, 0],'FaceAlpha',0.5,'EdgeAlpha',0.5);
-        hold on
+%         y1 = -1 * stds;
+%         y2 = stds;
+%         yvals = [y1, fliplr(y2)];
+%         tmp = fill(xvals, yvals, [0.5, 0, 0]);
+%         set(tmp,'EdgeColor',[0.5, 0, 0],'FaceAlpha',0.5,'EdgeAlpha',0.5);
+%         hold on
         
         for d = 1:size(data, 2)
             plot(data{d}((i - 1) * dataWidth + 1:(i * dataWidth)), 'Color', colors{d})
+            if d == 1
+                hold on
+            end
         end
        
         hold off
         xlim([1, dataWidth]);
-        ylim([-0.8, 0.8]);
+        ylim([0, 1.0]);
         waitforbuttonpress;
         fprintf(1, 'Current Index: %i\n', (i - 1) * dataWidth + 1);
     end

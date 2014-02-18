@@ -7,9 +7,9 @@ function fig = plotPonan(res, stds, drawPoints)
 
 
     
-    fig = figure('Position', [100, 100, 100 + 2000, 100 + 750]);
+    fig = figure('Position', [100, 100, 100 + 2000, 100 + 550]);
 
-    [value rmsevalue sseonan errpoints] = ponan(res, stds);
+    [value rmsevalue sqeonan errpoints] = ponan(res, stds);
 
     errpoints = errpoints .* newData;
     
@@ -42,9 +42,9 @@ function fig = plotPonan(res, stds, drawPoints)
     ylabel({'Residual Values'}, 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 
     if drawPoints
-        title({'Demonstration of PONAN'}, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
+        title({'Demonstration of SQEONAN'}, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
     else
-        title({'Demonstration of RMSEONAN'}, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
+        title({'Demonstration of SQEONAN'}, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
     end
     set(gca,'XTickLabel',[]);
 

@@ -10,8 +10,7 @@ dataSet = 1;
 horizon = 1;
 windowSize = 8;
 
-load(MyConstants.BCF_RESULTS_LOCATIONS{dataSet});
-load(MyConstants.HORIZON_DATA_LOCATIONS{dataSet});
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
 load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
 
 fStart = data.blocksInDay * 1;

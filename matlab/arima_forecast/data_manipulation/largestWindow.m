@@ -13,14 +13,18 @@ function [windows, indexes] = largestWindow(data, windowSize, numWindows, remove
     %ndata = data;
     [pks, locs] = findpeaks(ndata);
     [~, ind] = sort(pks, 'descend');
+
     windows = [];
     indexes = zeros(1, numWindows);
     addOffset = mod(windowSize, 2) - 1;
     
     for i = 1:numWindows
         win = floor(windowSize / 2);
-        windows(i, :) = data(:, locs(ind(i)) - win : locs(ind(i)) + win + addOffset); %#ok<AGROW>
-        indexes(1, i) = locs(ind(i));
+
+        if (locs(ind(i)) + win + addOffset) < size(data, 2)
+            windows(i, :) = data(:, locs(ind(i)) - win : locs(ind(i)) + win + addOffset); %#ok<AGROW>
+            indexes(1, i) = locs(ind(i));
+        end
     end
 
     

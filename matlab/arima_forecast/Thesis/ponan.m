@@ -1,4 +1,4 @@
-function [ponanValue rmseonanValue sqeonan errpoints] = ponan(res, stds)
+function [ponanValue rmseonan sqeonan errpoints] = ponan(res, stds)
 %Percent forecasts Outside Noise Against Naive (ponan)
 %also computes root mean squared error outside noise againse naive
 %also sum outside noise against naive
@@ -12,11 +12,11 @@ function [ponanValue rmseonanValue sqeonan errpoints] = ponan(res, stds)
     errpoints = (tmpData > 0);
     
     tmpData(tmpData < 0) = 0;
-    sqeonan = errperf(tmpData, zeros(size(tmpData)), 'rmse');
+    sqeonan = sum(tmpData);
+    %rmseonan = errperf(tmpData, zeros(size(tmpData)), 'rmse');
     
+    %sqeonan = errperf(tmpData, zeros(size(tmpData)), 'rmse');
     tmpData = tmpData(tmpData > 0);
-    rmseonanValue = errperf(tmpData, zeros(size(tmpData)), 'rmse');
-    
-    %sqeonan = sum(tmpData);
+    rmseonan = errperf(tmpData, zeros(size(tmpData)), 'rmse');
 end
 

@@ -1,7 +1,7 @@
-%file: bcf2ARIMA
+%file: bcf2tdnn
 %author: James Howard
 %
-%Compute ABCF for ARIMA models
+%Compute ABCF for tdnn models
 
 clear all;
 
@@ -9,8 +9,6 @@ clear all;
 %SETUP CONSTANTS
 %--------------------------------------------------------------------------
 dataSet = 3;
-model = 2; %Set MODEL to ARIMA
-horizon = 2;
 
 dataLocation = MyConstants.FILE_LOCATIONS_CLEAN{dataSet};
 load(dataLocation);
@@ -22,17 +20,17 @@ fStart = data.blocksInDay * 1;
 fEnd = size(data.testData, 2);
 
 
-
 %--------------------------------------------------------------------------
-%SETUP DATASETS
+%SETUP DATASETS and DEMONSTRATE
 %--------------------------------------------------------------------------
+demonstrateHorizon = 2;
 validData = data.validData(:, fStart:fEnd);
 validTimes = data.validTimes(:, fStart:fEnd);
 testData = data.testData(:, fStart:fEnd);
 testTimes = data.testTimes(:, fStart:fEnd);
-fValid = results.arima.validForecast{horizon};
+fValid = results.tdnn.validForecast{demonstrateHorizon};
 validRes = validData - fValid;
-fTest = results.arima.testForecast{horizon};
+fTest = results.tdnn.testForecast{demonstrateHorizon};
 testRes = testData - fTest;
 [~, validStds] = computeMean(validData, data.blocksInDay);
 
@@ -41,13 +39,13 @@ testRes = testData - fTest;
 %CLUSTER DATA
 %--------------------------------------------------------------------------
 %clusters
-clustMin = 4;
-clustMax = 6;
+clustMin = 5;
+clustMax = 10;
 windowMin = 6;
 windowMax = 10;
 smoothAmount = 1;
 verbose = true;
-extractPer = 0.1;
+extractPer = 0.2;
                         
 [windows, ind, idx, centers, kdists] = ...
                          createCluster(validRes, 1, clustMin, clustMax, ...
@@ -63,7 +61,7 @@ plotClusters(windows, idx, 'centers', centers);
 models = createGaussModels(windows, idx, validRes);
 
 forecaster = bcf.BayesianLocalForecaster(models);
-[adjRes, p, post, l, histPost] = forecaster.forecastAll(testRes, horizon);
+[adjRes, p, post, l, histPost] = forecaster.forecastAll(testRes, demonstrateHorizon);
 
 
 %--------------------------------------------------------------------------
@@ -88,39 +86,39 @@ fprintf(1, 'SSEONAN - Test: %f     New: %f\n', SSEONANTest, modSSEONAN);
 %--------------------------------------------------------------------------
 
 %Dataset 1
+% clustMin = 5;
+% clustMax = 10;
+% windowMin = 7;
+% windowMax = 15;
+% smoothAmount = 1;
+% verbose = true;
+% extractPer = 0.15;
+
+
+%Dataset 2
+% clustMin = 5;
+% clustMax = 10;
+% windowMin = 8;
+% windowMax = 15;
+% smoothAmount = 0;
+% verbose = true;
+% extractPer = 0.20;
+
+
+%Dataset 3
 clustMin = 5;
 clustMax = 10;
-windowMin = 7;
-windowMax = 15;
+windowMin = 5;
+windowMax = 8;
 smoothAmount = 1;
 verbose = true;
 extractPer = 0.15;
 
 
-%Dataset 2
-% clustMin = 4;
-% clustMax = 8;
-% windowMin = 6;
-% windowMax = 12;
-% smoothAmount = 1;
-% verbose = true;
-% extractPer = 0.15;
-
-
-%Dataset 3
-% clustMin = 5;
-% clustMax = 10;
-% windowMin = 5;
-% windowMax = 8;
-% smoothAmount = 1;
-% verbose = true;
-% extractPer = 0.15;
-
-
 %Run on all horizons
-for i = 1:MyConstants.HORIZON
-    validRes = validData - results.arima.validForecast{i};
-    testRes = testData - results.arima.testForecast{i};
+for i = 11:MyConstants.HORIZON
+    validRes = validData - results.tdnn.validForecast{i};
+    testRes = testData - results.tdnn.testForecast{i};
 
     
     [windows, ind, idx, centers, kdists] = ...
@@ -133,10 +131,10 @@ for i = 1:MyConstants.HORIZON
                      
     
     [adjRes, p, post, l, histPost] = forecaster.forecastAll(testRes, i);
-    newData = results.arima.testForecast{i} + adjRes;
+    newData = results.tdnn.testForecast{i} + adjRes;
     newRes = testData - newData;
 
-    BCFRMSE = errperf(testData(1:end), results.arima.validForecast{i}(1:end), 'rmse');
+    BCFRMSE = errperf(testData(1:end), results.tdnn.validForecast{i}(1:end), 'rmse');
     newBCFRMSE = errperf(testData(1:end), newData(1:end), 'rmse');
     [~, rmseonanValue, sqeonan, ~] = ponan(testRes, 3 * validStds);
     [~, newRmseonanValue, newSqeonan, ~] = ponan(newRes, 3 * validStds);
@@ -147,11 +145,21 @@ for i = 1:MyConstants.HORIZON
     fprintf(1, '   sqeonan - Test: %f     New: %f\n', sqeonan, newSqeonan);
 
     
+%     %This is here becasue for some reason after 10 (on ds3) the program crashes.  
+%     for i = 11:MyConstants.HORIZON
+%         testRes = testData - results.tdnn.testForecast{i};
+%         newData = zeros(size(testRes));
+%         BCFRMSE = errperf(testData(1:end), results.tdnn.validForecast{i}(1:end), 'rmse');
+%         newBCFRMSE = BCFRMSE;
+%         [~, rmseonanValue, sqeonan, ~] = ponan(testRes, 3 * validStds);
+%         newRmseonanValue = rmseonanValue;
+%         newSqeonan = sqeonan;
+    
     %Save results
-    results.ABCF.arima.testForecast{i} = newData;
-    results.ABCF.arima.rmse(3, i) = newBCFRMSE;
-    results.ABCF.arima.rmseonan(3, i) = newRmseonanValue; 
-    results.ABCF.arima.sqeonan(3, i) = newSqeonan;
+    results.ABCF.tdnn.testForecast{i} = newData;
+    results.ABCF.tdnn.rmse(3, i) = newBCFRMSE;
+    results.ABCF.tdnn.rmseonan(3, i) = newRmseonanValue; 
+    results.ABCF.tdnn.sqeonan(3, i) = newSqeonan;
 end
 
 save(MyConstants.RESULTS_DATA_LOCATIONS{dataSet}, 'results');

@@ -4,7 +4,7 @@
 clear all;
 
 includeTDNN = true;
-dataSet = 1;
+dataSet = 3;
 
 probsThreshold = [0.08, 0.06, 0.08];
 
@@ -19,24 +19,13 @@ fileLocationEnd = strcat('ds-', int2str(dataSet), '_bcf.png');
                     
 load(dataLocation);
 fileID = fopen(strcat(fileLocationStart, fileLocationEnd), 'w');
-load(MyConstants.HORIZON_DATA_LOCATIONS{dataSet})
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet})
 
 startTime = startDay * data.blocksInDay;
 endTime = endDay * data.blocksInDay;
 
 fStart = data.blocksInDay * 1;
 fEnd = size(data.testData, 2);
-
-% fStart = data.blocksInDay * 1;
-% fEnd = data.blocksInDay * 12;
-% if dataSet == 2
-%     fStart = data.blocksInDay * 1;
-%     fEnd = data.blocksInDay * 10;
-% elseif dataSet == 3
-%     fStart = data.blocksInDay * 10; %Used if the datasets are too large to just 
-%     fEnd = data.blocksInDay * 26;   %test with a small portion
-% end
-% 
 
 %TRAIN MODELS
 arimaModel = bcf.models.Arima(1, data.blocksInDay, MyConstants.ARIMA_PARAMETERS{dataSet});
@@ -57,7 +46,7 @@ end
 %==========================================================================
 %SETUP BCFImproved MODEL
 %==========================================================================
-load(MyConstants.BCF_RESULTS_LOCATIONS{dataSet})
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet})
 
 bcfImpTrain = {};
 bcfImpTest = {};
@@ -65,9 +54,9 @@ bcfImpProbs = {};
 
 rmsehist = zeros(3, MyConstants.HORIZON);
 masehist = zeros(3, MyConstants.HORIZON);
-ponanhist = zeros(3, MyConstants.HORIZON);
 rmseonanhist = zeros(3, MyConstants.HORIZON);
-sseonanhist = zeros(3, MyConstants.HORIZON);
+sqeonanhist = zeros(3, MyConstants.HORIZON);
+sqeonan3hist = zeros(3, MyConstants.HORIZON);
 
 
 %determine if TDNN needs to be trained
@@ -118,20 +107,20 @@ for h = 1:MyConstants.HORIZON
     end
     
     %compute the historically best model
-    lowRMSE = horizons.arima{1}(3, h);
+    lowRMSE = results.arima.rmse(3, h);
     %defaultModel = models{1};
     defaultModel = 1;
 
     for k = 2:length(models)
 
         if k == 2
-            tmpRMSE = horizons.svm{1}(3, h);
+            tmpRMSE = results.svm.rmse(3, h);
         elseif k == 3
-            tmpRMSE = horizons.average{1}(3, h);
+            tmpRMSE = results.average.rmse(3, h);
         elseif k == 4 
             tmpRMSE = 1000;
             if includeTDNN
-                tmpRMSE = horizons.tdnn{1}(3, h);
+                tmpRMSE = results.tdnn.rmse(3, h);
             end
         end
 
@@ -155,59 +144,80 @@ for h = 1:MyConstants.HORIZON
     
     
     %perform BCF forecasting on training and testing data
-    %bcfImpTrain{h} = modelBcf.forecastAll(data.trainData(1, :), h, h, 'aggregate', 0.001, defaultModel);
-    [bcfImpTest{h}, bcfImpProbs{h}, rawProbs] = modelBcf.forecastAll(data.testData(fStart:fEnd), h, lookback, 'aggregate', pt, defaultModel); 
+    [bcfImpTrain{h}, bcfImpProbsTrain{h}, rawProbsTrain{h}] = modelBcf.forecastAll(data.trainData(fStart:fEnd), h, h, 'aggregate', 0.001, defaultModel);
+    [bcfImpTest{h}, bcfImpProbsTest{h}, rawProbsTest{h}] = modelBcf.forecastAll(data.testData(fStart:fEnd), h, lookback, 'aggregate', pt, defaultModel); 
+
+    bcfImpValid{h} = bcfImpTest{h};
+    bcfImpProbsValid{h} = bcfImpProbsTest{h};
+    rawProbsValid{h} = rawProbsTest{h};
+    
     
     %save results to be used for plots
     testRes = bcfImpTest{h} - data.testData(fStart:fEnd);
-    %trainRes = bcfImpTrain{h} - data.trainData;
+    validRes = bcfImpTest{h} - data.validData(fStart:fEnd);
+    trainRes = bcfImpTrain{h} - data.trainData(fStart:fEnd);
     
-    testRes = testRes(1, data.blocksInDay:end);
-    %trainRes = trainRes(1, data.blocksInDay:end);
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, stds);
+    rmseonanhist(1, h) = rmseonanValue;
+    sqeonanhist(1, h) = sqeonanValue;
     
-    %[ponanValue rmseonanValue sseonanValue ~] = ponan(trainRes, stds);
-    %ponanhist(1, h) = ponanValue;
-    %rmseonanhist(1, h) = rmseonanValue;
-    %sseonanhist(1, h) = sseonanValue;
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, stds);
+    rmseonanhist(2, h) = rmseonanValue;
+    sqeonanhist(2, h) = sqeonanValue;
     
-    [ponanValue rmseonanValue sseonanValue ~] = ponan(testRes, stds);
-    ponanhist(3, h) = ponanValue;
+    [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, stds);
     rmseonanhist(3, h) = rmseonanValue;
-    sseonanhist(3, h) = sseonanValue;
-    
+    sqeonanhist(3, h) = sqeonanValue;
 
+    %SQEONAN3
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, stds);
+    sqeonan3hist(1, h) = sqeonanValue;
     
-    %rmsehist(1, h) = errperf(data.trainData(1, data.blocksInDay:end), ...
-    %                         trainF(1, data.blocksInDay:end), 'rmse');
-    rmsehist(3, h) = errperf(data.testData(fStart:fEnd), ...
-                             bcfImpTest{h}, 'rmse');
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, stds);
+    sqeonan3hist(2, h) = sqeonanValue;
+    
+    [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, stds);
+    sqeonan3hist(3, h) = sqeonanValue;
+    
+    rmsehist(1, h) = errperf(data.trainData(1, fStart:fEnd), ...
+                            bcfImpTrain{h}, 'rmse');
+    rmsehist(2, h) = errperf(data.validData(1, fStart:fEnd), ...
+                            bcfImpValid{h}, 'rmse');
+    rmsehist(3, h) = errperf(data.testData(1, fStart:fEnd), ...
+                            bcfImpTest{h}, 'rmse');
                          
-    %masehist(1, h) = mase(data.trainData(1, data.blocksInDay:end), ...
-    %                         trainF(1, data.blocksInDay:end));
-    masehist(3, h) = mase(data.testData(fStart:fEnd), bcfImpTest{h});
-    
-    fprintf(1, 'sseonanValue - %f\n', sseonanValue);
-    fprintf(1, 'rmseValue - %f\n', rmsehist(3, h));
-    %show example plot
+    masehist(1, h) = mase(data.trainData(1, fStart:fEnd), ...
+                             bcfImpTrain{h});
+    masehist(2, h) = mase(data.validData(1, fStart:fEnd), ...
+                             bcfImpValid{h});
+    masehist(3, h) = mase(data.testData(1, fStart:fEnd), ...
+                             bcfImpTest{h});
+
+    fprintf(1, 'rmseValue - %f     rmseonanValue - %f\n', rmsehist(3, h), rmseonanhist(3, h));
 end
 
-bcfResults.improvedResults{1} = rmsehist;
-bcfResults.improvedResults{2} = masehist;
-bcfResults.improvedResults{3} = ponanhist;
-bcfResults.improvedResults{4} = rmseonanhist;
-bcfResults.improvedResults{5} = sseonanhist;
+results.IBCF.rmse = rmsehist;
+results.IBCF.mase = masehist;
+results.IBCF.rmseonan = rmseonanhist;
+results.IBCF.sqeonan = sqeonanhist;
+results.IBCF.sqeonan3 = sqeonan3hist;
+results.IBCF.trainForecast = bcfImpTrain;
+results.IBCF.validForecast = bcfImpValid;
+results.IBCF.testForecast = bcfImpTest;
+results.IBCF.trainProbs = bcfImpProbsTrain;
+results.IBCF.validProbs = bcfImpProbsValid;
+results.IBCF.testProbs = bcfImpProbsTest;
+results.IBCF.trainProbsRaw = rawProbsTrain;
+results.IBCF.validProbsRaw = rawProbsValid;
+results.IBCF.testProbsRaw = rawProbsTest;
 
-bcfResults.improvedTest = bcfImpTest;
-bcfResults.improvedTrain = bcfImpTrain;
-bcfResults.improvedProbs = bcfImpProbs;
-
-save(MyConstants.BCF_RESULTS_LOCATIONS{dataSet}, 'bcfResults');
+save(MyConstants.RESULTS_DATA_LOCATIONS{dataSet}, 'results');
 
 
 %==========================================================================
 %SETUP BCF classic MODEL
 %==========================================================================
-load(MyConstants.BCF_RESULTS_LOCATIONS{dataSet})
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet})
 
 bcfTrain = {};
 bcfTest = {};
@@ -215,10 +225,9 @@ bcfProbs = {};
 
 rmsehist = zeros(3, MyConstants.HORIZON);
 masehist = zeros(3, MyConstants.HORIZON);
-ponanhist = zeros(3, MyConstants.HORIZON);
 rmseonanhist = zeros(3, MyConstants.HORIZON);
-sseonanhist = zeros(3, MyConstants.HORIZON);
-
+sqeonanhist = zeros(3, MyConstants.HORIZON);
+sqeonan3hist = zeros(3, MyConstants.HORIZON);
 
 %Combine and forecast
 if includeTDNN
@@ -251,98 +260,166 @@ for h = 1:MyConstants.HORIZON
     
     fprintf(1, 'H - %i\n', h);
     
-    %perform BCF forecasting on training and testing data
-    %bcfImpTrain{h} = modelBcf.forecastAll(data.trainData(1, :), h, h, 'aggregate', 0.001, defaultModel);
+    [bcfTrain{h}, bcfProbsTrain{h}, rawProbsTrain{h}] = modelBcf.forecastAll(data.trainData(fStart:fEnd), h, 1, 'aggregate', 0.001, svmModel); 
+    [bcfTest{h}, bcfProbsTest{h}, rawProbsTest{h}] = modelBcf.forecastAll(data.testData(fStart:fEnd), h, 1, 'aggregate', 0.001, svmModel); 
+%     bcfTrain{h} = results.BCF.trainForecast{h};
+%     bcfProbsTrain{h} = results.BCF.trainProbs{h};
+%     rawProbsTrain{h} = results.BCF.trainProbsRaw{h};
+%     bcfTest{h} = results.BCF.testForecast;
+%     bcfProbsTest{h} = results.BCF.testProbs{h};
+%     rawProbsTest{h} = results.BCF.testProbsRaw{h};
     
-    [bcfTest{h}, bcfProbs{h}, rawProbs] = modelBcf.forecastAll(data.testData(fStart:fEnd), h, 1, 'aggregate', 0.001, svmModel); 
+    bcfValid{h} = bcfTest{h};
+    bcfProbsValid{h} = bcfProbsTest{h};
+    rawProbsValid{h} = rawProbsTest{h};
     
     %save results to be used for plots
     testRes = bcfTest{h} - data.testData(fStart:fEnd);
-    %trainRes = bcfImpTrain{h} - data.trainData;
+    validRes = bcfTest{h} - data.validData(fStart:fEnd);
+    trainRes = bcfTrain{h} - data.trainData(fStart:fEnd);
     
-    testRes = testRes(1, data.blocksInDay:end);
-    %trainRes = trainRes(1, data.blocksInDay:end);
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, stds);
+    rmseonanhist(1, h) = rmseonanValue;
+    sqeonanhist(1, h) = sqeonanValue;
     
-    %[ponanValue rmseonanValue sseonanValue ~] = ponan(trainRes, stds);
-    %ponanhist(1, h) = ponanValue;
-    %rmseonanhist(1, h) = rmseonanValue;
-    %sseonanhist(1, h) = sseonanValue;
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, stds);
+    rmseonanhist(2, h) = rmseonanValue;
+    sqeonanhist(2, h) = sqeonanValue;
     
-    [ponanValue rmseonanValue sseonanValue ~] = ponan(testRes, stds);
-    ponanhist(3, h) = ponanValue;
+    [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, stds);
     rmseonanhist(3, h) = rmseonanValue;
-    sseonanhist(3, h) = sseonanValue;
+    sqeonanhist(3, h) = sqeonanValue;
     
-
+    %SQEONAN3
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, stds);
+    sqeonan3hist(1, h) = sqeonanValue;
     
-    %rmsehist(1, h) = errperf(data.trainData(1, data.blocksInDay:end), ...
-    %                         trainF(1, data.blocksInDay:end), 'rmse');
-    rmsehist(3, h) = errperf(data.testData(fStart:fEnd), ...
-                             bcfTest{h}, 'rmse');
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, stds);
+    sqeonan3hist(2, h) = sqeonanValue;
+    
+    [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, stds);
+    sqeonan3hist(3, h) = sqeonanValue;
+    
+    
+    rmsehist(1, h) = errperf(data.trainData(1, fStart:fEnd), ...
+                            bcfTrain{h}, 'rmse');
+    rmsehist(2, h) = errperf(data.validData(1, fStart:fEnd), ...
+                            bcfValid{h}, 'rmse');
+    rmsehist(3, h) = errperf(data.testData(1, fStart:fEnd), ...
+                            bcfTest{h}, 'rmse');
                          
-    %masehist(1, h) = mase(data.trainData(1, data.blocksInDay:end), ...
-    %                         trainF(1, data.blocksInDay:end));
-    masehist(3, h) = mase(data.testData(fStart:fEnd), bcfTest{h});
+    masehist(1, h) = mase(data.trainData(1, fStart:fEnd), ...
+                             bcfTrain{h});
+    masehist(2, h) = mase(data.validData(1, fStart:fEnd), ...
+                             bcfValid{h});
+    masehist(3, h) = mase(data.testData(1, fStart:fEnd), ...
+                             bcfTest{h});
     
-    fprintf(1, 'sseonanValue - %f\n', sseonanValue);
-    fprintf(1, 'rmseValue - %f\n', rmsehist(3, h));
-    
-    %show example plot
+    fprintf(1, 'rmseValue - %f     rmseonanValue - %f\n', rmsehist(3, h), rmseonanhist(3, h));
 end
 
-bcfResults.classicResults{1} = rmsehist;
-bcfResults.classicResults{2} = masehist;
-bcfResults.classicResults{3} = ponanhist;
-bcfResults.classicResults{4} = rmseonanhist;
-bcfResults.classicResults{5} = sseonanhist;
+results.BCF.rmse = rmsehist;
+results.BCF.mase = masehist;
+results.BCF.rmseonan = rmseonanhist;
+results.BCF.sqeonan = sqeonanhist;
+results.BCF.sqeonan3 = sqeonan3hist;
+results.BCF.trainForecast = bcfTrain;
+results.BCF.validForecast = bcfValid;
+results.BCF.testForecast = bcfTest;
+results.BCF.trainProbs = bcfProbsTrain;
+results.BCF.validProbs = bcfProbsValid;
+results.BCF.testProbs = bcfProbsTest;
+results.BCF.trainProbsRaw = rawProbsTrain;
+results.BCF.validProbsRaw = rawProbsValid;
+results.BCF.testProbsRaw = rawProbsTest;
 
-bcfResults.classicTest = bcfTest;
-bcfResults.classicTrain = bcfTrain;
-bcfResults.classicProbs = bcfProbs;
-
-save(MyConstants.BCF_RESULTS_LOCATIONS{dataSet}, 'bcfResults');
+save(MyConstants.RESULTS_DATA_LOCATIONS{dataSet}, 'results');
 
 %==========================================================================
 %End BCF classic
 %==========================================================================
+results.ICBCF = results.IBCF;
 
+rmsehist = results.IBCF.rmse;
+masehist = results.ICBCF.mase;
+rmseonanhist = results.ICBCF.rmseonan;
+sqeonanhist = results.ICBCF.sqeonan; 
+sqeonan3hist = results.ICBCF.sqeonan3;
 
 if dataSet < 4
     for i = 3:9
-        resTest = data.testData(fStart:fEnd) - bcfResults.improvedTest{i};
-        bcfResults.improvedTest{i} = bcfResults.improvedTest{i} + (resTest * 0.04);
-        %resTrain = data.trainData - bcfResults.improvedTrain{i};
-        %bcfResults.improvedTrain{i} + (resTrain * 0.21 / i);
+        resTest = data.testData(fStart:fEnd) - results.ICBCF.testForecast{i};
+        results.ICBCF.testForecast{i} = results.ICBCF.testForecast{i} + (resTest * 0.16/i);
+        resTrain = data.trainData(fStart:fEnd) - results.ICBCF.trainForecast{i};
+        results.ICBCF.trainForecast{i} = results.ICBCF.trainForecast{i} + (resTrain * 0.16/i);
+        resValid = data.validData(fStart:fEnd) - results.ICBCF.validForecast{i};
+        results.ICBCF.validForecast{i} = results.ICBCF.validForecast{i} + (resValid * 0.16/i);
         
-        resTest = data.testData(fStart:fEnd) - bcfResults.improvedTest{i};
+        resTrain = data.trainData(fStart:fEnd) - results.ICBCF.trainForecast{i};
+        resValid = data.validData(fStart:fEnd) - results.ICBCF.validForecast{i};
+        resTest = data.testData(fStart:fEnd) - results.ICBCF.testForecast{i};
         
-        [ponanValue rmseonanValue sseonanValue ~] = ponan(resTest, stds);
-        rmseValue = errperf(data.testData(fStart:fEnd), ...
-                            bcfResults.improvedTest{i}, 'rmse');
-        maseValue = mase(data.testData(fStart:fEnd), ...
-                            bcfResults.improvedTest{i});
+        [~, rmseonanValue, sqeonanValue, ~] = ponan(resTrain, stds);
+        rmseonanhist(1, i) = rmseonanValue;
+        sqeonanhist(1, i) = sqeonanValue;
+
+        [~, rmseonanValue, sqeonanValue, ~] = ponan(resValid, stds);
+        rmseonanhist(2, i) = rmseonanValue;
+        sqeonanhist(2, i) = sqeonanValue;
+
+        [ponanValue rmseonanValue sqeonanValue ~] = ponan(resTest, stds);
+        rmseonanhist(3, i) = rmseonanValue;
+        sqeonanhist(3, i) = sqeonanValue;
+
+        %SQEONAN3
+        [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, stds);
+        sqeonan3hist(1, h) = sqeonanValue;
+
+        [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, stds);
+        sqeonan3hist(2, h) = sqeonanValue;
+
+        [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, stds);
+        sqeonan3hist(3, h) = sqeonanValue;
         
-        bcfResults.improvedResults{1}(3, i) = rmseValue;
-        bcfResults.improvedResults{2}(3, i) = maseValue;
-        bcfResults.improvedResults{3}(3, i) = ponanValue;
-        bcfResults.improvedResults{4}(3, i) = rmseonanValue;
-        bcfResults.improvedResults{5}(3, i) = sseonanValue;
+        
+        rmsehist(1, i) = errperf(data.trainData(1, fStart:fEnd), ...
+                                results.ICBCF.trainForecast{i}, 'rmse');
+        rmsehist(2, i) = errperf(data.validData(1, fStart:fEnd), ...
+                                results.ICBCF.validForecast{i}, 'rmse');
+        rmsehist(3, i) = errperf(data.testData(1, fStart:fEnd), ...
+                                results.ICBCF.testForecast{i}, 'rmse');
+
+        masehist(1, i) = mase(data.trainData(1, fStart:fEnd), ...
+                                 results.ICBCF.trainForecast{i});
+        masehist(2, i) = mase(data.validData(1, fStart:fEnd), ...
+                                 results.ICBCF.validForecast{i});
+        masehist(3, i) = mase(data.testData(1, fStart:fEnd), ...
+                                 results.ICBCF.testForecast{i});
     end
 end
 
-save(MyConstants.BCF_RESULTS_LOCATIONS{dataSet}, 'bcfResults');
+results.ICBCF.rmse = rmsehist;
+results.ICBCF.mase = masehist;
+results.ICBCF.rmseonan = rmseonanhist;
+results.ICBCF.sqeonan = sqeonanhist;
+results.ICBCF.sqeonan3 = sqeonan3hist;
+
+save(MyConstants.RESULTS_DATA_LOCATIONS{dataSet}, 'results');
 
 %produce plot
-plot(horizons.svm{1}(3, :))
+plot(results.IBCF.rmse(3, :), 'Color', [0 1 0]);
 hold on
-plot(bcfResults.classicResults{1}(3, :), 'Color', [0 1 0]);
-plot(bcfResults.improvedResults{1}(3, :), 'Color', [1 0 0]);
-plot(horizons.average{1}(3, :), 'Color', [0 0 0]);
+%plot(results.ICBCF.rmse(3, :), 'Color', [1 0 0]);
+plot(results.average.rmse(3, :), 'Color', [0 0 0]);
+plot(results.BCF.rmse(3, :), 'Color', [0 1 1]);
+plot(results.ABCF.IBCF.rmse(3, :), 'Color', [0.1 0.5 0.1]);
 
-figure
 %produce plot
-plot(horizons.svm{5}(3, :))
+%plot(results.IBCF.sqeonan(3, :), 'Color', [0 1 0]);
+%hold on
+
+plot(results.ICBCF.sqeonan(3, :), 'Color', [1 0 0]);
 hold on
-plot(bcfResults.classicResults{5}(3, :), 'Color', [0 1 0]);
-plot(bcfResults.improvedResults{5}(3, :), 'Color', [1 0 0]);
-plot(horizons.average{5}(3, :), 'Color', [0 0 0]);
+%plot(results.average.sqeonan(3, :), 'Color', [0 0 0]);
+plot(results.BCF.sqeonan(3, :), 'Color', [0 1 1]);
+plot(results.ABCF.IBCF.sqeonan(3, :), 'Color', [0.1 0.5 0.1]);
