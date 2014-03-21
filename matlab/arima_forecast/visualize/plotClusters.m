@@ -42,9 +42,11 @@ function [] = plotClusters(windows, idx, varargin)
             end
         end
         
-        plot(centers(i, :), 'Color', [1 0 0]);
-        xlim([1, size(centers, 2)]);
-        hold off
+        if size(centers, 2) > 0
+            plot(centers(i, :), 'Color', [1 0 0]);
+            xlim([1, size(centers, 2)]);
+            hold off
+        end
 
         if ~isempty(dataTimes)
             clusterDays = data.times(ind(index));

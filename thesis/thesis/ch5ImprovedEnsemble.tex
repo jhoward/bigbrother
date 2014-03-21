@@ -1,9 +1,8 @@
 \chapter{Improved Ensemble}
-In the past chapter, we showed that a few simple changes can lead to some significant improvements in forecasting accuracy when ensemble Bayesian Combined Forecasting is applied to our traffic datasets.  This chapter describes more in depth some of the problems with BCF.  We look at some related work into potentially solving these problems through the identification and modeling of activities and finally introduce a new ensemble forecasting technique which solves these problems.  
+In the past chapter, we showed that a few changes can lead to some significant improvements in multi-step forecasting accuracy when ensemble Bayesian Combined Forecasting is applied to our traffic datasets.  This chapter describes more in depth some of the problems with BCF.  We look at some related work into potentially solving these problems through the identification and modeling of activities and finally introduce a new ensemble forecasting technique which solves these problems.  
 
 
-\bigskip
-\noindent \textbf{The need for another ensemble forecaster} \\
+\subsection{The need for another ensemble forecaster}
 When analyzing the residual datasets of these ensemble forecasts, we noticed a fundamental problem with our forecaster.  In the residual forecasts of BCF and many of the forecasting algorithms, the resulting residual forecast would still have many repeated misforecasts that could not be explained by random noise.  As alluded to in Chapter 1, these repetitive misforecasts may come from large human controlled scheduled events (such as sporting events, public celebrations, or in the case of buildings meetings) or they may be from uncontrolled and unscheduled events (such as weather or traffic accidents).  
 
 \begin{figure}[]
@@ -19,9 +18,9 @@ When analyzing the residual datasets of these ensemble forecasts, we noticed a f
 	\label{fig:sample_residual_events}
 \end{figure}
 
-~\ref{fig:sample_residual_events} shows two of these events occurring.  Such an event clearly occurs outside the normal behavior noise of our data.  The light red region in this image represents the one standard deviation boundary for the residual data.  From chapter 4, we know that BCF residual data tends to be normally distributed per daily time step.  The residual datasets from each time step pass the one-sample Kolmogorov-Smirnov (TODO CITE) test for normality ($p \ge 0.1$).  Assuming this data is truly normally distributed then the odds of getting even one such datapoint outside the $\pm 3 \sigma$ should occur roughly 1 in every million data points.  Yet, in our Denver traffic data, we had 22 such instances in the testing dataset alone ($N \approx 12000$).  
+~\ref{fig:sample_residual_events} shows two of these events occurring.  Such an event clearly occurs outside the normal behavior noise of our data.  The light red region in this image represents the one standard deviation boundary for the residual data.  From chapter 4, we know that BCF residual data tends to be normally distributed per daily time step.  The residual datasets from each time step pass the one-sample Kolmogorov-Smirnov \cite{Marsaglia2003, Lopes2007} test for normality ($p \ge 0.1$).  Assuming this data is truly normally distributed then the odds of getting even one such datapoint outside the $\pm 3 \sigma$ should occur roughly 1 in every million data points.  Yet, in our Denver traffic data, we had 22 such instances in the testing dataset alone ($N \approx 12000$).  
 
-Figure ~\ref{fig:denver_bcf_residual} shows these results graphically.  In this figure, a histogram of the data from four different time steps from the Denver traffic dataset, overlaid with the corresponding best fit normal distribution.  In each image the same pattern appears.  Residual values around the mean and on the tails tend to occur with a greater frequency than would be suggested by a normal distribution.  Clearly, values around the mean are not the problem.  These values correspond to accurate forecasts.  Values around the tail however are problematic and are further evidence of large events being one of the causes of noise in our residual data.
+~\ref{fig:denver_bcf_residual} shows these results graphically.  In this figure, a histogram of the data from four different time steps from the Denver traffic dataset, overlaid with the corresponding best fit normal distribution.  In each image the same pattern appears.  Residual values around the mean and on the tails tend to occur with a greater frequency than would be suggested by a normal distribution.  Values around the mean are not the problem.  These values correspond to accurate forecasts.  Values around the tail however are problematic and are further evidence of large events being one of the causes of noise in our residual data.
 
 \begin{figure}[!t]
 	\begin{center}
@@ -45,27 +44,32 @@ Figure ~\ref{fig:denver_bcf_residual} shows these results graphically.  In this 
 The unlikely existence of these events along evidence that the remaining residual time series behaves as a white noise Gaussian process provides evidence that these events are likely not due to natural noise and instead due to other factors.  The remainder of this chapter discusses ways to identify and model these anomalous events along with providing an algorithm for using these events to improve our forecasting algorithm.
 
 
+\subsection{Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}
+TODO POTENTIALLY DISCUSS OUR IDEA AT A HIGH LEVEL AGAIN
+
+
 \subsection{Background Literature on Activity Recognition and Anomaly Detection}
-To construct our approach we need to identify and model these anomalous events.  Considerable work has been done in the field of time series anomaly detection, however this work is typically limited to anomaly detection and not anomaly modeling as used for forecasting.  This is often due to the nature of anomalies, either they are random and seemingly unpredictable or they require some immediate attention and thus forecasting is an inappropriate response to the anomaly (as in the case of network attacks TODO CITE PAPERS).
+To construct our approach we need to identify and model these anomalous events.  Considerable work has been done in the field of time series anomaly detection, however this work is typically limited to anomaly detection and classification.  Anomaly modeling as used for improved forecasting seems to have limited results in the forecasting literature.  We believe that this limited amount of anomaly modeling is often due to the nature of anomalies, either they are random and seemingly often times difficult to predict as is the case with stock market anomalies ~\cite{Kontonikas2013, Thushara2014} or they require some immediate attention and thus forecasting is an inappropriate response to the anomaly.  Such a situation arises frequently in network data monitoring.  Detection and classification of network anomalies help to determine potential network attacks \cite{Tartakovsky2013, Gogoi2011} and allow for preventive measures to take place, but forecasting network traffic during these anomalies is of little utility.  
    
-Our anomalies tend to be repetitive and multiple time steps in length.  Data of this form is very closely related to another field of time series data analysis - that of activity recognition.   Due broad nature of this term and the breadth of research on anomaly detection, we briefly discuss some of the ways in which time series anomaly detection and activity recognition has been utilized in the past as a way to familiarize the reader with a discussion of the literature.
+Our anomalies tend to be repetitive and multiple time steps in length.  Data of this form is very closely related to another field of time series data analysis - that of activity recognition.   Due broad nature of this term and the breadth of research on anomaly detection, we briefly discuss some of the ways in which time series anomaly detection and activity recognition has been utilized in the past as a way to familiarize the reader with a discussion of the literature.  This review is not meant to be a complete list of all works in these fields, but instead gives an overview of the types of work done in this field so that we may better contrast previous work with our approach.
 
 \bigskip
 \noindent \textbf{Anomaly Detection} \\
-From Eamon Keogh, a prominent researcher in time-series anomaly detection, some is anomalous in a time-series if the 
+From Eamon Keogh, a prominent researcher in time-series anomaly detection, a reading or series of readings is anomalous in a time-series if the 
 
 \begin{quote}
 "frequency of occurrences differed substantially from that expected, given previously seen data."
 \end{quote}
 
+A common method of anomaly detection is through the use of tools to assist in visual identification \cite{Stoffel2013, Lakhina2004, Shi2012}.  Tools have been extensively developed for network anomaly detection.  Such tools allow network administrators and researchers to quickly identify and potentially classify anomalies in the form of certain network attacks.  This is done by giving providing graphs, and overlay visualizations which make the identification of patterns more apparent.  Through the use of these tools, network administrators are able to quickly respond to  various attacks and minimize the potential damage to the network.
 
-Visual identification:
-Stoffel, 2013- system that allows analysts to overlay various groups and dimensions of the data so that browsing and searching for anomalies becomes easier.
+Visual assistance tools for anomaly detection do not provide modeling and forecasting of anomalies and thus are of little utility for utilizing anomalies to improve traffic system forecasting.   
+
+TODO Write more on these following approaches
 
 Spectral Methods:
 Widely used in other fields to distinguish hidden patterns and trends from a noisy background.
-Signal analysis of network traffic anomalies, 2002
-
+\cite{Barford2002}
 
 change-point methods
 Non-parametric: Does not assume an underlying model.  Many employ CUSUM to implement the change-point detection.  The CUSUM algorithm (Detection of Abrupt Changes: Theory and Application 1993) involves the calculation of a cumulative sum of the weighted observations.  When this sum exceeds a certain threshold value, a change is value is declared.  A problem with this approach is that the thresholds need to be known a priori.
@@ -91,19 +95,74 @@ In a method similar to the HMM tree, work has been done to create a hierarchy of
 From the results of all activity recognition papers, it appears that approaches which show the most promise tend to use a model which allows comparison of inputs with various time lengths.  Also, hierarchical techniques tend to perform better than multiple models of equal complexity.  In defense of these general observations is the work of Huynh \cite{Huynh2005} who found that empirically for his problem, there is not a single feature or time window of past history that will perform best for all activities.  Instead each activity is best modeled by a set of features and length of time unique to that activity.  Huynh postulates that his finding is true of most activity recognition problems and concludes that his finding demonstrates a fundamental flaw present in many of the activity recognition techniques to be described as the typical approach is to search for an optimal set of activity models for a fixed feature space and window of time.
 
 
-\subsection{Identifying Anomalous data}
-First discuss extraction methods.  Look for peak anomalies.  
-Include a bit of change point detection
-Cite sources for this here
+\subsection{Anomaly extraction and representation}
+As we showed earlier in this section with ~\ref{fig:denver_bcf_residual}, the tails of the best fit Gaussian for the BCF residual random variable tend to have larger than expected likelihoods.  These unlikely residuals do not appear to be completely random.  From a review of the literature, we know that there are numerous methods to extract and model this data.  For our work, we propose a simple extraction technique and then model the data according to a time-series mixture of Gaussians.  This method allows us to impart a probabilistic behavior to our anomaly models.  Such behavior is essential to our eventual forecasting technique.
+
+\begin{figure}[]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.50\textwidth]{slide_window_1.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.50\textwidth]{slide_window_2.png}
+		}
+	\end{center}
+	\caption{Demonstration of a fixed width sliding window looking for locally maximal deviations from background behavior.}
+	\label{fig:sliding_window}
+\end{figure}
+
+\bigskip
+\noindent \textbf{Sliding window data extraction} \\
+Given time series of residual data, we extract the top $k\%$ of the maximum residual data as measured by a fixed length sliding window.  ~\ref{fig:sliding_window} demonstrates visually our method of potential candidate data segments to model.  In this example, the fixed length window is slid along a time series and windows with large total residual deviation are selected. 
+
+TODO FINISH THIS ALGORITHM
+\begin{algorithm}
+  \caption{Algorithm for candidate data extraction}
+    \label{alg:dataextract}
+
+  \begin{algorithmic}
+    \Statex \Comment { \%comment: servers[] contains the index of servers whose         data rate are sorted in descending order\%}
+    \State servers[]= index(of all servers) 
+    \State serverIndex[]=servers[0..K]
+    \State linearlyIndependentServerIndex[]=0
+    \State $[Z] \leftarrow 0$
+    \For  {$i=0$ to $serverIndex.length$} 
+    \Statex\Comment{ \%comment: find the equation corresponding the serverIndex        from the mapping at the File Server\%} 
+    \State        $eqn= equation(serverIndex[i])$ 
+    \Statex\Comment{ \%comment: try insert equation into Z using OFG\%} 
+
+    \EndFor end for 
+    \While{ ( linearlyIndependentServerIndex.length!=K ) } 
+    \Statex\Comment{\%comment: remove all the server index which were not inserted in Z\%}  
+    \State temp[]=serverIndex[]-linearlyIndependentServerIndex 
+    \If{  (linearlyIndependentServerIndex.length=K) }
+    \State break
+    \EndIf  
+    \EndWhile  
+  \end{algorithmic}
+\end{algorithm}
+
+Algorithm \ref{alg:dataextract} describes precisely our approach.  The input parameter $k\%$ is chosen empirically for each dataset and underlying forecasting model.  The effects of this parameter $k$ are discussed later.  A sample of the top 10\% extracted residuals for the Merl dataset is displayed in \ref{fig:extracted_residuals}
+
+Future work should allow for anomaly models which are non-constant in length.  An interesting possibility for the extraction and molding sparse dictionary learning. For this work however, we believe that constant length anomaly extraction is sufficient to show the strength of our combined forecasting approach.
 
 
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=0.90\textwidth]{arima_abcf_extracted_residuals_Merl.png}
+	\end{center}
+	\caption{Extracted residuals from the Merl dataset using the sliding window extraction method with window length of 7}
+	\label{fig:extracted_residuals}
+\end{figure}
 
-\subsection{Cluster representation}
-HMM vs TSMG
-discuss why we are not using hidden markov models as stated in the proposal
-Discuss removal of outlier anomalies.
+
 
 \subsection{TSMG derivation}
+TODO Move this derivation to the APPENDIX AND JUST DISCUSS OUR MODEL APPROACH HERE.
+
+Discuss the silhouette score for best fit clusters.
+
+
 A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  Traditionally, a mixture of Gaussians is implemented for either a one dimensional time series (CITE PAPER TO SUPPORT THIS) or for data vectors with no time element.  Here we combine the two approaches, creating a mixture of Gaussians for multi-dimensional time series data.  While this approach has not yet been implemented, based on the success of mixture of Gaussians in other domains, we expect good results.
 
 The goal of mixture of Gaussians is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given dataset $\{x^{(i)}\}$ we maximize
@@ -159,13 +218,42 @@ The results of these maximizations are given below:
 \Sigma_{k, n} = \frac{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}(x^{(i)} - \mu_{k, n})(x^{(i)} - \mu_{k, n})^{\mathrm{T}}}{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}}
 \end{equation}
 
-\subsection{Sample representative clusters}
-TODO IMAGE: Demonstrate representative clusters.  Show image with multiple small cluster images.  Do one for each dataset.  Potentially with different base forecasting algorithms.
 
-\subsection{On the limitations of BCF}
-Discuss the limitations of BCF and how this leads to a new derivation of an ensemble forecasting approach here.
+\subsection{Sample representative clusters and a discussion about them}
+This section visually demonstrates a few of the clusters extracted from our datasets.  These cluster sets were chosen from each dataset and from three of our base forecasting approaches.  The structure from these clusters again leads further credibility to the residual data containing some structure.  
 
-\subsection{Anomaly BCF}
+\ref{fig:merl_clusters} is a set of clusters from the Merl dataset extracted from the SVM forecaster at a horizon of 20 minutes.  The extracted window length is 7 time steps (past 70 minutes).  These clusters were taken from the top 10\% of the MERL data residuals.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=1.00\textwidth]{merl_sample_clusters_svm.png}
+	\end{center}
+	\caption{Extracted residuals from the Merl dataset.  Data was taken from the top 10\% of the SVM forecaster's residuals.}
+	\label{fig:merl_clusters}
+\end{figure}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width = 1.0\textwidth]{brown_sample_clusters_arima.png}
+	\end{center}
+	\caption{Extracted residuals from the Brown dataset.  Data was taken from the top 15\% of the Arima forecaster's residuals.}
+	\label{fig:brown_clusters}
+\end{figure}
+
+\ref{fig:brown_clusters} is the set of clusters from the Brown dataset extracted from the Arima forecaster.  The clusters from the dataset were taken from the top 15\% of the Brown data residuals.  Notice how these clusters, unlike the clusters from \ref{fig:merl_clusters} do not begin nor end on zero.  This likely means that the true residuals are longer in length and those extracted.  However, our method of silhouette score maximization returned this set as the best.  Most likely this is due to non-consistent residual behavior if the extracted residual window is increased.
+  
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{denver_sample_clusters_tdnn.png}
+	\end{center}
+	\caption{Extracted residuals from the Denver dataset.  Data was taken from the top 10\% of the TDNN forecaster's residuals.}
+	\label{fig:denver_clusters}
+\end{figure}
+
+\ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  Unlike in the extracted clusters of MERL and Brown, these clusters appear to have "sharp" transition.  This is likely due to the data being aggregated every 30 minutes instead of every 10 minutes like the other dataset.  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  Such a clustering is likely a scenario where modeling these clusters through a non-fixed technique may lead to better results.
+
+
+\subsection{ABCF}
 Here we present the math behind our Anomaly BCF algorithm. (ABCF)  Similar to the Bayesian Combined Forecaster, our ABCF algorithm is recursive and computationally efficient.  
 
 We present the algorithm using two anomaly models $A$ and $B$ with a background model $C$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $A$ and $B$ are activity models from our time series mixture of Gaussians, however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(A^{(i)}_{t}|x_{t}, \ldots, x_{1})$.
@@ -176,14 +264,23 @@ TODO Formally introduce the background model we will use.
 
 Let $A_{t}^{(i)} = $ the event that model $A$ is active at time $t$ at index $i$.  
 
+TODO Derive ABCF in the Appendix
 
-
-
-
-\subsection{Example Improved Ensemble Working}
 TODO Image: Create image of our improved ENSEMBLE technique working.  This should show the top percentage change over time.
 
 TODO Image: This will also show the base residual and the representative clusters.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{sample_residual_plot_dataset_Denver.png}
+	\end{center}
+	\caption{Sample residual and the respective probabilities of each time step for the base forecaster and the a single activity model.}
+	\label{fig:sample_abcf_residual}
+\end{figure}
+
+TODO add the respective cluster and add the final forecast for the same timeframe.
+
+\ref{fig:sample_abcf_residual}
 
 \subsection{RESULTS ON Improved Ensemble Derivation}
 Discuss and display the results here
@@ -192,6 +289,76 @@ TODO Code: Display sample Raw forecast before and after results.
 TODO Code: Display the effects of horizon on each dataset for Base BCF for Ponan and RMSE
 TODO Code: Do this same thing with Ponan with 2 and 3 std.
 TODO Code: Demonstrate an example with Broncos games extracted.
+
+
+%Including all images from base forecasters and abcf improvments
+%Merl dataset
+\begin{figure}[!t]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_merl_avg.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_merl_svm.png}
+		} \\
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_merl_arima.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_merl_tdnn.png}
+		}
+	\end{center}
+	\caption{Results for the four base forecasting algorithms for the MERL dataset and the improvements to SQEONAN from using our ABCF algorithm}
+	\label{fig:sqe_merl_results}
+\end{figure}
+
+\ref{fig:sqe_merl_results}
+
+%BROWN
+\begin{figure}[!t]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_brown_avg.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_brown_svm.png}
+		} \\
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_brown_arima.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_brown_tdnn.png}
+		}
+	\end{center}
+	\caption{Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to SQEONAN from using our ABCF algorithm}
+	\label{fig:sqe_brown_results}
+\end{figure}
+
+\ref{fig:sqe_brown_results}
+
+%Denver
+\begin{figure}[!t]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_denver_avg.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_denver_svm.png}
+		} \\
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_denver_arima.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqe_denver_tdnn.png}
+		}
+	\end{center}
+	\caption{Results for the four base forecasting algorithms for the denver Hall dataset and the improvements to SQEONAN from using our ABCF algorithm}
+	\label{fig:sqe_denver_results}
+\end{figure}
+
+\ref{fig:sqe_denver_results}
+
+
 
 \subsection{Future unexplored work on Improved Ensemble BCF}
 Discuss identification of various types of extraction techniques.  Types of clustering.  Automated modification of input variables.

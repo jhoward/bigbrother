@@ -1,6 +1,6 @@
 clear all
 
-dataSet = 1;
+dataSet = 3;
 
 load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
 %load(MyConstants.BCF_RESULTS_LOCATIONS{dataSet});
@@ -104,12 +104,35 @@ title('Denver BCF Residual Histogram (TS 38)', 'FontSize', 24, 'FontName', MyCon
 %cauchypdf([0.8 0.6 0.4 -0.4], m, s/3.7)
 
 
-
-
 %==========================================================================
 % SAMPLE DATASET GRAPH
 %==========================================================================
 
 %Plot cont graph first
-contPlotMult({data.trainData(1, fStart:fEnd), results.arima.trainForecast{2}}, data.blocksInDay*2, zeros(data.blocksInDay * 2, 1))
+contPlotMult({data.testData(1, fStart:fEnd), results.arima.testForecast{2}, results.ABCF.carima.testForecast{2}}, data.blocksInDay*2, zeros(data.blocksInDay * 2, 1))
+
+
+%==========================================================================
+% PLOT CLUSTERS
+%==========================================================================
+clear all
+dataset = 3;
+horizon = 2;
+
+%svm - d1, h2
+%arima - d3, h2
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataset});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataset});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+tmpStruct = results.ABCF.csvm
+
+fig = plotClustersThesis(tmpStruct.clusters{horizon}, tmpStruct.idx{horizon}, ...
+            'centers', tmpStruct.centers{horizon}, 'dataset', dataset, 'model', 'carima');
+        
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'clusters_svm_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 

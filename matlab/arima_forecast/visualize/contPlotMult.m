@@ -10,7 +10,7 @@ function [] = contPlotMult(data, dataWidth, stds)
     xvals = 1:1:dataWidth;
     xvals = [xvals, fliplr(xvals)];
     
-    colors = {[0 0 0], [0 0.7 0.7], [1, 0.3, 1]}
+    colors = {[0 0 0], [1 0 0], [0, 0, 1]}
 
     for i = 1:numMoves + 1
 %         y1 = -1 * stds;

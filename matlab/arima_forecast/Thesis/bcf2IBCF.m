@@ -8,7 +8,7 @@ clear all;
 %--------------------------------------------------------------------------
 %SETUP CONSTANTS
 %--------------------------------------------------------------------------
-dataSet = 3;
+dataSet = 2;
 model = 10; %Set MODEL to IBCF
 horizon = 2;
 
@@ -84,40 +84,39 @@ fprintf(1, 'SSEONAN - Test: %f     New: %f\n', SSEONANTest, modSSEONAN);
 %--------------------------------------------------------------------------
 %BEST CLUSTER ALL HORIZON
 %--------------------------------------------------------------------------
-
-% %Dataset 1
-% clustMin = 5;
+%Dataset 1
+% clustMin = 6;
 % clustMax = 10;
-% windowMin = 4;
-% windowMax = 10;
+% windowMin = 7;
+% windowMax = 12;
 % smoothAmount = 1;
 % verbose = true;
 % extractPer = 0.15;
-% maxAttempts = 3;
+% maxAttempts = 2;
+
 
 
 %Dataset 2
-clustMin = 4;
+clustMin = 3;
 clustMax = 10;
-windowMin = 4;
-windowMax = 10;
+windowMin = 3;
+windowMax = 6;
 smoothAmount = 1;
 verbose = true;
-extractPer = 0.25;
+extractPer = 0.15;
 maxAttempts = 3;
 
 
 %Dataset 3
-% clustMin = 4;
-% clustMax = 10;
-% windowMin = 5;
-% windowMax = 15;
+% clustMin = 6;
+% clustMax = 12;
+% windowMin = 6;
+% windowMax = 12;
 % smoothAmount = 1;
 % verbose = true;
-% extractPer = 0.15;
-% maxAttempts = 4;
+% extractPer = 0.10;
+% maxAttempts = 3;
 
-%maxAttempts = 4;
 
 %==========================================================================
 %IBCF
@@ -350,7 +349,7 @@ for i = 1:MyConstants.HORIZON
     results.ABCF.ICBCF.sqeonan3(3, i) = newSqeonan3;
     results.ABCF.ICBCF.clusters{i} = windows;
     results.ABCF.ICBCF.idx{i} = bestIdx;
-    results.ABCF.ICBCF.centers{i} = centers;
+    results.ABCF.ICBCF.centers{i} = bestCenters;
     results.ABCF.ICBCF.testProbs{i} = histPost;
     results.ABCF.ICBCF.improvement{i} = bestSqeonan - worstSqeonan;
 end
@@ -373,17 +372,28 @@ plot(results.ICBCF.rmse(3, :), 'Color', [1 0 0]);
 plot(results.BCF.rmse(3, :), 'Color', [0 1 1]);
 plot(results.ABCF.ICBCF.rmse(3, :), 'Color', [0.1 0.5 0.1]);
 plot(results.ABCF.ICCBCF.rmse(3, :), 'Color', [0.1 0.1 0.5]);
+plot(results.svm.rmse(3, :), 'Color', [1 0 1]);
 
 
 %produce plot
-%plot(results.IBCF.sqeonan3(3, :), 'Color', [0 1 0]);
-plot(results.ICBCF.sqeonan3(3, :), 'Color', [1 0 0]);
-hold on
-plot(results.BCF.sqeonan3(3, :), 'Color', [0 1 1]);
+%plot(results.ICBCF.sqeonan3(3, :), 'Color', [1 0 0]);
 %hold on
+%plot(results.BCF.sqeonan3(3, :), 'Color', [0 1 1]);
 plot(results.ABCF.ICBCF.sqeonan3(3, :), 'Color', [0.1 0.5 0.1]);
-%hold on
+hold on
 plot(results.ABCF.ICCBCF.sqeonan3(3, :), 'Color', [0.1 0.1 0.5]);
+plot(results.svm.sqeonan3(3, :), 'Color', [1 0 1]);
+
+
+
+%produce plot
+plot(results.ICBCF.sqeonan(3, :), 'Color', [1 0 0]);
+hold on
+plot(results.BCF.sqeonan(3, :), 'Color', [0 1 1]);
+plot(results.ABCF.ICBCF.sqeonan(3, :), 'Color', [0.1 0.5 0.1]);
+plot(results.ABCF.ICCBCF.sqeonan(3, :), 'Color', [0.1 0.1 0.5]);
+plot(results.svm.sqeonan(3, :), 'Color', [1 0 1]);
+
 
 
 

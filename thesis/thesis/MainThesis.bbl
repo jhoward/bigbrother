@@ -1,4 +1,4 @@
-\begin{thebibliography}{54}
+\begin{thebibliography}{64}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -325,6 +325,88 @@ F~Diebold.
 \newblock {A Note on Bayesian Forecast Combination Procedures}.
 \newblock In A.~H. Westlund and P.~Hackl, editors, \emph{Economic Structural
   Change: Analysis and Forecasting}, pages 225--232. Springer-Verlag, 1991.
+
+\bibitem[Marsaglia et~al.(2003)Marsaglia, Tsang, and Wang]{Marsaglia2003}
+G~Marsaglia, WW~Tsang, and J~Wang.
+\newblock {Evaluating Kolmogorov's Distribution}.
+\newblock \emph{Journal of Statistical Software}, 8\penalty0 (18):\penalty0
+  1--4, 2003.
+
+\bibitem[Lopes et~al.(2007)Lopes, Reid, and Hobson]{Lopes2007}
+R.H.C Lopes, I~Reid, and P.R Hobson.
+\newblock {The two-dimensional Kolmogorov-Smirnov test}.
+\newblock In \emph{International Workshop on Advanced Computing and Analysis
+  Techniques in Physics Research}, Amsterdam, the Netherlands, 2007.
+
+\bibitem[Kontonikas and Kostakis(2013)]{Kontonikas2013}
+A~Kontonikas and A~Kostakis.
+\newblock {On monetary policy and stock market anomalies}.
+\newblock \emph{Journal of Business Finance \& \ldots}, 2013.
+\newblock URL \url{http://core.kmi.open.ac.uk/download/pdf/9995047.pdf
+  http://onlinelibrary.wiley.com/doi/10.1111/jbfa.12028/full}.
+
+\bibitem[Thushara and Perera(2014)]{Thushara2014}
+S.C Thushara and Prabath Perera.
+\newblock {Day of the Week Effect of Stock Returns: Empirical Evidence from
+  Colombo Stock Exchange}.
+\newblock \emph{Kelaniya Journal of Management}, 2014.
+
+\bibitem[Tartakovsky et~al.(2013)Tartakovsky, Polunchenko, and
+  Sokolov]{Tartakovsky2013}
+AG~Tartakovsky, A.S Polunchenko, and G~Sokolov.
+\newblock {Efficient computer network anomaly detection by changepoint
+  detection methods}.
+\newblock \emph{IEEE Journal of Selected Topics in Signal Processing},
+  7\penalty0 (1):\penalty0 4--11, 2013.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=6380529}.
+
+\bibitem[Gogoi et~al.(2011)Gogoi, Bhattacharyya, Borah, and Kalita]{Gogoi2011}
+P.~Gogoi, D.~K. Bhattacharyya, B.~Borah, and J.~K. Kalita.
+\newblock {A Survey of Outlier Detection Methods in Network Anomaly
+  Identification}.
+\newblock \emph{The Computer Journal}, 54\penalty0 (4):\penalty0 570--588,
+  March 2011.
+\newblock ISSN 0010-4620.
+\newblock \doi{10.1093/comjnl/bxr026}.
+\newblock URL
+  \url{http://comjnl.oxfordjournals.org/cgi/doi/10.1093/comjnl/bxr026}.
+
+\bibitem[Stoffel et~al.(2013)Stoffel, Fischer, and Keim]{Stoffel2013}
+Florian Stoffel, Fabian Fischer, and Daniel~a. Keim.
+\newblock {Finding anomalies in time-series using visual correlation for
+  interactive root cause analysis}.
+\newblock \emph{Proceedings of the Tenth Workshop on Visualization for Cyber
+  Security - VizSec '13}, pages 65--72, 2013.
+\newblock \doi{10.1145/2517957.2517966}.
+\newblock URL \url{http://dl.acm.org/citation.cfm?doid=2517957.2517966}.
+
+\bibitem[Lakhina et~al.(2004)Lakhina, Crovella, and Diot]{Lakhina2004}
+Anukool Lakhina, Mark Crovella, and Christophe Diot.
+\newblock {Diagnosing network-wide traffic anomalies}.
+\newblock \emph{ACM SIGCOMM Computer Communication Review}, 34\penalty0
+  (4):\penalty0 219, October 2004.
+\newblock ISSN 01464833.
+\newblock \doi{10.1145/1030194.1015492}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1030194.1015492}.
+
+\bibitem[Shi et~al.(2012)Shi, Liao, and Yang]{Shi2012}
+Lei Shi, Qi~Liao, and Chunxin Yang.
+\newblock {Investigating Network Traffic Through Compressed Graph
+  Visualization}.
+\newblock In \emph{IEEE Conference of Visual Analytics Science and Technology},
+  pages 179--180, 2012.
+\newblock ISBN 9781467347532.
+\newblock URL
+  \url{http://users.soe.ucsc.edu/~pang/visweek/2012/vast/challenge/shi.pdf}.
+
+\bibitem[Barford et~al.(2002)Barford, Kline, Plonka, and Ron]{Barford2002}
+Paul Barford, Jeffery Kline, David Plonka, and Amos Ron.
+\newblock {A signal analysis of network traffic anomalies}.
+\newblock \emph{Proceedings of the second ACM SIGCOMM Workshop on Internet
+  measurment - IMW '02}, page~71, 2002.
+\newblock \doi{10.1145/637201.637210}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=637201.637210}.
 
 \bibitem[Wang et~al.(2009)Wang, Gu, Tao, and Lu]{Wang2009}
 Liang Wang, Tao Gu, Xianping Tao, and Jian Lu.

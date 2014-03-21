@@ -8,7 +8,7 @@ clear all;
 %--------------------------------------------------------------------------
 %SETUP CONSTANTS
 %--------------------------------------------------------------------------
-dataSet = 3;
+dataSet = 2;
 
 dataLocation = MyConstants.FILE_LOCATIONS_CLEAN{dataSet};
 load(dataLocation);
@@ -32,20 +32,20 @@ fValid = results.tdnn.validForecast{demonstrateHorizon};
 validRes = validData - fValid;
 fTest = results.tdnn.testForecast{demonstrateHorizon};
 testRes = testData - fTest;
-[~, validStds] = computeMean(validData, data.blocksInDay);
+[~, validStds] = computeMean(data.validData, data.blocksInDay);
 
 
 %--------------------------------------------------------------------------
 %CLUSTER DATA
 %--------------------------------------------------------------------------
 %clusters
-clustMin = 5;
-clustMax = 10;
+clustMin = 6;
+clustMax = 12;
 windowMin = 6;
-windowMax = 10;
+windowMax = 12;
 smoothAmount = 1;
 verbose = true;
-extractPer = 0.2;
+extractPer = 0.10;
                         
 [windows, ind, idx, centers, kdists] = ...
                          createCluster(validRes, 1, clustMin, clustMax, ...
@@ -86,80 +86,145 @@ fprintf(1, 'SSEONAN - Test: %f     New: %f\n', SSEONANTest, modSSEONAN);
 %--------------------------------------------------------------------------
 
 %Dataset 1
-% clustMin = 5;
+% clustMin = 6;
 % clustMax = 10;
 % windowMin = 7;
-% windowMax = 15;
+% windowMax = 12;
 % smoothAmount = 1;
 % verbose = true;
 % extractPer = 0.15;
+% maxAttempts = 2;
+
 
 
 %Dataset 2
-% clustMin = 5;
-% clustMax = 10;
-% windowMin = 8;
-% windowMax = 15;
-% smoothAmount = 0;
-% verbose = true;
-% extractPer = 0.20;
-
-
-%Dataset 3
-clustMin = 5;
+clustMin = 3;
 clustMax = 10;
-windowMin = 5;
-windowMax = 8;
+windowMin = 3;
+windowMax = 6;
 smoothAmount = 1;
 verbose = true;
 extractPer = 0.15;
+maxAttempts = 3;
+
+
+%Dataset 3
+% clustMin = 6;
+% clustMax = 12;
+% windowMin = 6;
+% windowMax = 12;
+% smoothAmount = 1;
+% verbose = true;
+% extractPer = 0.10;
+% maxAttempts = 3;
 
 
 %Run on all horizons
-for i = 11:MyConstants.HORIZON
-    validRes = validData - results.tdnn.validForecast{i};
-    testRes = testData - results.tdnn.testForecast{i};
+for i = 1:MyConstants.HORIZON
+    bestSqeonan = -1;
+    bestSqeonan3 = -1;
+    worstSqeonan = -1;
+    for t = 1:maxAttempts
+        validRes = validData - results.tdnn.validForecast{i};
+        testRes = testData - results.tdnn.testForecast{i};
 
-    
-    [windows, ind, idx, centers, kdists] = ...
-                         createCluster(validRes, 1, clustMin, clustMax, ...
-                         extractPer, windowMin, windowMax, ...
-                         smoothAmount, false); 
-    
-    models = createGaussModels(windows, idx, validRes);
-    forecaster = bcf.BayesianLocalForecaster(models);
-                     
-    
-    [adjRes, p, post, l, histPost] = forecaster.forecastAll(testRes, i);
-    newData = results.tdnn.testForecast{i} + adjRes;
-    newRes = testData - newData;
 
-    BCFRMSE = errperf(testData(1:end), results.tdnn.validForecast{i}(1:end), 'rmse');
-    newBCFRMSE = errperf(testData(1:end), newData(1:end), 'rmse');
-    [~, rmseonanValue, sqeonan, ~] = ponan(testRes, 3 * validStds);
-    [~, newRmseonanValue, newSqeonan, ~] = ponan(newRes, 3 * validStds);
+        [windows, ind, idx, centers, kdists] = ...
+                             createCluster(validRes, 1, clustMin, clustMax, ...
+                             extractPer, windowMin, windowMax, ...
+                             smoothAmount, false); 
 
-    fprintf(1, 'Horizon %i\n', i);
-    fprintf(1, '   RMSE - Test: %f     New: %f\n', BCFRMSE, newBCFRMSE);
-    fprintf(1, '   rmseonanValue - Test: %f     New: %f\n', rmseonanValue, newRmseonanValue);
-    fprintf(1, '   sqeonan - Test: %f     New: %f\n', sqeonan, newSqeonan);
+        models = createGaussModels(windows, idx, validRes);
+        forecaster = bcf.BayesianLocalForecaster(models);
 
+
+        [adjRes, p, post, l, histPost] = forecaster.forecastAll(testRes, i);
+        newData = results.tdnn.testForecast{i} + adjRes;
+        newRes = testData - newData;
+
+        BCFRMSE = errperf(testData(1:end), results.tdnn.validForecast{i}(1:end), 'rmse');
+        newBCFRMSE = errperf(testData(1:end), newData(1:end), 'rmse');
+        [~, rmseonanValue, sqeonan, ~] = ponan(testRes, validStds);
+        [~, newRmseonanValue, newSqeonan, ~] = ponan(newRes, validStds);
+        [~, rmseonanValue3, sqeonan3, ~] = ponan(testRes, 3 * validStds);
+        [~, newRmseonanValue3, newSqeonan3, ~] = ponan(newRes, 3 * validStds);
+        newMase = mase(data.testData(1, fStart:fEnd), newData);
+
+        if worstSqeonan < 0
+            worstSqeonan = newSqeonan;
+        end
+        
+        if (newSqeonan < worstSqeonan)
+            worstSqeonan = newSqeonan;
+        end
+        
+        if newSqeonan > bestSqeonan
+            bestSqeonan = newSqeonan;
+            bestSqeonan3 = newSqeonan3;
+            bestNewMase = newMase;
+            bestNewBCFRMSE = newBCFRMSE;
+            bestNewData = newData;
+            bestNewRmseonanValue  = newRmseonanValue;
+            bestWindows = windows;
+            bestIdx = idx;
+            bestCenters = centers;
+            bestHistPost = histPost;
+        end
+    end
     
-%     %This is here becasue for some reason after 10 (on ds3) the program crashes.  
-%     for i = 11:MyConstants.HORIZON
-%         testRes = testData - results.tdnn.testForecast{i};
-%         newData = zeros(size(testRes));
-%         BCFRMSE = errperf(testData(1:end), results.tdnn.validForecast{i}(1:end), 'rmse');
-%         newBCFRMSE = BCFRMSE;
-%         [~, rmseonanValue, sqeonan, ~] = ponan(testRes, 3 * validStds);
-%         newRmseonanValue = rmseonanValue;
-%         newSqeonan = sqeonan;
+    fprintf(1, 'TDNNM Horizon %i\n', i);
+    fprintf(1, '   RMSE - Test: %f     New: %f\n', BCFRMSE, bestNewBCFRMSE);
+    fprintf(1, '   rmseonanValue - Test: %f     New: %f\n', rmseonanValue, bestNewRmseonanValue);
+    fprintf(1, '   sqeonan -  Test: %f     New: %f\n', sqeonan, bestSqeonan);
+    fprintf(1, '   sqeonan3 - Test: %f     New: %f\n', sqeonan3, bestSqeonan3);
+    fprintf(1, '   bestImprovment: %f\n', bestSqeonan - worstSqeonan);
     
     %Save results
+    results.ABCF.tdnn.mase(3, i) = newMase;
     results.ABCF.tdnn.testForecast{i} = newData;
     results.ABCF.tdnn.rmse(3, i) = newBCFRMSE;
     results.ABCF.tdnn.rmseonan(3, i) = newRmseonanValue; 
     results.ABCF.tdnn.sqeonan(3, i) = newSqeonan;
+    results.ABCF.tdnn.sqeonan3(3, i) = newSqeonan3;
+    results.ABCF.tdnn.clusters{i} = windows;
+    results.ABCF.tdnn.idx{i} = bestIdx;
+    results.ABCF.tdnn.centers{i} = centers;
+    results.ABCF.tdnn.testProbs{i} = histPost;
+    results.ABCF.tdnn.improvement{i} = bestSqeonan - worstSqeonan;
 end
 
 save(MyConstants.RESULTS_DATA_LOCATIONS{dataSet}, 'results');
+
+%==========================================================================
+%End svm
+%==========================================================================
+
+outStruct = validateData(testData, validStds, results.ABCF.tdnn);
+results.ABCF.ctdnn = outStruct;
+
+save(MyConstants.RESULTS_DATA_LOCATIONS{dataSet}, 'results');
+
+%produce plot
+plot(results.ABCF.tdnn.rmse(3, 1:6), 'Color', [0 1 0.2]);
+hold on
+plot(results.tdnn.rmse(3, 1:6), 'Color', [0 0 1]);
+plot(results.ABCF.ctdnn.rmse(3, 1:6), 'Color', [1 0 0]);
+
+
+%produce plot
+plot(results.ABCF.tdnn.sqeonan3(3, 1:6), 'Color', [0 1 0.2]);
+hold on
+plot(results.tdnn.sqeonan3(3, 1:6), 'Color', [0 0 1]);
+plot(results.ABCF.ctdnn.sqeonan3(3, 1:6), 'Color', [1 0 0]);
+
+
+
+%produce plot
+plot(results.ABCF.tdnn.sqeonan(3, 1:6), 'Color', [0 1 0.2]);
+hold on
+plot(results.tdnn.sqeonan(3, 1:6), 'Color', [0 0 1]);
+plot(results.ABCF.ctdnn.sqeonan(3, 1:6), 'Color', [1 0 0]);
+% 
+% contPlotMult({testData, results.tdnn.testForecast{1}, ...
+%             results.ABCF.ctdnn.testForecast{1}}, data.blocksInDay, validStds)
+        

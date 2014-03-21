@@ -7,7 +7,7 @@
 
 clear all;
 
-dataSet = 3;
+dataSet = 1;
 model = 4; %Set model to SVM
 
 startDay = 5; %Start and end day are used for sample plots

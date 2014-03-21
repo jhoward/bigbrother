@@ -11,12 +11,12 @@ TODO FOR THIS CHAPTER:
 	\item figure out proper name of Denver traffic sensors
 \end{enumerate}
 
-This chapter contains information pertaining to the datasets used for our work along with a description of the performance metrics  we used to determine the efficacy of our approach.  Our datasets are from three different sources.  We have two building datasets and one freeway traffic dataset.  Due to certainly the forecasting capabilities of some algorithms such as time series neural networks and support vector machines.  All data is scaled to values between 0 and 1.
+This chapter contains information pertaining to the datasets used for our work.  Our datasets are from three different sources.  We have two building datasets and one freeway traffic dataset.  The traffic dataset is a high volume with values taken at 30 minute increments.  The building datasets are much lower volume, but of vastly different types.  One building is a college research and classroom building.  The other is a typical office building.  When considered as a whole, we believe these buildings represent a wide corpus of potential human traffic systems.  All data is scaled to values between 0 and 1.  
 
 \subsection{Building Datasets}
 While there has been considerable work in estimating building occupancy values, due to difficulties with acquiring accurate ground truth occupancy values, such datasets are rare.  The problem in acquiring these occupancy values is that many buildings do not have sufficient infrastructure to accurately sense people throughout a building.  One approach used by researchers is to use simulated models of occupancy \cite{page2008, goldstein2010}.  These agent based models have the potential for significant accuracy, but tend not to scale well to large buildings where the large number of agents, rooms and interactions lead to non-trivial solutions.  Due to these problems, for our work, we prefer to estimate occupancy from sensor data rather than simulated data.
 
-To estimate building occupancy from sensor data, numerous techieiques have been developed.  A common system uses a combination of simple sensors and wireless motes.  Agarwal, et. al \cite{agarwal2010} created motes using a combination of IR sensors and reed switches placed on doors to determine the likelihood that a room is occupied.  The focus was not on estimating the number of occupants, but instead to determine if the room was occupied at all.  
+To estimate building occupancy from sensor data, numerous techniques have been developed.  A common system uses a combination of simple sensors and wireless motes.  Agarwal, et. al \cite{agarwal2010} created motes using a combination of IR sensors and reed switches placed on doors to determine the likelihood that a room is occupied.  The focus was not on estimating the number of occupants, but instead to determine if the room was occupied at all.  
 
 Mamidi \cite{mamidi2012} and the University of Southern California have developed a building-level energy management system using a combination of motion detectors and environmental sensors to estimate the occupancy of rooms with multiple individuals present.  Ground truth was collected and used as the basis for target values.  These values, coupled with raw sensors were then used to train a machine learning algorithm that was implemented on the motes to estimate occupancy.
 
@@ -56,22 +56,7 @@ The sensors are placed roughly two meters apart on the ceilings, creating a dens
 
 The data was collected from March 2006 through March 2008 and there are roughly 53 million sensor readings.  This building is similar to most office buildings with a number of personal offices along with labs and conference rooms.  Employees have roughly set schedules and holidays are observed as normal. 
 
-The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion at night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all Tuesdays and Fridays for a single sensor along with a range of one standard deviation is given in Figure~\ref{fig:merl_day_raw}.  
-
-\begin{figure}[!ht]
-	\begin{center}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{merl_day_raw_tues.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{merl_day_raw_fri.png}
-		}
-	\end{center}
-	\caption{Average readings from Tuesdays and Fridays for a given sensor from the MERL dataset.}
-	\label{fig:merl_day_raw}
-\end{figure}
-
-Peak motion unsurprisingly occurs during the middle of the day corresponding to lunch time.  There is another small peak of motion near the start of the day corresponding to people entering.  Near the end of the day, on Tuesdays there is a another peak as people typically leave the office at roughly the same time.  On Fridays however, instead of a peak there is a region corresponding to high variance.  This seems to imply that while people enter at roughly the same time, there is a significant variance on when people leave the building.  Figure ~\ref{fig:merl_scaled_aggregate} shows the dataset used for all of our findings.  The data in this figure is the average readings for all weekdays in the MERL dataset.  
+The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion at night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all days for a single sensor along with a range of one standard deviation is given in Figure~\ref{fig:merl_day_raw}.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -88,7 +73,9 @@ Peak motion unsurprisingly occurs during the middle of the day corresponding to 
 %	\label{fig:merl_scaled}
 \end{figure}
 
-As a visual for the typical data values throughout a couple of days, Figure ~\ref{fig:merl_scaled_raw}  shows scaled readings from our final dataset for two days.  Despite the mean appearing smooth, we see how volatile sensor activation reading are though out the day.
+Peak motion unsurprisingly occurs during the middle of the day corresponding to lunch time.  Peak standard deviation appears to occur near noon and 4pm.  The noon variation is unsurprising as people will commonly skip lunch for various reasons.  The 3pm variation is more surprising.  This seems earlier than expected for daily departure, but perhaps it is at the early window of when people will begin to depart for the day.  
+
+As a visual for the typical data values throughout a couple of days is given in Figure~\ref{fig:merl_scaled_aggregate}~\ref{fig:merl_scaled_raw} .  Despite the mean appearing smooth, we see how volatile sensor activation readings are though out the day.
 
 
 \subsubsection{Colorado School of Mines Dataset}

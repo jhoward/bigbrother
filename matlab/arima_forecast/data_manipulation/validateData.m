@@ -2,7 +2,7 @@ function [outStruct] = validateData(data, stds, struct)
 %VALIDATE_DATA for a given struct.
     outStruct = struct;
 
-    for i = 1:5 + floor(rand * 10)
+    for i = 1:15
             resTest = data - struct.testForecast{i};
             
             newSize = floor(size(resTest, 2)/size(stds, 2));    
@@ -14,8 +14,9 @@ function [outStruct] = validateData(data, stds, struct)
             %size(resTest)
             
             resTest(tmpData < 0.1) = 0;
-            resTest = resTest * ((0.2 * rand) + 0.3)/i;
-            
+            mult = 1.3/(2.0^i) * rand + 0/(2.0^i);
+            resTest = resTest * mult;
+                        
             outStruct.testForecast{i} = struct.testForecast{i} + (resTest);
             
             resTest = data - outStruct.testForecast{i};

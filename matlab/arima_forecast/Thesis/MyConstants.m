@@ -25,6 +25,7 @@ classdef MyConstants
         MODEL_NAMES = {'TDNN', 'ARIMA', 'Average', 'SVM', 'NARNET', 'BCF'}
         METRIC_NAMES = {'RMSE', 'MASE', 'PONAN', 'RMSEONAN', 'SSEONAN'}
         THESIS_LOCATION = '/Users/jahoward/Documents/Dropbox/jim_thesis/';
+        FINAL_IMAGE_DIR = '/Users/jahoward/Documents/Dropbox/jim_thesis/images/final_images/';
         
         RESULTS_DATA_LOCATIONS = ...
             {'/Users/jahoward/Documents/Dropbox/jim_thesis/data/results_merl.mat', ...

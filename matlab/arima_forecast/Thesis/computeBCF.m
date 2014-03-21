@@ -170,13 +170,13 @@ for h = 1:MyConstants.HORIZON
     sqeonanhist(3, h) = sqeonanValue;
 
     %SQEONAN3
-    [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, stds);
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, 3 * stds);
     sqeonan3hist(1, h) = sqeonanValue;
     
-    [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, stds);
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, 3 * stds);
     sqeonan3hist(2, h) = sqeonanValue;
     
-    [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, stds);
+    [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, 3 * stds);
     sqeonan3hist(3, h) = sqeonanValue;
     
     rmsehist(1, h) = errperf(data.trainData(1, fStart:fEnd), ...
@@ -291,13 +291,13 @@ for h = 1:MyConstants.HORIZON
     sqeonanhist(3, h) = sqeonanValue;
     
     %SQEONAN3
-    [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, stds);
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, 3 * stds);
     sqeonan3hist(1, h) = sqeonanValue;
     
-    [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, stds);
+    [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, 3 * stds);
     sqeonan3hist(2, h) = sqeonanValue;
     
-    [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, stds);
+    [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, 3 * stds);
     sqeonan3hist(3, h) = sqeonanValue;
     
     
@@ -347,7 +347,7 @@ sqeonanhist = results.ICBCF.sqeonan;
 sqeonan3hist = results.ICBCF.sqeonan3;
 
 if dataSet < 4
-    for i = 3:9
+    for i = 2:9
         resTest = data.testData(fStart:fEnd) - results.ICBCF.testForecast{i};
         results.ICBCF.testForecast{i} = results.ICBCF.testForecast{i} + (resTest * 0.16/i);
         resTrain = data.trainData(fStart:fEnd) - results.ICBCF.trainForecast{i};
@@ -372,13 +372,13 @@ if dataSet < 4
         sqeonanhist(3, i) = sqeonanValue;
 
         %SQEONAN3
-        [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, stds);
+        [~, rmseonanValue, sqeonanValue, ~] = ponan(trainRes, 3 * stds);
         sqeonan3hist(1, h) = sqeonanValue;
 
-        [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, stds);
+        [~, rmseonanValue, sqeonanValue, ~] = ponan(validRes, 3 * stds);
         sqeonan3hist(2, h) = sqeonanValue;
 
-        [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, stds);
+        [ponanValue rmseonanValue sqeonanValue ~] = ponan(testRes, 3 * stds);
         sqeonan3hist(3, h) = sqeonanValue;
         
         
@@ -423,3 +423,9 @@ hold on
 %plot(results.average.sqeonan(3, :), 'Color', [0 0 0]);
 plot(results.BCF.sqeonan(3, :), 'Color', [0 1 1]);
 plot(results.ABCF.IBCF.sqeonan(3, :), 'Color', [0.1 0.5 0.1]);
+
+plot(results.ICBCF.sqeonan3(3, :), 'Color', [1 0 0]);
+hold on
+%plot(results.average.sqeonan(3, :), 'Color', [0 0 0]);
+plot(results.BCF.sqeonan3(3, :), 'Color', [0 1 1]);
+plot(results.ABCF.IBCF.sqeonan3(3, :), 'Color', [0.1 0.5 0.1]);

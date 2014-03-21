@@ -13,45 +13,45 @@ Warning--I didn't find a database entry for "2001"
 Warning--empty journal in Hsu2003
 Warning--there's a number but no volume in Hsu2003
 Warning--there's a number but no series in Huynh2005
-You've used 54 entries,
+You've used 64 entries,
             2481 wiz_defined-function locations,
-            977 strings with 17300 characters,
-and the built_in function-call counts, 22943 in all, are:
-= -- 2134
-> -- 1018
-< -- 51
-+ -- 400
-- -- 290
-* -- 1702
-:= -- 3527
-add.period$ -- 239
-call.type$ -- 54
-change.case$ -- 108
-chr.to.int$ -- 52
-cite$ -- 57
-duplicate$ -- 1199
-empty$ -- 2085
-format.name$ -- 386
-if$ -- 5062
+            1056 strings with 19821 characters,
+and the built_in function-call counts, 27055 in all, are:
+= -- 2504
+> -- 1228
+< -- 56
++ -- 480
+- -- 350
+* -- 2027
+:= -- 4183
+add.period$ -- 283
+call.type$ -- 64
+change.case$ -- 128
+chr.to.int$ -- 62
+cite$ -- 67
+duplicate$ -- 1414
+empty$ -- 2442
+format.name$ -- 460
+if$ -- 5951
 int.to.chr$ -- 3
-int.to.str$ -- 55
-missing$ -- 50
-newline$ -- 343
-num.names$ -- 164
-pop$ -- 458
+int.to.str$ -- 65
+missing$ -- 60
+newline$ -- 407
+num.names$ -- 194
+pop$ -- 534
 preamble$ -- 1
-purify$ -- 54
+purify$ -- 64
 quote$ -- 0
-skip$ -- 749
+skip$ -- 876
 stack$ -- 0
-substring$ -- 989
-swap$ -- 273
-text.length$ -- 22
+substring$ -- 1132
+swap$ -- 317
+text.length$ -- 25
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 372
+type$ -- 442
 warning$ -- 3
-while$ -- 195
+while$ -- 229
 width$ -- 0
-write$ -- 848
+write$ -- 1004
 (There were 4 warnings)

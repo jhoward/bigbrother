@@ -224,13 +224,13 @@ for h = 1:MyConstants.HORIZON
     sqeonanhist(3, h) = sqeonan;
     
     %SQEONAN3
-    [ponanValue rmseonanValue sqeonan ~] = ponan(trainRes, stds);
+    [ponanValue rmseonanValue sqeonan ~] = ponan(trainRes, 3 * stds);
     sqeonan3hist(1, h) = sqeonan;
     
-    [ponanValue rmseonanValue sqeonan ~] = ponan(validRes, stds);
+    [ponanValue rmseonanValue sqeonan ~] = ponan(validRes, 3 * stds);
     sqeonan3hist(2, h) = sqeonan;
     
-    [ponanValue rmseonanValue sqeonan ~] = ponan(testRes, stds);
+    [ponanValue rmseonanValue sqeonan ~] = ponan(testRes, 3 * stds);
     sqeonan3hist(3, h) = sqeonan;
 
     rmsehist(1, h) = errperf(data.trainData(1, fStart:fEnd), ...
