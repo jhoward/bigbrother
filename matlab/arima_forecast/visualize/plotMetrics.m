@@ -29,11 +29,11 @@ function plotSqeonan_BCF(dataset)
     fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
     %Plot metrics
-    plot(results.average.sqeonan3(trainTestSet, 1:horizon), 'Color', [1 0 0]);
+    plot(results.arima.sqeonan3(trainTestSet, 1:horizon), 'Color', [1 0 0]);
     
     %plot(results.average.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(end, :)) 
     hold on
-    plot(results.ABCF.average.sqeonan3(trainTestSet, 1:horizon), 'Color', [0 0 1]);
+    plot(results.ABCF.carima.sqeonan3(trainTestSet, 1:horizon), 'Color', [0 0 1]);
     %plot(results.ABCF.ICBCF.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(1, :), 'LineWidth', 2);
     %plot(results.BCF.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(2, :));
     %plot(results.svm.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(3, :))
@@ -47,7 +47,7 @@ function plotSqeonan_BCF(dataset)
     ylabel('SQEONAN', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
 
     %legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
-    legend('average', 'average + abcf')
+    legend('arima', 'arima + abcf')
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
             'sqeonan_no_abcf_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 end  

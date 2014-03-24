@@ -7,6 +7,7 @@ A level-1 auxiliary file: ch3Models.aux
 A level-1 auxiliary file: ch4Ensemble.aux
 A level-1 auxiliary file: ch5ImprovedEnsemble.aux
 A level-1 auxiliary file: ch6Conclusion.aux
+A level-1 auxiliary file: thesis_appendix.aux
 The style file: unsrtnat.bst
 Database file #1: Final_Thesis.bib
 Warning--I didn't find a database entry for "2001"
@@ -15,7 +16,7 @@ Warning--there's a number but no volume in Hsu2003
 Warning--there's a number but no series in Huynh2005
 You've used 64 entries,
             2481 wiz_defined-function locations,
-            1056 strings with 19821 characters,
+            1057 strings with 19840 characters,
 and the built_in function-call counts, 27055 in all, are:
 = -- 2504
 > -- 1228

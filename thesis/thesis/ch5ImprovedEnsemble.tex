@@ -282,14 +282,13 @@ TODO add the respective cluster and add the final forecast for the same timefram
 
 \ref{fig:sample_abcf_residual}
 
-\subsection{RESULTS ON Improved Ensemble Derivation}
-Discuss and display the results here
+\subsection{Results of ABCF}
+Since the number of potential images to display about the improvements due to ABCF is quite large (54 images - 6 forecasters, 3 datasets, and 3 scoring metrics) we provide a few images here to demonstrate our results and put the remaining images in an appending ~\ref{app:results} for the interested reader.
 
-TODO Code: Display sample Raw forecast before and after results.
-TODO Code: Display the effects of horizon on each dataset for Base BCF for Ponan and RMSE
-TODO Code: Do this same thing with Ponan with 2 and 3 std.
-TODO Code: Demonstrate an example with Broncos games extracted.
+\bigskip
+\noindent \textbf{SQEONAN Results per forecaster} \\
 
+\ref{fig:sqe_merl_results}, \ref{fig:sqe_brown_results}, and \ref{fig:sqe_denver_results} demonstrate the improvements of applying our ABCF algorithm to each dataset for each activity model.  In most of these figures, ABCF improves or is equal to the forecasting algorithm on its own for each forecasting horizon up to 15 time steps in the future.
 
 %Including all images from base forecasters and abcf improvments
 %Merl dataset
@@ -312,8 +311,6 @@ TODO Code: Demonstrate an example with Broncos games extracted.
 	\label{fig:sqe_merl_results}
 \end{figure}
 
-\ref{fig:sqe_merl_results}
-
 %BROWN
 \begin{figure}[!t]
 	\begin{center}
@@ -334,7 +331,7 @@ TODO Code: Demonstrate an example with Broncos games extracted.
 	\label{fig:sqe_brown_results}
 \end{figure}
 
-\ref{fig:sqe_brown_results}
+
 
 %Denver
 \begin{figure}[!t]
@@ -356,10 +353,7 @@ TODO Code: Demonstrate an example with Broncos games extracted.
 	\label{fig:sqe_denver_results}
 \end{figure}
 
-\ref{fig:sqe_denver_results}
-
-
 
 \subsection{Future unexplored work on Improved Ensemble BCF}
-Discuss identification of various types of extraction techniques.  Types of clustering.  Automated modification of input variables.
+Discuss identification of various types of extraction techniques.  Types of clustering.  Automated modification of input variables. Sparse dictionary encoding.  Testing with other datasets.  Testing with other base forecasters.
 

@@ -65,3 +65,7 @@
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{54}{subfigure.11.2}
 \contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{54}{subfigure.11.3}
 \contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{54}{subfigure.11.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.1}{\ignorespaces Percent improvement of applying ABCF to each forecaster for each forecasting horizon for the MERL Hall dataset\relax }}{63}{figure.caption.50}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.2}{\ignorespaces Percent improvement of applying ABCF to each forecaster for each forecasting horizon for the Brown Hall dataset\relax }}{64}{figure.caption.51}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.3}{\ignorespaces Percent improvement of applying ABCF to each forecaster for each forecasting horizon for the Denver dataset\relax }}{64}{figure.caption.52}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.4}{\ignorespaces Average percent improvement of applying ABCF to each forecaster to a given dataset.\relax }}{65}{figure.caption.53}
