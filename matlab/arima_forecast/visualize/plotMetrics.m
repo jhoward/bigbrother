@@ -5,6 +5,8 @@ function [] = plotMetrics(plottype, dataset)
             plotSqeonan_BCF(dataset)
         case 'rmseBCF'
             plotRMSE_BCF(dataset)
+        case 'maseBCF'
+            plotMASE_BCF(dataset)
         case 'rawData'
             plotDataset(dataset)
         case 'probSample'
@@ -64,18 +66,18 @@ function plotRMSE_BCF(dataset)
     figsizeX = 1200;
     figsizeY = 550;
 
-    plotTitle = ['rmse vs forecasting horizon for ', MyConstants.DATA_SETS{dataset}, ' dataset'];
+    plotTitle = ['RMSE vs forecasting horizon for ', MyConstants.DATA_SETS{dataset}, ' dataset'];
     %set(gca,'units','pix','pos',[100,100,100 + figsizeX, 100 + figsizeY])
     fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
     %Plot metrics
-    plot(results.average.rmse(trainTestSet, 1:horizon), 'Color', colors(end, :)) 
+    plot(results.tdnn.rmse(trainTestSet, 1:horizon), 'Color', [1 0 0]) 
     hold on
-    plot(results.ABCF.ICBCF.rmse(trainTestSet, 1:horizon), 'Color', colors(1, :), 'LineWidth', 2);
-    plot(results.BCF.rmse(trainTestSet, 1:horizon), 'Color', colors(2, :));
-    plot(results.svm.rmse(trainTestSet, 1:horizon), 'Color', colors(3, :))
-    plot(results.tdnn.rmse(trainTestSet, 1:horizon), 'Color', colors(4, :))
-    plot(results.arima.rmse(trainTestSet, 1:horizon), 'Color', colors(5, :));
+    plot(results.ABCF.tdnn.rmse(trainTestSet, 1:horizon), 'Color', [0 0 1]);
+    %plot(results.BCF.rmse(trainTestSet, 1:horizon), 'Color', colors(2, :));
+    %plot(results.svm.rmse(trainTestSet, 1:horizon), 'Color', colors(3, :))
+    %plot(results.tdnn.rmse(trainTestSet, 1:horizon), 'Color', colors(4, :))
+    %plot(results.arima.rmse(trainTestSet, 1:horizon), 'Color', colors(5, :));
 
     xlim([1, horizon]);
     
@@ -83,7 +85,7 @@ function plotRMSE_BCF(dataset)
     xlabel('Forecasting horizon', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
     ylabel('rmse', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
 
-    legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
+    legend('TDNN', 'ABCF');
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
             'rmse_no_abcf_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 end 

@@ -15,6 +15,10 @@ function [] = plotClusters(windows, idx, varargin)
       exception.throwAsCaller();
     end
 
+    fig = figure('Position', [100, 100, 100 + 250, 100 + 250]);
+    title('Denver sample cluster   ', 'FontSize', 15, 'FontName', MyConstants.FONT_TYPE);
+
+    
     dataTimes = parser.Results.times;
     centers = parser.Results.centers;
     plotWindows = parser.Results.plotWindows;
@@ -27,7 +31,8 @@ function [] = plotClusters(windows, idx, varargin)
     
     width = size(windows, 2);
     
-    for i = 1:numClusters
+    %for i = 1:numClusters
+    for i = 2:2
         index = find(idx == i);
         
         if plotWindows
@@ -53,9 +58,9 @@ function [] = plotClusters(windows, idx, varargin)
             ind(index)
             datestr(clusterDays)
         end
-        
-        waitforbuttonpress;
-        clf
+
+        %waitforbuttonpress;
+        %clf
     end
 end
 

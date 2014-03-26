@@ -266,11 +266,10 @@ Let $A_{t}^{(i)} = $ the event that model $A$ is active at time $t$ at index $i$
 
 TODO Derive ABCF in the Appendix
 
-TODO Image: Create image of our improved ENSEMBLE technique working.  This should show the top percentage change over time.
+TODO add the respective cluster and add the final forecast for the same timeframe.
 
-TODO Image: This will also show the base residual and the representative clusters.
 
-\begin{figure}
+\begin{figure}[!h]
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{sample_residual_plot_dataset_Denver.png}
 	\end{center}
@@ -278,80 +277,56 @@ TODO Image: This will also show the base residual and the representative cluster
 	\label{fig:sample_abcf_residual}
 \end{figure}
 
-TODO add the respective cluster and add the final forecast for the same timeframe.
 
-\ref{fig:sample_abcf_residual}
+\subsection{Demonstration of ABCF}
+\ref{fig:sample_abcf_residual} is a demonstration of ABCF.  This figure displays one sample time frame (in blue) from the Denver dataset along with the corresponding region for one standard deviation of noise from a best fit ARIMA forecaster with a horizon of two time steps.  The teal line below the graph is the likelihood of the background ARIMA model accurately representing the residual data from the set of clustered anomalies.  The remaining tan lines are the individual likelihoods of each time step of a given clustered anomaly \ref{fig:sample_cluster}  
+
+The red line is the resulting ABCF forecast to the residual.  Ideally the residual should be completely zero, thus resulting in no forecasting error.  At approximately time 10, an anomalous event begins to occur.  The ABCF algorithm takes a few time steps to identify this anomaly and determine that the background ARIMA forecaster is no longer accurate.  We see this effect by noticing the teal line's reduction in likelihood from approximately time step 12 to time step 15.  During this time all other extracted clusters are attempting to fit the anomaly.
+
+\begin{wrapfigure}{R}{0.3\textwidth}
+\centering
+\includegraphics[width=0.25\textwidth]{denver_sample_cluster.png}
+\caption{Extracted sample clustered anomaly.}
+\label{fig:sample_cluster}
+\end{wrapfigure}
+
+The recursive nature of our likelihood time step propagation in the ABCF algorithm is apparent in the tan lines of this sample figure.  At time step 12, there is a slight perturbation in the top tan line.  This perturbation continues to rise both in value (indicating an increase in likelihood that this cluster is active) and time along the anomaly.  Finally at about time step 18, the model is finished.  At this point the likelihood of the background model begins to rise again and eventually the background model is once again the most prevalent model amongst all the extracted anomalies.
+
+\ref{fig:sample_abcf_residual} displays a significant improvement in SQEONAN.  While the early stages of the anomaly show no improvement, the residual error during the middle of the anomaly is roughly halved and the residual error at the end of the anomaly is nearly zero.
+
+
 
 \subsection{Results of ABCF}
-Since the number of potential images to display about the improvements due to ABCF is quite large (54 images - 6 forecasters, 3 datasets, and 3 scoring metrics) we provide a few images here to demonstrate our results and put the remaining images in an appending ~\ref{app:results} for the interested reader.
+Since the number of potential images to display about the improvements due to ABCF is quite large (54 images - 6 forecasters, 3 datasets, and 3 scoring metrics) we provide a few images here to demonstrate our results and put the remaining images in Appendix \ref{app:results} for the interested reader.
 
 \bigskip
-\noindent \textbf{SQEONAN Results per forecaster} \\
+\noindent \textbf{SQEONAN Results per forecaster} 
 
-\ref{fig:sqe_merl_results}, \ref{fig:sqe_brown_results}, and \ref{fig:sqe_denver_results} demonstrate the improvements of applying our ABCF algorithm to each dataset for each activity model.  In most of these figures, ABCF improves or is equal to the forecasting algorithm on its own for each forecasting horizon up to 15 time steps in the future.
+\ref{fig:sqe_results} demonstrate the improvements of applying our ABCF algorithm to each dataset for each activity model.  In most of these figures, ABCF improves or is equal to the forecasting algorithm on its own for each forecasting horizon up to 15 time steps in the future.  Maximum improvement is typically achieved between two and four time steps into the future.  
+
+As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.  \ref{fig:sqe_results}(d) demonstrates a case where ABCF performed worse than simply the base forecaster.  For forecasts two time steps ahead, the SVM forecaster out performed a hybrid SVM + ABCF forecast.  From our results, we found that such negative effects on forecasting performance were rare, occurring in only a few of our examples.
 
 %Including all images from base forecasters and abcf improvments
 %Merl dataset
-\begin{figure}[!t]
+\begin{figure}[!ht]
 	\begin{center}
 		\subfigure[] {
 			\includegraphics[width=0.49\textwidth]{sqe_merl_avg.png}
 		}
 		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_merl_svm.png}
-		} \\
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_merl_arima.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_merl_tdnn.png}
-		}
-	\end{center}
-	\caption{Results for the four base forecasting algorithms for the MERL dataset and the improvements to SQEONAN from using our ABCF algorithm}
-	\label{fig:sqe_merl_results}
-\end{figure}
-
-%BROWN
-\begin{figure}[!t]
-	\begin{center}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_brown_avg.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_brown_svm.png}
+			\includegraphics[width=0.49\textwidth]{sqe_denver_svm.png}
 		} \\
 		\subfigure[] {
 			\includegraphics[width=0.49\textwidth]{sqe_brown_arima.png}
 		}
 		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_brown_tdnn.png}
+			\includegraphics[width=0.49\textwidth]{sqe_brown_svm.png}
 		}
 	\end{center}
-	\caption{Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to SQEONAN from using our ABCF algorithm}
-	\label{fig:sqe_brown_results}
+	\caption{SQEONAN results of four sample forecasters with and without ABCF}
+	\label{fig:sqe_results}
 \end{figure}
 
-
-
-%Denver
-\begin{figure}[!t]
-	\begin{center}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_denver_avg.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_denver_svm.png}
-		} \\
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_denver_arima.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_denver_tdnn.png}
-		}
-	\end{center}
-	\caption{Results for the four base forecasting algorithms for the denver Hall dataset and the improvements to SQEONAN from using our ABCF algorithm}
-	\label{fig:sqe_denver_results}
-\end{figure}
 
 
 \subsection{Future unexplored work on Improved Ensemble BCF}
