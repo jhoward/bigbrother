@@ -278,6 +278,9 @@ TODO add the respective cluster and add the final forecast for the same timefram
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Demonstration of ABCF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Demonstration of ABCF}
 \ref{fig:sample_abcf_residual} is a demonstration of ABCF.  This figure displays one sample time frame (in blue) from the Denver dataset along with the corresponding region for one standard deviation of noise from a best fit ARIMA forecaster with a horizon of two time steps.  The teal line below the graph is the likelihood of the background ARIMA model accurately representing the residual data from the set of clustered anomalies.  The remaining tan lines are the individual likelihoods of each time step of a given clustered anomaly \ref{fig:sample_cluster}  
 
@@ -292,23 +295,29 @@ The red line is the resulting ABCF forecast to the residual.  Ideally the residu
 
 The recursive nature of our likelihood time step propagation in the ABCF algorithm is apparent in the tan lines of this sample figure.  At time step 12, there is a slight perturbation in the top tan line.  This perturbation continues to rise both in value (indicating an increase in likelihood that this cluster is active) and time along the anomaly.  Finally at about time step 18, the model is finished.  At this point the likelihood of the background model begins to rise again and eventually the background model is once again the most prevalent model amongst all the extracted anomalies.
 
-\ref{fig:sample_abcf_residual} displays a significant improvement in SQEONAN.  While the early stages of the anomaly show no improvement, the residual error during the middle of the anomaly is roughly halved and the residual error at the end of the anomaly is nearly zero.
+\ref{fig:sample_abcf_residual} displays a significant improvement in SQEONAN.  While the early stages of the anomaly show no improvement, the residual error during the middle of the anomaly is roughly halved and the residual error at the end of the anomaly is nearly zero.  \ref{fig:sample_abcf_denver} shows the final result of this forecast window.  This figure shows clearly how ABCF improves an ARIMA forecaster for this data segment during the later parts of an anomaly.
 
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{sample_plot_Denver.png}
+	\end{center}
+	\caption{Two horizon time step results when applying ABCF to an ARIMA forecaster for a segment of the Denver dataset.}
+	\label{fig:sample_abcf_denver}
+\end{figure}
 
+TODO - swap colors of demo image, capitalize ARIMA
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Results of ABCF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results of ABCF}
-Since the number of potential images to display about the improvements due to ABCF is quite large (54 images - 6 forecasters, 3 datasets, and 3 scoring metrics) we provide a few images here to demonstrate our results and put the remaining images in Appendix \ref{app:results} for the interested reader.
+Since the number of potential images to display about the improvements due to ABCF is quite large  we provide a few images here to demonstrate our results and put the remaining images in Appendix \ref{app:results} for the interested reader.
 
 \bigskip
-\noindent \textbf{SQEONAN Results per forecaster} 
+\noindent \textbf{Results per forecaster} 
 
-\ref{fig:sqe_results} demonstrate the improvements of applying our ABCF algorithm to each dataset for each activity model.  In most of these figures, ABCF improves or is equal to the forecasting algorithm on its own for each forecasting horizon up to 15 time steps in the future.  Maximum improvement is typically achieved between two and four time steps into the future.  
-
-As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.  \ref{fig:sqe_results}(d) demonstrates a case where ABCF performed worse than simply the base forecaster.  For forecasts two time steps ahead, the SVM forecaster out performed a hybrid SVM + ABCF forecast.  From our results, we found that such negative effects on forecasting performance were rare, occurring in only a few of our examples.
-
-%Including all images from base forecasters and abcf improvments
-%Merl dataset
-\begin{figure}[!ht]
+%SQEONAN
+\begin{figure}[!b]
 	\begin{center}
 		\subfigure[] {
 			\includegraphics[width=0.49\textwidth]{sqe_merl_avg.png}
@@ -320,7 +329,7 @@ As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.
 			\includegraphics[width=0.49\textwidth]{sqe_brown_arima.png}
 		}
 		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_brown_svm.png}
+			\includegraphics[width=0.49\textwidth]{sqe_brown_bcf.png}
 		}
 	\end{center}
 	\caption{SQEONAN results of four sample forecasters with and without ABCF}
@@ -328,7 +337,114 @@ As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.
 \end{figure}
 
 
+%RMSE
+\begin{figure}[!t]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{rmse_merl_avg.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{rmse_denver_svm.png}
+		} \\
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{rmse_brown_arima.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{rmse_brown_svm.png}
+		}
+	\end{center}
+	\caption{RMSE results of four sample forecasters with and without ABCF}
+	\label{fig:rmse_results}
+\end{figure}
 
-\subsection{Future unexplored work on Improved Ensemble BCF}
-Discuss identification of various types of extraction techniques.  Types of clustering.  Automated modification of input variables. Sparse dictionary encoding.  Testing with other datasets.  Testing with other base forecasters.
+\begin{figure}[!t]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{mase_Merl_avg.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{mase_Brown_svm.png}
+		} \\
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{mase_Brown_arima.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{mase_Denver_tdnn.png}
+		}
+	\end{center}
+	\caption{MASE results of four sample forecasters with and without ABCF}
+	\label{fig:mase_results}
+\end{figure}
+
+\ref{fig:sqe_results} demonstrate the improvements to the SQEONAN metric of applying our ABCF algorithm to each dataset for each activity model.  A set of sample RMSE and MASE results are given in \ref{fig:rmse_results} and \ref{fig:mase_results}.  In most of these figures, ABCF improves or is equal to the forecasting algorithm on its own for each forecasting horizon up to 15 time steps in the future.  Maximum total improvement is typically achieved between two and four time steps into the future.  Maximum percentage improvement is typically between one and two time steps into the future.
+
+As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.  \ref{fig:sqe_results}(d) and \ref{fig:mase_results}(d) demonstrate cases where ABCF performed worse than simply the base forecaster.  For forecasts one time step ahead on the Brown Hall dataset, the BCF forecaster out performed a hybrid BCF + ABCF forecast.  From our results, we found that such negative effects on forecasting performance were rare, occurring in only a few of our examples.
+
+\ref{fig:rmse_results} and \ref{fig:mase_results} demonstrates the results of ABCF applied to the same some of the same datasets from \ref{fig:sqe_results}.  Notice that in most cases, there are significantly smaller improvements in both MASE and RMSE than that measured with SQEONAN.  This result is expected.  ABCF improves forecasting during the presence of anomalies.  Due to the nature of anomalies being sufficiently rare, ABCF may not improve overall forecasting accuracy by a large margin.  \ref{fig:rmse_results}(b) and (d) show almost no difference.  
+
+\newpage
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Aggregated Results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+\noindent \textbf{Aggregated Results} 
+
+\begin{figure}[!b]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqeonan_improvement_for_each_forecaster_for_Merl.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqeonan_improvement_for_each_forecaster_for_Brown.png}
+		} \\
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{sqeonan_improvement_for_each_forecaster_for_Denver.png}
+		}
+	\end{center}
+	\caption{Percentage improvement to SQEONAN due to application of ABCF}
+	\label{fig:sqe_improvement_dataset}
+\end{figure}
+
+\ref{fig:sqe_improvement_dataset} shows the percentage improvement using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset.  As expected, ABCF improves a historic average forecaster by the largest margin.  The improvement is over 70\% on the Denver dataset and still over 25\% on the Brown hall set.
+
+Both BCF and our IBCF algorithm introduced in the last chapter appear to have the smallest margin for improvement.  In the case of the Denver dataset, forecasts more than 10 time steps in the future are negatively affected by ABCF.  We believe the smaller improvement margins are due the properties of ensemble forecasters.  Such forecasters will change forecasting models based on the structure of the dataset at any given time.  These changes may not lead to clusters which are clean and thus as easily able to be modeled.  (TODO back this up with silhouette scores)
+
+TODO Discuss this whole system a bit more.
+
+TODO include RMSE result and MASE results
+
+TODO include results of sqeonan with ABCF improvements vs a few other forecasters
+
+%TODO Include MASE Results also
+
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width = 1.0\textwidth]{sqeonan_improvement_for_each_dataset.png}
+	\end{center}
+	\caption{Average percent improvement of applying ABCF to each forecaster to a given dataset.}
+	\label{fig:sqeonan_improvement_all_dataset}
+\end{figure}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Future work
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Future unexplored work on ABCF}
+While we are happy with the current status of the ABCF algorithm, we would recommend the following potential avenues for improvement.
+
+\begin{enumerate}
+	\item Explore different data extraction and clustering techniques.  More research into techniques which do not rely on fixed length extracted residual windows.  If a reliance on a sliding window extraction method is to continue, then trimming or growing the sliding window based on the shape of any potential residual.  Another possibility would be to use a sparse dictionary encoding technique to determine the a best dictionary of anomalies for each residual time series.
+	
+	\item Acquire and test with other datasets.  The datasets presented here give a baseline to test from, but we realize that it does not represent all types of human traffic data.  We would like to test from a traffic dataset with shorter time scales (recall that the Denver dataset is every 30 minutes).  Also we would like to have other types of building data.  Do our approaches work with apartments or government buildings?  Rich building datasets would allow us to answer this question and may lead to improvements in our approach based on the results.
+	
+	\item Test with additional forecasters.  The four base forecasters we've selected represent a good base, but other forecasters, such as wavelet based or Markov based, may produce some unintuitive results.  We are especially interested in a forecaster or cluster which has a non-Gaussian noise distribution.  Our algorithm allows for any noise distribution, but all of our tests have only been with Gaussian noise.
+\end{enumerate}
 

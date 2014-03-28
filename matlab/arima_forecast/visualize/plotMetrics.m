@@ -11,6 +11,8 @@ function [] = plotMetrics(plottype, dataset)
             plotDataset(dataset)
         case 'probSample'
             plotSampleProbability(dataset)
+        case 'plotSample'
+            plotSample(dataset)
     end
 end
 
@@ -31,11 +33,11 @@ function plotSqeonan_BCF(dataset)
     fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
     %Plot metrics
-    plot(results.arima.sqeonan3(trainTestSet, 1:horizon), 'Color', [1 0 0]);
+    plot(results.BCF.sqeonan(trainTestSet, 1:horizon), 'Color', [1 0 0]);
     
     %plot(results.average.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(end, :)) 
     hold on
-    plot(results.ABCF.carima.sqeonan3(trainTestSet, 1:horizon), 'Color', [0 0 1]);
+    plot(results.ABCF.BCF.sqeonan(trainTestSet, 1:horizon), 'Color', [0 0 1]);
     %plot(results.ABCF.ICBCF.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(1, :), 'LineWidth', 2);
     %plot(results.BCF.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(2, :));
     %plot(results.svm.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(3, :))
@@ -49,7 +51,7 @@ function plotSqeonan_BCF(dataset)
     ylabel('SQEONAN', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
 
     %legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
-    legend('arima', 'arima + abcf')
+    legend('BCF', 'BCF + abcf')
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
             'sqeonan_no_abcf_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 end  
@@ -89,6 +91,47 @@ function plotRMSE_BCF(dataset)
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
             'rmse_no_abcf_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 end 
+
+
+function plotMASE_BCF(dataset)
+    dataLocation = MyConstants.FILE_LOCATIONS_CLEAN{dataset};
+    load(dataLocation);
+    load(MyConstants.RESULTS_DATA_LOCATIONS{dataset});
+    trainTestSet = 3;
+    horizon = 8;
+    colors = varycolor(6);
+
+    figsizeX = 1200;
+    figsizeY = 550;
+
+    plotTitle = ['MASE vs forecasting horizon for ', MyConstants.DATA_SETS{dataset}, ' dataset'];
+    %set(gca,'units','pix','pos',[100,100,100 + figsizeX, 100 + figsizeY])
+    fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+    %Plot metrics
+    plot(results.tdnn.mase(trainTestSet, 1:horizon), 'Color', [1 0 0]);
+    
+    %plot(results.average.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(end, :)) 
+    hold on
+    plot(results.ABCF.tdnn.mase(trainTestSet, 1:horizon), 'Color', [0 0 1]);
+    %plot(results.ABCF.ICBCF.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(1, :), 'LineWidth', 2);
+    %plot(results.BCF.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(2, :));
+    %plot(results.svm.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(3, :))
+    %plot(results.tdnn.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(4, :))
+    %plot(results.arima.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(5, :));
+
+    xlim([1, horizon]);
+    
+    title(plotTitle, 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE);
+    xlabel('Forecasting horizon', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
+    ylabel('MASE', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
+
+    %legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
+    legend('tdnn', 'tdnn + abcf')
+    export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+            'mase_', MyConstants.DATA_SETS{dataset},'_tdnn.png'), fig, '-transparent', '-nocrop');
+end 
+
 
 
 function plotDataset(dataset)
@@ -207,46 +250,44 @@ function plotSampleProbability(dataset)
     'sample_residual_plot_dataset_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 end
 
-%     
-% %==========================================================================
-% %PLOT SAMPLE PLOT
-% %==========================================================================
-% dataSet = 3;
-% dataLocation = MyConstants.FILE_LOCATIONS_CLEAN{dataSet};
-% load(dataLocation);
-% load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
-% trainTestSet = 3;
-% 
-% fStart = data.blocksInDay * 1;
-% fEnd = size(data.testData, 2);
-% 
-% startTime = 518;
-% endTime = 535;
-% 
-% figsizeX = 1000;
-% figsizeY = 750;
-% 
-% plotTitle = strcat('SQEONAN vs Forecasting horizon for dataset ', MyConstants.DATA_SETS{dataSet});
-% fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
-% 
-% testData = data.testData(1, fStart:fEnd);
-% 
-% %Plot metrics
-% plot(testData(1, startTime:endTime), 'Color', [0, 0, 0]);
-% hold on
-% plot(results.svm.testForecast{1}(1, startTime:endTime), 'Color', [0, 0, 1])
-% plot(results.ABCF.csvm.testForecast{1}(1, startTime:endTime), 'Color', [1,0, 0]);
-% 
-% xlim([1, endTime-startTime]);
-% %ylim([0, 200]);
-% 
-% title(plotTitle, 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE);
-% xlabel('Forecasting horizon', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
-% ylabel('SQEONAN', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
-% 
-% legend('Raw Data', 'SVM Forecast', 'SVM + ABCF');
-% 
-% 
+
+function plotSample(dataset)
+    load(MyConstants.FILE_LOCATIONS_CLEAN{dataset});
+    load(MyConstants.RESULTS_DATA_LOCATIONS{dataset});
+    plotTitle = ['Example plot for ', MyConstants.DATA_SETS{dataset}, ' dataset.'];
+
+    fStart = data.blocksInDay * 1;
+    fEnd = size(data.testData, 2);
+
+    startTime = 2240;
+    endTime = 2287;
+
+    figsizeX = 1200;
+    figsizeY = 550;
+    horizon = 2;
+    
+    fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+    test_data = data.testData(1, fStart:fEnd);
+    arima_data = results.arima.testForecast{horizon};
+    abcf_data = results.ABCF.carima.testForecast{horizon}
+
+    hold on
+
+    plot(test_data(1, startTime:endTime), 'Color', [0, 0, 0])
+    plot(arima_data(1, startTime:endTime), 'LineWidth', 1.25, 'Color', [1,0, 0]);
+    plot(abcf_data(1, startTime:endTime), 'LineWidth', 1.25, 'Color', [0, 0, 1])
+
+    
+    title(plotTitle, 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE);
+    xlabel('Time', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
+    ylabel('Normalized counts', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
+
+    legend('Raw data', 'Arima', 'Arima + ABCF');
+    export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'sample_plot_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
+end
+
 % %==========================================================================
 % %PLOT SAMPLE PROBABILITY PLOT
 % %==========================================================================
