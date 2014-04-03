@@ -231,8 +231,9 @@ function plotSampleProbability(dataset)
     %Plot metrics
     plot(zeros(1, endTime - startTime + 1), 'Color', [0, 0, 0])
     hold on
-    plot(abcfRes(1, startTime:endTime), 'LineWidth', 1.5, 'Color', [1,0, 0]);
-    plot(arimaRes(1, startTime:endTime), 'LineWidth', 1.5, 'Color', [0, 0, 1])
+    plot(arimaRes(1, startTime:endTime), 'LineWidth', 1.5, 'Color', [1, 0, 0]);
+    plot(abcfRes(1, startTime:endTime), 'LineWidth', 1.5, 'Color', [0,0, 1]);
+
 
     for i = 1:size(results.ABCF.carima.testProbs{2}{2}, 1)
         plot(results.ABCF.carima.testProbs{2}{2}(i, startTime:endTime) / 10 - .45 - .1*i, 'Color', [0.5, 0.5, 0])
@@ -245,7 +246,7 @@ function plotSampleProbability(dataset)
     xlabel('Time', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
     ylabel('Residual data', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
 
-    legend('One std dev', 'No error', 'Arima + ABCF Residual', 'Arima Residual');
+    legend('One std dev', 'No error', 'ARIMA Residual', 'ARIMA + ABCF Residual');
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
     'sample_residual_plot_dataset_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 end

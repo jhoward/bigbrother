@@ -5,8 +5,6 @@ All remaining results are in this section.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %SQE Results per forecaster
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bigskip
-\noindent \textbf{SQEONAN Results per forecaster} \\
 %merl
 \begin{figure}[!h]
 	\begin{center}
@@ -72,9 +70,6 @@ All remaining results are in this section.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %RMSE Results per forecaster
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bigskip 
-\noindent \textbf{RMSE Results per forecaster} \\
-
 %merl
 \begin{figure}[!h]
 	\begin{center}
@@ -136,14 +131,10 @@ All remaining results are in this section.
 \end{figure}
 
 \newpage
-\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %MASE Results per forecaster
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bigskip 
-\noindent \textbf{MASE Results per forecaster} \\
-
 %merl
 \begin{figure}[!h]
 	\begin{center}
@@ -205,8 +196,29 @@ All remaining results are in this section.
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%RMSE Results per DATASET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!b]
+	\begin{center}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{rmse_improvement_for_each_forecaster_for_Merl.png}
+		}
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{rmse_improvement_for_each_forecaster_for_Brown.png}
+		} \\
+		\subfigure[] {
+			\includegraphics[width=0.49\textwidth]{rmse_improvement_for_each_forecaster_for_Denver.png}
+		}
+	\end{center}
+	\caption{Percentage improvement to RMSE due to application of ABCF}
+	\label{fig:rmse_improvement_dataset}
+\end{figure}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Reference appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix{Figure references}\label{app:references}
 This thesis was far too long in coming and far to full of various figures that do not have nice references.  
 	\footnote{This footnote is simply to reference all of the unreferenced images.  Enjoy.
@@ -220,4 +232,5 @@ This thesis was far too long in coming and far to full of various figures that d
 		\ref{fig:mase_merl_results},
 		\ref{fig:mase_brown_results},
 		\ref{fig:mase_denver_results},
+		\ref{fig:rmse_improvement_dataset},
 	}

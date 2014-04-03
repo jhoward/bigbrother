@@ -199,7 +199,7 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 
 clear all
 
-dataSet = 3;
+dataSet = 1;
 
 colors = linspecer(8);
 
@@ -232,9 +232,9 @@ plot(p_ibcf * 100, 'Color', colors(6, :))
 
 xlim([1, 15]);
 
-legend('svm', 'arima', 'tdnn', 'average', 'bcf', 'ibcf')
+legend('svm', 'ARIMA', 'tdnn', 'average', 'bcf', 'ibcf')
 
-plotTitle = ['Improvment of rmse due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+plotTitle = ['Improvment of RMSE due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
 title(plotTitle, 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Forecasting horizon', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
 ylabel('RMSE improvement percentage', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)

@@ -1,9 +1,9 @@
 \contentsline {section}{\texorpdfupper {Abstract}}{iii}{section*.1}
 \contentsline {section}{\texorpdfupper {List of Figures}}{vii}{section*.2}
-\contentsline {section}{\texorpdfupper {List of Tables}}{x}{section*.3}
-\contentsline {section}{\texorpdfupper {List of Abbreviations}}{xi}{section*.4}
-\contentsline {section}{\texorpdfupper {Acknowledgments}}{xii}{section*.5}
-\contentsline {section}{\texorpdfupper {Dedication}}{xiii}{section*.6}
+\contentsline {section}{\texorpdfupper {List of Tables}}{xi}{section*.3}
+\contentsline {section}{\texorpdfupper {List of Abbreviations}}{xii}{section*.4}
+\contentsline {section}{\texorpdfupper {Acknowledgments}}{xiii}{section*.5}
+\contentsline {section}{\texorpdfupper {Dedication}}{xiv}{section*.6}
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 1}Introduction}}{1}{section*.7}
 \contentsline {subsection}{\numberline {1.1}Problem and Objective}{3}{subsection.1.1}
 \contentsline {subsubsection}{\numberline {1.1.1}A motivating example}{3}{subsubsection.1.1.1}
@@ -36,16 +36,16 @@
 \contentsline {subsection}{\numberline {4.5}Results of Ensemble}{33}{subsection.4.5}
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{37}{section*.35}
 \contentsline {subsection}{\numberline {5.1}The need for another ensemble forecaster}{37}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}{38}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Background Literature on Activity Recognition and Anomaly Detection}{39}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{43}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.2}Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}{39}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Background Literature on Activity Recognition and Anomaly Detection}{40}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{44}{subsection.5.4}
 \contentsline {subsection}{\numberline {5.5}TSMG derivation}{46}{subsection.5.5}
-\contentsline {subsection}{\numberline {5.6}Sample representative clusters and a discussion about them}{47}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.6}Sample representative clusters and a discussion about them}{48}{subsection.5.6}
 \contentsline {subsection}{\numberline {5.7}ABCF}{50}{subsection.5.7}
-\contentsline {subsection}{\numberline {5.8}Demonstration of ABCF}{50}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.8}Demonstration of ABCF}{51}{subsection.5.8}
 \contentsline {subsection}{\numberline {5.9}Results of ABCF}{52}{subsection.5.9}
 \contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{56}{subsection.5.10}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{58}{section*.51}
-\contentsline {section}{\texorpdfupper {References Cited}}{59}{section*.52}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{66}{section*.53}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{72}{section*.63}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{59}{section*.52}
+\contentsline {section}{\texorpdfupper {References Cited}}{60}{section*.53}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{67}{section*.54}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{73}{section*.65}

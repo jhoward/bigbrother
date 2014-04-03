@@ -1,11 +1,7 @@
 \chapter{Improved Ensemble}
 In the past chapter, we showed that a few changes can lead to some significant improvements in multi-step forecasting accuracy when ensemble Bayesian Combined Forecasting is applied to our traffic datasets.  This chapter describes more in depth some of the problems with BCF.  We look at some related work into potentially solving these problems through the identification and modeling of activities and finally introduce a new ensemble forecasting technique which solves these problems.  
 
-
-\subsection{The need for another ensemble forecaster}
-When analyzing the residual datasets of these ensemble forecasts, we noticed a fundamental problem with our forecaster.  In the residual forecasts of BCF and many of the forecasting algorithms, the resulting residual forecast would still have many repeated misforecasts that could not be explained by random noise.  As alluded to in Chapter 1, these repetitive misforecasts may come from large human controlled scheduled events (such as sporting events, public celebrations, or in the case of buildings meetings) or they may be from uncontrolled and unscheduled events (such as weather or traffic accidents).  
-
-\begin{figure}[]
+\begin{figure}[!b]
 	\begin{center}
 		\subfigure[] {
 			\includegraphics[width=0.49\textwidth]{sample_residual_event_804.png}
@@ -18,9 +14,12 @@ When analyzing the residual datasets of these ensemble forecasts, we noticed a f
 	\label{fig:sample_residual_events}
 \end{figure}
 
-~\ref{fig:sample_residual_events} shows two of these events occurring.  Such an event clearly occurs outside the normal behavior noise of our data.  The light red region in this image represents the one standard deviation boundary for the residual data.  From chapter 4, we know that BCF residual data tends to be normally distributed per daily time step.  The residual datasets from each time step pass the one-sample Kolmogorov-Smirnov \cite{Marsaglia2003, Lopes2007} test for normality ($p \ge 0.1$).  Assuming this data is truly normally distributed then the odds of getting even one such datapoint outside the $\pm 3 \sigma$ should occur roughly 1 in every million data points.  Yet, in our Denver traffic data, we had 22 such instances in the testing dataset alone ($N \approx 12000$).  
 
-~\ref{fig:denver_bcf_residual} shows these results graphically.  In this figure, a histogram of the data from four different time steps from the Denver traffic dataset, overlaid with the corresponding best fit normal distribution.  In each image the same pattern appears.  Residual values around the mean and on the tails tend to occur with a greater frequency than would be suggested by a normal distribution.  Values around the mean are not the problem.  These values correspond to accurate forecasts.  Values around the tail however are problematic and are further evidence of large events being one of the causes of noise in our residual data.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Need for another ensemble forecaster
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The need for another ensemble forecaster}
+When analyzing the residual datasets of these ensemble forecasts, we noticed a fundamental problem with our forecaster.  In the residual forecasts of BCF and many of the forecasting algorithms, the resulting residual forecast would still have many repeated misforecasts that could not be explained by random noise.  As alluded to in Chapter 1, these repetitive misforecasts may come from large human controlled scheduled events (such as sporting events, public celebrations, or in the case of buildings meetings) or they may be from uncontrolled and unscheduled events (such as weather or traffic accidents).  
 
 \begin{figure}[!t]
 	\begin{center}
@@ -41,13 +40,35 @@ When analyzing the residual datasets of these ensemble forecasts, we noticed a f
 	\label{fig:denver_bcf_residual}
 \end{figure}
 
+~\ref{fig:sample_residual_events} shows two of these events occurring.  Such an event clearly occurs outside the normal behavior noise of our data.  The light red region in this image represents the one standard deviation boundary for the residual data.  From chapter 4, we know that BCF residual data tends to be normally distributed per daily time step.  The residual datasets from each time step pass the one-sample Kolmogorov-Smirnov \cite{Marsaglia2003, Lopes2007} test for normality ($p \ge 0.1$).  Assuming this data is truly normally distributed then the odds of getting even one such datapoint outside the $\pm 3 \sigma$ should occur roughly 1 in every million data points.  Yet, in our Denver traffic data, we had 22 such instances in the testing dataset alone ($N \approx 12000$).  
+
+~\ref{fig:denver_bcf_residual} shows these results graphically.  In this figure, a histogram of the data from four different time steps from the Denver traffic dataset, overlaid with the corresponding best fit normal distribution.  In each image the same pattern appears.  Residual values around the mean and on the tails tend to occur with a greater frequency than would be suggested by a normal distribution.  Values around the mean are not the problem.  These values correspond to accurate forecasts.  Values around the tail however are problematic and are further evidence of large events being one of the causes of noise in our residual data.
+
 The unlikely existence of these events along evidence that the remaining residual time series behaves as a white noise Gaussian process provides evidence that these events are likely not due to natural noise and instead due to other factors.  The remainder of this chapter discusses ways to identify and model these anomalous events along with providing an algorithm for using these events to improve our forecasting algorithm.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Overview ABCF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}
-TODO POTENTIALLY DISCUSS OUR IDEA AT A HIGH LEVEL AGAIN
+
+\begin{wrapfigure}{L}{0.3\textwidth}
+\centering
+\includegraphics[width=0.25\textwidth]{simple_approach_overview.png}
+\caption{Extremly high level overview of our approach}
+\label{fig:highlevel_overview}
+\end{wrapfigure}
+
+As outlined in the introduction, we return here to a brief discussion of our approach.  The structure of non-Gaussian anomalies in the residual datasets of our forecasts leads us to explore if models of these anomalies can be used to improve our forecasts.  We propose a hybrid ensemble approach which can be applied to any forecaster and may lead to improved results.  
+
+A high level view of our approach is detailed in \ref{fig:highlevel_overview}.  Given any forecaster trained forecaster, we extract a set of residual data.  Searching this residual dataset, we next attempt to extract and model the most representative set of anomalous events.  From \ref{fig:sample_residual_events}, we know that for our traffic systems - and we believe for many other human controlled traffic systems - that these events are not unique and are likely to repeat with similar behavior.  These anomalous events are then used as the basis of an ensemble forecaster combined with a zero mean background model which represents the native forecaster.  
+
+In section \ref{sec:abcf} we introduce a recursive ensemble forecaster which uses clustered anomalies as inputs and works on the residual dataset of any given native forecaster.  Finally, using both the anomaly ensemble inputs and the native forecast, we combine the results to produce a final forecast.  
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Background literature
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Background Literature on Activity Recognition and Anomaly Detection}
 To construct our approach we need to identify and model these anomalous events.  Considerable work has been done in the field of time series anomaly detection, however this work is typically limited to anomaly detection and classification.  Anomaly modeling as used for improved forecasting seems to have limited results in the forecasting literature.  We believe that this limited amount of anomaly modeling is often due to the nature of anomalies, either they are random and seemingly often times difficult to predict as is the case with stock market anomalies ~\cite{Kontonikas2013, Thushara2014} or they require some immediate attention and thus forecasting is an inappropriate response to the anomaly.  Such a situation arises frequently in network data monitoring.  Detection and classification of network anomalies help to determine potential network attacks \cite{Tartakovsky2013, Gogoi2011} and allow for preventive measures to take place, but forecasting network traffic during these anomalies is of little utility.  
    
@@ -61,20 +82,17 @@ From Eamon Keogh, a prominent researcher in time-series anomaly detection, a rea
 "frequency of occurrences differed substantially from that expected, given previously seen data."
 \end{quote}
 
-A common method of anomaly detection is through the use of tools to assist in visual identification \cite{Stoffel2013, Lakhina2004, Shi2012}.  Tools have been extensively developed for network anomaly detection.  Such tools allow network administrators and researchers to quickly identify and potentially classify anomalies in the form of certain network attacks.  This is done by giving providing graphs, and overlay visualizations which make the identification of patterns more apparent.  Through the use of these tools, network administrators are able to quickly respond to  various attacks and minimize the potential damage to the network.
+A common method of anomaly detection is through the use of tools to assist in visual identification \cite{Stoffel2013, Lakhina2004, Shi2012}.  Tools have been extensively developed for network anomaly detection.  Such tools allow network administrators and researchers to quickly identify and potentially classify anomalies in the form of certain network attacks.  This is done by giving providing graphs, and overlay visualizations which make the identification of patterns more apparent.  Through the use of these tools, network administrators are able to quickly respond to  various attacks and minimize the potential damage to the network.  Visual assistance tools for anomaly detection do not provide modeling and forecasting of anomalies and thus are of little utility for utilizing anomalies to improve traffic system forecasting.   
 
-Visual assistance tools for anomaly detection do not provide modeling and forecasting of anomalies and thus are of little utility for utilizing anomalies to improve traffic system forecasting.   
+Another common technique for anomaly detection within time series data is known as change point (or step detection).  Originally developed for statistical quality control, the cumulative sum control chart (CUSUM) \cite{page1955} is a classic algorithm for detecting changes in the mean of a time series.  It involves the calculation of a cumulative sum of the weighted observations.  When this sum exceeds a certain threshold value, a change is value is declared.  A problem with this approach is that the thresholds need to be known a priori.
 
-TODO Write more on these following approaches
+The field of change point detection is quite heavily researched.  Researchers have developed algorithms for most types of data and computational scenarios.  There are algorithms to detect changes in time series mean, changes in variance and changes in distribution from the exponential family \cite{Dessein2013}.  These algorithms can operate offline, online \cite{Tartakovsky2013}, top down, bottom up and globally.  An excellent summary of current state of the art in change point detection spanning all major formulations (Bayesian, minimax, and generalized Bayesian) is found in \cite{Polunchenko2012}
+
+TODO CLEAN UP CHANGE POINT TECHNIQUES
 
 Spectral Methods:
 Widely used in other fields to distinguish hidden patterns and trends from a noisy background.
 \cite{Barford2002}
-
-change-point methods
-Non-parametric: Does not assume an underlying model.  Many employ CUSUM to implement the change-point detection.  The CUSUM algorithm (Detection of Abrupt Changes: Theory and Application 1993) involves the calculation of a cumulative sum of the weighted observations.  When this sum exceeds a certain threshold value, a change is value is declared.  A problem with this approach is that the thresholds need to be known a priori.
-MNA-CUSUM (Tartakovsky)
-
 
 \bigskip
 \noindent \textbf{Individual Activity Modeling and Recognition} \\
@@ -254,6 +272,7 @@ This section visually demonstrates a few of the clusters extracted from our data
 
 
 \subsection{ABCF}
+\label{sec:abcf}
 Here we present the math behind our Anomaly BCF algorithm. (ABCF)  Similar to the Bayesian Combined Forecaster, our ABCF algorithm is recursive and computationally efficient.  
 
 We present the algorithm using two anomaly models $A$ and $B$ with a background model $C$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $A$ and $B$ are activity models from our time series mixture of Gaussians, however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(A^{(i)}_{t}|x_{t}, \ldots, x_{1})$.
@@ -305,7 +324,6 @@ The recursive nature of our likelihood time step propagation in the ABCF algorit
 	\label{fig:sample_abcf_denver}
 \end{figure}
 
-TODO - swap colors of demo image, capitalize ARIMA
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Results of ABCF
@@ -357,6 +375,7 @@ Since the number of potential images to display about the improvements due to AB
 	\label{fig:rmse_results}
 \end{figure}
 
+%MASE
 \begin{figure}[!t]
 	\begin{center}
 		\subfigure[] {
@@ -412,13 +431,11 @@ As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.
 
 Both BCF and our IBCF algorithm introduced in the last chapter appear to have the smallest margin for improvement.  In the case of the Denver dataset, forecasts more than 10 time steps in the future are negatively affected by ABCF.  We believe the smaller improvement margins are due the properties of ensemble forecasters.  Such forecasters will change forecasting models based on the structure of the dataset at any given time.  These changes may not lead to clusters which are clean and thus as easily able to be modeled.  (TODO back this up with silhouette scores)
 
-TODO Discuss this whole system a bit more.
+TODO include selected RMSE and MASE results
 
-TODO include RMSE result and MASE results
+TODO include overall average improvement
 
 TODO include results of sqeonan with ABCF improvements vs a few other forecasters
-
-%TODO Include MASE Results also
 
 
 \begin{figure}
@@ -441,7 +458,7 @@ TODO include results of sqeonan with ABCF improvements vs a few other forecaster
 While we are happy with the current status of the ABCF algorithm, we would recommend the following potential avenues for improvement.
 
 \begin{enumerate}
-	\item Explore different data extraction and clustering techniques.  More research into techniques which do not rely on fixed length extracted residual windows.  If a reliance on a sliding window extraction method is to continue, then trimming or growing the sliding window based on the shape of any potential residual.  Another possibility would be to use a sparse dictionary encoding technique to determine the a best dictionary of anomalies for each residual time series.
+	\item Explore different data extraction and clustering techniques.  More research into techniques which do not rely on fixed length extracted residual windows.  If a reliance on a sliding window extraction method is \texttt{•}o continue, then trimming or growing the sliding window based on the shape of any potential residual.  Another possibility would be to use a sparse dictionary encoding technique to determine the a best dictionary of anomalies for each residual time series.
 	
 	\item Acquire and test with other datasets.  The datasets presented here give a baseline to test from, but we realize that it does not represent all types of human traffic data.  We would like to test from a traffic dataset with shorter time scales (recall that the Denver dataset is every 30 minutes).  Also we would like to have other types of building data.  Do our approaches work with apartments or government buildings?  Rich building datasets would allow us to answer this question and may lead to improvements in our approach based on the results.
 	
