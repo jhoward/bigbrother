@@ -245,7 +245,10 @@ function plotSampleProbability(dataset)
     title(plotTitle, 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE);
     xlabel('Time', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
     ylabel('Residual data', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
-
+    
+    
+    set(gca, 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE)
+    
     legend('One std dev', 'No error', 'ARIMA Residual', 'ARIMA + ABCF Residual');
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
     'sample_residual_plot_dataset_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
@@ -271,7 +274,7 @@ function plotSample(dataset)
 
     test_data = data.testData(1, fStart:fEnd);
     arima_data = results.arima.testForecast{horizon};
-    abcf_data = results.ABCF.carima.testForecast{horizon}
+    abcf_data = results.ABCF.carima.testForecast{horizon};
 
     hold on
 
@@ -283,6 +286,8 @@ function plotSample(dataset)
     title(plotTitle, 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE);
     xlabel('Time', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
     ylabel('Normalized counts', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
+    
+    set(gca, 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE)
 
     legend('Raw data', 'Arima', 'Arima + ABCF');
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...

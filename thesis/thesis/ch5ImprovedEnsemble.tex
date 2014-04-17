@@ -271,24 +271,75 @@ This section visually demonstrates a few of the clusters extracted from our data
 \ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  Unlike in the extracted clusters of MERL and Brown, these clusters appear to have "sharp" transition.  This is likely due to the data being aggregated every 30 minutes instead of every 10 minutes like the other dataset.  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  Such a clustering is likely a scenario where modeling these clusters through a non-fixed technique may lead to better results.
 
 
-\subsection{ABCF}
+\subsection{ABCF Derived}
 \label{sec:abcf}
-Here we present the math behind our Anomaly BCF algorithm. (ABCF)  Similar to the Bayesian Combined Forecaster, our ABCF algorithm is recursive and computationally efficient.  
+Here we present the math behind our Anomaly Bayesian combined forecasting algorithm.  Similar to the Bayesian combined forecaster introduced in Chapter 4, our ABCF algorithm is recursive and computationally efficient.  
 
-We present the algorithm using two anomaly models $A$ and $B$ with a background model $C$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $A$ and $B$ are activity models from our time series mixture of Gaussians, however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(A^{(i)}_{t}|x_{t}, \ldots, x_{1})$.
+We present the algorithm using two anomaly event models $a$ and $b$ with a background model $c$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $a$ and $b$ are modeled anomalies from our time series mixture of Gaussians, however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(x_{t} | a^{(i)}_{t})$.  Also, the model $c$ is assumed to be a background model which allows for the computation of $p(c_{t}|x_{t})$.  
 
-The model $C$ is assumed to be a background model which allows for the computation of $p(c_{t}|x_{t})$.  
+Let $a_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$ and $b_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$.  At any time $t$ we have one of ${a^{(i)}_{t}}$, ${b^{(i)}_{t}}$ or $c$.  From this we know that 
 
-TODO Formally introduce the background model we will use.
+\begin{equation}
+\sum_{i}^{len(a)} p(a_{t}^{(i)}|x_{t}, \ldots, x_{1}) + \sum_{i}^{len(b)} p(b_{t}^{(i)}|x_{t}, \ldots, x_{1}) + p(c_{t}|x_{t}, \ldots, x_{1}).
+\end{equation}
 
-Let $A_{t}^{(i)} = $ the event that model $A$ is active at time $t$ at index $i$.  
+The goal of this forecaster is then to find each of $p(a_{t + 1}^{(i + 1)})$, $p(a_{t + 1}^{(i + 1)})$, and $p(c_{t + 1}).$  Given these model likelihoods, we can then produce a final forecast in a way similar to BCF in chapter 4.
 
-TODO Derive ABCF in the Appendix
+We know from Bayes rule 
 
-TODO add the respective cluster and add the final forecast for the same timeframe.
+\begin {equation}
+p(a_{t + 1}^{(i + 1)}|x_{t + 1}, \ldots, x_{1}) =
+		\frac{p(x_{t + 1}|a^{(i + 1)}_{t + 1}, x_{t}, \ldots, x_{1}) p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})}
+	       {p(x_{t + 1})}
+\end{equation}
+
+Thus to find $p(a_{t + 1}^{(i + 1)}|x_{t + 1}, \ldots, x_{1})$ we need to compute:
+\begin{itemize}
+	\item $p(x_{t + 1}|a^{(i + 1)}_{t + 1}, x_{t}, \ldots, x_{1})$
+	\item $p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})$
+	\item $p(x_{t + 1})$
+\end{itemize} 
+
+Computing $p(x_{t + 1})$ is straight forward from the law of total probability
+
+\begin{equation}
+	\begin{split}
+		p(x_{t + 1}) = \sum_{i}^{len(a) - 1}p(x_{t + 1}|a_{t + 1}^{(i + 1)}, x_{t}, \ldots, x_{1})
+						   p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1}) + \\
+				      \sum_{i}^{len(b) - 1}p(x_{t + 1}|b_{t + 1}^{(i + 1)}, x_{t}, \ldots, x_{1}) 
+						   p(b_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1}) + \\
+	        			      p(x_{t + 1}|c_{t + 1}, x_{t}, \ldots, x_{1})p(c_{t + 1}|x_{t}, \ldots, x_{1}).
+	\end{split}
+\end{equation}
+
+The computation for $p(x_{t + 1}|a^{(i + 1)}_{t + 1}, x_{t}, \ldots, x_{1})$ is performed directly by computing the likelihood of a new data point $x_{t + 1}$ for model $a$ at offset $i + 1$.
+
+Finally, the calculation of $p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})$ is from an earlier forecast and is what gives our algorithm its recursive nature.  We pass the posterior of all values of $a_{t}$ to the priors of $a_{t + 1}.$  Thus $p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})$ is simply a passed value from the last time step in our algorithm.  Specifically we define 
+
+\begin{equation}
+	p(a_{t + 1}^{(i + 1)} | x_{t}, \ldots, x_{1}) = 
+		\begin{cases}
+			p(a_{t}^{(i)}|x_{t}, \ldots, x_{1}) & : i < len(a) \\
+			0 & : otherwise.
+		\end{cases}
+	%\right
+\end{equation}
+
+Thus in the present of an event we pass along the likelihood of that even to the next time step and recompute the posterior of that event.  The prior for the start of each event is a user tunable parameter.  
+
+\begin{equation}
+	\begin{split}
+		p(a_{t + 1}^{(1)}|x_{t}, \ldots, x_{1}) = p(a_{t + 1}^{(1)}) = \theta_a \\
+		p(b_{t + 1}^{(1)}|x_{t}, \ldots, x_{1}) = p(b_{t + 1}^{(1)}) = \theta_b
+	\end{split}
+\end{equation}
 
 
-\begin{figure}[!h]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Demonstration of ABCF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[!t]
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{sample_residual_plot_dataset_Denver.png}
 	\end{center}
@@ -296,10 +347,6 @@ TODO add the respective cluster and add the final forecast for the same timefram
 	\label{fig:sample_abcf_residual}
 \end{figure}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Demonstration of ABCF
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Demonstration of ABCF}
 \ref{fig:sample_abcf_residual} is a demonstration of ABCF.  This figure displays one sample time frame (in blue) from the Denver dataset along with the corresponding region for one standard deviation of noise from a best fit ARIMA forecaster with a horizon of two time steps.  The teal line below the graph is the likelihood of the background ARIMA model accurately representing the residual data from the set of clustered anomalies.  The remaining tan lines are the individual likelihoods of each time step of a given clustered anomaly \ref{fig:sample_cluster}  
 
