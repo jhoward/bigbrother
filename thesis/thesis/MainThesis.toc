@@ -10,42 +10,42 @@
 \contentsline {subsection}{\numberline {1.2}Approach}{5}{subsection.1.2}
 \contentsline {subsection}{\numberline {1.3}Contributions}{6}{subsection.1.3}
 \contentsline {subsection}{\numberline {1.4}Structure of the Thesis}{7}{subsection.1.4}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Datasets}}{8}{section*.10}
-\contentsline {subsection}{\numberline {2.1}Building Datasets}{9}{subsection.2.1}
-\contentsline {subsubsection}{\numberline {2.1.1}MERL Dataset}{10}{subsubsection.2.1.1}
-\contentsline {subsubsection}{\numberline {2.1.2}Colorado School of Mines Dataset}{12}{subsubsection.2.1.2}
-\contentsline {subsection}{\numberline {2.2}Traffic datasets}{14}{subsection.2.2}
-\contentsline {subsubsection}{\numberline {2.2.1}Denver traffic dataset}{14}{subsubsection.2.2.1}
-\contentsline {subsection}{\numberline {2.3}Additional notes on the datasets}{16}{subsection.2.3}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 3}Models}}{19}{section*.20}
-\contentsline {subsection}{\numberline {3.1}Notation}{19}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Forecast measurements}{20}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Seasonal ARIMA model}{22}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Fitting a Seasonal ARIMA}{24}{subsubsection.3.3.1}
-\contentsline {subsection}{\numberline {3.4}Historic average}{25}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Time delayed neural networks}{26}{subsection.3.5}
-\contentsline {subsection}{\numberline {3.6}Support Vector Regression}{27}{subsection.3.6}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}ENSEMBLE APPROACH}}{29}{section*.28}
-\contentsline {subsection}{\numberline {4.1}Bayesian Combined Forecasting}{29}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Notation}{29}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Bayesian Combined Forecasting Derivation}{30}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}BCF Modifications}{31}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Forecast $\delta $ time steps into the future}{32}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}Improving model error distributions}{33}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}Model selection thresholding}{33}{subsubsection.4.4.3}
-\contentsline {subsection}{\numberline {4.5}Results of Ensemble}{34}{subsection.4.5}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{38}{section*.35}
-\contentsline {subsection}{\numberline {5.1}The need for another ensemble forecaster}{38}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}{40}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Background Literature on Activity Recognition and Anomaly Detection}{41}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{45}{subsection.5.4}
-\contentsline {subsection}{\numberline {5.5}TSMG derivation}{47}{subsection.5.5}
-\contentsline {subsection}{\numberline {5.6}Sample representative clusters and a discussion about them}{49}{subsection.5.6}
-\contentsline {subsection}{\numberline {5.7}ABCF Derived}{51}{subsection.5.7}
-\contentsline {subsection}{\numberline {5.8}Demonstration of ABCF}{53}{subsection.5.8}
-\contentsline {subsection}{\numberline {5.9}Results of ABCF}{55}{subsection.5.9}
-\contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{58}{subsection.5.10}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{61}{section*.52}
-\contentsline {section}{\texorpdfupper {References Cited}}{62}{section*.53}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{69}{section*.54}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{75}{section*.65}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Models}}{8}{section*.10}
+\contentsline {subsection}{\numberline {2.1}Notation}{8}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Forecast Error Measurements}{9}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Seasonal ARIMA model}{12}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}Fitting a Seasonal ARIMA}{13}{subsubsection.2.3.1}
+\contentsline {subsection}{\numberline {2.4}Historic average}{15}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Time delayed neural networks}{16}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Support Vector Regression}{17}{subsection.2.6}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 3}Datasets}}{19}{section*.18}
+\contentsline {subsection}{\numberline {3.1}Building Datasets}{20}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}MERL Dataset}{21}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Colorado School of Mines Dataset}{23}{subsubsection.3.1.2}
+\contentsline {subsection}{\numberline {3.2}Traffic datasets}{25}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Denver traffic dataset}{25}{subsubsection.3.2.1}
+\contentsline {subsection}{\numberline {3.3}Additional notes on the datasets}{27}{subsection.3.3}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}ENSEMBLE APPROACH}}{30}{section*.28}
+\contentsline {subsection}{\numberline {4.1}Bayesian Combined Forecasting}{30}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Notation}{30}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Bayesian Combined Forecasting Derivation}{31}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}BCF Modifications}{32}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Forecast $\delta $ time steps into the future}{33}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Improving model error distributions}{34}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Model selection thresholding}{34}{subsubsection.4.4.3}
+\contentsline {subsection}{\numberline {4.5}Results of Ensemble}{35}{subsection.4.5}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{39}{section*.35}
+\contentsline {subsection}{\numberline {5.1}The need for another ensemble forecaster}{39}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}{41}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Background Literature on Activity Recognition and Anomaly Detection}{42}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{46}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}TSMG derivation}{48}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}Sample representative clusters and a discussion about them}{50}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}ABCF Derived}{52}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.8}Demonstration of ABCF}{54}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.9}Results of ABCF}{56}{subsection.5.9}
+\contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{59}{subsection.5.10}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{62}{section*.52}
+\contentsline {section}{\texorpdfupper {References Cited}}{63}{section*.53}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{71}{section*.54}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{77}{section*.65}

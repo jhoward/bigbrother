@@ -1,14 +1,5 @@
 \chapter{Models}
-With this chapter we explore some of the most common forecasting models on our datasets.  These models are meant to be used as a baseline from which to compare our results. Also in this chapter, we introduce the metrics which will be used for our analysis.  We feel this analysis useful to empirically demonstrate the various forecasting capabilities of these established models.
-
-TODO IN THIS CHAPTER
-Citations
-Image for Historic Average
-Image for TDNN
-Image for ARIMA
-Image for SVM
-Analysis and Table of results
-
+With this chapter we explore some of the most common forecasting models for traffic datasets.  These models are meant to be used as a baseline from which to compare our results. Also in this chapter, we introduce the metrics which will be used for our analysis.  We feel this analysis useful to empirically demonstrate the various forecasting capabilities of these established models.
 
 \subsection{Notation}
 As already stated, we define a time series dataset used within as  $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.  In total the number of time blocks are represented by $N$.
@@ -32,21 +23,23 @@ r_{t,\delta} =  x_{t + \delta} - y_{t + \delta}.
 This set of residuals is the difference between the raw data and a forecasting function operating $\delta$ time steps into the future. 
 
 
-\subsection{Forecast measurements}
-We use mean absolute scale error (MASE) \cite{Hyndman2006, Hyndman2006a} and root mean squared error (RMSE) as cost functions to compare with other previously implemented techniques.  These forecasting cost functions are commonly used in forecasting literature (TODO: CITE) and provide a baseline by which to compare our novel forecasting approach to classic forecasting models.  
+\subsection{Forecast Error Measurements}
+There are a multitude of various forecasting error measurements that have been used to assess forecast accuracy.  Expert recommendation of which forecast error measurement to use for what types of data has changed over time.  Armstrong \cite{Armstrong2001, Yokuma1995} found that root mean squared error (RMSE) was by far the most popular error measurement in 1981 among academics.  However, by 1995 RMSE preference by academics had dropped by roughly half and mean absolute percentage error (MAPE) was the preferred error measurement. 
 
-Also, because some of our work is interested in reducing inaccurate forecasts during the presence of some anomalous event, we introduce another forecasting measurement which we call root mean squared error outside of noise against naive (RMSEONAN).  This metric provides a convenient way to measure the improvement our approach yields which is not easily captured by RMSE and MASE.
+For this work, to coincide with expert opinion on forecast error measurements, we use both mean absolute scale error (MASE) \cite{Hyndman2006, Hyndman2006a} and RMSE as cost functions to compare our forecasting accuracy.  RMSE was selected due to its simplicity and ubiquity within the forecasting community.  MASE was selected for it being both a modern derivation of MAPE and for its accuracy in places where MAPE does not provide adequate results.  
+
+Also, because much of the focus of our work is interested in reducing inaccurate forecasts during the presence of some anomalous event, we introduce another forecasting measurement which we call root mean squared error outside of noise against naive (RMSEONAN).  This metric provides a convenient way to measure the improvement our approach yields which is not easily captured by RMSE and MASE.
 
 \bigskip
 \noindent \textbf{RMSE} \\
-One of the most common error functions used to determine the quality of a set of forecasts.  It measures the average difference between two time series.  In this case, the input series $x$ and the forecast series $y$.
+One of the most common error functions used to determine the quality of a set of forecasts.  It measures the average difference between two time series.  Due to its squared error term, this measurement is not a good indicator of error between distinctly different datasets.  For our work comparing the input series $x$ and the forecast series $y$ RMSE performs adequately.
 \begin{equation}
 RMSE_{\delta} = \sqrt{\frac{\sum_{t = 1}^{N - \delta}{(x_{t + \delta} - y_{t + \delta})^{2}}}{N - \delta}}
 \end{equation}
 
 \bigskip
 \noindent \textbf{MASE} \\
-Mean absolute scaled error was developed to be a generally applicable measurement of forecast accuracy.  The metric is especially useful for datasets with intermittent demand unlike the common closely related measurement of mean absolute percentage error (MAPE).  The reason it works well with intermittent time is that it will not return undefined or infinite values unless all dataset is equal \cite{Hyndman2008}.
+Mean absolute scaled error was developed to be a generally applicable measurement of forecast error.  The metric is especially useful for datasets with intermittent demand unlike the commonly used MAPE score.  The reason it works well with intermittent time is that it will not return undefined or infinite values unless the compared datasets are equal \cite{Hyndman2008}.
 
 \begin{equation}
 MASE_{\delta} = \frac{\sum_{t = 1}^{N - \delta}{r_{t, \delta}}}{\frac{N}{N - 1}\sum_{i = 2}^{N}|y_{i} - y_{i - 1}|}
@@ -56,28 +49,32 @@ MASE_{\delta} = \frac{\sum_{t = 1}^{N - \delta}{r_{t, \delta}}}{\frac{N}{N - 1}\
 \noindent \textbf{RMSEONAN} \\
 Root mean squared error outside noise against naive measures a forecast's accuracy during its worst case scenarios.  This is performed by measuring the sum of squared errors of forecasts outside a prescribed boundary.  We compute this boundary from the forecasting accuracy of a naive forecaster.  For our work, we consider the naive forecaster to be the historical average of the data for a given time.  
 
-Most of the results of this work deal with boundaries set by one standard deviation of the residual dataset formed but he historic average (naive) model.  Some later results will include larger boundaries such as two and three standard deviations.  RMSEONAN is defined as
+Most of the results of this work deal with boundaries set by one standard deviation of the residual dataset formed but the historic average (naive) model.  RMSEONAN is defined as
+
 \begin{equation}
 RMSEONAN_{\delta, \sigma} = \frac{\sqrt{\sum_{t = 1}^{N - \delta}{A(r_{t, \delta}; \sigma)^{2}}}} {N - \delta}.
 \end{equation}
+
 Where $A(r_{\delta}; \sigma)$ is 
+
 \begin{equation}
 A(r_{t, \delta}; \sigma_{t}) = \begin{cases}
 			r_{t, \delta}    &    \text{If }r_{t, \delta} \ge \sigma_{t} \\
 			0                     &    \text{otherwise.}
 			\end{cases}
 \end{equation}
+
 $\sigma_{t}$ is the standard deviation of the data at that time step for that given day.  For certain comparisons, it is useful to use $n*\sigma$ with values of $n > 1$.  
 
 Notice that this function is an average of all values of $A(r_{\delta})$.  This is because RMSEONAN is used to compare between multiple forecasting algorithms of the same dataset the total effect of sufficiently inaccurate forecasts (by sufficiently inaccurate, we mean any forecast outside a defined  accuracy boundary).  If we were to measure only values where $A(r_{\delta}) > 0$, then an average value is not able to distinguish between forecasting models that leave few sufficiently inaccurate forecasts and many inaccurate forecasts assuming they are of similar value.  
 
 An example demonstrating the regions summed by RMSEONAN is given by ~\ref{fig:dem_RMSEONAN}.  In this image, only the area of the green spaces are squared and summed towards RMSEONAN.  All other regions are zero.  The large salmon colored region is the area that is one standard deviation for all days at that time for the residual dataset.
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\begin{center}
-		\includegraphics[width = .5\linewidth]{demonstration_RMSEONAN}
+		\includegraphics[width = .8\linewidth]{demonstration_RMSEONAN}
 	\end{center}
-	\caption{Demonstration of the area measured by RMSEONAN}
+	\caption{Demonstration of the area measured by RMSEONAN.  Only the solid green regions are measured.  These regions correspond with forecasting errors outside a prescribed boundary which in this case is one standard deviation from the mean for that given period of time.}
 	\label{fig:dem_RMSEONAN}
 \end{figure}
 

@@ -1,4 +1,4 @@
-\begin{thebibliography}{67}
+\begin{thebibliography}{69}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -51,6 +51,133 @@ Peter Koonce, Wayne Kittelson, Lee Rodegerdts, Kevin Lee, and Caroline Swartz.
 \bibitem[ESPN(2013)]{ESPN2013}
 ESPN.
 \newblock {NFL Attendance}, 2013.
+
+\bibitem[Petridis et~al.(2001)Petridis, Kehagias, Petrou, Bakirtzis, Kiartzis,
+  Panagiotou, and Maslaris]{Petridis2001}
+V~Petridis, A~Kehagias, L~Petrou, A~Bakirtzis, S~Kiartzis, H~Panagiotou, and
+  N~Maslaris.
+\newblock {A Bayesian multiple models combination method for time series
+  prediction}.
+\newblock \emph{Journal of intelligent and robotic systems}, 31\penalty0
+  (1):\penalty0 69--89, 2001.
+\newblock URL \url{http://www.springerlink.com/index/X6UR20K8780000T2.pdf}.
+
+\bibitem[Armstrong(2001)]{Armstrong2001}
+J~Scott Armstrong.
+\newblock {Evaluating forecasting methods}.
+\newblock \emph{Principles of forecasting}, pages 443--472, 2001.
+
+\bibitem[Yokuma and Armstrong(1995)]{Yokuma1995}
+JT~Yokuma and JS~Armstrong.
+\newblock {Beyond accuracy: Comparison of criteria used to select forecasting
+  methods}.
+\newblock \emph{International Journal of Forecasting}, 11\penalty0
+  (4):\penalty0 591--597, 1995.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/016920709500615X}.
+
+\bibitem[Hyndman and Koehler(2006)]{Hyndman2006}
+R.J. Hyndman and A.B. Koehler.
+\newblock {Another look at measures of forecast accuracy}.
+\newblock \emph{International Journal of Forecasting}, 22\penalty0
+  (4):\penalty0 679--688, 2006.
+
+\bibitem[Hyndman(2006)]{Hyndman2006a}
+R.J. Hyndman.
+\newblock {Another look at measures of forecast accuracy}.
+\newblock \emph{FORESIGHT}, page~46, June 2006.
+
+\bibitem[Hyndman and al(2008)]{Hyndman2008}
+Rob Hyndman and Et~al.
+\newblock \emph{{Forecasting with Exponential Smoothing: The State Space
+  Approach}}.
+\newblock Springer-Verlag, Berlin, 2008.
+
+\bibitem[Williams and Hoel(2003)]{Williams2003}
+Billy~M. Williams and Lester~a. Hoel.
+\newblock {Modeling and Forecasting Vehicular Traffic Flow as a Seasonal ARIMA
+  Process: Theoretical Basis and Empirical Results}.
+\newblock \emph{Journal of Transportation Engineering}, 129\penalty0
+  (6):\penalty0 664, 2003.
+\newblock ISSN 0733947X.
+\newblock \doi{10.1061/(ASCE)0733-947X(2003)129:6(664)}.
+\newblock URL \url{http://link.aip.org/link/JTPEDI/v129/i6/p664/s1\&Agg=doi}.
+
+\bibitem[Hong et~al.(2011)Hong, Dong, Zheng, and Wei]{Hong2011}
+Wei-Chiang Hong, Yucheng Dong, Feifeng Zheng, and Shih~Yung Wei.
+\newblock {Hybrid evolutionary algorithms in a SVR traffic flow forecasting
+  model}.
+\newblock \emph{Applied Mathematics and Computation}, 217\penalty0
+  (15):\penalty0 6733--6747, April 2011.
+\newblock ISSN 00963003.
+\newblock \doi{10.1016/j.amc.2011.01.073}.
+\newblock URL
+  \url{http://linkinghub.elsevier.com/retrieve/pii/S0096300311001081}.
+
+\bibitem[Newsham and Birt(2010)]{Newsham2010}
+G.R. Newsham and BJ~Birt.
+\newblock {Building-level occupancy data to improve ARIMA-based electricity use
+  forecasts}.
+\newblock In \emph{2nd ACM Workshop on Embedded Sensing Systems for
+  Energy-Efficiency in Buildings (BuildSys 2010)}, 2010.
+
+\bibitem[Box et~al.(2008)Box, Jenkings, and Reinsel]{Box2008}
+George Box, Gwilym Jenkings, and Gregory Reinsel.
+\newblock \emph{{Time Series Analysis: Forecasting and Control}}.
+\newblock John Wiley \& Sons, Inc., 4th edition, 2008.
+\newblock ISBN 978 0 470 27284 8.
+
+\bibitem[Ljung and Box(1978)]{Ljung1978}
+G.~M. Ljung and G.~E.~P. Box.
+\newblock {On a Measure of a Lack of Fit in Time Series Models}.
+\newblock \emph{Biometrika}, 65\penalty0 (2):\penalty0 297--303, 1978.
+
+\bibitem[Kwiatkowski et~al.(1992)Kwiatkowski, Phillips, Schmidt, and
+  Shin]{Kwiatkowski1992}
+Denis Kwiatkowski, P.C.B. Phillips, P.~Schmidt, and Y.~Shin.
+\newblock {Testing the null hypothesis of stationarity against the alternative
+  of a unit root: How sure are we that economic time series have a unit root?}
+\newblock \emph{Journal of econometrics}, 54\penalty0 (1-3):\penalty0 159--178,
+  1992.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/030440769290104Y}.
+
+\bibitem[Akaike(1974)]{Akaike1974}
+Hirotsugu Akaike.
+\newblock {A New Look at the Statistical Model Identification}.
+\newblock \emph{IEEE Transactions on Automatic Controll}, 19\penalty0
+  (6):\penalty0 716--723, 1974.
+
+\bibitem[Smith and Demetsky(1997)]{Smith1997}
+Brian~L. Smith and Michael~J. Demetsky.
+\newblock {Traffic Flow Forecasting: Comparison of Modeling Approaches}.
+\newblock \emph{Journal of Transportation Engineering}, 123(4)\penalty0
+  (August):\penalty0 261--266, 1997.
+\newblock URL \url{http://link.aip.org/link/?JTPEDI/123/261/1}.
+
+\bibitem[Hansen and Nelson(2003)]{Hansen2003}
+J.V. Hansen and R.D. Nelson.
+\newblock {Forecasting and recombining time-series compents by using neural
+  networks}.
+\newblock \emph{Joural of the Operational Research Society}, 54:\penalty0
+  307--317, 2003.
+
+\bibitem[Wu et~al.(2004)Wu, Ho, and Lee]{Wu2004}
+C.-H. Wu, J.-M. Ho, and D.T. Lee.
+\newblock {Travel-Time Prediction With Support Vector Regression}.
+\newblock \emph{IEEE Transactions on Intelligent Transportation Systems},
+  5\penalty0 (4):\penalty0 276--281, December 2004.
+\newblock ISSN 1524-9050.
+\newblock \doi{10.1109/TITS.2004.837813}.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1364002}.
+
+\bibitem[Hsu et~al.(2003)Hsu, Chang, and Lin]{Hsu2003}
+CW~Hsu, CC~Chang, and CJ~Lin.
+\newblock {A practical guide to support vector classification}.
+\newblock \penalty0 (1):\penalty0 1--16, 2003.
+\newblock URL
+  \url{https://www.cs.sfu.ca/people/Faculty/teaching/726/spring11/svmguide.pdf}.
 
 \bibitem[Page et~al.(2008)Page, Robinson, Morel, and Scartezzini]{page2008}
 J.~Page, D.~Robinson, N.~Morel, and J.-L. Scartezzini.
@@ -188,16 +315,6 @@ Brian~L. Smith, Billy~M. Williams, and R.~Keith Oswald.
 \newblock URL
   \url{http://linkinghub.elsevier.com/retrieve/pii/S0968090X02000098}.
 
-\bibitem[Williams and Hoel(2003)]{Williams2003}
-Billy~M. Williams and Lester~a. Hoel.
-\newblock {Modeling and Forecasting Vehicular Traffic Flow as a Seasonal ARIMA
-  Process: Theoretical Basis and Empirical Results}.
-\newblock \emph{Journal of Transportation Engineering}, 129\penalty0
-  (6):\penalty0 664, 2003.
-\newblock ISSN 0733947X.
-\newblock \doi{10.1061/(ASCE)0733-947X(2003)129:6(664)}.
-\newblock URL \url{http://link.aip.org/link/JTPEDI/v129/i6/p664/s1\&Agg=doi}.
-
 \bibitem[Zhang and Liu(2009)]{Zhang2009}
 Yang Zhang and Yuncai Liu.
 \newblock {Comparison of Parametric and Nonparametric Techniques for Non-peak
@@ -206,109 +323,6 @@ Yang Zhang and Yuncai Liu.
   51:\penalty0 8--14, 2009.
 \newblock URL
   \url{http://www.akademik.unsri.ac.id/download/journal/files/waset/v51-40.pdf}.
-
-\bibitem[Hyndman and Koehler(2006)]{Hyndman2006}
-R.J. Hyndman and A.B. Koehler.
-\newblock {Another look at measures of forecast accuracy}.
-\newblock \emph{International Journal of Forecasting}, 22\penalty0
-  (4):\penalty0 679--688, 2006.
-
-\bibitem[Hyndman(2006)]{Hyndman2006a}
-R.J. Hyndman.
-\newblock {Another look at measures of forecast accuracy}.
-\newblock \emph{FORESIGHT}, page~46, June 2006.
-
-\bibitem[Hyndman and al(2008)]{Hyndman2008}
-Rob Hyndman and Et~al.
-\newblock \emph{{Forecasting with Exponential Smoothing: The State Space
-  Approach}}.
-\newblock Springer-Verlag, Berlin, 2008.
-
-\bibitem[Hong et~al.(2011)Hong, Dong, Zheng, and Wei]{Hong2011}
-Wei-Chiang Hong, Yucheng Dong, Feifeng Zheng, and Shih~Yung Wei.
-\newblock {Hybrid evolutionary algorithms in a SVR traffic flow forecasting
-  model}.
-\newblock \emph{Applied Mathematics and Computation}, 217\penalty0
-  (15):\penalty0 6733--6747, April 2011.
-\newblock ISSN 00963003.
-\newblock \doi{10.1016/j.amc.2011.01.073}.
-\newblock URL
-  \url{http://linkinghub.elsevier.com/retrieve/pii/S0096300311001081}.
-
-\bibitem[Newsham and Birt(2010)]{Newsham2010}
-G.R. Newsham and BJ~Birt.
-\newblock {Building-level occupancy data to improve ARIMA-based electricity use
-  forecasts}.
-\newblock In \emph{2nd ACM Workshop on Embedded Sensing Systems for
-  Energy-Efficiency in Buildings (BuildSys 2010)}, 2010.
-
-\bibitem[Box et~al.(2008)Box, Jenkings, and Reinsel]{Box2008}
-George Box, Gwilym Jenkings, and Gregory Reinsel.
-\newblock \emph{{Time Series Analysis: Forecasting and Control}}.
-\newblock John Wiley \& Sons, Inc., 4th edition, 2008.
-\newblock ISBN 978 0 470 27284 8.
-
-\bibitem[Ljung and Box(1978)]{Ljung1978}
-G.~M. Ljung and G.~E.~P. Box.
-\newblock {On a Measure of a Lack of Fit in Time Series Models}.
-\newblock \emph{Biometrika}, 65\penalty0 (2):\penalty0 297--303, 1978.
-
-\bibitem[Kwiatkowski et~al.(1992)Kwiatkowski, Phillips, Schmidt, and
-  Shin]{Kwiatkowski1992}
-Denis Kwiatkowski, P.C.B. Phillips, P.~Schmidt, and Y.~Shin.
-\newblock {Testing the null hypothesis of stationarity against the alternative
-  of a unit root: How sure are we that economic time series have a unit root?}
-\newblock \emph{Journal of econometrics}, 54\penalty0 (1-3):\penalty0 159--178,
-  1992.
-\newblock URL
-  \url{http://www.sciencedirect.com/science/article/pii/030440769290104Y}.
-
-\bibitem[Akaike(1974)]{Akaike1974}
-Hirotsugu Akaike.
-\newblock {A New Look at the Statistical Model Identification}.
-\newblock \emph{IEEE Transactions on Automatic Controll}, 19\penalty0
-  (6):\penalty0 716--723, 1974.
-
-\bibitem[Smith and Demetsky(1997)]{Smith1997}
-Brian~L. Smith and Michael~J. Demetsky.
-\newblock {Traffic Flow Forecasting: Comparison of Modeling Approaches}.
-\newblock \emph{Journal of Transportation Engineering}, 123(4)\penalty0
-  (August):\penalty0 261--266, 1997.
-\newblock URL \url{http://link.aip.org/link/?JTPEDI/123/261/1}.
-
-\bibitem[Hansen and Nelson(2003)]{Hansen2003}
-J.V. Hansen and R.D. Nelson.
-\newblock {Forecasting and recombining time-series compents by using neural
-  networks}.
-\newblock \emph{Joural of the Operational Research Society}, 54:\penalty0
-  307--317, 2003.
-
-\bibitem[Wu et~al.(2004)Wu, Ho, and Lee]{Wu2004}
-C.-H. Wu, J.-M. Ho, and D.T. Lee.
-\newblock {Travel-Time Prediction With Support Vector Regression}.
-\newblock \emph{IEEE Transactions on Intelligent Transportation Systems},
-  5\penalty0 (4):\penalty0 276--281, December 2004.
-\newblock ISSN 1524-9050.
-\newblock \doi{10.1109/TITS.2004.837813}.
-\newblock URL
-  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1364002}.
-
-\bibitem[Hsu et~al.(2003)Hsu, Chang, and Lin]{Hsu2003}
-CW~Hsu, CC~Chang, and CJ~Lin.
-\newblock {A practical guide to support vector classification}.
-\newblock \penalty0 (1):\penalty0 1--16, 2003.
-\newblock URL
-  \url{https://www.cs.sfu.ca/people/Faculty/teaching/726/spring11/svmguide.pdf}.
-
-\bibitem[Petridis et~al.(2001)Petridis, Kehagias, Petrou, Bakirtzis, Kiartzis,
-  Panagiotou, and Maslaris]{Petridis2001}
-V~Petridis, A~Kehagias, L~Petrou, A~Bakirtzis, S~Kiartzis, H~Panagiotou, and
-  N~Maslaris.
-\newblock {A Bayesian multiple models combination method for time series
-  prediction}.
-\newblock \emph{Journal of intelligent and robotic systems}, 31\penalty0
-  (1):\penalty0 69--89, 2001.
-\newblock URL \url{http://www.springerlink.com/index/X6UR20K8780000T2.pdf}.
 
 \bibitem[Zheng et~al.(2006)Zheng, Lee, and Shi]{Zheng2006}
 Weizhong Zheng, Der-Horng Lee, and Qixin Shi.
