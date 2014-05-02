@@ -1,0 +1,574 @@
+\begin{thebibliography}{72}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[DOE(2010)]{DOE2010}
+US~DOE.
+\newblock {Building Energy Databook}, 2010.
+\newblock URL \url{http://buildingsdatabook.eren.doe.gov/}.
+
+\bibitem[Controls(2013{\natexlab{a}})]{Controls2013}
+KMC Controls.
+\newblock {Understanding Building Automation and Control Systems},
+  2013{\natexlab{a}}.
+
+\bibitem[Controls(2013{\natexlab{b}})]{Controls2013a}
+KMC Controls.
+\newblock {Zone Control with Variable Air Volume Controls (VAV)},
+  2013{\natexlab{b}}.
+
+\bibitem[Yang and Kim(2004)]{yang2004}
+In-Ho Yang and Kwang-Woo Kim.
+\newblock {Prediction of the time of room air temperature descending for
+  heating systems in buildings}.
+\newblock \emph{Building and Environment}, 39\penalty0 (1):\penalty0 19--29,
+  January 2004.
+\newblock ISSN 0360-1323.
+\newblock \doi{http://dx.doi.org/10.1016/j.buildenv.2003.08.003}.
+
+\bibitem[Ma et~al.(2010)Ma, Borrelli, and Hencey]{Ma2010}
+Yudong Ma, Francesco Borrelli, and Brandon Hencey.
+\newblock {Model predictive control for the operation of building cooling
+  systems}.
+\newblock In \emph{America Control Conference}, 2010.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=5739562}.
+
+\bibitem[DOT(2007)]{DOT2007}
+US~DOT.
+\newblock {National Traffic Signal Report Card}, 2007.
+\newblock URL \url{http://www.ite.org/reportcard/NTSRC Exec Summary final.pdf}.
+
+\bibitem[Koonce et~al.(2008)Koonce, Kittelson, Rodegerdts, Lee, and
+  Swartz]{Koonce2008}
+Peter Koonce, Wayne Kittelson, Lee Rodegerdts, Kevin Lee, and Caroline Swartz.
+\newblock {The Signal Timing Manual}.
+\newblock Technical report, Federal Highway Administration, 2008.
+
+\bibitem[ESPN(2013)]{ESPN2013}
+ESPN.
+\newblock {NFL Attendance}, 2013.
+
+\bibitem[Petridis et~al.(2001)Petridis, Kehagias, Petrou, Bakirtzis, Kiartzis,
+  Panagiotou, and Maslaris]{Petridis2001}
+V~Petridis, A~Kehagias, L~Petrou, A~Bakirtzis, S~Kiartzis, H~Panagiotou, and
+  N~Maslaris.
+\newblock {A Bayesian multiple models combination method for time series
+  prediction}.
+\newblock \emph{Journal of intelligent and robotic systems}, 31\penalty0
+  (1):\penalty0 69--89, 2001.
+\newblock URL \url{http://www.springerlink.com/index/X6UR20K8780000T2.pdf}.
+
+\bibitem[Armstrong(2001)]{Armstrong2001}
+J~Scott Armstrong.
+\newblock {Evaluating forecasting methods}.
+\newblock \emph{Principles of forecasting}, pages 443--472, 2001.
+
+\bibitem[Yokuma and Armstrong(1995)]{Yokuma1995}
+JT~Yokuma and JS~Armstrong.
+\newblock {Beyond accuracy: Comparison of criteria used to select forecasting
+  methods}.
+\newblock \emph{International Journal of Forecasting}, 11\penalty0
+  (4):\penalty0 591--597, 1995.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/016920709500615X}.
+
+\bibitem[Hyndman and Koehler(2006)]{Hyndman2006}
+R.J. Hyndman and A.B. Koehler.
+\newblock {Another look at measures of forecast accuracy}.
+\newblock \emph{International Journal of Forecasting}, 22\penalty0
+  (4):\penalty0 679--688, 2006.
+
+\bibitem[Hyndman(2006)]{Hyndman2006a}
+R.J. Hyndman.
+\newblock {Another look at measures of forecast accuracy}.
+\newblock \emph{FORESIGHT}, page~46, June 2006.
+
+\bibitem[Hyndman and al(2008)]{Hyndman2008}
+Rob Hyndman and Et~al.
+\newblock \emph{{Forecasting with Exponential Smoothing: The State Space
+  Approach}}.
+\newblock Springer-Verlag, Berlin, 2008.
+
+\bibitem[Williams and Hoel(2003)]{Williams2003}
+Billy~M. Williams and Lester~a. Hoel.
+\newblock {Modeling and Forecasting Vehicular Traffic Flow as a Seasonal ARIMA
+  Process: Theoretical Basis and Empirical Results}.
+\newblock \emph{Journal of Transportation Engineering}, 129\penalty0
+  (6):\penalty0 664, 2003.
+\newblock ISSN 0733947X.
+\newblock \doi{10.1061/(ASCE)0733-947X(2003)129:6(664)}.
+\newblock URL \url{http://link.aip.org/link/JTPEDI/v129/i6/p664/s1\&Agg=doi}.
+
+\bibitem[Hong et~al.(2011)Hong, Dong, Zheng, and Wei]{Hong2011}
+Wei-Chiang Hong, Yucheng Dong, Feifeng Zheng, and Shih~Yung Wei.
+\newblock {Hybrid evolutionary algorithms in a SVR traffic flow forecasting
+  model}.
+\newblock \emph{Applied Mathematics and Computation}, 217\penalty0
+  (15):\penalty0 6733--6747, April 2011.
+\newblock ISSN 00963003.
+\newblock \doi{10.1016/j.amc.2011.01.073}.
+\newblock URL
+  \url{http://linkinghub.elsevier.com/retrieve/pii/S0096300311001081}.
+
+\bibitem[Newsham and Birt(2010)]{Newsham2010}
+G.R. Newsham and BJ~Birt.
+\newblock {Building-level occupancy data to improve ARIMA-based electricity use
+  forecasts}.
+\newblock In \emph{2nd ACM Workshop on Embedded Sensing Systems for
+  Energy-Efficiency in Buildings (BuildSys 2010)}, 2010.
+
+\bibitem[Howard and Hoff(2013)]{Howard2013}
+James Howard and William Hoff.
+\newblock {Forecasting building occupancy using sensor network data}.
+\newblock In \emph{BigMine '13 Proceeding of the 2nd International Workshop on
+  Big Data, Streams and Heterogeneous Source Mining: Algorithms, Systems,
+  Programming Models and Applications}, pages 87--94, Chicago, IL, 2013.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=2501233}.
+
+\bibitem[Fernandez et~al.(2011)Fernandez, Borges, and Penya]{Fernandez2011}
+Ivan Fernandez, Cruz~E. Borges, and Yoseba~K. Penya.
+\newblock {Efficient building load forecasting}.
+\newblock In \emph{16th IEEE International Conference on Emerging Technologies
+  and Factory Automation (ETFA)}, pages 1--8. Ieee, September 2011.
+\newblock ISBN 978-1-4577-0017-0.
+\newblock \doi{10.1109/ETFA.2011.6059103}.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6059103}.
+
+\bibitem[Box et~al.(2008)Box, Jenkings, and Reinsel]{Box2008}
+George Box, Gwilym Jenkings, and Gregory Reinsel.
+\newblock \emph{{Time Series Analysis: Forecasting and Control}}.
+\newblock John Wiley \& Sons, Inc., 4th edition, 2008.
+\newblock ISBN 978 0 470 27284 8.
+
+\bibitem[Ljung and Box(1978)]{Ljung1978}
+G.~M. Ljung and G.~E.~P. Box.
+\newblock {On a Measure of a Lack of Fit in Time Series Models}.
+\newblock \emph{Biometrika}, 65\penalty0 (2):\penalty0 297--303, 1978.
+
+\bibitem[Kwiatkowski et~al.(1992)Kwiatkowski, Phillips, Schmidt, and
+  Shin]{Kwiatkowski1992}
+Denis Kwiatkowski, P.C.B. Phillips, P.~Schmidt, and Y.~Shin.
+\newblock {Testing the null hypothesis of stationarity against the alternative
+  of a unit root: How sure are we that economic time series have a unit root?}
+\newblock \emph{Journal of econometrics}, 54\penalty0 (1-3):\penalty0 159--178,
+  1992.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/030440769290104Y}.
+
+\bibitem[Akaike(1974)]{Akaike1974}
+Hirotsugu Akaike.
+\newblock {A New Look at the Statistical Model Identification}.
+\newblock \emph{IEEE Transactions on Automatic Controll}, 19\penalty0
+  (6):\penalty0 716--723, 1974.
+
+\bibitem[Smith and Demetsky(1997)]{Smith1997}
+Brian~L. Smith and Michael~J. Demetsky.
+\newblock {Traffic Flow Forecasting: Comparison of Modeling Approaches}.
+\newblock \emph{Journal of Transportation Engineering}, 123(4)\penalty0
+  (August):\penalty0 261--266, 1997.
+\newblock URL \url{http://link.aip.org/link/?JTPEDI/123/261/1}.
+
+\bibitem[Abdulhai et~al.(1999)Abdulhai, Porwal, and Recker]{Abdulhai1999}
+B~Abdulhai, H~Porwal, and W~Recker.
+\newblock {Short Term Freeway Traffic Flow Prediction Using
+  Genetically-Optimized Time-Delay-Based Neural Networks}.
+\newblock \emph{California Partners for Advanced Transit and Highways (PATH)},
+  1999.
+\newblock URL \url{http://escholarship.org/uc/item/4t05p2mp.pdf}.
+
+\bibitem[Ishak et~al.(2003)Ishak, Kotha, and Alecsandru]{Ishak2003}
+Sherif Ishak, Prashanth Kotha, and Ciprian Alecsandru.
+\newblock {Optimization of dynamic neural network performance for short-term
+  traffic prediction}.
+\newblock \emph{Transportation Research Record: Journal of the Transportation
+  Research Board}, 1836\penalty0 (1):\penalty0 45--56, 2003.
+\newblock URL \url{http://trb.metapress.com/index/901451745921351g.pdf}.
+
+\bibitem[Hansen and Nelson(2003)]{Hansen2003}
+J.V. Hansen and R.D. Nelson.
+\newblock {Forecasting and recombining time-series compents by using neural
+  networks}.
+\newblock \emph{Joural of the Operational Research Society}, 54:\penalty0
+  307--317, 2003.
+
+\bibitem[Wu et~al.(2004)Wu, Ho, and Lee]{Wu2004}
+C.-H. Wu, J.-M. Ho, and D.T. Lee.
+\newblock {Travel-Time Prediction With Support Vector Regression}.
+\newblock \emph{IEEE Transactions on Intelligent Transportation Systems},
+  5\penalty0 (4):\penalty0 276--281, December 2004.
+\newblock ISSN 1524-9050.
+\newblock \doi{10.1109/TITS.2004.837813}.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1364002}.
+
+\bibitem[Hsu et~al.(2003)Hsu, Chang, and Lin]{Hsu2003}
+CW~Hsu, CC~Chang, and CJ~Lin.
+\newblock {A practical guide to support vector classification}.
+\newblock \penalty0 (1):\penalty0 1--16, 2003.
+\newblock URL
+  \url{https://www.cs.sfu.ca/people/Faculty/teaching/726/spring11/svmguide.pdf}.
+
+\bibitem[Page et~al.(2008)Page, Robinson, Morel, and Scartezzini]{page2008}
+J.~Page, D.~Robinson, N.~Morel, and J.-L. Scartezzini.
+\newblock {A generalised stochastich model for the simulation of occupant
+  presence}.
+\newblock \emph{Energy and Buildings}, 40:\penalty0 83--98, 2008.
+
+\bibitem[Goldstein et~al.(2010)Goldstein, Tessier, and Khan]{goldstein2010}
+Rhys Goldstein, Alex Tessier, and Azam Khan.
+\newblock {Schedule-calibrated occupant behavior simulation}.
+\newblock In \emph{Proceedings of the 2010 Spring Simulation Multiconference on
+  - SpringSim '10}, page~1, New York, New York, USA, 2010. ACM Press.
+\newblock ISBN 9781450300698.
+\newblock \doi{10.1145/1878537.1878725}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1878537.1878725}.
+
+\bibitem[Agarwal et~al.(2010)Agarwal, Balaji, Gupta, Lyles, Wei, and
+  Weng]{agarwal2010}
+Yuvraj Agarwal, Bharathan Balaji, Rajesh Gupta, Jacob Lyles, Michael Wei, and
+  Thomas Weng.
+\newblock {Occupancy-driven energy management for smart building automation}.
+\newblock In \emph{Proceedings of the 2nd ACM Workshop on Embedded Sensing
+  Systems for Energy-Efficiency in Building - BuildSys '10}, page~1, New York,
+  New York, USA, 2010. ACM Press.
+\newblock ISBN 9781450304580.
+\newblock \doi{10.1145/1878431.1878433}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1878431.1878433}.
+
+\bibitem[Mamidi et~al.(2012)Mamidi, Chang, and Maheswaran]{mamidi2012}
+Sunil Mamidi, YH~Chang, and R~Maheswaran.
+\newblock {Improving building energy efficiency with a network of sensing,
+  learning and prediction agents}.
+\newblock In \emph{International Conference on Autonomous Agents and Multi
+  Agent Systems. AAMAS 2012}, 2012.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=2343582}.
+
+\bibitem[Meyn et~al.(2009)Meyn, Surana, Lin, and Oggianu]{meyn2009}
+Sean Meyn, Amit Surana, Yiqing Lin, and SM~Oggianu.
+\newblock {A sensor-utility-network method for estimation of occupancy
+  distribution in buildings}.
+\newblock \emph{Proceedings of IEEE}, pages 1494--1500, 2009.
+\newblock URL
+  \url{http://scholar.google.com/scholar?hl=en\&btnG=Search\&q=intitle:A+Sensor-Utility-Network+Method+for+Estimation+of+Occupancy+Distribution+in+Buildings\#0}.
+
+\bibitem[Wren et~al.(2007{\natexlab{a}})Wren, Ivanov, Leigh, and
+  Westbues]{Wren2007}
+CR~Wren, YA~Ivanov, Darren Leigh, and J~Westbues.
+\newblock {The MERL motion detector dataset: 2007 workshop on massive
+  datasets}.
+\newblock In \emph{ICMI Workshop on Massive Datasets}, 2007{\natexlab{a}}.
+\newblock URL \url{https://merl.com/reports/docs/TR2007-069.pdf}.
+
+\bibitem[Hoff and Howard(2009)]{Hoff2009}
+William~A Hoff and James~W Howard.
+\newblock {Activity recognition in a dense sensor network}.
+\newblock In \emph{1st International Conference on Sensor Networks and
+  Applications (SNA2009)}, page~6, 2009.
+
+\bibitem[Wren and Rao(2003)]{Wren2003}
+Christopher~R. Wren and Srinivasa~G Rao.
+\newblock {Self-configuring , Lightweight Sensor Networks for Ubiquitous
+  Computing}.
+\newblock In \emph{International Conference Ubiquitous Computing}, 2003.
+
+\bibitem[Wren and Tapia(2006)]{Wren2006}
+Christopher~R. Wren and E.~Tapia.
+\newblock {Toward scalable activity recognition for sensor networks}.
+\newblock \emph{Location-and Context-Awareness}, pages 168--185, 2006.
+\newblock URL \url{http://www.springerlink.com/index/7114556523154474.pdf}.
+
+\bibitem[Wren et~al.(2007{\natexlab{b}})Wren, Ivanov, Kaur, Leigh, and
+  Westhues]{Wren2007a}
+Christopher~R. Wren, Yuri Ivanov, Ishwinder Kaur, Darren Leigh, and Jonathan
+  Westhues.
+\newblock {SocialMotion : Measuring the Hidden Social Life of a Building}.
+\newblock In \emph{International Symposium on Location and Context Awareness
+  (LoCA)}, pages 85--102, 2007{\natexlab{b}}.
+
+\bibitem[Dong et~al.(2011)Dong, Lepri, and Pentland]{Dong2011}
+Wen Dong, Bruno Lepri, and Alex~(Sandy) Pentland.
+\newblock {Modeling the co-evolution of behaviors and social relationships
+  using mobile phone data}.
+\newblock In \emph{Proceedings of the 10th International Conference on Mobile
+  and Ubiquitous Multimedia - MUM '11}, pages 134--143, New York, New York,
+  USA, 2011. ACM Press.
+\newblock ISBN 9781450310963.
+\newblock \doi{10.1145/2107596.2107613}.
+\newblock URL \url{http://dl.acm.org/citation.cfm?doid=2107596.2107613}.
+
+\bibitem[Minnen and Wren(2004)]{Minnen2004}
+D.C. Minnen and Christopher~R. Wren.
+\newblock {Finding temporal patterns by data decomposition}.
+\newblock In \emph{Sixth IEEE International Conference on Automatic Face and
+  Gesture Recognition, 2004. Proceedings.}, pages 608--613. Ieee, 2004.
+\newblock ISBN 0-7695-2122-3.
+\newblock \doi{10.1109/AFGR.2004.1301600}.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1301600}.
+
+\bibitem[Wren et~al.(2006)Wren, Minnen, and Rao]{Wren2006a}
+Christopher~R. Wren, D.~C. Minnen, and S.~Rao.
+\newblock {Similarity-based analysis for large networks of ultra-low resolution
+  sensors}.
+\newblock \emph{Pattern Recognition}, 39\penalty0 (10):\penalty0 1918--1931,
+  October 2006.
+\newblock ISSN 00313203.
+\newblock \doi{10.1016/j.patcog.2006.04.009}.
+\newblock URL
+  \url{http://linkinghub.elsevier.com/retrieve/pii/S0031320306001610}.
+
+\bibitem[Kamarianakis and Prastacos(2003)]{Kamarianakis2003}
+Yiannis Kamarianakis and Poulicos Prastacos.
+\newblock {Forecasting traffic flow conditions in an urban network: comparison
+  of multivariate and univariate approaches}.
+\newblock \emph{Transportation Research Record: Journal of the Transportation
+  Research Board}, 1857:\penalty0 74--84, 2003.
+\newblock URL \url{http://trb.metapress.com/index/W863M1341762TU51.pdf}.
+
+\bibitem[Smith et~al.(2002)Smith, Williams, and Oswald]{Smith2002}
+Brian~L. Smith, Billy~M. Williams, and R.~Keith Oswald.
+\newblock {Comparison of parametric and nonparametric models for traffic flow
+  forecasting}.
+\newblock \emph{Transportation Research Part C: Emerging Technologies},
+  10\penalty0 (4):\penalty0 303--321, August 2002.
+\newblock ISSN 0968090X.
+\newblock \doi{10.1016/S0968-090X(02)00009-8}.
+\newblock URL
+  \url{http://linkinghub.elsevier.com/retrieve/pii/S0968090X02000098}.
+
+\bibitem[Zhang and Liu(2009)]{Zhang2009}
+Yang Zhang and Yuncai Liu.
+\newblock {Comparison of Parametric and Nonparametric Techniques for Non-peak
+  Traffic Forecasting}.
+\newblock \emph{World Academy of Science, Engineering and Technology},
+  51:\penalty0 8--14, 2009.
+\newblock URL
+  \url{http://www.akademik.unsri.ac.id/download/journal/files/waset/v51-40.pdf}.
+
+\bibitem[Zheng et~al.(2006)Zheng, Lee, and Shi]{Zheng2006}
+Weizhong Zheng, Der-Horng Lee, and Qixin Shi.
+\newblock {Short-Term Freeway Traffic Flow Prediction: Bayesian Combined Neural
+  Network Approach}.
+\newblock \emph{Journal of Transportation Engineering}, 132\penalty0
+  (2):\penalty0 114, 2006.
+\newblock ISSN 0733947X.
+\newblock \doi{10.1061/(ASCE)0733-947X(2006)132:2(114)}.
+\newblock URL \url{http://link.aip.org/link/JTPEDI/v132/i2/p114/s1\&Agg=doi}.
+
+\bibitem[Diebold(1991)]{Diebold1991}
+F~Diebold.
+\newblock {A Note on Bayesian Forecast Combination Procedures}.
+\newblock In A.~H. Westlund and P.~Hackl, editors, \emph{Economic Structural
+  Change: Analysis and Forecasting}, pages 225--232. Springer-Verlag, 1991.
+
+\bibitem[Marsaglia et~al.(2003)Marsaglia, Tsang, and Wang]{Marsaglia2003}
+G~Marsaglia, WW~Tsang, and J~Wang.
+\newblock {Evaluating Kolmogorov's Distribution}.
+\newblock \emph{Journal of Statistical Software}, 8\penalty0 (18):\penalty0
+  1--4, 2003.
+
+\bibitem[Lopes et~al.(2007)Lopes, Reid, and Hobson]{Lopes2007}
+R.H.C Lopes, I~Reid, and P.R Hobson.
+\newblock {The two-dimensional Kolmogorov-Smirnov test}.
+\newblock In \emph{International Workshop on Advanced Computing and Analysis
+  Techniques in Physics Research}, Amsterdam, the Netherlands, 2007.
+
+\bibitem[Kontonikas and Kostakis(2013)]{Kontonikas2013}
+A~Kontonikas and A~Kostakis.
+\newblock {On monetary policy and stock market anomalies}.
+\newblock \emph{Journal of Business Finance \& \ldots}, 2013.
+\newblock URL \url{http://core.kmi.open.ac.uk/download/pdf/9995047.pdf
+  http://onlinelibrary.wiley.com/doi/10.1111/jbfa.12028/full}.
+
+\bibitem[Thushara and Perera(2014)]{Thushara2014}
+S.C Thushara and Prabath Perera.
+\newblock {Day of the Week Effect of Stock Returns: Empirical Evidence from
+  Colombo Stock Exchange}.
+\newblock \emph{Kelaniya Journal of Management}, 2014.
+
+\bibitem[Tartakovsky et~al.(2013)Tartakovsky, Polunchenko, and
+  Sokolov]{Tartakovsky2013}
+AG~Tartakovsky, A.S Polunchenko, and G~Sokolov.
+\newblock {Efficient computer network anomaly detection by changepoint
+  detection methods}.
+\newblock \emph{IEEE Journal of Selected Topics in Signal Processing},
+  7\penalty0 (1):\penalty0 4--11, 2013.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=6380529}.
+
+\bibitem[Gogoi et~al.(2011)Gogoi, Bhattacharyya, Borah, and Kalita]{Gogoi2011}
+P.~Gogoi, D.~K. Bhattacharyya, B.~Borah, and J.~K. Kalita.
+\newblock {A Survey of Outlier Detection Methods in Network Anomaly
+  Identification}.
+\newblock \emph{The Computer Journal}, 54\penalty0 (4):\penalty0 570--588,
+  March 2011.
+\newblock ISSN 0010-4620.
+\newblock \doi{10.1093/comjnl/bxr026}.
+\newblock URL
+  \url{http://comjnl.oxfordjournals.org/cgi/doi/10.1093/comjnl/bxr026}.
+
+\bibitem[Stoffel et~al.(2013)Stoffel, Fischer, and Keim]{Stoffel2013}
+Florian Stoffel, Fabian Fischer, and Daniel~a. Keim.
+\newblock {Finding anomalies in time-series using visual correlation for
+  interactive root cause analysis}.
+\newblock \emph{Proceedings of the Tenth Workshop on Visualization for Cyber
+  Security - VizSec '13}, pages 65--72, 2013.
+\newblock \doi{10.1145/2517957.2517966}.
+\newblock URL \url{http://dl.acm.org/citation.cfm?doid=2517957.2517966}.
+
+\bibitem[Lakhina et~al.(2004)Lakhina, Crovella, and Diot]{Lakhina2004}
+Anukool Lakhina, Mark Crovella, and Christophe Diot.
+\newblock {Diagnosing network-wide traffic anomalies}.
+\newblock \emph{ACM SIGCOMM Computer Communication Review}, 34\penalty0
+  (4):\penalty0 219, October 2004.
+\newblock ISSN 01464833.
+\newblock \doi{10.1145/1030194.1015492}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1030194.1015492}.
+
+\bibitem[Shi et~al.(2012)Shi, Liao, and Yang]{Shi2012}
+Lei Shi, Qi~Liao, and Chunxin Yang.
+\newblock {Investigating Network Traffic Through Compressed Graph
+  Visualization}.
+\newblock In \emph{IEEE Conference of Visual Analytics Science and Technology},
+  pages 179--180, 2012.
+\newblock ISBN 9781467347532.
+\newblock URL
+  \url{http://users.soe.ucsc.edu/~pang/visweek/2012/vast/challenge/shi.pdf}.
+
+\bibitem[Page(1955)]{page1955}
+E.S Page.
+\newblock {A test for a change in a parameter occuring at an unknown point}.
+\newblock \emph{Biometrika}, 42:\penalty0 523--527, 1955.
+
+\bibitem[Dessein and Cont(2013)]{Dessein2013}
+Arnaud Dessein and Arshia Cont.
+\newblock \emph{{Online change detection in exponential families with unknown
+  parameters}}.
+\newblock Springer Berlin Heidelber, 2013.
+\newblock URL
+  \url{http://link.springer.com/chapter/10.1007/978-3-642-40020-9\_70}.
+
+\bibitem[Polunchenko and Tartakovsky(2012)]{Polunchenko2012}
+AS~Polunchenko and AG~Tartakovsky.
+\newblock {State-of-the-art in sequential change-point detection}.
+\newblock \emph{Methodology and Computing in \ldots}, pages 1--34, 2012.
+\newblock URL \url{http://link.springer.com/article/10.1007/s11009-011-9256-5}.
+
+\bibitem[Barford et~al.(2002)Barford, Kline, Plonka, and Ron]{Barford2002}
+Paul Barford, Jeffery Kline, David Plonka, and Amos Ron.
+\newblock {A signal analysis of network traffic anomalies}.
+\newblock \emph{Proceedings of the second ACM SIGCOMM Workshop on Internet
+  measurment - IMW '02}, page~71, 2002.
+\newblock \doi{10.1145/637201.637210}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=637201.637210}.
+
+\bibitem[Wang et~al.(2009)Wang, Gu, Tao, and Lu]{Wang2009}
+Liang Wang, Tao Gu, Xianping Tao, and Jian Lu.
+\newblock {Sensor-Based Human Activity Recognition in a Multi-User Scenario}.
+\newblock \emph{Ambient Intelligence}, pages 78--87, 2009.
+\newblock URL \url{http://www.springerlink.com/index/w455252278468kl2.pdf}.
+
+\bibitem[Bao and Intille(2004)]{Bao2004}
+Ling Bao and S.S. Intille.
+\newblock {Activity recognition from user-annotated acceleration data}.
+\newblock \emph{Pervasive Computing}, pages 1--17, 2004.
+\newblock URL \url{http://www.springerlink.com/index/9AQFLYK4F47KHYJD.pdf}.
+
+\bibitem[Krishnan and Panchanathan(2008)]{Krishnan2008}
+N.C. Krishnan and S.~Panchanathan.
+\newblock {Analysis of Low Resolution Accelerometer Data for Continuous Human
+  Activity Recognition}.
+\newblock In \emph{Acoustics, Speech and Signal Processing, 2008. ICASSP 2008.
+  IEEE International Conference on}, pages 3337--3340. IEEE, 2008.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=4518365}.
+
+\bibitem[Lu\v{s}trek and Kalu\v{z}a(2009)]{Lustrek2009}
+Mitja Lu\v{s}trek and Bo\v{s}tjan Kalu\v{z}a.
+\newblock {Fall detection and activity recognition with machine learning}.
+\newblock \emph{Informatica}, 33\penalty0 (2):\penalty0 205--212, 2009.
+\newblock URL
+  \url{http://dis.ijs.si/mitjal/documents/Fall\_detection\_and\_activity\_recognition\_with\_machine\_learning-Informatica-09.pdf}.
+
+\bibitem[Oliver et~al.(2002)Oliver, Horvitz, and Garg]{Oliver2002}
+N.~Oliver, E.~Horvitz, and A.~Garg.
+\newblock {Layered representations for human activity recognition}.
+\newblock In \emph{Fourth IEEE International Conference on Multimodal
+  Interfaces}, pages 3--8. IEEE Comput. Soc, 2002.
+\newblock ISBN 0-7695-1834-6.
+\newblock \doi{10.1109/ICMI.2002.1166960}.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1166960}.
+
+\bibitem[Huynh et~al.(2008)Huynh, Fritz, and Schiele]{Huynh2008}
+T\^{a}m Huynh, Mario Fritz, and Bernt Schiele.
+\newblock {Discovery of activity patterns using topic models}.
+\newblock \emph{Proceedings of the 10th international conference on Ubiquitous
+  computing - UbiComp '08}, page~10, 2008.
+\newblock \doi{10.1145/1409635.1409638}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1409635.1409638}.
+
+\bibitem[Blei et~al.(2003)Blei, Ng, and Jordan]{Blei2003}
+David~M. Blei, Andrew~Y. Ng, and Michael~I. Jordan.
+\newblock {Latent Dirichlet Allocation}.
+\newblock \emph{Journal of Machine Learning Research}, 3\penalty0
+  (4-5):\penalty0 993--1022, May 2003.
+\newblock ISSN 1532-4435.
+\newblock \doi{10.1162/jmlr.2003.3.4-5.993}.
+\newblock URL \url{http://www.crossref.org/jmlr\_DOI.html}.
+
+\bibitem[Hamid et~al.(2007)Hamid, Maddi, Bobick, and Essa]{Hamid2007}
+Raffay Hamid, Siddhartha Maddi, Aaron Bobick, and Irfan Essa.
+\newblock {Structure from Statistics - Unsupervised Activity Analysis Using
+  Suffix Trees}.
+\newblock In \emph{Internation Conference on Computer Vision (ICCV)}, Rio de
+  Janeiro, Brazil, 2007. IEEE.
+\newblock URL
+  \url{http://www.computer.org/portal/web/csdl/doi/10.1109/ICCV.2007.4408894}.
+
+\bibitem[Freund and Schapire(1996)]{Freund1996}
+Yoav Freund and R.E. Schapire.
+\newblock {Experiments with a new boosting algorithm}.
+\newblock In \emph{Machine Learning: Proceedings of the Thirteenth
+  International Conference}, pages 148--156. MORGAN KAUFMANN PUBLISHERS, INC.,
+  1996.
+\newblock URL
+  \url{http://www.public.asu.edu/~jye02/CLASSES/Fall-2005/PAPERS/boosting-icml.pdf}.
+
+\bibitem[Hamid et~al.(2006)Hamid, Maddi, Bobick, and Essa]{Hamid2006}
+Raffay Hamid, Siddhartha Maddi, Aaron Bobick, and Irfan Essa.
+\newblock {Unsupervised analysis of activity sequences using event-motifs}.
+\newblock In \emph{The 4th ACM international workshop on Video surveillance and
+  sensor networks - VSSN '06}, page~71, New York, New York, USA, 2006. ACM
+  Press.
+\newblock ISBN 1595934960.
+\newblock \doi{10.1145/1178782.1178794}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1178782.1178794}.
+
+\bibitem[Clarkson and Pentland(1999)]{Clarkson1999}
+B.~Clarkson and A.~Pentland.
+\newblock {Unsupervised clustering of ambulatory audio and video}.
+\newblock In \emph{1999 IEEE International Conference on Acoustics, Speech, and
+  Signal Processing.}, volume~6, pages 3037--3040. Ieee, 1999.
+\newblock ISBN 0-7803-5041-3.
+\newblock \doi{10.1109/ICASSP.1999.757481}.
+\newblock URL
+  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=757481
+  http://www.computer.org/portal/web/csdl/doi/10.1109/ICASSP.1999.757481}.
+
+\bibitem[Huynh and Schiele(2005)]{Huynh2005}
+T\^{a}m Huynh and Bernt Schiele.
+\newblock {Analyzing Features for Activity Recognition}.
+\newblock In \emph{The 2005 joint conference on Smart objects and ambient
+  intelligence innovative context-aware services: usages and technologies},
+  number october, pages 159--163, New York, New York, USA, 2005. ACM Press.
+\newblock ISBN 1595933042.
+\newblock \doi{10.1145/1107548.1107591}.
+\newblock URL \url{http://portal.acm.org/citation.cfm?doid=1107548.1107591}.
+
+\end{thebibliography}
