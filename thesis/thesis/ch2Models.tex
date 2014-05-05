@@ -1,5 +1,15 @@
 \chapter{Models}
-With this chapter we explore some of the most common forecasting models for traffic datasets.  These models are meant to be used as a baseline from which to compare our results. Also in this chapter, we introduce the metrics which will be used for our analysis.  We feel this analysis useful to empirically demonstrate the various forecasting capabilities of these established models.
+With this chapter we explore some of the most common forecasting models for traffic datasets.  These models are meant to be used as a baseline from which to compare our results.  Also, in chapter 4 the models presented here are incorporated into an ensemble forecasting model.  The models selected for this work are:
+
+\begin{itemize}
+	\item Seasonal auto regressive integrated moving average
+	\item Historic average
+	\item Time delayed neural network
+	\item Support vector regression
+\end{itemize}
+
+
+Also in this chapter, we introduce the metrics which will be used for our analysis.  We feel this analysis useful to empirically demonstrate the various forecasting capabilities of these established models.
 
 Some of the discussions of models within this chapter make mention of our datasets.  These datasets are described in detail in Chapter 3.  We chose to describe the specifics of our forecasting models prior to our datasources because we believe this makes for a more coherent paper.
 
@@ -169,7 +179,7 @@ This model is simply the per day average of readings at each time step.  For cer
 
 \subsection{Time delayed neural networks}
 
-Time delayed neural networks are a special subset of regression neural networks where the input data is a local history of data from the time series.  This special class of neural networks have been used frequently traffic forecasting literature \cite{Abdulhai1999, Ishak2003}.  Commonly the output is a single point forecast from that same time series at some point $t + \delta$ in the future.   The form of our 1 hidden layer time delayed neural network is:
+Time delayed neural networks (TDNN) are a special subset of regression neural networks where the input data is a local history of data from the time series.  This special class of neural networks have been used frequently traffic forecasting literature \cite{Abdulhai1999, Ishak2003}.  Commonly the output is a single point forecast from that same time series at some point $t + \delta$ in the future.   The form of our 1 hidden layer time delayed neural network is:
 \begin{equation}
 y_{t + 1} = \phi \{ \sum_{j = 1}^{J} w_{j}\psi_{j} \bigg[ \sum_{l = 0}^{m}w_{ji}x_{t - l\delta} + w_{j0} \bigg] + w_0 \}
 \end{equation}
@@ -199,26 +209,26 @@ DENVER & 6 & 6\\ \hline
 \end{table}
 
 
-\begin{table}[t!]
-\centering
-\caption{RMSE forecast values per model for a horizon equal to one.}
-\begin{tabular}{|c|c|c|c|c|c|c|} \hline
-Dataset & ARIMA & TDNN & AVG & SVM & BCF & BCF-TS\\ \hline
-MERL & 5.5 & 2.67 & 4.35 & 2.29 & 2.28 & \textbf{2.26}\\ \hline
-CSMBB & 10.94 & 14.13 & 27.14 & 11.01 & 8.72 & \textbf{8.72}\\ \hline
-DENVER
-\end{tabular}
-\label{fig:rmsetab}
-\end{table}
-
-
 \subsection{Support Vector Regression}
-Support Vector Machine Regression (SVM) offers a powerful way to forecast time series.  It has been used in the past successfully to forecast travel times for vehicle traffic \cite{Wu2004}.  
+Support vector regression (SVR) is a universal learning method which offers a powerful way to forecast time series.  It has been used in the past successfully to forecast travel times and vehicle counts for roadway traffic systems \cite{Wu2004, Wei2013, Wei2012, Howard2013}.  Many of these empirical studies have demonstrated SVR as outperforming other forecasting techniques including ARIMA and TDNN.
 
-As training SVM's is not done in the same way as other time series models, we first had to transform our dataset to a series of examples with a fixed window.  For a fixed window of size $w$, training input data is of the form $\{x_{t}, x_{t - 1}, ..., x_{t - w + 1}\}$.  Target data is of the form $x_{t + 1}$.  Thus the training examples which we provided to our SVM was $\{x_{t + 1}, [x_{t}, x_{t - 1}, ..., x_{t - w + 1}]\}$.
+The support vector machines was developed by Vapnik \cite{Vapnik1998}.  SVM's use structural risk minimization to find an minimal upper bound on some expected risk.  As training support vector machines to be used for regression is not done in the same way as other time series models, we first had to transform our dataset to a series of examples with a fixed window.  For a fixed window of size $w$, training input data is of the form $\{x_{t}, x_{t - 1}, ..., x_{t - w + 1}\}$.  Target data is of the form $x_{t + 1}$.  Thus the training examples which we provided to our SVM was $\{x_{t + 1}, [x_{t}, x_{t - 1}, ..., x_{t - w + 1}]\}$.
 
-To perform SVM training we used the popular $libsvm$ package and as parameter selection is a notoriously difficult problem for SVM.  We followed the guidelines as outlined by Hsu, Chih-Chang and Lin, creators of the libsvm package \cite{Hsu2003}.  We first scaled the data by normalizing it between $[0, 1]$.  Then we searched for our best values of $C$, $\epsilon$ and $\gamma$ using the root mean squared error of the validation set a factor to determine performance of those parameters. 
+The general formulation for support vector regression is to minimize the following:
 
-For both the MERL and CSMBB datasets we used a window of 5.  This happened to be the same window length used by \cite{Wu2004}.
+\begin{equation}
+	\begin{split}
+	\min \frac{1}{2}\|w\|^{2} + c \sum_{i = 1}^{n}(\epsilon_{i} + \epsilon^{*}_{i}) \\
+	\begin{cases}
+		y_{i} - f(x_{i}, w) \le \gamma + \epsilon^{*}_{i} \\
+		f(x_{i}, w) - y_{i} \le \gamma + \epsilon_{i} \\
+		\epsilon_{i}, \epsilon_{i}^{*} \ge 0, i = 1, \ldots, n
+	\end{cases}
+	\end{split}
+\end{equation}
 
-~\ref{fig:rmsetab}
+From this formulation the function $f()$ is the regression function, $w$ are the parameters of the regression function $f()$, $\gamma$ is loss function sensitivity and finally $\epsilon$ are the slack variables which measure the deviation of training samples.  
+
+To perform SVR training we used the popular $libsvm$ package.  Because parameter selection is a notoriously difficult problem for SVR, we followed the guidelines as outlined by Hsu, Chih-Chang and Lin, creators of the libsvm package \cite{Hsu2003}.  We first scaled the data by normalizing it between $[0, 1]$.  Then we searched for our best values of $C$, $\epsilon$ and $\gamma$ using the root mean squared error of the validation set factor to determine performance of those parameters. 
+
+For all of our datasets we used a historic window of length five.  This happened to be the same window length used by \cite{Wu2004} in past vehicle forecasting work.  Also, we empirically tried four common kernel functions: linear, polynomial, radial basis and sigmoid.  We had best for all three datasets with radial basis kernels, but a linear kernel also produced good results.

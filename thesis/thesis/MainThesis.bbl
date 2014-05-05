@@ -1,4 +1,4 @@
-\begin{thebibliography}{72}
+\begin{thebibliography}{75}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -205,6 +205,27 @@ C.-H. Wu, J.-M. Ho, and D.T. Lee.
 \newblock \doi{10.1109/TITS.2004.837813}.
 \newblock URL
   \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1364002}.
+
+\bibitem[Wei and Liu(2013)]{Wei2013}
+Dali Wei and Hongchao Liu.
+\newblock {An Adaptive-Margin Support Vector Regression for Short-Term Traffic
+  Flow Forecast}.
+\newblock \emph{Journal of Intelligent Transportation Systems}, \penalty0
+  (806), 2013.
+\newblock URL
+  \url{http://www.tandfonline.com/doi/abs/10.1080/15472450.2013.771107}.
+
+\bibitem[Wei and Liu(2012)]{Wei2012}
+Dali Wei and Hongchao Liu.
+\newblock {An adaptive support vector regression for short-term traffic flow
+  forecasting}.
+\newblock In \emph{91st Annual Meeting of the Transportation Research Board},
+  Washington D.C., 2012.
+
+\bibitem[Vapnik(1998)]{Vapnik1998}
+Vladimir Vapnik.
+\newblock \emph{{Statistical Learning Theory}}.
+\newblock Wiley Interscience, 1 edition, 1998.
 
 \bibitem[Hsu et~al.(2003)Hsu, Chang, and Lin]{Hsu2003}
 CW~Hsu, CC~Chang, and CJ~Lin.

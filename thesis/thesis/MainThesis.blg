@@ -10,49 +10,50 @@ A level-1 auxiliary file: ch6Conclusion.aux
 A level-1 auxiliary file: thesis_appendix.aux
 The style file: unsrtnat.bst
 Database file #1: Final_Thesis.bib
+Warning--there's a number but no volume in Wei2013
 Warning--empty journal in Hsu2003
 Warning--there's a number but no volume in Hsu2003
 Warning--can't use both author and editor fields in Dessein2013
 Warning--there's a number but no series in Huynh2005
-You've used 72 entries,
+You've used 75 entries,
             2481 wiz_defined-function locations,
-            1116 strings with 21590 characters,
-and the built_in function-call counts, 30247 in all, are:
-= -- 2809
-> -- 1350
-< -- 64
-+ -- 530
-- -- 384
-* -- 2254
-:= -- 4672
-add.period$ -- 316
-call.type$ -- 72
-change.case$ -- 143
-chr.to.int$ -- 70
-cite$ -- 76
-duplicate$ -- 1587
-empty$ -- 2737
-format.name$ -- 508
-if$ -- 6653
+            1135 strings with 22079 characters,
+and the built_in function-call counts, 31169 in all, are:
+= -- 2888
+> -- 1387
+< -- 67
++ -- 546
+- -- 394
+* -- 2310
+:= -- 4819
+add.period$ -- 326
+call.type$ -- 75
+change.case$ -- 149
+chr.to.int$ -- 73
+cite$ -- 80
+duplicate$ -- 1646
+empty$ -- 2832
+format.name$ -- 525
+if$ -- 6855
 int.to.chr$ -- 3
-int.to.str$ -- 73
-missing$ -- 69
-newline$ -- 455
-num.names$ -- 218
-pop$ -- 596
+int.to.str$ -- 76
+missing$ -- 73
+newline$ -- 471
+num.names$ -- 227
+pop$ -- 627
 preamble$ -- 1
-purify$ -- 72
+purify$ -- 75
 quote$ -- 0
-skip$ -- 986
+skip$ -- 1017
 stack$ -- 0
-substring$ -- 1284
-swap$ -- 355
+substring$ -- 1290
+swap$ -- 361
 text.length$ -- 28
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 495
-warning$ -- 4
-while$ -- 260
+type$ -- 513
+warning$ -- 5
+while$ -- 266
 width$ -- 0
-write$ -- 1123
-(There were 4 warnings)
+write$ -- 1164
+(There were 5 warnings)
