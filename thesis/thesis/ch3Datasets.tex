@@ -3,15 +3,20 @@
 TODO FOR THIS CHAPTER:
 \begin{enumerate}
 	\item Why we use a constrained time window instead of the whole day
-	\item show two sensor location for a dataset (MERL) and discuss the different shapes of the data.  Talk about why it is not necessary to generate results from each location as our datasets already have different shapes and scales of counts
 	\item put a marker on the CSMBB sensor we use
 	\item put a marker on Denver sensor we use
-	\item solve the problem of references subfigures - this CSM latex package is different than other packages I've used before for subfigure reference
 	\item discuss the noise in the final datasets
-	\item figure out proper name of Denver traffic sensors
 \end{enumerate}
 
-This chapter contains information pertaining to the datasets used for our work.  Our datasets are from three different sources.  We have two building datasets and one freeway traffic dataset.  The traffic dataset is a high volume with values taken at 30 minute increments.  The building datasets are much lower volume, but of vastly different types.  One building is a college research and classroom building.  The other is a typical office building.  When considered as a whole, we believe these buildings represent a wide corpus of potential human traffic systems.  All data is scaled to values between 0 and 1.  
+This chapter contains information pertaining to the datasets used for our work.  Our datasets are from three different sources.  We have two building datasets and one freeway traffic dataset.  The traffic dataset is a count of all the vehicles on a particular stretch of road aggregated over 30 minutes.  Because most of these road stretches are on major highways, this tends to be a high volume dataset.  The building datasets are much lower volume, but of vastly different types.  One building is a college research and classroom building.  The other is a typical office building.  When considered as a whole, we believe these buildings represent a wide corpus of potential human traffic systems.  
+
+Because some of our forecasting models work better for scaled data, we first normalize the data to values between 0 and 1.  To do this we performed the common scaling function:
+
+\begin{equation}
+	x_{t} := \frac{x_{t} - x_{min}}{x_{max} - x_{min}}.
+\end{equation}
+
+$x_{min}$ and $x_{max}$ represent the minimum and maximum values that x takes on within the time series.
 
 \subsection{Building Datasets}
 While there has been considerable work in estimating building occupancy values, due to difficulties with acquiring accurate ground truth occupancy values, such datasets are rare.  The problem in acquiring these occupancy values is that many buildings do not have sufficient infrastructure to accurately sense people throughout a building.  One approach used by researchers is to use simulated models of occupancy \cite{page2008, goldstein2010}.  These agent based models have the potential for significant accuracy, but tend not to scale well to large buildings where the large number of agents, rooms and interactions lead to non-trivial solutions.  Due to these problems, for our work, we prefer to estimate occupancy from sensor data rather than simulated data.
@@ -52,45 +57,53 @@ The Mitsubishi Electronic Research Labs dataset is derived from a collection of 
 	\label{fig:merlfloor}
 \end{figure}
 
-The sensors are placed roughly two meters apart on the ceilings, creating a dense sensing area with little non-sensed space.  Readings are taken at the millisecond level, but due to the sensors' settling times the inter-detection time of motion is approximately 1.5 seconds.  A representation of this floor plan is given in Figure ~\ref{fig:merlfloor}.
+The sensors are placed roughly two meters apart on the ceilings, creating a dense sensing area with little non-sensed space.  Readings are taken at the millisecond level, but due to the sensors' settling times the inter-detection time of motion is approximately 1.5 seconds.  A representation of this floor plan is given in~\ref{fig:merlfloor}.
 
 The data was collected from March 2006 through March 2008 and there are roughly 53 million sensor readings.  This building is similar to most office buildings with a number of personal offices along with labs and conference rooms.  Employees have roughly set schedules and holidays are observed as normal. 
 
-The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion at night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all days for a single sensor along with a range of one standard deviation is given in Figure~\ref{fig:merl_day_raw}.
+The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion at night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all days for a single sensor along with a range of one standard deviation is given in~\ref{fig:merl_scaled}(a).
 
 \begin{figure}[!ht]
 	\begin{center}
 		\subfigure[] {
 			\includegraphics[width=0.45\textwidth]{merl_aggregate.png}
 		}
-		\label{fig:merl_scaled_aggregate}
+		%label{fig:merl_scaled_aggregate}
 		\subfigure[] {
 			\includegraphics[width=0.45\textwidth]{merl_oneDay.png}
 		}
-		\label{fig:merl_scaled_raw}
+		%\label{fig:merl_scaled_raw}
 	\end{center}
 	\caption{Scaled average readings for a given day and scaled readings for two days from the MERL dataset.}
-%	\label{fig:merl_scaled}
+	\label{fig:merl_scaled}
 \end{figure}
 
 Peak motion unsurprisingly occurs during the middle of the day corresponding to lunch time.  Peak standard deviation appears to occur near noon and 4pm.  The noon variation is unsurprising as people will commonly skip lunch for various reasons.  The 3pm variation is more surprising.  This seems earlier than expected for daily departure, but perhaps it is at the early window of when people will begin to depart for the day.  
 
-As a visual for the typical data values throughout a couple of days is given in Figure~\ref{fig:merl_scaled_aggregate}~\ref{fig:merl_scaled_raw} .  Despite the mean appearing smooth, we see how volatile sensor activation readings are though out the day.
+An image for the typical data values throughout a couple of days is given in \ref{fig:merl_scaled}(b).  Despite the mean appearing smooth in \ref{fig:merl_scaled}(a), we see how volatile sensor activation readings are though out the day.
 
 
 \subsubsection{Colorado School of Mines Dataset}
 
 \begin{figure}[t!]
 	\begin{center}
-		\includegraphics[width=0.5\textwidth]{brown_motes.png}
+		\includegraphics[width=0.75\textwidth]{brown_motes.png}
 	\end{center}
 	\caption{Sensor locations for the Colorado School of Mines Brown Building}
 	\label{fig:csmbbfloor}
 \end{figure}
 
-The Colorado School of Mines dataset is a collection of 50 passive infrared sensors mounted on the ceiling of the second floor of a class and office room building.  The density of the sensor placement depends on the location within the building.  Outside the auditorium in the lower right of Figure~\ref{fig:csmbbfloor} is a dense collection of sensors placed approximately every few meters.  Throughout the rest of the building the sensors are placed roughly every 5 meters.  Data was collected for one academic school year from 2008 to 2009 and there are more than 23 million sensor readings.  To acquire readings, the sensors were polled every second and recorded data if motion was detected.  
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=0.75\textwidth]{brown_oneDay.png}
+	\end{center}
+	\caption{Sensor readings for two consecutive days from the Brown Dataset.}
+	\label{fig:csmbbsensor}
+\end{figure}
 
-\begin{figure}[h]
+The Colorado School of Mines dataset \cite{Hoff2009, Howard2013} is a collection of 50 passive infrared sensors mounted on the ceiling of the second floor of a class and office room building.  The density of the sensor placement depends on the location within the building.  Outside the auditorium in the lower right of ~\ref{fig:csmbbfloor} is a dense collection of sensors placed approximately every few meters.  Throughout the rest of the building the sensors are placed roughly every 5 meters.  Data was collected for one academic school year from 2008 to 2009 and there are more than 23 million sensor readings.  To acquire readings, the sensors were polled every second and recorded data if motion was detected.  
+
+\begin{figure}[!b]
 	\begin{center}
 		\subfigure[] {
 			\includegraphics[width=0.49\textwidth]{brown_day_raw_wed.png}
@@ -99,38 +112,21 @@ The Colorado School of Mines dataset is a collection of 50 passive infrared sens
 			\includegraphics[width=0.49\textwidth]{brown_day_raw_thurs.png}
 		}
 	\end{center}
-	\caption{Average readings from Wednesdays and Thursdays for a given sensor from the MERL dataset.}
+	\caption{Average readings from Wednesdays and Thursdays for a given sensor from the CSMBB dataset.}
 	\label{fig:brown_day_raw}
 \end{figure}
 
-\ref{fig:brown_day_raw}
+This dataset is much different than the MERL dataset as classes typically provide activity on a rigid schedule during the day.  Also as students have exams and projects, late night motion is sporadic based on the time of year.  The counts of sensor activations have been aggregated over every 10 minutes.  Despite occasional late night motion during exam time, most nights have no significant motion.  For this reason we focus on data between 7:00am and 7:00pm daily.  Typical daily class periods are seen in ~\ref{fig:csmbbsensor}.  This image shows two consecutive days.  The class passing times are easily visible with increased traffic happening roughly every hour.
 
-This dataset is much different than the MERL dataset as classes typically provide activity on a rigid schedule during the day.  Also as students have exams and projects, late night motion is sporadic based on the time of year.  The counts of sensor activations have been aggregated over every 10 minutes.  Despite occasional late night motion during exam time, most nights have no significant motion.  For this reason we focus on data between 7:00am and 7:00pm daily.  
+Also, different days of the not only have different schedules, but have different class lengths.  Classes at the school typically fall into two different schedules; either a class meets on Monday, Wednesday and Friday where the classes are 50 minutes in length or a class meets on Tuesday and Thursday where the classes are 75 minutes in length.  A plot of the average activations of all Wednesdays and Thursdays for a single sensor along with a range of one standard deviation is given in ~\ref{fig:brown_day_raw}.  The defined peaks in the dataset correlate to class start and end times when most students will be in the hallways of the building.  Notice how the peak times differ from Wednesday to Thursday. 
 
-A plot of the average activations of all Wednesdays and Thursdays for a single sensor along with a range of one standard deviation is given in Figure~\ref{fig:csmday}.  The defined peaks in the dataset correlate to class start and end times when most students will be in the hallways of the building.  Notice how the peak times differ from Wednesday to Thursday.  Classes at the school typically fall into two different schedules; either a class meets on Monday, Wednesday and Friday where the classes are 50 minutes in length or a class meets on Tuesday and Thursday where the classes are 75 minutes in length. 
-
-\begin{figure}[!ht]
-	\begin{center}
-		\subfigure[] {
-			\includegraphics[width=0.45\textwidth]{brown_aggregate.png}
-		}
-		\label{fig:brown_scaled_aggregate}
-		\subfigure[] {
-			\includegraphics[width=0.45\textwidth]{brown_oneDay.png}
-		}
-		\label{fig:brown_scaled_raw}
-	\end{center}
-	\caption{Scaled average readings for a given day and scaled readings for two days from the CSMBB dataset.}
-%	\label{fig:merl_scaled}
-\end{figure}
-
-For this work, we focus on the Monday, Wednesday and Friday class schedules.  Figure ~\ref{fig:brown_scaled_aggregate} shows the average of our CSMBB dataset.  Figure ~\ref{fig:brown_scaled_raw} shows a example of raw sensor activations for two days within our CSMBB dataset.
+For this work, we focus on the Monday, Wednesday and Friday class schedules.
 
 
 \subsection{Traffic datasets}
-Numerous traffic datasets have been used in the time series forecasting literature \cite{Kamarianakis2003, Smith2002, Williams2003, Zhang2009}.  Vehicular traffic datasets are an excellent test for forecasting algorithms as they tend to be highly repetitive with a significant seasonal component.  
+In contrast to building occupancy datasets used for forecasting, there exist numerous traffic datasets which are used in the time series forecasting literature \cite{Kamarianakis2003, Smith2002, Williams2003, Zhang2009}.  Vehicular traffic datasets are an excellent test for forecasting algorithms as they tend to be highly repetitive with a significant seasonal component.  
 
-\begin{figure}[t!]
+\begin{figure}[!b]
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{denver_sensors.png}
 	\end{center}
@@ -138,11 +134,10 @@ Numerous traffic datasets have been used in the time series forecasting literatu
 	\label{fig:denvertraffic}
 \end{figure}
 
-
 \subsubsection{Denver traffic dataset}
-The Denver traffic dataset is collected from many in road (TODO FIGURE OUT SENSOR TYPE) sensors which count the number of vehicles passing the sensor throughout the day.  Data is available from 2008 to 2011 on most days of the week.  The data is nearly 1 million readings for the sensors we extracted and approximately 33,000 readings for any one sensor.  For this work we use a freeway sensor near downtown Denver, closely located to Mile High Stadium; the home of the Denver Broncos.  The sensor is located on figure ~\ref{fig:denvertraffic} represented by a red rectangle.
+The Denver traffic dataset is collected from many in road inductive loop sensors which count the number of vehicles passing over sensor throughout the day.  Data is available from 2008 to 2013 on most days of the week.  The data is nearly 1 million readings for the sensors we extracted and approximately 33,000 readings for any one sensor.  For this work we use a freeway sensor near downtown Denver, closely located to Mile High Stadium; the home of the Denver Broncos.  The sensor is located on ~\ref{fig:denvertraffic} represented by a red rectangle.
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\begin{center}
 		\subfigure[] {
 			\includegraphics[width=0.49\textwidth]{denver_day_raw_sun.png}

@@ -15,10 +15,8 @@
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{24}{subfigure.3.1}
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{24}{subfigure.3.2}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.4}{\ignorespaces Sensor locations for the Colorado School of Mines Brown Building\relax }}{24}{figure.caption.22}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.5}{\ignorespaces Average readings from Wednesdays and Thursdays for a given sensor from the MERL dataset.\relax }}{25}{figure.caption.23}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{25}{subfigure.5.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{25}{subfigure.5.2}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.6}{\ignorespaces Scaled average readings for a given day and scaled readings for two days from the CSMBB dataset.\relax }}{26}{figure.caption.24}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.5}{\ignorespaces Sensor readings for two consecutive days from the Brown Dataset.\relax }}{25}{figure.caption.23}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.6}{\ignorespaces Average readings from Wednesdays and Thursdays for a given sensor from the CSMBB dataset.\relax }}{26}{figure.caption.24}
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{26}{subfigure.6.1}
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{26}{subfigure.6.2}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.7}{\ignorespaces City of Denver traffic sensors.\relax }}{27}{figure.caption.25}

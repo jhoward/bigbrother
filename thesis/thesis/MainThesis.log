@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  4 MAY 2014 23:24
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  6 MAY 2014 23:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -732,117 +732,79 @@ File: ./images/merl_floorplan.png Graphic file (type QTm)
 <use  "./images/merl_floorplan.png" >
 File: ./images/merl_map.png Graphic file (type QTm)
  <use  "./images/merl_map.png" > [22]
-
-LaTeX Warning: Reference `fig:merl_day_raw' on page 23 undefined on input line 
-59.
-
 File: ./images/merl_aggregate.png Graphic file (type QTm)
+
 <use  "./images/merl_aggregate.png" >
 File: ./images/merl_oneDay.png Graphic file (type QTm)
  <use  "./images/merl_oneDay.png" >
-
-Package caption Warning: \label without proper \caption on input line 66.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:merl_scaled_aggregate' on page 23 undefined on in
-put line 78.
-
-
-Package caption Warning: \label without proper \caption on input line 70.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:merl_scaled_raw' on page 23 undefined on input li
-ne 78.
-
-[23]
 File: ./images/brown_motes.png Graphic file (type QTm)
- <use  "./images/brown_motes.png" > [24]
-File: ./images/brown_day_raw_wed.png Graphic file (type QTm)
 
-<use  "./images/brown_day_raw_wed.png" >
+<use  "./images/brown_motes.png" >
+File: ./images/brown_oneDay.png Graphic file (type QTm)
+ <use  "./images/brown_oneDay.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[23] [24]
+File: ./images/brown_day_raw_wed.png Graphic file (type QTm)
+ <use  "./images/brown_day_raw_wed.png" >
 File: ./images/brown_day_raw_thurs.png Graphic file (type QTm)
 
 <use  "./images/brown_day_raw_thurs.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 97--101
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 110--114
  [][][] 
  []
 
-
-LaTeX Warning: Reference `fig:csmday' on page 25 undefined on input line 110.
-
 [25]
-File: ./images/brown_aggregate.png Graphic file (type QTm)
- <use  "./images/brown_aggregate.png" >
-File: ./images/brown_oneDay.png Graphic file (type QTm)
-
-<use  "./images/brown_oneDay.png" >
-
-Package caption Warning: \label without proper \caption on input line 117.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:brown_scaled_aggregate' on page 26 undefined on i
-nput line 127.
-
-
-Package caption Warning: \label without proper \caption on input line 121.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:brown_scaled_raw' on page 26 undefined on input l
-ine 127.
-
 File: ./images/denver_sensors.png Graphic file (type QTm)
-<use  "./images/denver_sensors.png" > [26]
+ <use  "./images/denver_sensors.png" > [26]
 File: ./images/denver_day_raw_sun.png Graphic file (type QTm)
 
 <use  "./images/denver_day_raw_sun.png" >
 File: ./images/denver_day_raw_mon.png Graphic file (type QTm)
 
 <use  "./images/denver_day_raw_mon.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 149--153
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 144--148
  [][][] 
  []
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: ./images/denver_aggregate.png Graphic file (type QTm)
-<use  "./images/denver_aggregate.png" >
-File: ./images/denver_oneDay.png Graphic file (type QTm)
- <use  "./images/denver_oneDay.png" >
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Package caption Warning: \label without proper \caption on input line 165.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:denver_scaled_aggregate' on page 27 undefined on 
-input line 175.
-
-
-Package caption Warning: \label without proper \caption on input line 169.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:denver_scaled_raw' on page 27 undefined on input 
-line 175.
-
 [27]
-Underfull \hbox (badness 10000) in paragraph at lines 179--182
+File: ./images/denver_aggregate.png Graphic file (type QTm)
+ <use  "./images/denver_aggregate.png" >
+File: ./images/denver_oneDay.png Graphic file (type QTm)
+
+<use  "./images/denver_oneDay.png" >
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Package caption Warning: \label without proper \caption on input line 163.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:denver_scaled_aggregate' on page 28 undefined on 
+input line 170.
+
+
+Package caption Warning: \label without proper \caption on input line 167.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:denver_scaled_raw' on page 28 undefined on input 
+line 170.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 174--177
 
  []
 
-
-LaTeX Warning: Reference `kamarianakis2003' on page 28 undefined on input line 
-185.
-
 [28]
-Underfull \hbox (badness 10000) in paragraph at lines 187--188
+
+LaTeX Warning: Reference `kamarianakis2003' on page 29 undefined on input line 
+180.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 182--183
 
  []
 
@@ -1239,12 +1201,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12535 strings out of 494004
- 189679 string characters out of 3150890
- 305754 words of memory out of 3000000
- 15498 multiletter control sequences out of 15000+200000
+ 12517 strings out of 494004
+ 189354 string characters out of 3150890
+ 304669 words of memory out of 3000000
+ 15481 multiletter control sequences out of 15000+200000
  10130 words of font info for 37 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 148i,21n,663p,1216b,600s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 146i,21n,653p,1216b,600s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on MainThesis.pdf (93 pages).
