@@ -8,17 +8,17 @@
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.4}{\ignorespaces One-step ahead prediction for a sample week. Black line is original data. Red line is forecasted data. Dotted box shows an example of mis-forecasting due to a broncos game.\relax }}{16}{figure.caption.15}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 2}.5}{\ignorespaces Architecture of a time delayed neural network with $m + 1$ inputs and J outputs \cite {Hansen2003}.\relax }}{17}{figure.caption.16}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.1}{\ignorespaces Passive infrared motion detector\relax }}{22}{figure.caption.19}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.2}{\ignorespaces Floor plan and sensor locations for the MERL office building dataset. The red rectangle is the location of our sensor for this work.\relax }}{23}{figure.caption.20}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{23}{subfigure.2.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{23}{subfigure.2.2}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.3}{\ignorespaces Scaled average readings for a given day and scaled readings for two days from the MERL dataset.\relax }}{24}{figure.caption.21}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{24}{subfigure.3.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{24}{subfigure.3.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.2}{\ignorespaces Floor plan and sensor locations for the MERL office building dataset. The red rectangle is the location of our sensor for this work.\relax }}{22}{figure.caption.20}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{22}{subfigure.2.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{22}{subfigure.2.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.3}{\ignorespaces Scaled average readings for a given day and scaled readings for two days from the MERL dataset.\relax }}{23}{figure.caption.21}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{23}{subfigure.3.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{23}{subfigure.3.2}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.4}{\ignorespaces Sensor locations for the Colorado School of Mines Brown Building\relax }}{24}{figure.caption.22}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.5}{\ignorespaces Sensor readings for two consecutive days from the Brown Dataset.\relax }}{25}{figure.caption.23}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.6}{\ignorespaces Average readings from Wednesdays and Thursdays for a given sensor from the CSMBB dataset.\relax }}{26}{figure.caption.24}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{26}{subfigure.6.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{26}{subfigure.6.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.6}{\ignorespaces Average readings from Wednesdays and Thursdays for a given sensor from the CSMBB dataset.\relax }}{25}{figure.caption.24}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{25}{subfigure.6.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{25}{subfigure.6.2}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.7}{\ignorespaces City of Denver traffic sensors.\relax }}{27}{figure.caption.25}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 3}.8}{\ignorespaces Average readings from Sunday and Monday for a given sensor from the Denver traffic dataset.\relax }}{28}{figure.caption.26}
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{28}{subfigure.8.1}

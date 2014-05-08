@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  6 MAY 2014 23:03
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  7 MAY 2014 22:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -724,51 +724,53 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-] [21]
+]
 File: ./images/pir_sensor.png Graphic file (type QTm)
  <use  "./images/pir_sensor.png" >
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[21]
 File: ./images/merl_floorplan.png Graphic file (type QTm)
-
-<use  "./images/merl_floorplan.png" >
+ <use  "./images/merl_floorplan.png" >
 File: ./images/merl_map.png Graphic file (type QTm)
- <use  "./images/merl_map.png" > [22]
+ <use  "./images/merl_map.png" >
+[22]
 File: ./images/merl_aggregate.png Graphic file (type QTm)
-
-<use  "./images/merl_aggregate.png" >
+ <use  "./images/merl_aggregate.png" >
 File: ./images/merl_oneDay.png Graphic file (type QTm)
  <use  "./images/merl_oneDay.png" >
+[23]
 File: ./images/brown_motes.png Graphic file (type QTm)
-
-<use  "./images/brown_motes.png" >
+ <use  "./images/brown_motes.png" >
 File: ./images/brown_oneDay.png Graphic file (type QTm)
  <use  "./images/brown_oneDay.png" >
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[23] [24]
 File: ./images/brown_day_raw_wed.png Graphic file (type QTm)
- <use  "./images/brown_day_raw_wed.png" >
+<use  "./images/brown_day_raw_wed.png" >
 File: ./images/brown_day_raw_thurs.png Graphic file (type QTm)
 
 <use  "./images/brown_day_raw_thurs.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 110--114
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 102--106
  [][][] 
  []
 
-[25]
+[24] [25]
 File: ./images/denver_sensors.png Graphic file (type QTm)
- <use  "./images/denver_sensors.png" > [26]
+ <use  "./images/denver_sensors.png" >
 File: ./images/denver_day_raw_sun.png Graphic file (type QTm)
 
 <use  "./images/denver_day_raw_sun.png" >
 File: ./images/denver_day_raw_mon.png Graphic file (type QTm)
 
 <use  "./images/denver_day_raw_mon.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 144--148
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 136--140
  [][][] 
  []
 
-[27]
+[26]
 File: ./images/denver_aggregate.png Graphic file (type QTm)
  <use  "./images/denver_aggregate.png" >
 File: ./images/denver_oneDay.png Graphic file (type QTm)
@@ -777,34 +779,17 @@ File: ./images/denver_oneDay.png Graphic file (type QTm)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-Package caption Warning: \label without proper \caption on input line 163.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:denver_scaled_aggregate' on page 28 undefined on 
-input line 170.
-
-
-Package caption Warning: \label without proper \caption on input line 167.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:denver_scaled_raw' on page 28 undefined on input 
-line 170.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 174--177
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 167--170
 
  []
 
+
+LaTeX Warning: Reference `kamarianakis2003' on page 28 undefined on input line 
+173.
+
 [28]
-
-LaTeX Warning: Reference `kamarianakis2003' on page 29 undefined on input line 
-180.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 182--183
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
 
  []
 
@@ -1201,10 +1186,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12517 strings out of 494004
- 189354 string characters out of 3150890
- 304669 words of memory out of 3000000
- 15481 multiletter control sequences out of 15000+200000
+ 12514 strings out of 494004
+ 189296 string characters out of 3150890
+ 304406 words of memory out of 3000000
+ 15478 multiletter control sequences out of 15000+200000
  10130 words of font info for 37 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  146i,21n,653p,1216b,600s stack positions out of 5000i,500n,10000p,200000b,50000s

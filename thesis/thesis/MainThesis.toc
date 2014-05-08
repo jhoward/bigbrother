@@ -23,7 +23,7 @@
 \contentsline {subsubsection}{\numberline {3.1.1}MERL Dataset}{22}{subsubsection.3.1.1}
 \contentsline {subsubsection}{\numberline {3.1.2}Colorado School of Mines Dataset}{24}{subsubsection.3.1.2}
 \contentsline {subsection}{\numberline {3.2}Traffic datasets}{26}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Denver traffic dataset}{27}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.1}Denver traffic dataset}{26}{subsubsection.3.2.1}
 \contentsline {subsection}{\numberline {3.3}Additional notes on the datasets}{28}{subsection.3.3}
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}ENSEMBLE APPROACH}}{31}{section*.28}
 \contentsline {subsection}{\numberline {4.1}Bayesian Combined Forecasting}{31}{subsection.4.1}

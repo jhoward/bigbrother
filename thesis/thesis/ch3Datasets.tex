@@ -1,14 +1,6 @@
 \chapter{Datasets}
 
-TODO FOR THIS CHAPTER:
-\begin{enumerate}
-	\item Why we use a constrained time window instead of the whole day
-	\item put a marker on the CSMBB sensor we use
-	\item put a marker on Denver sensor we use
-	\item discuss the noise in the final datasets
-\end{enumerate}
-
-This chapter contains information pertaining to the datasets used for our work.  Our datasets are from three different sources.  We have two building datasets and one freeway traffic dataset.  The traffic dataset is a count of all the vehicles on a particular stretch of road aggregated over 30 minutes.  Because most of these road stretches are on major highways, this tends to be a high volume dataset.  The building datasets are much lower volume, but of vastly different types.  One building is a college research and classroom building.  The other is a typical office building.  When considered as a whole, we believe these buildings represent a wide corpus of potential human traffic systems.  
+This chapter contains information pertaining to the datasets used for our work.  Our datasets are from three different sources.  We have two building datasets and one freeway traffic dataset.  The traffic dataset is a count of all the vehicles on a particular stretch of road aggregated over 60 minutes.  Because most of these road stretches are on major highways, this tends to be a high volume dataset.  The building datasets are much lower volume, but of vastly different types.  One building is a college research and classroom building.  The other is a typical office building.  When considered as a whole, we believe these buildings represent a wide corpus of potential human traffic systems.  
 
 Because some of our forecasting models work better for scaled data, we first normalize the data to values between 0 and 1.  To do this we performed the common scaling function:
 
@@ -61,7 +53,7 @@ The sensors are placed roughly two meters apart on the ceilings, creating a dens
 
 The data was collected from March 2006 through March 2008 and there are roughly 53 million sensor readings.  This building is similar to most office buildings with a number of personal offices along with labs and conference rooms.  Employees have roughly set schedules and holidays are observed as normal. 
 
-The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion at night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all days for a single sensor along with a range of one standard deviation is given in~\ref{fig:merl_scaled}(a).
+The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion at night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all days for a single sensor along with a range of one standard deviation is given in \ref{fig:merl_scaled}(a).
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -116,9 +108,9 @@ The Colorado School of Mines dataset \cite{Hoff2009, Howard2013} is a collection
 	\label{fig:brown_day_raw}
 \end{figure}
 
-This dataset is much different than the MERL dataset as classes typically provide activity on a rigid schedule during the day.  Also as students have exams and projects, late night motion is sporadic based on the time of year.  The counts of sensor activations have been aggregated over every 10 minutes.  Despite occasional late night motion during exam time, most nights have no significant motion.  For this reason we focus on data between 7:00am and 7:00pm daily.  Typical daily class periods are seen in ~\ref{fig:csmbbsensor}.  This image shows two consecutive days.  The class passing times are easily visible with increased traffic happening roughly every hour.
+This dataset is much different than the MERL dataset as classes typically provide activity on a rigid schedule during the day.  Also as students have exams and projects, late night motion is sporadic based on the time of year.  The counts of sensor activations have been aggregated over every 10 minutes.  Despite occasional late night motion during exam time, most nights have no significant motion.  For this reason we focus on data between 7:00am and 7:00pm daily.  Typical daily class periods are seen in \ref{fig:csmbbsensor}.  This image shows two consecutive days.  The class passing times are easily visible with increased traffic happening roughly every hour.
 
-Also, different days of the not only have different schedules, but have different class lengths.  Classes at the school typically fall into two different schedules; either a class meets on Monday, Wednesday and Friday where the classes are 50 minutes in length or a class meets on Tuesday and Thursday where the classes are 75 minutes in length.  A plot of the average activations of all Wednesdays and Thursdays for a single sensor along with a range of one standard deviation is given in ~\ref{fig:brown_day_raw}.  The defined peaks in the dataset correlate to class start and end times when most students will be in the hallways of the building.  Notice how the peak times differ from Wednesday to Thursday. 
+Also, different days of the not only have different schedules, but have different class lengths.  Classes at the school typically fall into two different schedules; either a class meets on Monday, Wednesday and Friday where the classes are 50 minutes in length or a class meets on Tuesday and Thursday where the classes are 75 minutes in length.  A plot of the average activations of all Wednesdays and Thursdays for a single sensor along with a range of one standard deviation is given in \ref{fig:brown_day_raw}.  The defined peaks in the dataset correlate to class start and end times when most students will be in the hallways of the building.  Notice how the peak times differ from Wednesday to Thursday. 
 
 For this work, we focus on the Monday, Wednesday and Friday class schedules.
 
@@ -128,14 +120,14 @@ In contrast to building occupancy datasets used for forecasting, there exist num
 
 \begin{figure}[!b]
 	\begin{center}
-		\includegraphics[width=0.5\textwidth]{denver_sensors.png}
+		\includegraphics[width=0.6\textwidth]{denver_sensors.png}
 	\end{center}
 	\caption{City of Denver traffic sensors.}
 	\label{fig:denvertraffic}
 \end{figure}
 
 \subsubsection{Denver traffic dataset}
-The Denver traffic dataset is collected from many in road inductive loop sensors which count the number of vehicles passing over sensor throughout the day.  Data is available from 2008 to 2013 on most days of the week.  The data is nearly 1 million readings for the sensors we extracted and approximately 33,000 readings for any one sensor.  For this work we use a freeway sensor near downtown Denver, closely located to Mile High Stadium; the home of the Denver Broncos.  The sensor is located on ~\ref{fig:denvertraffic} represented by a red rectangle.
+The Denver traffic dataset is collected from many in road inductive loop sensors which count the number of vehicles passing over sensor throughout the day.  Data is available from 2008 to 2013 on most days of the week.  The data is nearly 1 million readings for the sensors we extracted and approximately 33,000 readings for any one sensor.  For this work we use a freeway sensor near downtown Denver, closely located to Mile High Stadium; the home of the Denver Broncos.  The sensor is located on \ref{fig:denvertraffic} represented by a red rectangle.
 
 \begin{figure}[t]
 	\begin{center}
@@ -150,24 +142,25 @@ The Denver traffic dataset is collected from many in road inductive loop sensors
 	\label{fig:denver_day_raw}
 \end{figure}
 
-Count data is aggregated per hour for each direction of traffic at every sensor location.  This data is highly repetitive as Monday through Thursday have approximately the same daily traffic patterns.  Friday behaves much like the rest of the weekdays with the differences being that evening rush hour happens about an hour earlier and their is an increase in night activity.   Example averages for a Sunday and Monday are represented in figure ~\ref{fig:denver_day_raw}.  This figure clearly shows how Monday has a peak time during morning rush hour and a small peak again during afternoon rush hour.  Sunday shows no such pattern.  Instead Sunday shows more slow increase in activity throughout the day.  Also of note is the large amount of sensor activations per hour compared to the CSMBB and MERL datasets.  The counts for Denver traffic are thousands of times larger than our building datasets.
+Count data is aggregated per hour for each direction of traffic at every sensor location.  This data is highly repetitive as Monday through Thursday have approximately the same daily traffic patterns.  Friday behaves much like the rest of the weekdays with the differences being that evening rush hour happens about an hour earlier and their is an increase in night activity.   Example averages for a Sunday and Monday are represented in \ref{fig:denver_day_raw}.  This figure clearly shows how Monday has a peak time during morning rush hour and a small peak again during afternoon rush hour.  Sunday shows no such pattern.  Instead Sunday shows more slow increase in activity throughout the day.  Also of note is the large amount of sensor activations per hour compared to the CSMBB and MERL datasets.  The counts for Denver traffic are thousands of times larger than our building datasets.
 
 \begin{figure}[h]
 	\begin{center}
 		\subfigure[] {
 			\includegraphics[width=0.45\textwidth]{denver_aggregate.png}
 		}
-		\label{fig:denver_scaled_aggregate}
+		%\label{fig:denver_scaled_aggregate}
 		\subfigure[] {
 			\includegraphics[width=0.45\textwidth]{denver_oneDay.png}
 		}
-		\label{fig:denver_scaled_raw}
+		%\label{fig:denver_scaled_raw}
 	\end{center}
 	\caption{Scaled average readings for a given day and scaled readings for two days from the Denver traffic dataset.}
-%	\label{fig:merl_scaled}
+	\label{fig:denver_scaled}
 \end{figure}
 
-The scaled dataset that we use for this work is shown in figure \ref{fig:denver_scaled_aggregate}.  This is an average of all Monday through Thursdays for the sensor indicated earlier.  Also, unlike in the other datasets, we do not cut the data down to specific times of day.  This is done, both because there is more traffic during the early morning and late night on this dataset compared to the others and because the data is aggregated only every Hour, do not want to remove more reading from the dataset.  Finally figure \ref{fig:denver_scaled_raw} shows an example of two days of scaled data.  Due to the one hour readings instead of 10 minute readings, the data appears much smoother.  
+The scaled dataset that we use for this work is shown in figure \ref{fig:denver_scaled}(a).  This is an average of all Monday through Thursdays for the sensor indicated earlier.  Also, unlike in the other datasets, we do not cut the data down to specific times of day.  This is done, both because there is more traffic during the early morning and late night on this dataset compared to the others and because the data is aggregated only every Hour, and we do not want to remove more readings from the dataset.  Finally figure \ref{fig:denver_scaled}(b) shows an example of two days of scaled data.  Due to the 60 minute readings instead of 10 minute readings, the data appears much smoother.  
+
 
 \subsection{Additional notes on the datasets} 
 
@@ -179,11 +172,11 @@ These three datasets are distinct in many ways.  They differ significantly in to
 \textbf{One sensor vs Multiple sensors - why we use a univariate dataset} \\
 For this work, we use only one sensor to perform our forecasts.  While intuition may imply that a multivariate approach to forecasting out perform a univariate approach this was show to not be the case by Kamarianakis and Prastacos \ref{kamarianakis2003}.  They studied the problem of forecasting vehicular traffic flow and found similar results using both multivariate and univariate approaches.
 
-We believe the same results hold when it comes to building datasets instead of vehicle datasets.  This is primarily motivated by the simple fact time aggregation and building scale.  For our building datasets, the data is accumulated in 10 minute intervals.  That resolution of detail was empirically selected because it smooths the data sufficiently to allow for accurate forecasting while still being short enough to provide meaningful forecasts.  10 minutes is however, long that it takes an individual to walk from one end of our buildings to the other.  Therefore at a scale of 10 minutes, knowledge of occupancy in one sensor does not seem to imply occupancy in another sensor. \\
+We believe the same results hold when it comes to building datasets instead of vehicle datasets.  This is primarily motivated by the geographic size of our data and the time of reading aggregation.  For our building datasets, the data is accumulated in 10 minute intervals.  That resolution of detail was empirically selected because it smooths the data sufficiently to allow for accurate forecasting while still being short enough to provide meaningful forecasts.  10 minutes is however, longer than it takes an individual to walk from one end of our buildings to the other.  Therefore at a scale of 10 minutes, knowledge of occupancy in one sensor does not seem to imply occupancy in another sensor.  This same scaling problem exists for the Denver dataset as well.  Unless traffic is exceptionally bad, the travel time across all of Denver is less than one hour.\\
 
 \noindent
 \textbf{Missing values in the dataset} \\
-Due to data collection problems with sensors, the raw data from all of our datasets all had segments with missing values.  These missing values were replace with the historic average value for that sensor at that time on that day.  For example a missing value at 3pm on a Tuesday in the Denver dataset would be replaced by the average value of all Tuesdays at 3pm.
+Due to data collection problems with sensors, the raw data from all of our datasets all had segments with missing values.  These missing values were replaced with the historic average value for that sensor at that time on that day.  For example a missing value at 3pm on a Tuesday in the Denver dataset would be replaced by the average value of all Tuesdays at 3pm.
 
 
 
