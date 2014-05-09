@@ -26,9 +26,9 @@
 \BOOKMARK [2][-]{subsection.3.2}{Traffic\040datasets}{section*.18}% 26
 \BOOKMARK [3][-]{subsubsection.3.2.1}{Denver\040traffic\040dataset}{subsection.3.2}% 27
 \BOOKMARK [2][-]{subsection.3.3}{Additional\040notes\040on\040the\040datasets}{section*.18}% 28
-\BOOKMARK [1][-]{section*.28}{ENSEMBLE\040APPROACH}{}% 29
-\BOOKMARK [2][-]{subsection.4.1}{Bayesian\040Combined\040Forecasting}{section*.28}% 30
-\BOOKMARK [2][-]{subsection.4.2}{Notation}{section*.28}% 31
+\BOOKMARK [1][-]{section*.28}{BUILDING\040A\040NEW\040ENSEMBLE\040FORECASTER\040-\040IMPROVED\040LONG\040TERM\040FORECASTING}{}% 29
+\BOOKMARK [2][-]{subsection.4.1}{Why\040ensemble\040forecasting?}{section*.28}% 30
+\BOOKMARK [2][-]{subsection.4.2}{Bayesian\040Combined\040Forecasting}{section*.28}% 31
 \BOOKMARK [2][-]{subsection.4.3}{Bayesian\040Combined\040Forecasting\040Derivation}{section*.28}% 32
 \BOOKMARK [2][-]{subsection.4.4}{BCF\040Modifications}{section*.28}% 33
 \BOOKMARK [3][-]{subsubsection.4.4.1}{Forecast\040\040time\040steps\040into\040the\040future}{subsection.4.4}% 34

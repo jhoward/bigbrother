@@ -1,35 +1,28 @@
-\chapter{ENSEMBLE APPROACH}
+\chapter{BUILDING A NEW ENSEMBLE FORECASTER - IMPROVED LONG TERM FORECASTING}
 \label{ch:BCF}
-write about approach here
+A short discussion on the various approaches and why we consider this approach to lead to better long term traffic forecasts.  Perhaps discuss the typical drawbacks of ensemble approaches and finally discuss how we plan to address those drawbacks here.
 
-\subsection{Bayesian Combined Forecasting}
-The BCF approach \cite{Petridis2001} is one of several types of methods which attempt to combine other forecasting models for time series. We selected this forecasting method over other multiple model forecasting methods (such as mixture of experts or ensembles of neural networks) due to its modularity and strong statistical backing.  BCF is modular in that it allows for the component forecasting models to come from any trained forecaster with a well defined distribution of the forecaster's mis-forecasts.  Its statistical backing comes from its direct derivation from Bayes' rule.
+This rest of this chapter derives the BCF approach for readers unfamiliar with it and then describes some modifications of the approach which improves its performance for our application.
 
-This section derives the BCF approach for readers unfamiliar with it and then describes some modifications of the approach which improves its performance for our application.
+TODO
+\begin{itemize}
+	\item Change notation to be in line with our earlier notation.
 
-\subsection{Notation}
-We define the time series dataset used in these models as $\{T_{t}^{(m)}\}$.  In our application the data used for these models comes from a set of $M$ binary infrared sensors.  Each $T_{t}^{m}$ is a 10 minute aggregate of the readings from sensor $m$ reading at time block $t$.  
+\end{itemize}
 
-Forecasts for a given model $k$ from the set of all models $K$ are represented by 
-\begin{equation}
-\bar{T}_{t + 1}^{k, m} = f(T_{t}, ..., T_{1}; \theta_{k}).
-\end{equation}
-\noindent
-Thus the forecast of $T_{t + 1}$ is a function of all past data and some trained parameterization $\theta_{k}$ for that model. 
-
-In this work we need to forecast more than one time step into the future.  Future forecasts are performed through iterative one step ahead forecasts.  Also for this work we forecast a model for each individual sensor and for convenience drop the $m$ from our forecasting notation.  An example of a forecast two time steps ahead of current time $t$ is given by 
-\begin{equation}
-\bar{T}_{t + 2}^{k} = f(\bar{T}_{t + 1}, T_{t}, ..., T_{1}; \theta_{k}).
-\end{equation}
-\noindent
-Such a forecast is simply the forecast for one time step into the future but now with the forecasted value of $\bar{T}_{t + 1}$ used as the most recent datapoint to forecast $\bar{T}_{t + 2}$.  Forecasting in this nature allows for forecasts any number of time steps into the future. 
-
+\subsection{Why ensemble forecasting?}
 \begin{figure*}[t]
 \centering
 \includegraphics[width = .55\linewidth]{svm_standard_deviations_vs_horizon.png}
 \caption{Standard deviation of support vector machine residuals for all Wednesdays in MERL dataset.  Time index represents 10 minute intervals from 6:00am to 7:00pm.}
 \label{fig:svmstd}
 \end{figure*}
+
+\ref{fig:svmstd}
+
+
+\subsection{Bayesian Combined Forecasting}
+The BCF approach \cite{Petridis2001} is one of several types of methods which attempt to combine other forecasting models for time series. We selected this forecasting method over other multiple model forecasting methods (such as mixture of experts or ensembles of neural networks) due to its modularity and strong statistical backing.  BCF is modular in that it allows for the component forecasting models to come from any trained forecaster with a well defined distribution of the forecaster's mis-forecasts.  Its statistical backing comes from its direct derivation from Bayes' rule.
 
 \subsection{Bayesian Combined Forecasting Derivation}
 To derive BCF we first assume the existence of $K$ models.  From these $K$ models, we want to create a probability distribution on a new random variable $z$ that is used to determine if model $k$ is the correct model from which to forecast at time $t$.  To do this we use the notation of Petridis \cite{Petridis2001} and define $p_{t}^{k}$ as follows

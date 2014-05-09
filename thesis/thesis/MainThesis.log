@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  7 MAY 2014 22:36
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  8 MAY 2014 22:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -796,30 +796,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 175--176
 [29]) [30]
 \openout2 = `ch4Ensemble.aux'.
 
- (./ch4Ensemble.tex [31
-
-
-
-]
+ (./ch4Ensemble.tex
 File: ./images/svm_standard_deviations_vs_horizon.png Graphic file (type QTm)
 
-<use  "./images/svm_standard_deviations_vs_horizon.png" > [32]
+<use  "./images/svm_standard_deviations_vs_horizon.png" > [31
+
+
+
+] [32]
 File: ./images/posterior_probs.png Graphic file (type QTm)
 
-<use  "./images/posterior_probs.png" > [33]
+<use  "./images/posterior_probs.png" >
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 82.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\delta' on input line 82.
+(hyperref)                removing `math shift' on input line 75.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 82.
+(hyperref)                removing `\delta' on input line 75.
 
-[34] [35]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 75.
+
+[33] [34] [35]
 File: ./images/real_forecasts_bcf.png Graphic file (type QTm)
  <use  "./images/real_forecasts_bcf.png" >
 
@@ -833,14 +833,14 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [37]
 
-LaTeX Warning: Reference `fig:rmsetab' on page 38 undefined on input line 154.
+LaTeX Warning: Reference `fig:rmsetab' on page 38 undefined on input line 147.
 
 [38]
 File: ./images/brown_rmse.png Graphic file (type QTm)
  <use  "./images/brown_rmse.png" >
 File: ./images/merl_rmse.png Graphic file (type QTm)
  <use  "./images/merl_rmse.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 164--170
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 157--163
  [][][] 
  []
 

@@ -25,9 +25,9 @@
 \contentsline {subsection}{\numberline {3.2}Traffic datasets}{26}{subsection.3.2}
 \contentsline {subsubsection}{\numberline {3.2.1}Denver traffic dataset}{26}{subsubsection.3.2.1}
 \contentsline {subsection}{\numberline {3.3}Additional notes on the datasets}{28}{subsection.3.3}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}ENSEMBLE APPROACH}}{31}{section*.28}
-\contentsline {subsection}{\numberline {4.1}Bayesian Combined Forecasting}{31}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Notation}{31}{subsection.4.2}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}BUILDING A NEW ENSEMBLE FORECASTER - IMPROVED LONG TERM FORECASTING}}{31}{section*.28}
+\contentsline {subsection}{\numberline {4.1}Why ensemble forecasting?}{31}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Bayesian Combined Forecasting}{31}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}Bayesian Combined Forecasting Derivation}{32}{subsection.4.3}
 \contentsline {subsection}{\numberline {4.4}BCF Modifications}{33}{subsection.4.4}
 \contentsline {subsubsection}{\numberline {4.4.1}Forecast $\delta $ time steps into the future}{34}{subsubsection.4.4.1}
