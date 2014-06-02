@@ -1,4 +1,4 @@
-\begin{thebibliography}{75}
+\begin{thebibliography}{77}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -370,6 +370,20 @@ Yang Zhang and Yuncai Liu.
   51:\penalty0 8--14, 2009.
 \newblock URL
   \url{http://www.akademik.unsri.ac.id/download/journal/files/waset/v51-40.pdf}.
+
+\bibitem[Tracton and Kalnay(1993)]{Tracton1993}
+M.S. Tracton and E~Kalnay.
+\newblock {Operational ensemble prediction at the National Meteorological
+  Center: practical aspects}.
+\newblock \emph{Weather and Forecasting}, 8\penalty0 (3):\penalty0 379--398,
+  1993.
+
+\bibitem[Zhang and Pu(2010)]{Zhang2010}
+Hailing Zhang and Zhaoxia Pu.
+\newblock {Beating the Uncertainties: Ensemble Forecasting and Ensemble-Based
+  Data Assimilation in Modern Numerical Weather Prediction}.
+\newblock \emph{Advance in Meteorology}, page~10, 2010.
+\newblock \doi{10.1155/2010/432160}.
 
 \bibitem[Zheng et~al.(2006)Zheng, Lee, and Shi]{Zheng2006}
 Weizhong Zheng, Der-Horng Lee, and Qixin Shi.
