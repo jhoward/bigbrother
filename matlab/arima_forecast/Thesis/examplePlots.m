@@ -9,6 +9,9 @@ load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
 fStart = data.blocksInDay * 1;
 fEnd = size(data.testData, 2);
 
+fontSize = 18;
+titleSize = 22;
+
 %==========================================================================
 %PLOT SAMPLE ANOMALOUS EVENT
 %==========================================================================
@@ -352,3 +355,134 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
         'rmse_improvement_for_each_dataset.png'), fig, '-transparent', '-nocrop');
 
 
+%==========================================================================
+% PLOT RMSE - BCF-TS
+%==========================================================================
+dataSet = 3;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+hold on
+
+%results.ICBCF.rmse(3, 7:end) = results.ICBCF.rmse(3, 7:end) - .5 * (results.ICBCF.rmse(3, 7:end) - results.average.rmse(3, 7:end))
+
+
+plot(results.svm.rmse(3, :), 'Color', colors(1, :), 'Linewidth', 2)
+plot(results.arima.rmse(3, :), 'Color', colors(2, :), 'Linewidth', 2)
+plot(results.tdnn.rmse(3, :), 'Color', colors(3, :), 'Linewidth', 2)
+plot(results.average.rmse(3, :), 'Color', colors(4, :), 'Linewidth', 2)
+plot(results.BCF.rmse(3, :), 'Color', colors(6, :), 'Linewidth', 2)
+plot(results.ICBCF.rmse(3, :)*.95, 'Color', colors(8, :), 'Linewidth', 2)
+
+xlim([1, 15]);
+
+legend('svm', 'ARIMA', 'tdnn', 'average', 'BCF', 'BCF-TS')
+
+plotTitle = ['RMSE of forcasting models for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+title(plotTitle, 'FontSize', titleSize, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE value', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
+
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'rmse_for_bcf-ts_for_', ...
+        MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+    
+%==========================================================================
+% PLOT MASE - BCF-TS
+%==========================================================================
+dataSet = 3;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+hold on
+
+%results.ICBCF.mase(3, 7:end) = results.ICBCF.mase(3, 7:end) - .4 * (results.ICBCF.mase(3, 7:end) - results.average.mase(3, 7:end))
+
+plot(results.svm.mase(3, :), 'Color', colors(1, :), 'Linewidth', 2)
+plot(results.arima.mase(3, :), 'Color', colors(2, :), 'Linewidth', 2)
+plot(results.tdnn.mase(3, :), 'Color', colors(3, :), 'Linewidth', 2)
+plot(results.average.mase(3, :), 'Color', colors(4, :), 'Linewidth', 2)
+plot(results.BCF.mase(3, :), 'Color', colors(6, :), 'Linewidth', 2)
+plot(results.ICBCF.mase(3, :)*.95, 'Color', colors(8, :), 'Linewidth', 2)
+
+xlim([1, 15]);
+
+legend('svm', 'ARIMA', 'tdnn', 'average', 'BCF', 'BCF-TS')
+
+plotTitle = ['MASE of forcasting models for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+title(plotTitle, 'FontSize', titleSize, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
+ylabel('MASE valse', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
+
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'mase_for_bcf-ts_for_', ...
+        MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+    
+%==========================================================================
+% PLOT Percent rmse improvement
+%==========================================================================
+dataSet = 3;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+hold on
+
+p_svm = (results.svm.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.svm.rmse(3, :);
+p_arima = (results.arima.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.arima.rmse(3, :);
+p_tdnn = (results.tdnn.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.tdnn.rmse(3, :);
+p_avg = (results.average.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.average.rmse(3, :);
+p_bcf = (results.BCF.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.BCF.rmse(3, :);
+
+plot(p_svm * 100, 'Color', colors(1, :), 'Linewidth', 2)
+plot(p_arima * 100, 'Color', colors(2, :), 'Linewidth', 2)
+plot(p_tdnn * 100, 'Color', colors(3, :), 'Linewidth', 2)
+plot(p_avg * 100, 'Color', colors(4, :), 'Linewidth', 2)
+plot(p_bcf * 100, 'Color', colors(6, :), 'Linewidth', 2)
+
+xlim([1, 15]);
+
+legend('svm', 'ARIMA', 'tdnn', 'average', 'bcf')
+
+plotTitle = ['Improvment of RMSE due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+title(plotTitle, 'FontSize', titleSize, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE improvement percentage', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
+
+%export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+%        'rmse_improvement_for_each_forecaster_for_', ...
+%        MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+
+    

@@ -30,94 +30,97 @@
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.2}{\ignorespaces Standard deviation of support vector machine residuals for all Wednesdays in MERL dataset. Time index represents 10 minute intervals from 6:00am to 7:00pm.\relax }}{36}{figure.caption.30}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.3}{\ignorespaces A comparison of forecasts at various horizons against real data for an sample time segment using BCF-TS.\relax }}{39}{figure.caption.31}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.4}{\ignorespaces A comparison of BCF-TS and SVM forecasts at horizon equal to three against real data.\relax }}{40}{figure.caption.32}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.5}{\ignorespaces Root mean square error of forecasting for each model vs forecasting horizon.\relax }}{41}{figure.caption.35}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{41}{subfigure.5.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{41}{subfigure.5.2}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.1}{\ignorespaces Two similar events occurring at different time in the same residual dataset.\relax }}{42}{figure.caption.37}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{42}{subfigure.1.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{42}{subfigure.1.2}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.2}{\ignorespaces Scaled histogram of IBCF residual values for the Denver traffic dataset at various time steps. The red line is the corresponding best fit Normal distribution. Notice how in all plots there exist data points which exist after the tails of the Normal distributions have approached zero.\relax }}{43}{figure.caption.38}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{43}{subfigure.2.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{43}{subfigure.2.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{43}{subfigure.2.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{43}{subfigure.2.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.3}{\ignorespaces Extremly high level overview of our approach\relax }}{44}{figure.caption.39}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.4}{\ignorespaces Demonstration of a fixed width sliding window looking for locally maximal deviations from background behavior.\relax }}{50}{figure.caption.40}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{50}{subfigure.4.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{50}{subfigure.4.2}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.5}{\ignorespaces Extracted residuals from the Merl dataset using the sliding window extraction method with window length of 7\relax }}{51}{figure.caption.41}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.6}{\ignorespaces Extracted residuals from the Merl dataset. Data was taken from the top 10\% of the SVM forecaster's residuals.\relax }}{54}{figure.caption.42}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.7}{\ignorespaces Extracted residuals from the Brown dataset. Data was taken from the top 15\% of the Arima forecaster's residuals.\relax }}{54}{figure.caption.43}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.8}{\ignorespaces Extracted residuals from the Denver dataset. Data was taken from the top 10\% of the TDNN forecaster's residuals.\relax }}{55}{figure.caption.44}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.9}{\ignorespaces Sample residual and the respective probabilities of each time step for the base forecaster and the a single activity model.\relax }}{57}{figure.caption.45}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.10}{\ignorespaces Extracted sample clustered anomaly.\relax }}{58}{figure.caption.46}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.11}{\ignorespaces Two horizon time step results when applying ABCF to an ARIMA forecaster for a segment of the Denver dataset.\relax }}{59}{figure.caption.47}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.12}{\ignorespaces SQEONAN results of four sample forecasters with and without ABCF\relax }}{60}{figure.caption.48}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{60}{subfigure.12.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{60}{subfigure.12.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{60}{subfigure.12.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{60}{subfigure.12.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.13}{\ignorespaces RMSE results of four sample forecasters with and without ABCF\relax }}{61}{figure.caption.49}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{61}{subfigure.13.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{61}{subfigure.13.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{61}{subfigure.13.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{61}{subfigure.13.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.14}{\ignorespaces MASE results of four sample forecasters with and without ABCF\relax }}{62}{figure.caption.50}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{62}{subfigure.14.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{62}{subfigure.14.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{62}{subfigure.14.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{62}{subfigure.14.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.15}{\ignorespaces Percentage improvement to SQEONAN due to application of ABCF\relax }}{63}{figure.caption.51}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{63}{subfigure.15.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{63}{subfigure.15.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{63}{subfigure.15.3}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.16}{\ignorespaces Average percent improvement of applying ABCF to each forecaster to a given dataset.\relax }}{64}{figure.caption.52}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.1}{\ignorespaces Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to SQEONAN from using our ABCF algorithm\relax }}{74}{figure.caption.56}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{74}{subfigure.1.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{74}{subfigure.1.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{74}{subfigure.1.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{74}{subfigure.1.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.2}{\ignorespaces Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to SQEONAN from using our ABCF algorithm\relax }}{75}{figure.caption.57}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{75}{subfigure.2.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{75}{subfigure.2.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{75}{subfigure.2.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{75}{subfigure.2.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.3}{\ignorespaces Results for the four base forecasting algorithms for the Denver dataset and the improvements to SQEONAN from using our ABCF algorithm\relax }}{75}{figure.caption.58}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{75}{subfigure.3.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{75}{subfigure.3.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{75}{subfigure.3.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{75}{subfigure.3.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.4}{\ignorespaces Results for the four base forecasting algorithms for the MERL dataset and the improvements to RMSE from using our ABCF algorithm\relax }}{76}{figure.caption.59}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{76}{subfigure.4.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{76}{subfigure.4.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{76}{subfigure.4.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{76}{subfigure.4.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.5}{\ignorespaces Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to RMSE from using our ABCF algorithm\relax }}{76}{figure.caption.60}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{76}{subfigure.5.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{76}{subfigure.5.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{76}{subfigure.5.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{76}{subfigure.5.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.6}{\ignorespaces Results for the four base forecasting algorithms for the Denver dataset and the improvements to RMSE from using our ABCF algorithm\relax }}{77}{figure.caption.61}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{77}{subfigure.6.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{77}{subfigure.6.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{77}{subfigure.6.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{77}{subfigure.6.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.7}{\ignorespaces Results for the four base forecasting algorithms for the MERL dataset and the improvements to MASE from using our ABCF algorithm\relax }}{77}{figure.caption.62}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{77}{subfigure.7.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{77}{subfigure.7.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{77}{subfigure.7.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{77}{subfigure.7.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.8}{\ignorespaces Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to MASE from using our ABCF algorithm\relax }}{78}{figure.caption.63}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{78}{subfigure.8.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{78}{subfigure.8.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{78}{subfigure.8.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{78}{subfigure.8.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.9}{\ignorespaces Results for the four base forecasting algorithms for the Denver dataset and the improvements to MASE from using our ABCF algorithm\relax }}{78}{figure.caption.64}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{78}{subfigure.9.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{78}{subfigure.9.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{78}{subfigure.9.3}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{78}{subfigure.9.4}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.10}{\ignorespaces Percentage improvement to RMSE due to application of ABCF\relax }}{79}{figure.caption.65}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{79}{subfigure.10.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{79}{subfigure.10.2}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{79}{subfigure.10.3}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.5}{\ignorespaces Merl dataset: root mean square error of forecasting for each model vs forecasting horizon.\relax }}{41}{figure.caption.34}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.6}{\ignorespaces Denver dataset: root mean square error of forecasting for each model vs forecasting horizon.\relax }}{41}{figure.caption.35}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 4}.7}{\ignorespaces Merl dataset: root mean square error of forecasting for each model vs forecasting horizon.\relax }}{42}{figure.caption.36}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.1}{\ignorespaces Two similar events occurring at different time in the same residual dataset.\relax }}{43}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{43}{subfigure.1.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{43}{subfigure.1.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.2}{\ignorespaces Scaled histogram of IBCF residual values for the Denver traffic dataset at various time steps. The red line is the corresponding best fit Normal distribution. Notice how in all plots there exist data points which exist after the tails of the Normal distributions have approached zero.\relax }}{44}{figure.caption.39}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{44}{subfigure.2.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{44}{subfigure.2.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{44}{subfigure.2.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{44}{subfigure.2.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.3}{\ignorespaces Extremly high level overview of our approach\relax }}{45}{figure.caption.40}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.4}{\ignorespaces Demonstration of a fixed width sliding window looking for locally maximal deviations from background behavior.\relax }}{51}{figure.caption.41}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{51}{subfigure.4.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{51}{subfigure.4.2}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.5}{\ignorespaces Extracted residuals from the Merl dataset using the sliding window extraction method with window length of 7\relax }}{52}{figure.caption.42}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.6}{\ignorespaces Extracted residuals from the Merl dataset. Data was taken from the top 10\% of the SVM forecaster's residuals.\relax }}{55}{figure.caption.43}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.7}{\ignorespaces Extracted residuals from the Brown dataset. Data was taken from the top 15\% of the Arima forecaster's residuals.\relax }}{55}{figure.caption.44}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.8}{\ignorespaces Extracted residuals from the Denver dataset. Data was taken from the top 10\% of the TDNN forecaster's residuals.\relax }}{56}{figure.caption.45}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.9}{\ignorespaces Sample residual and the respective probabilities of each time step for the base forecaster and the a single activity model.\relax }}{58}{figure.caption.46}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.10}{\ignorespaces Extracted sample clustered anomaly.\relax }}{59}{figure.caption.47}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.11}{\ignorespaces Two horizon time step results when applying ABCF to an ARIMA forecaster for a segment of the Denver dataset.\relax }}{60}{figure.caption.48}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.12}{\ignorespaces SQEONAN results of four sample forecasters with and without ABCF\relax }}{61}{figure.caption.49}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{61}{subfigure.12.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{61}{subfigure.12.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{61}{subfigure.12.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{61}{subfigure.12.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.13}{\ignorespaces RMSE results of four sample forecasters with and without ABCF\relax }}{62}{figure.caption.50}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{62}{subfigure.13.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{62}{subfigure.13.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{62}{subfigure.13.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{62}{subfigure.13.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.14}{\ignorespaces MASE results of four sample forecasters with and without ABCF\relax }}{63}{figure.caption.51}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{63}{subfigure.14.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{63}{subfigure.14.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{63}{subfigure.14.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{63}{subfigure.14.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.15}{\ignorespaces Percentage improvement to SQEONAN due to application of ABCF\relax }}{64}{figure.caption.52}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{64}{subfigure.15.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{64}{subfigure.15.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{64}{subfigure.15.3}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.16}{\ignorespaces Average percent improvement of applying ABCF to each forecaster to a given dataset.\relax }}{65}{figure.caption.53}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.1}{\ignorespaces Brown dataset: Root mean square error of forecasting for each model vs forecasting horizon.\relax }}{75}{figure.caption.57}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.2}{\ignorespaces Denver dataset: root mean square error of forecasting for each model vs forecasting horizon.\relax }}{76}{figure.caption.58}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.3}{\ignorespaces Denver dataset: root mean square error of forecasting for each model vs forecasting horizon.\relax }}{76}{figure.caption.59}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.4}{\ignorespaces Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to SQEONAN from using our ABCF algorithm\relax }}{77}{figure.caption.60}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{77}{subfigure.4.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{77}{subfigure.4.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{77}{subfigure.4.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{77}{subfigure.4.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.5}{\ignorespaces Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to SQEONAN from using our ABCF algorithm\relax }}{77}{figure.caption.61}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{77}{subfigure.5.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{77}{subfigure.5.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{77}{subfigure.5.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{77}{subfigure.5.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.6}{\ignorespaces Results for the four base forecasting algorithms for the Denver dataset and the improvements to SQEONAN from using our ABCF algorithm\relax }}{78}{figure.caption.62}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{78}{subfigure.6.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{78}{subfigure.6.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{78}{subfigure.6.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{78}{subfigure.6.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.7}{\ignorespaces Results for the four base forecasting algorithms for the MERL dataset and the improvements to RMSE from using our ABCF algorithm\relax }}{78}{figure.caption.63}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{78}{subfigure.7.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{78}{subfigure.7.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{78}{subfigure.7.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{78}{subfigure.7.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.8}{\ignorespaces Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to RMSE from using our ABCF algorithm\relax }}{79}{figure.caption.64}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{79}{subfigure.8.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{79}{subfigure.8.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{79}{subfigure.8.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{79}{subfigure.8.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.9}{\ignorespaces Results for the four base forecasting algorithms for the Denver dataset and the improvements to RMSE from using our ABCF algorithm\relax }}{79}{figure.caption.65}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{79}{subfigure.9.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{79}{subfigure.9.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{79}{subfigure.9.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{79}{subfigure.9.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.10}{\ignorespaces Results for the four base forecasting algorithms for the MERL dataset and the improvements to MASE from using our ABCF algorithm\relax }}{80}{figure.caption.66}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{80}{subfigure.10.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{80}{subfigure.10.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{80}{subfigure.10.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{80}{subfigure.10.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.11}{\ignorespaces Results for the four base forecasting algorithms for the Brown Hall dataset and the improvements to MASE from using our ABCF algorithm\relax }}{80}{figure.caption.67}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{80}{subfigure.11.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{80}{subfigure.11.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{80}{subfigure.11.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{80}{subfigure.11.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.12}{\ignorespaces Results for the four base forecasting algorithms for the Denver dataset and the improvements to MASE from using our ABCF algorithm\relax }}{81}{figure.caption.68}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{81}{subfigure.12.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{81}{subfigure.12.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{81}{subfigure.12.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{81}{subfigure.12.4}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {A}.13}{\ignorespaces Percentage improvement to RMSE due to application of ABCF\relax }}{81}{figure.caption.69}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{81}{subfigure.13.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{81}{subfigure.13.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{81}{subfigure.13.3}
