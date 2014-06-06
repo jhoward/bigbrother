@@ -1,16 +1,15 @@
 \contentsline {section}{\texorpdfupper {Abstract}}{iii}{section*.1}
-\contentsline {section}{\texorpdfupper {List of Figures}}{vii}{section*.2}
-\contentsline {section}{\texorpdfupper {List of Tables}}{xi}{section*.3}
-\contentsline {section}{\texorpdfupper {List of Abbreviations}}{xii}{section*.4}
-\contentsline {section}{\texorpdfupper {Acknowledgments}}{xiii}{section*.5}
-\contentsline {section}{\texorpdfupper {Dedication}}{xiv}{section*.6}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 1}Introduction}}{1}{section*.7}
+\contentsline {section}{\texorpdfupper {List of Figures and Tables}}{vii}{section*.2}
+\contentsline {section}{\texorpdfupper {List of Abbreviations}}{xi}{section*.3}
+\contentsline {section}{\texorpdfupper {Acknowledgments}}{xii}{section*.4}
+\contentsline {section}{\texorpdfupper {Dedication}}{xiii}{section*.5}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 1}Introduction}}{1}{section*.6}
 \contentsline {subsection}{\numberline {1.1}Problem and Objective}{2}{subsection.1.1}
 \contentsline {subsubsection}{\numberline {1.1.1}A motivating example}{3}{subsubsection.1.1.1}
 \contentsline {subsection}{\numberline {1.2}Approach}{5}{subsection.1.2}
 \contentsline {subsection}{\numberline {1.3}Contributions}{6}{subsection.1.3}
 \contentsline {subsection}{\numberline {1.4}Structure of the Thesis}{7}{subsection.1.4}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Models}}{9}{section*.10}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 2}Models}}{9}{section*.9}
 \contentsline {subsection}{\numberline {2.1}Notation}{9}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Forecast Error Measurements}{10}{subsection.2.2}
 \contentsline {subsection}{\numberline {2.3}Seasonal ARIMA model}{12}{subsection.2.3}
@@ -18,14 +17,14 @@
 \contentsline {subsection}{\numberline {2.4}Historic average}{17}{subsection.2.4}
 \contentsline {subsection}{\numberline {2.5}Time delayed neural networks}{17}{subsection.2.5}
 \contentsline {subsection}{\numberline {2.6}Support Vector Regression}{18}{subsection.2.6}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 3}Datasets}}{21}{section*.18}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 3}Datasets}}{21}{section*.17}
 \contentsline {subsection}{\numberline {3.1}Building Datasets}{21}{subsection.3.1}
 \contentsline {subsubsection}{\numberline {3.1.1}MERL Dataset}{23}{subsubsection.3.1.1}
 \contentsline {subsubsection}{\numberline {3.1.2}Colorado School of Mines Dataset}{25}{subsubsection.3.1.2}
 \contentsline {subsection}{\numberline {3.2}Traffic datasets}{27}{subsection.3.2}
 \contentsline {subsubsection}{\numberline {3.2.1}Denver traffic dataset}{27}{subsubsection.3.2.1}
 \contentsline {subsection}{\numberline {3.3}Additional notes on the datasets}{29}{subsection.3.3}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}BUILDING A NEW ENSEMBLE FORECASTER - IMPROVED LONG TERM FORECASTING}}{32}{section*.28}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 4}BUILDING A NEW ENSEMBLE FORECASTER - IMPROVED LONG TERM FORECASTING}}{32}{section*.27}
 \contentsline {subsection}{\numberline {4.1}Why ensemble forecasting?}{32}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Bayesian Combined Forecasting}{33}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}Bayesian Combined Forecasting Derivation}{33}{subsection.4.3}
@@ -34,18 +33,18 @@
 \contentsline {subsubsection}{\numberline {4.4.2}Improving model error distributions}{36}{subsubsection.4.4.2}
 \contentsline {subsubsection}{\numberline {4.4.3}Model selection thresholding}{37}{subsubsection.4.4.3}
 \contentsline {subsection}{\numberline {4.5}Results of BCF and BCF-TS}{38}{subsection.4.5}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{43}{section*.37}
-\contentsline {subsection}{\numberline {5.1}The need for another ensemble forecaster}{43}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}{45}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Background Literature on Activity Recognition and Anomaly Detection}{46}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{50}{subsection.5.4}
-\contentsline {subsection}{\numberline {5.5}TSMG derivation}{52}{subsection.5.5}
-\contentsline {subsection}{\numberline {5.6}Sample representative clusters and a discussion about them}{54}{subsection.5.6}
-\contentsline {subsection}{\numberline {5.7}ABCF Derived}{56}{subsection.5.7}
-\contentsline {subsection}{\numberline {5.8}Demonstration of ABCF}{58}{subsection.5.8}
-\contentsline {subsection}{\numberline {5.9}Results of ABCF}{60}{subsection.5.9}
-\contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{63}{subsection.5.10}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{66}{section*.54}
-\contentsline {section}{\texorpdfupper {References Cited}}{67}{section*.55}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{75}{section*.56}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{82}{section*.70}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}Improved Ensemble}}{44}{section*.36}
+\contentsline {subsection}{\numberline {5.1}The need for another ensemble forecaster}{44}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}{46}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Background Literature on Activity Recognition and Anomaly Detection}{47}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{51}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}TSMG derivation}{53}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}Sample representative clusters and a discussion about them}{55}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}ABCF Derived}{57}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.8}Demonstration of ABCF}{59}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.9}Results of ABCF}{61}{subsection.5.9}
+\contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{64}{subsection.5.10}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{67}{section*.53}
+\contentsline {section}{\texorpdfupper {References Cited}}{68}{section*.54}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{76}{section*.55}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{83}{section*.69}

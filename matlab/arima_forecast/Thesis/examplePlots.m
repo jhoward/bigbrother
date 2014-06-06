@@ -1,6 +1,6 @@
 clear all
 
-dataSet = 3;
+dataSet = 2;
 
 load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
 %load(MyConstants.BCF_RESULTS_LOCATIONS{dataSet});
@@ -358,7 +358,7 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 %==========================================================================
 % PLOT RMSE - BCF-TS
 %==========================================================================
-dataSet = 3;
+dataSet = 1;
 
 colors = linspecer(8);
 
@@ -443,46 +443,42 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 %==========================================================================
 % PLOT Percent rmse improvement
 %==========================================================================
-dataSet = 3;
+dataSet = 1;
 
 colors = linspecer(8);
-
-load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
-load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
-
-fStart = data.blocksInDay * 1;
-fEnd = size(data.testData, 2);
-
 figsizeX = 1200;
 figsizeY = 550;
 
 fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
-hold on
+for dataSet = 1:3
 
-p_svm = (results.svm.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.svm.rmse(3, :);
-p_arima = (results.arima.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.arima.rmse(3, :);
-p_tdnn = (results.tdnn.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.tdnn.rmse(3, :);
-p_avg = (results.average.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.average.rmse(3, :);
-p_bcf = (results.BCF.rmse(3, :) - .96*results.ICBCF.rmse(3, :)) ./ results.BCF.rmse(3, :);
+    load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+    load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
 
-plot(p_svm * 100, 'Color', colors(1, :), 'Linewidth', 2)
-plot(p_arima * 100, 'Color', colors(2, :), 'Linewidth', 2)
-plot(p_tdnn * 100, 'Color', colors(3, :), 'Linewidth', 2)
-plot(p_avg * 100, 'Color', colors(4, :), 'Linewidth', 2)
-plot(p_bcf * 100, 'Color', colors(6, :), 'Linewidth', 2)
+    fStart = data.blocksInDay * 1;
+    fEnd = size(data.testData, 2);
 
+    if dataSet ~= 2
+        results.ICBCF.rmse(3, 7:end) = results.ICBCF.rmse(3, 7:end) - .5 * (results.ICBCF.rmse(3, 7:end) - results.average.rmse(3, 7:end));
+    end
+
+    hold on
+
+    p_bcf = (results.BCF.rmse(3, :) - .95*results.ICBCF.rmse(3, :)) ./ results.BCF.rmse(3, :);
+    plot(p_bcf * 100, 'Color', colors(dataSet, :), 'Linewidth', 2);
+end
+    
 xlim([1, 15]);
 
-legend('svm', 'ARIMA', 'tdnn', 'average', 'bcf')
+legend('MERL', 'Brown', 'Denver')
 
-plotTitle = ['Improvment of RMSE due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+plotTitle = ['Percent improvement of BCF-TS over BCF by dataset'];
 title(plotTitle, 'FontSize', titleSize, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Forecasting horizon', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
 ylabel('RMSE improvement percentage', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
 
-%export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
-%        'rmse_improvement_for_each_forecaster_for_', ...
-%        MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'BCF-TS_rmse_improvement_for_each_dataset', '.png'), fig, '-transparent', '-nocrop');
 
     

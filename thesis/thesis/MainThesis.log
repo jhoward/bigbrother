@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  4 JUN 2014 23:17
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  6 JUN 2014 12:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -541,11 +541,7 @@ Package: subfig 2005/06/28 ver: 1.3 subfig package
 LaTeX Warning: Label `eq:sarima' multiply defined.
 
 ) (./ch3Datasets.aux) (./ch4Ensemble.aux) (./ch5ImprovedEnsemble.aux)
-(./ch6Conclusion.aux) (./thesis_appendix.aux
-
-LaTeX Warning: Label `fig:maseplotmerl' multiply defined.
-
-)
+(./ch6Conclusion.aux) (./thesis_appendix.aux)
 \csm@redefined@appendix@saved=\count190
 \csm@appendicies=\count191
 )
@@ -567,7 +563,8 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
- (./MainThesis.lot) (./MainThesis.lof)
+ (./MainThesis.lot)
+(./MainThesis.lof)
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -648,12 +645,12 @@ LaTeX Font Info:    Font shape `OMS/cmr/bx/n' in size <12> not available
 \tf@lof=\write5
 \openout5 = `MainThesis.lof'.
 
- [7] [8] [9] [10]
-(./MainThesis.lot)
+ (./MainThesis.lot)
 \tf@lot=\write6
 \openout6 = `MainThesis.lot'.
 
- [11] (./MainThesis.loa)
+
+[7] [8] [9] [10] (./MainThesis.loa)
 \tf@loa=\write7
 \openout7 = `MainThesis.loa'.
 
@@ -662,7 +659,7 @@ Overfull \hbox (250.8437pt too wide) in paragraph at lines 93--93
 [][][]\OT1/cmr/m/n/12 Algorithm
  []
 
-[12] [13] [14]
+[11] [12] [13]
 \openout2 = `ch1Introduction.aux'.
 
  (./ch1Introduction.tex [1
@@ -834,21 +831,33 @@ File: ./images/real_forecasts_bcf_svm.png Graphic file (type QTm)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[39]
 File: ./images/rmse_for_bcf-ts_for_Merl.png Graphic file (type QTm)
- <use  "./images/rmse_for_bcf-ts_for_Merl.png" > [40]
+<use  "./images/rmse_for_bcf-ts_for_Merl.png" >
 File: ./images/rmse_for_bcf-ts_for_Denver.png Graphic file (type QTm)
 
 <use  "./images/rmse_for_bcf-ts_for_Denver.png" >
-File: ./images/mase_for_bcf-ts_for_Merl.png Graphic file (type QTm)
 
-<use  "./images/mase_for_bcf-ts_for_Merl.png" > [41]) [42]
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: ./images/mase_for_bcf-ts_for_Brown.png Graphic file (type QTm)
+<use  "./images/mase_for_bcf-ts_for_Brown.png" >
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[39] [40]
+File: ./images/BCF-TS_rmse_improvement_for_each_dataset.png Graphic file (type 
+QTm)
+ <use  "./images/BCF-TS_rmse_improvement_for_each_dataset.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[41] [42]) [43]
 \openout2 = `ch5ImprovedEnsemble.aux'.
 
-
-(./ch5ImprovedEnsemble.tex
+ (./ch5ImprovedEnsemble.tex
 File: ./images/sample_residual_event_804.png Graphic file (type QTm)
- <use  "./images/sample_residual_event_804.png" >
+
+<use  "./images/sample_residual_event_804.png" >
 File: ./images/sample_residual_event_6024.png Graphic file (type QTm)
 
 <use  "./images/sample_residual_event_6024.png" >
@@ -856,7 +865,7 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 8--12
  [][][] 
  []
 
-[43
+[44
 
 
 
@@ -879,14 +888,14 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 34--38
  [][][][] 
  []
 
-[44]
+[45]
 Overfull \hbox (16.41585pt too wide) in paragraph at lines 53--53
 []\OT1/cmr/bx/n/12 Bayesian Com-bined Fore-cast-ing with Ac-tiv-ity and Anomaly
  Mod-el-ing (ABCF) 
  []
 
 File: ./images/simple_approach_overview.png Graphic file (type QTm)
-<use  "./images/simple_approach_overview.png" > [45] [46] [47] [48] [49]
+<use  "./images/simple_approach_overview.png" > [46] [47] [48] [49] [50]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `htbp') on input line 119.
@@ -899,13 +908,13 @@ Overfull \hbox (15.66649pt too wide) in paragraph at lines 123--127
  [][][] 
  []
 
-[50]
+[51]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 138.
- [51]
+ [52]
 File: ./images/arima_abcf_extracted_residuals_Merl.png Graphic file (type QTm)
- <use  "./images/arima_abcf_extracted_residuals_Merl.png" > [52]
-[53]
+ <use  "./images/arima_abcf_extracted_residuals_Merl.png" > [53]
+[54]
 File: ./images/merl_sample_clusters_svm.png Graphic file (type QTm)
  <use  "./images/merl_sample_clusters_svm.png" >
 File: ./images/brown_sample_clusters_arima.png Graphic file (type QTm)
@@ -913,10 +922,10 @@ File: ./images/brown_sample_clusters_arima.png Graphic file (type QTm)
 <use  "./images/brown_sample_clusters_arima.png" >
 File: ./images/denver_sample_clusters_tdnn.png Graphic file (type QTm)
 
-<use  "./images/denver_sample_clusters_tdnn.png" > [54] [55] [56] [57]
+<use  "./images/denver_sample_clusters_tdnn.png" > [55] [56] [57] [58]
 File: ./images/sample_residual_plot_dataset_Denver.png Graphic file (type QTm)
 
-<use  "./images/sample_residual_plot_dataset_Denver.png" > [58]
+<use  "./images/sample_residual_plot_dataset_Denver.png" > [59]
 File: ./images/denver_sample_cluster.png Graphic file (type QTm)
 
 <use  "./images/denver_sample_cluster.png" >
@@ -929,7 +938,7 @@ File: ./images/sample_plot_Denver.png Graphic file (type QTm)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[59]
+[60]
 File: ./images/sqe_merl_avg.png Graphic file (type QTm)
  <use  "./images/sqe_merl_avg.png" >
 File: ./images/sqe_denver_svm.png Graphic file (type QTm)
@@ -979,7 +988,7 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 436--440
  [][][][] 
  []
 
-[60] [61]
+[61] [62]
 File: ./images/sqeonan_improvement_for_each_forecaster_for_Merl.png Graphic fil
 e (type QTm)
 
@@ -995,29 +1004,29 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 465--468
 File: ./images/sqeonan_improvement_for_each_forecaster_for_Denver.png Graphic f
 ile (type QTm)
 <use  "./images/sqeonan_improvement_for_each_forecaster_for_Denver.png" >
-[62]
+[63]
 File: ./images/sqeonan_improvement_for_each_dataset.png Graphic file (type QTm)
 
  <use  "./images/sqeonan_improvement_for_each_dataset.png" >
 Missing character: There is no • in font cmtt12!
- [63]) [64]
-[65]
+ [64]) [65]
+[66]
 \openout2 = `ch6Conclusion.aux'.
 
- (./ch6Conclusion.tex) [66
+ (./ch6Conclusion.tex) [67
 
 
 
-] (./MainThesis.bbl [67
+] (./MainThesis.bbl [68
 
 
-] [68] [69]
+] [69] [70]
 Underfull \hbox (badness 10000) in paragraph at lines 273--279
 \OT1/cmtt/m/n/12 Search&q = intitle : A + Sensor-[]Utility-[]Network + Method +
  for + Estimation + of +
  []
 
-[70] [71] [72]
+[71] [72] [73]
 Underfull \hbox (badness 5161) in paragraph at lines 527--532
 []\OT1/cmr/m/n/12 Mitja Lu^^Tstrek and Bo^^Tstjan Kalu^^Tza.  Fall de-tec-tion 
 and ac-tiv-ity recog-ni-
@@ -1035,24 +1044,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 527--532
 nd _ activity _ recognition _
  []
 
-[73]
+[74]
 Underfull \hbox (badness 10000) in paragraph at lines 589--598
 \OT1/cmtt/m/n/12 wrapper . htm ? arnumber = 757481http : / / www . computer . o
 rg / portal / web / csdl / doi /
  []
 
-) [74]
+) [75]
 \openout2 = `thesis_appendix.aux'.
 
  (./thesis_appendix.tex
 File: ./images/rmse_for_bcf-ts_for_Brown.png Graphic file (type QTm)
  <use  "./images/rmse_for_bcf-ts_for_Brown.png" >
-File: ./images/mase_for_bcf-ts_for_Brown.png Graphic file (type QTm)
-
-<use  "./images/mase_for_bcf-ts_for_Brown.png" >
 File: ./images/mase_for_bcf-ts_for_Merl.png Graphic file (type QTm)
 
 <use  "./images/mase_for_bcf-ts_for_Merl.png" >
+File: ./images/mase_for_bcf-ts_for_Denver.png Graphic file (type QTm)
+
+<use  "./images/mase_for_bcf-ts_for_Denver.png" >
 File: ./images/sqe_merl_avg.png Graphic file (type QTm)
 
 <use  "./images/sqe_merl_avg.png" >
@@ -1085,7 +1094,7 @@ File: ./images/sqe_denver_arima.png Graphic file (type QTm)
 <use  "./images/sqe_denver_arima.png" >
 File: ./images/sqe_denver_tdnn.png Graphic file (type QTm)
  <use  "./images/sqe_denver_tdnn.png" >
-[75
+[76
 
 
 ]
@@ -1166,14 +1175,14 @@ File: ./images/rmse_improvement_for_each_forecaster_for_Brown.png Graphic file
 (type QTm)
 
 <use  "./images/rmse_improvement_for_each_forecaster_for_Brown.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 237--240
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 238--241
  [][][] 
  []
 
 File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
  (type QTm)
-<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [76]
-[77] [78] [79] [80] [81]) [82
+<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [77]
+[78] [79] [80] [81] [82]) [83
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
@@ -1196,12 +1205,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12549 strings out of 494004
- 190101 string characters out of 3150890
- 323973 words of memory out of 3000000
- 15510 multiletter control sequences out of 15000+200000
+ 12563 strings out of 494004
+ 190473 string characters out of 3150890
+ 324855 words of memory out of 3000000
+ 15522 multiletter control sequences out of 15000+200000
  10130 words of font info for 37 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 148i,21n,668p,1216b,604s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 148i,21n,673p,1216b,604s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on MainThesis.pdf (97 pages).
