@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  6 JUN 2014 12:10
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  30 JUN 2014 22:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -910,10 +910,9 @@ Overfull \hbox (15.66649pt too wide) in paragraph at lines 123--127
 
 [51]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 138.
- [52]
+put line 137.
 File: ./images/arima_abcf_extracted_residuals_Merl.png Graphic file (type QTm)
- <use  "./images/arima_abcf_extracted_residuals_Merl.png" > [53]
+ <use  "./images/arima_abcf_extracted_residuals_Merl.png" > [52] [53]
 [54]
 File: ./images/merl_sample_clusters_svm.png Graphic file (type QTm)
  <use  "./images/merl_sample_clusters_svm.png" >
@@ -929,7 +928,7 @@ File: ./images/sample_residual_plot_dataset_Denver.png Graphic file (type QTm)
 File: ./images/denver_sample_cluster.png Graphic file (type QTm)
 
 <use  "./images/denver_sample_cluster.png" >
-Underfull \hbox (badness 6608) in paragraph at lines 358--358
+Underfull \hbox (badness 6608) in paragraph at lines 406--406
 []\OT1/cmr/m/n/12 Figure 5.10: |Ex-tracted
  []
 
@@ -943,7 +942,7 @@ File: ./images/sqe_merl_avg.png Graphic file (type QTm)
  <use  "./images/sqe_merl_avg.png" >
 File: ./images/sqe_denver_svm.png Graphic file (type QTm)
  <use  "./images/sqe_denver_svm.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 389--392
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 437--440
  [][][] 
  []
 
@@ -951,7 +950,7 @@ File: ./images/sqe_brown_arima.png Graphic file (type QTm)
 <use  "./images/sqe_brown_arima.png" >
 File: ./images/sqe_brown_bcf.png Graphic file (type QTm)
  <use  "./images/sqe_brown_bcf.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 395--399
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 443--447
  [][][][] 
  []
 
@@ -959,7 +958,7 @@ File: ./images/rmse_merl_avg.png Graphic file (type QTm)
 <use  "./images/rmse_merl_avg.png" >
 File: ./images/rmse_denver_svm.png Graphic file (type QTm)
  <use  "./images/rmse_denver_svm.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 410--413
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 458--461
  [][][] 
  []
 
@@ -967,7 +966,7 @@ File: ./images/rmse_brown_arima.png Graphic file (type QTm)
 <use  "./images/rmse_brown_arima.png" >
 File: ./images/rmse_brown_svm.png Graphic file (type QTm)
  <use  "./images/rmse_brown_svm.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 416--420
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 464--468
  [][][][] 
  []
 
@@ -975,7 +974,7 @@ File: ./images/mase_Merl_avg.png Graphic file (type QTm)
 <use  "./images/mase_Merl_avg.png" >
 File: ./images/mase_Brown_svm.png Graphic file (type QTm)
  <use  "./images/mase_Brown_svm.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 430--433
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 478--481
  [][][] 
  []
 
@@ -984,7 +983,7 @@ File: ./images/mase_Brown_arima.png Graphic file (type QTm)
 File: ./images/mase_Denver_tdnn.png Graphic file (type QTm)
 
 <use  "./images/mase_Denver_tdnn.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 436--440
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 484--488
  [][][][] 
  []
 
@@ -997,7 +996,7 @@ File: ./images/sqeonan_improvement_for_each_forecaster_for_Brown.png Graphic fi
 le (type QTm)
 
 <use  "./images/sqeonan_improvement_for_each_forecaster_for_Brown.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 465--468
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 513--516
  [][][] 
  []
 
@@ -1205,10 +1204,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12563 strings out of 494004
- 190473 string characters out of 3150890
+ 12554 strings out of 494004
+ 190341 string characters out of 3150890
  324855 words of memory out of 3000000
- 15522 multiletter control sequences out of 15000+200000
+ 15513 multiletter control sequences out of 15000+200000
  10130 words of font info for 37 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  148i,21n,673p,1216b,604s stack positions out of 5000i,500n,10000p,200000b,50000s

@@ -23,7 +23,7 @@ function plotSqeonan_BCF(dataset)
     load(MyConstants.RESULTS_DATA_LOCATIONS{dataset});
     trainTestSet = 3;
     horizon = 8;
-    colors = varycolor(6);
+    colors = linspecer(8);
 
     figsizeX = 1200;
     figsizeY = 550;
@@ -33,11 +33,11 @@ function plotSqeonan_BCF(dataset)
     fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
     %Plot metrics
-    plot(results.BCF.sqeonan(trainTestSet, 1:horizon), 'Color', [1 0 0]);
+    plot(results.BCF.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(1, :));
     
     %plot(results.average.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(end, :)) 
     hold on
-    plot(results.ABCF.BCF.sqeonan(trainTestSet, 1:horizon), 'Color', [0 0 1]);
+    plot(results.ABCF.BCF.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
     %plot(results.ABCF.ICBCF.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(1, :), 'LineWidth', 2);
     %plot(results.BCF.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(2, :));
     %plot(results.svm.sqeonan3(trainTestSet, 1:horizon), 'Color', colors(3, :))
@@ -46,12 +46,16 @@ function plotSqeonan_BCF(dataset)
 
     xlim([1, horizon]);
     
-    title(plotTitle, 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE);
-    xlabel('Forecasting horizon', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
-    ylabel('SQEONAN', 'FontSize', 14, 'FontName', MyConstants.FONT_TYPE)
+    title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+    xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+    ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 
+    set(gca,'FontSize',14)
+    
     %legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
-    legend('BCF', 'BCF + abcf')
+    ax = legend('BCF', 'BCF + abcf')
+    LEG = findobj(ax,'type','text');
+    set(LEG,'FontSize',14)
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
             'sqeonan_no_abcf_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 end  
@@ -283,13 +287,15 @@ function plotSample(dataset)
     plot(abcf_data(1, startTime:endTime), 'LineWidth', 1.25, 'Color', [0, 0, 1])
 
     
-    title(plotTitle, 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE);
-    xlabel('Time', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
-    ylabel('Normalized counts', 'FontSize', 16, 'FontName', MyConstants.FONT_TYPE)
+    title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+    xlabel('Time', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+    ylabel('Normalized counts', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
     
-    set(gca, 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE)
+    %set(gca, 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE)
 
-    legend('Raw data', 'Arima', 'Arima + ABCF');
+    ax = legend('Raw data', 'Arima', 'Arima + ABCF');
+    LEG = findobj(ax,'type','text');
+    set(LEG,'FontSize',14)
     export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
         'sample_plot_', MyConstants.DATA_SETS{dataset}, '.png'), fig, '-transparent', '-nocrop');
 end

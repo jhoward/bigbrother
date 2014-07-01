@@ -13,7 +13,7 @@ saveLocationStart = strcat(MyConstants.THESIS_LOCATION, 'images/models/');
 saveLocationEnd = strcat('-ds-', int2str(dataSet), '_results.png');
 
 
-trainTestSet = 1;
+trainTestSet = 1;    
 metric = 1;
 yLim = 0.25;
 fig = plotMetrics(horizons, metric, trainTestSet, yLim, dataSet, false, false)

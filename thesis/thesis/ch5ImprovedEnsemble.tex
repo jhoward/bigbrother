@@ -131,36 +131,84 @@ As we showed earlier in this section with ~\ref{fig:denver_bcf_residual}, the ta
 
 \bigskip
 \noindent \textbf{Sliding window data extraction} \\
-Given time series of residual data, we extract the top $k\%$ of the maximum residual data as measured by a fixed length sliding window.  ~\ref{fig:sliding_window} demonstrates visually our method of potential candidate data segments to model.  In this example, the fixed length window is slid along a time series and windows with large total residual deviation are selected. 
+Given a time series of residual data, we extract the top $k\%$ of the maximum residual data as measured by a fixed length sliding window.  ~\ref{fig:sliding_window} demonstrates visually our method of potential candidate data segments to model.  In this example, the fixed length window is slid along a time series and windows with large total residual deviation are selected. 
 
-TODO FINISH THIS ALGORITHM
 \begin{algorithm}
-  \caption{Algorithm for candidate data extraction}
-    \label{alg:dataextract}
+	\caption{Algorithm for candidate data extraction}
+   	\label{alg:dataextract}
+	
+	\begin{algorithmic}
+		\State \#assume we have access to residual\_data as a one dimensional array
+		\State 
+		\State extracted\_lengths = []
+		\State final\_data = []
+   		\State 
+				
+		\For{$t = 0$; $t <=$ residual\_data.length - window\_width; $t +=$ window\_width}
+		\State	window\_sum = sum(abs(residual\_data[$t$:$t +$ window\_width]))
+		\State 	extracted\_lengths.append((window\_sum, $t$))
+		\EndFor
+		
+		\State
+		\State \#sort the extracted lengths by the window\_sum dimension descending
+		\State extracted\_lengths = sort(extracted\_lengths, dim1, order = "descending")
+		\State num\_to\_extract = ceil($k$ * extracted\_lengths.length)
+		
+		\State
+		\State \#Center all the extracted residuals by local peaks
+		
+		\For {$t = 0$; $t < num\_to\_extract$; $t++$}
+		\State 	dind = extracted\_lengths[t][1]
+		\State	\#Max peak on local window
+		\State	mp = find\_max\_peak(abs(residual\_data[dind:dind + window\_width]))
+		
+		\State
+		\State 	\#Recenter the data around the local peak
+		\State	final\_data.append(residual\_data[mp - window\_width / 2: mp + window\_width / 2])
 
-  \begin{algorithmic}
-    \Statex \Comment { \%comment: servers[] contains the index of servers whose         data rate are sorted in descending order\%}
-    \State servers[]= index(of all servers) 
-    \State serverIndex[]=servers[0..K]
-    \State linearlyIndependentServerIndex[]=0
-    \State $[Z] \leftarrow 0$
-    \For  {$i=0$ to $serverIndex.length$} 
-    \Statex\Comment{ \%comment: find the equation corresponding the serverIndex        from the mapping at the File Server\%} 
-    \State        $eqn= equation(serverIndex[i])$ 
-    \Statex\Comment{ \%comment: try insert equation into Z using OFG\%} 
+		\EndFor
 
-    \EndFor end for 
-    \While{ ( linearlyIndependentServerIndex.length!=K ) } 
-    \Statex\Comment{\%comment: remove all the server index which were not inserted in Z\%}  
-    \State temp[]=serverIndex[]-linearlyIndependentServerIndex 
-    \If{  (linearlyIndependentServerIndex.length=K) }
-    \State break
-    \EndIf  
-    \EndWhile  
-  \end{algorithmic}
+	\end{algorithmic}
 \end{algorithm}
 
-Algorithm \ref{alg:dataextract} describes precisely our approach.  The input parameter $k\%$ is chosen empirically for each dataset and underlying forecasting model.  The effects of this parameter $k$ are discussed later.  A sample of the top 10\% extracted residuals for the Merl dataset is displayed in \ref{fig:extracted_residuals}
+
+
+%\begin{algorithm}
+%  \caption{Algorithm for candidate data extraction}
+%    \label{alg:dataextract}
+%
+%  \begin{algorithmic}
+%    
+%    \State $extracted_lengths \gets []$
+%    \State $final_data \gets \[\]$
+%    
+%    \State \Comment{\#assume we have access to residual_data as a one dimensional array}
+%    \For {$t \gets 0, 1$}
+%    \State	window_sum = sum(absolute_value(residual_data\[$t$:$t + window_width$\]))
+%    \State 	extrated_lengths.append(($window_sum$, $t$))
+%    \EndFor
+%    
+%    \State \Comment{\#sort the extracted lengths by the window_sum dimension descending}
+%    \State extracted_lengths = sort(extracted_lengths, dim1, order = "descending") 
+%
+%    \State num_to_extract = ceil(k * extracted_lengths.length)
+%    
+%    \State \Comment{\#Center all the extracted residuals by local peaks}
+%    \For {$t = 0$; $t < num_to_extract$; $t++$}
+%    \State 	data_index = extracted_lengths\[t\]\[1\]
+%    \State	max_peak = find_max_peak(abs(residual_data[data_index:data_index + window_width]))
+%
+%    \State 	\Comment{\#Recenter the data around the local peak}
+%    \State	final_data.append(residual_data[max_peak - window_width / 2: max_peak + window_width / 2])
+%    \EndFor
+%  
+%  \end{algorithmic}
+%
+%\end{algorithm}
+
+TODO EXTRACT PEAK FINDING ALGORITHM
+
+Algorithm \ref{alg:dataextract} precisely describes our approach.  The input parameter $k\%$ is chosen empirically for each dataset and underlying forecasting model.  The effects of this parameter $k$ are discussed later.  A sample of the top 10\% extracted residuals for the Merl dataset is displayed in \ref{fig:extracted_residuals}
 
 Future work should allow for anomaly models which are non-constant in length.  An interesting possibility for the extraction and molding sparse dictionary learning. For this work however, we believe that constant length anomaly extraction is sufficient to show the strength of our combined forecasting approach.
 

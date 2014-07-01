@@ -1,6 +1,6 @@
 clear all
 
-dataSet = 2;
+dataSet = 3;
 
 load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
 %load(MyConstants.BCF_RESULTS_LOCATIONS{dataSet});
@@ -480,5 +480,193 @@ ylabel('RMSE improvement percentage', 'FontSize', fontSize, 'FontName', MyConsta
 
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
         'BCF-TS_rmse_improvement_for_each_dataset', '.png'), fig, '-transparent', '-nocrop');
+    
+
+%==========================================================================
+% PLOT ALL 
+%==========================================================================
+
+
+%==========================================================================
+% PLOT ABCF applied to each dataset for SQEONAN
+%==========================================================================
+%NOTE: Future forecasts beyone horizon 8 begin to get worse than just BCF 
+%       for dataset 3.
+
+dataSet = 3;
+trainTestSet = 3;
+horizon = 8;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+plotTitle = ['BCF model SQEONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+%set(gca,'units','pix','pos',[100,100,100 + figsizeX, 100 + figsizeY])
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+results.ABCF.ICCBCF.sqeonan(trainTestSet, 1) = results.IBCF.sqeonan(trainTestSet, 1)
+
+%Plot metrics
+plot(results.IBCF.sqeonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
+hold on
+plot(results.ABCF.ICCBCF.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+
+
+xlim([1, horizon]);
+
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+set(gca,'XTick',[1:horizon])
+ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+%legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
+ax = legend('BCF-TS', 'BCF-TS + ABCF')
+LEG = findobj(ax,'type','text');
+set(LEG,'FontSize',14)
+
+set(gca,'FontSize',14)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'sqeonan_abcf_bcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+
+
+
+%==========================================================================
+% PLOT Average + abcf applied to each dataset for  SQEONAN
+%==========================================================================
+dataSet = 3;
+trainTestSet = 3;
+horizon = 8;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+plotTitle = ['Average model SQEONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+%set(gca,'units','pix','pos',[100,100,100 + figsizeX, 100 + figsizeY])
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+%Plot metrics
+plot(results.average.sqeonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
+hold on
+plot(results.ABCF.average.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+
+xlim([1, horizon]);
+ylim([1, results.average.sqeonan(trainTestSet, 1) + 5]);
+
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+set(gca,'XTick',[1:horizon])
+ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+set(gca,'FontSize',14)
+
+%legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
+ax = legend('Average', 'Average + ABCF')
+LEG = findobj(ax,'type','text');
+set(LEG,'FontSize',14)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'sqeonan_average_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+
+
+%==========================================================================
+% PLOT SVM + abcf applied to each dataset for  SQEONAN
+%==========================================================================
+dataSet = 1;
+trainTestSet = 3;
+horizon = 8;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+plotTitle = ['SVM model SQEONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+%Plot metrics
+plot(results.svm.sqeonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
+hold on
+plot(results.ABCF.csvm.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+
+xlim([1, horizon]);
+%ylim([1, results.average.sqeonan(trainTestSet, 1) + 5]);
+
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+set(gca,'XTick',[1:horizon])
+ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+set(gca,'FontSize',14)
+
+ax = legend('SVM', 'SVM + ABCF')
+LEG = findobj(ax,'type','text');
+set(LEG,'FontSize',14)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'sqeonan_svm_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+
 
     
+%==========================================================================
+% PLOT ARIMA + abcf applied to each dataset for  SQEONAN
+%==========================================================================
+dataSet = 3;
+trainTestSet = 3;
+horizon = 8;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+plotTitle = ['ARIMA model SQEONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+%Plot metrics
+plot(results.arima.sqeonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
+hold on
+plot(results.ABCF.carima.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+
+xlim([1, horizon]);
+%ylim([1, results.average.sqeonan(trainTestSet, 1) + 5]);
+
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+set(gca,'XTick',[1:horizon])
+ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+set(gca,'FontSize',14)
+
+ax = legend('ARIMA', 'ARIMA + ABCF')
+LEG = findobj(ax,'type','text');
+set(LEG,'FontSize',14)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'sqeonan_arima_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+
+
