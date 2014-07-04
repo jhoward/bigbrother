@@ -84,15 +84,13 @@ From Eamon Keogh, a prominent researcher in time-series anomaly detection, a rea
 
 A common method of anomaly detection is through the use of tools to assist in visual identification \cite{Stoffel2013, Lakhina2004, Shi2012}.  Tools have been extensively developed for network anomaly detection.  Such tools allow network administrators and researchers to quickly identify and potentially classify anomalies in the form of certain network attacks.  This is done by giving providing graphs, and overlay visualizations which make the identification of patterns more apparent.  Through the use of these tools, network administrators are able to quickly respond to  various attacks and minimize the potential damage to the network.  Visual assistance tools for anomaly detection do not provide modeling and forecasting of anomalies and thus are of little utility for utilizing anomalies to improve traffic system forecasting.   
 
-Another common technique for anomaly detection within time series data is known as change point (or step detection).  Originally developed for statistical quality control, the cumulative sum control chart (CUSUM) \cite{page1955} is a classic algorithm for detecting changes in the mean of a time series.  It involves the calculation of a cumulative sum of the weighted observations.  When this sum exceeds a certain threshold value, a change is value is declared.  A problem with this approach is that the thresholds need to be known a priori.
+Another common technique for anomaly detection within time series data is known as change point (or step detection).  Originally developed for statistical quality control, the cumulative sum control chart (CUSUM) \cite{page1955} is a classic algorithm for detecting changes in the mean of a time series.  It involves the calculation of a cumulative sum of the weighted observations.  When this sum exceeds a certain threshold value, a change in value is declared. 
 
-The field of change point detection is quite heavily researched.  Researchers have developed algorithms for most types of data and computational scenarios.  There are algorithms to detect changes in time series mean, changes in variance and changes in distribution from the exponential family \cite{Dessein2013}.  These algorithms can operate offline, online \cite{Tartakovsky2013}, top down, bottom up and globally.  An excellent summary of current state of the art in change point detection spanning all major formulations (Bayesian, minimax, and generalized Bayesian) is found in \cite{Polunchenko2012}
+The field of change point detection is quite heavily researched.  Researchers have developed algorithms for most types of data and computational scenarios.  There are algorithms to detect changes in time series mean, changes in variance and changes in distribution from the exponential family \cite{Dessein2013}.  These algorithms can operate offline, online \cite{Tartakovsky2013}, top down, bottom up and globally.  Excellent summaries of current state of the art in change point detection spanning all major formulations (Bayesian, minimax, and generalized Bayesian) are found in \cite{Polunchenko2012, Reeves2007}.  
 
-TODO CLEAN UP CHANGE POINT TECHNIQUES
+For some time after the original CUSUM change point method, research moved to more parametric stochastic models.  Researchers would look for statistical changes in a time series that fit another distribution or family of distributions, for example Adams and MacKay's paper on Bayesian Online Change Point Detection \cite{Adams2007}.  Such methods are powerful when the change point distributions are known a priori, however we do not assume such knowledge.  
 
-Spectral Methods:
-Widely used in other fields to distinguish hidden patterns and trends from a noisy background.
-\cite{Barford2002}
+Another more recent paper from Liu et al. \cite{Liu2013} discusses an entirely different change point detection technique which relies on the ratio between the distribution of some samples at time $t$ and some further samples at time $t + n$.  Through ratio estimation, researchers can use a dissimilarity measurement on non parametric models of the data to estimate change points.  The power of this technique comes from directly estimation the ratio of probability densities and not the densities themselves.  From this density estimation, the rational is that knowledge of the two densities implies the ratio, but the ratio does not uniquely implies the densities and thus the ratio may be easier to estimate while still giving knowledge of the change point.  This technique seems a powerful for our work and is worth pursuing further, however at this time we are content with the results of our detection technique.  A detailed description of our technique and results will be shown later.
 
 \bigskip
 \noindent \textbf{Individual Activity Modeling and Recognition} \\
@@ -171,40 +169,6 @@ Given a time series of residual data, we extract the top $k\%$ of the maximum re
 	\end{algorithmic}
 \end{algorithm}
 
-
-
-%\begin{algorithm}
-%  \caption{Algorithm for candidate data extraction}
-%    \label{alg:dataextract}
-%
-%  \begin{algorithmic}
-%    
-%    \State $extracted_lengths \gets []$
-%    \State $final_data \gets \[\]$
-%    
-%    \State \Comment{\#assume we have access to residual_data as a one dimensional array}
-%    \For {$t \gets 0, 1$}
-%    \State	window_sum = sum(absolute_value(residual_data\[$t$:$t + window_width$\]))
-%    \State 	extrated_lengths.append(($window_sum$, $t$))
-%    \EndFor
-%    
-%    \State \Comment{\#sort the extracted lengths by the window_sum dimension descending}
-%    \State extracted_lengths = sort(extracted_lengths, dim1, order = "descending") 
-%
-%    \State num_to_extract = ceil(k * extracted_lengths.length)
-%    
-%    \State \Comment{\#Center all the extracted residuals by local peaks}
-%    \For {$t = 0$; $t < num_to_extract$; $t++$}
-%    \State 	data_index = extracted_lengths\[t\]\[1\]
-%    \State	max_peak = find_max_peak(abs(residual_data[data_index:data_index + window_width]))
-%
-%    \State 	\Comment{\#Recenter the data around the local peak}
-%    \State	final_data.append(residual_data[max_peak - window_width / 2: max_peak + window_width / 2])
-%    \EndFor
-%  
-%  \end{algorithmic}
-%
-%\end{algorithm}
 
 TODO EXTRACT PEAK FINDING ALGORITHM
 
@@ -543,9 +507,6 @@ TODO include results of sqeonan with ABCF improvements vs a few other forecaster
 
 
 
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Future work
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -553,7 +514,7 @@ TODO include results of sqeonan with ABCF improvements vs a few other forecaster
 While we are happy with the current status of the ABCF algorithm, we would recommend the following potential avenues for improvement.
 
 \begin{enumerate}
-	\item Explore different data extraction and clustering techniques.  More research into techniques which do not rely on fixed length extracted residual windows.  If a reliance on a sliding window extraction method is \texttt{•}o continue, then trimming or growing the sliding window based on the shape of any potential residual.  Another possibility would be to use a sparse dictionary encoding technique to determine the a best dictionary of anomalies for each residual time series.
+	\item Explore different data extraction and clustering techniques.  More research into techniques which do not rely on fixed length extracted residual windows.  If a reliance on a sliding window extraction method is to continue, then trimming or growing the sliding window based on the shape of any potential residual.  Another possibility would be to use a sparse dictionary encoding technique to determine the a best dictionary of anomalies for each residual time series.
 	
 	\item Acquire and test with other datasets.  The datasets presented here give a baseline to test from, but we realize that it does not represent all types of human traffic data.  We would like to test from a traffic dataset with shorter time scales (recall that the Denver dataset is every 30 minutes).  Also we would like to have other types of building data.  Do our approaches work with apartments or government buildings?  Rich building datasets would allow us to answer this question and may lead to improvements in our approach based on the results.
 	

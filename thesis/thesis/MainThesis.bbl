@@ -1,4 +1,4 @@
-\begin{thebibliography}{77}
+\begin{thebibliography}{79}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -494,13 +494,23 @@ AS~Polunchenko and AG~Tartakovsky.
 \newblock \emph{Methodology and Computing in \ldots}, pages 1--34, 2012.
 \newblock URL \url{http://link.springer.com/article/10.1007/s11009-011-9256-5}.
 
-\bibitem[Barford et~al.(2002)Barford, Kline, Plonka, and Ron]{Barford2002}
-Paul Barford, Jeffery Kline, David Plonka, and Amos Ron.
-\newblock {A signal analysis of network traffic anomalies}.
-\newblock \emph{Proceedings of the second ACM SIGCOMM Workshop on Internet
-  measurment - IMW '02}, page~71, 2002.
-\newblock \doi{10.1145/637201.637210}.
-\newblock URL \url{http://portal.acm.org/citation.cfm?doid=637201.637210}.
+\bibitem[Reeves et~al.(2007)Reeves, Chen, Wang, Lund, and Lu]{Reeves2007}
+J.~Reeves, J.~Chen, X.~L. Wang, R.~Lund, and Q.~Q. Lu.
+\newblock {A review and comparison of changepoint detection techniques for
+  climate data.}
+\newblock \emph{Journal of Applied Meterology and Climatology}, 46\penalty0
+  (6):\penalty0 900 -- 915, 2007.
+
+\bibitem[Adams and MacKay(2007)]{Adams2007}
+R.P. Adams and D.J MacKay.
+\newblock {Bayesian Online Changepoint Detection}.
+\newblock Technical report, University of Cambridge, 2007.
+
+\bibitem[Liu et~al.(2013)Liu, Yamada, Collier, and Sugiyama]{Liu2013}
+S~Liu, M~Yamada, N~Collier, and M~Sugiyama.
+\newblock {Change-point detection in time-series data by relative density-ratio
+  estimation.}
+\newblock \emph{Neural Networks}, 43:\penalty0 73--83, 2013.
 
 \bibitem[Wang et~al.(2009)Wang, Gu, Tao, and Lu]{Wang2009}
 Liang Wang, Tao Gu, Xianping Tao, and Jian Lu.
