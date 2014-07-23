@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  4 JUL 2014 17:02
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  22 JUL 2014 21:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -650,7 +650,7 @@ LaTeX Font Info:    Font shape `OMS/cmr/bx/n' in size <12> not available
 \openout6 = `MainThesis.lot'.
 
 
-[7] [8] [9] [10] (./MainThesis.loa)
+[7] [8] [9] [10] [11] (./MainThesis.loa)
 \tf@loa=\write7
 \openout7 = `MainThesis.loa'.
 
@@ -659,7 +659,7 @@ Overfull \hbox (250.8437pt too wide) in paragraph at lines 93--93
 [][][]\OT1/cmr/m/n/12 Algorithm
  []
 
-[11] [12] [13]
+[12] [13] [14]
 \openout2 = `ch1Introduction.aux'.
 
  (./ch1Introduction.tex [1
@@ -683,7 +683,7 @@ File: ./images/simple_approach_overview.png Graphic file (type QTm)
  <use  "./images/simple_approach_overview.png" > [5]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 78.
-) [6] [7]
+ [6]) [7]
 \openout2 = `ch2Models.aux'.
 
 
@@ -919,76 +919,36 @@ File: ./images/merl_sample_clusters_svm.png Graphic file (type QTm)
  <use  "./images/merl_sample_clusters_svm.png" >
 File: ./images/brown_sample_clusters_arima.png Graphic file (type QTm)
 
-<use  "./images/brown_sample_clusters_arima.png" >
+<use  "./images/brown_sample_clusters_arima.png" > [56] [57]
 File: ./images/denver_sample_clusters_tdnn.png Graphic file (type QTm)
 
-<use  "./images/denver_sample_clusters_tdnn.png" > [56] [57] [58] [59]
+<use  "./images/denver_sample_clusters_tdnn.png" > [58] [59]
 File: ./images/sample_residual_plot_dataset_Denver.png Graphic file (type QTm)
 
 <use  "./images/sample_residual_plot_dataset_Denver.png" > [60]
 File: ./images/denver_sample_cluster.png Graphic file (type QTm)
 
 <use  "./images/denver_sample_cluster.png" >
-Underfull \hbox (badness 6608) in paragraph at lines 370--370
+Underfull \hbox (badness 6608) in paragraph at lines 365--365
 []\OT1/cmr/m/n/12 Figure 5.10: |Ex-tracted
  []
 
+[61]
 File: ./images/sample_plot_Denver.png Graphic file (type QTm)
-<use  "./images/sample_plot_Denver.png" >
+ <use  "./images/sample_plot_Denver.png" >
+File: ./images/sqeonan_average_abcf_Denver.png Graphic file (type QTm)
+
+<use  "./images/sqeonan_average_abcf_Denver.png" >
+File: ./images/sqeonan_arima_abcf_Merl.png Graphic file (type QTm)
+
+<use  "./images/sqeonan_arima_abcf_Merl.png" >
+File: ./images/rmse_arima_abcf_Merl.png Graphic file (type QTm)
+
+<use  "./images/rmse_arima_abcf_Merl.png" >
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[61]
-File: ./images/sqe_merl_avg.png Graphic file (type QTm)
- <use  "./images/sqe_merl_avg.png" >
-File: ./images/sqe_denver_svm.png Graphic file (type QTm)
- <use  "./images/sqe_denver_svm.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 401--404
- [][][] 
- []
-
-File: ./images/sqe_brown_arima.png Graphic file (type QTm)
-<use  "./images/sqe_brown_arima.png" >
-File: ./images/sqe_brown_bcf.png Graphic file (type QTm)
- <use  "./images/sqe_brown_bcf.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 407--411
- [][][][] 
- []
-
-File: ./images/rmse_merl_avg.png Graphic file (type QTm)
-<use  "./images/rmse_merl_avg.png" >
-File: ./images/rmse_denver_svm.png Graphic file (type QTm)
- <use  "./images/rmse_denver_svm.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 422--425
- [][][] 
- []
-
-File: ./images/rmse_brown_arima.png Graphic file (type QTm)
-<use  "./images/rmse_brown_arima.png" >
-File: ./images/rmse_brown_svm.png Graphic file (type QTm)
- <use  "./images/rmse_brown_svm.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 428--432
- [][][][] 
- []
-
-File: ./images/mase_Merl_avg.png Graphic file (type QTm)
-<use  "./images/mase_Merl_avg.png" >
-File: ./images/mase_Brown_svm.png Graphic file (type QTm)
- <use  "./images/mase_Brown_svm.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 442--445
- [][][] 
- []
-
-File: ./images/mase_Brown_arima.png Graphic file (type QTm)
-<use  "./images/mase_Brown_arima.png" >
-File: ./images/mase_Denver_tdnn.png Graphic file (type QTm)
-
-<use  "./images/mase_Denver_tdnn.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 448--452
- [][][][] 
- []
-
-[62] [63]
+[62] [63] [64]
 File: ./images/sqeonan_improvement_for_each_forecaster_for_Merl.png Graphic fil
 e (type QTm)
 
@@ -997,34 +957,75 @@ File: ./images/sqeonan_improvement_for_each_forecaster_for_Brown.png Graphic fi
 le (type QTm)
 
 <use  "./images/sqeonan_improvement_for_each_forecaster_for_Brown.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 477--480
- [][][] 
- []
-
 File: ./images/sqeonan_improvement_for_each_forecaster_for_Denver.png Graphic f
 ile (type QTm)
-<use  "./images/sqeonan_improvement_for_each_forecaster_for_Denver.png" >
-[64]
-File: ./images/sqeonan_improvement_for_each_dataset.png Graphic file (type QTm)
 
- <use  "./images/sqeonan_improvement_for_each_dataset.png" > [65]) [66]
-[67]
+<use  "./images/sqeonan_improvement_for_each_forecaster_for_Denver.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[65]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 458.
+
+ (/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 458.
+ [66]
+File: ./images/rmse_improvement_for_each_forecaster_for_Merl.png Graphic file (
+type QTm)
+
+<use  "./images/rmse_improvement_for_each_forecaster_for_Merl.png" >
+File: ./images/rmse_improvement_for_each_forecaster_for_Brown.png Graphic file 
+(type QTm)
+
+<use  "./images/rmse_improvement_for_each_forecaster_for_Brown.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
+ (type QTm)
+<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./images/mase_improvement_for_each_forecaster_for_Merl.png Graphic file (
+type QTm)
+<use  "./images/mase_improvement_for_each_forecaster_for_Merl.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./images/mase_improvement_for_each_forecaster_for_Brown.png Graphic file 
+(type QTm)
+<use  "./images/mase_improvement_for_each_forecaster_for_Brown.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./images/mase_improvement_for_each_forecaster_for_Denver.png Graphic file
+ (type QTm)
+<use  "./images/mase_improvement_for_each_forecaster_for_Denver.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[67] [68] [69] [70]) [71]
 \openout2 = `ch6Conclusion.aux'.
 
- (./ch6Conclusion.tex) [68
+ (./ch6Conclusion.tex) [72
 
 
 
-] (./MainThesis.bbl [69
+] (./MainThesis.bbl [73
 
 
-] [70] [71]
+]
+[74] [75]
 Underfull \hbox (badness 10000) in paragraph at lines 273--279
 \OT1/cmtt/m/n/12 Search&q = intitle : A + Sensor-[]Utility-[]Network + Method +
  for + Estimation + of +
  []
 
-[72] [73] [74]
+[76] [77] [78]
 Underfull \hbox (badness 5161) in paragraph at lines 537--542
 []\OT1/cmr/m/n/12 Mitja Lu^^Tstrek and Bo^^Tstjan Kalu^^Tza.  Fall de-tec-tion 
 and ac-tiv-ity recog-ni-
@@ -1042,18 +1043,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 537--542
 nd _ activity _ recognition _
  []
 
-[75]
+[79]
 Underfull \hbox (badness 10000) in paragraph at lines 599--608
 \OT1/cmtt/m/n/12 wrapper . htm ? arnumber = 757481http : / / www . computer . o
 rg / portal / web / csdl / doi /
  []
 
-) [76]
+[80]) [81]
 \openout2 = `thesis_appendix.aux'.
 
  (./thesis_appendix.tex
 File: ./images/rmse_for_bcf-ts_for_Brown.png Graphic file (type QTm)
- <use  "./images/rmse_for_bcf-ts_for_Brown.png" >
+
+<use  "./images/rmse_for_bcf-ts_for_Brown.png" >
 File: ./images/mase_for_bcf-ts_for_Merl.png Graphic file (type QTm)
 
 <use  "./images/mase_for_bcf-ts_for_Merl.png" >
@@ -1092,7 +1094,7 @@ File: ./images/sqe_denver_arima.png Graphic file (type QTm)
 <use  "./images/sqe_denver_arima.png" >
 File: ./images/sqe_denver_tdnn.png Graphic file (type QTm)
  <use  "./images/sqe_denver_tdnn.png" >
-[77
+[82
 
 
 ]
@@ -1179,8 +1181,8 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 238--241
 
 File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
  (type QTm)
-<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [78]
-[79] [80] [81] [82] [83]) [84
+<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [83]
+[84] [85] [86] [87] [88]) [89
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
@@ -1203,12 +1205,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12562 strings out of 494004
- 190477 string characters out of 3150890
- 324967 words of memory out of 3000000
- 15521 multiletter control sequences out of 15000+200000
+ 12614 strings out of 494004
+ 191603 string characters out of 3150890
+ 326370 words of memory out of 3000000
+ 15566 multiletter control sequences out of 15000+200000
  10130 words of font info for 37 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 148i,21n,673p,1216b,606s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 140i,21n,633p,1216b,620s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (98 pages).
+Output written on MainThesis.pdf (104 pages).

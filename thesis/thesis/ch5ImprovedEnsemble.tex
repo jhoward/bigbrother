@@ -129,7 +129,7 @@ As we showed earlier in this section with ~\ref{fig:denver_bcf_residual}, the ta
 
 \bigskip
 \noindent \textbf{Sliding window data extraction} \\
-Given a time series of residual data, we extract the top $k\%$ of the maximum residual data as measured by a fixed length sliding window.  ~\ref{fig:sliding_window} demonstrates visually our method of potential candidate data segments to model.  In this example, the fixed length window is slid along a time series and windows with large total residual deviation are selected. 
+Given a time series of residual data, we extract the top $k\%$ of the maximum residual data as measured by a fixed length sliding window.  ~\ref{fig:sliding_window} demonstrates visually our method of potential candidate residual data segments to model.  In this example, the fixed length window is slid along a time series and windows with large total residual deviation are selected.  These windows are then centered around the largest peak within the window.  This is done to ensure an easier time clustering as similar extracted residual segments will typically line up with each other.
 
 \begin{algorithm}
 	\caption{Algorithm for candidate data extraction}
@@ -170,12 +170,11 @@ Given a time series of residual data, we extract the top $k\%$ of the maximum re
 \end{algorithm}
 
 
-TODO EXTRACT PEAK FINDING ALGORITHM
+Algorithm \ref{alg:dataextract} precisely describes our approach.  The input parameter $k$ is chosen empirically for each dataset and underlying forecasting model.  The effects of this parameter $k$ are discussed later.  A sample of the top 10\% extracted residuals for the Merl dataset is displayed in \ref{fig:extracted_residuals}
 
-Algorithm \ref{alg:dataextract} precisely describes our approach.  The input parameter $k\%$ is chosen empirically for each dataset and underlying forecasting model.  The effects of this parameter $k$ are discussed later.  A sample of the top 10\% extracted residuals for the Merl dataset is displayed in \ref{fig:extracted_residuals}
+On additional possible technique for data extraction is sparse dictionary coding.  This technique finds a set of primitives (in this case small representations of the time series residual data) which can be used to best approximate the original dataset.  We believe it likely that primitives with the largest residual values would most likely correspond to the anomalies we would like to find.  This technique has been extensively to find primitives activations on time series EMG data \cite{Kim2010} and for image reconstructions \cite{Mairal2009}.  
 
-Future work should allow for anomaly models which are non-constant in length.  An interesting possibility for the extraction and molding sparse dictionary learning. For this work however, we believe that constant length anomaly extraction is sufficient to show the strength of our combined forecasting approach.
-
+For this work however, we believe that our constant length anomaly extraction is sufficient to show the strength of our combined forecasting approach.
 
 \begin{figure}
 	\begin{center}
@@ -186,14 +185,10 @@ Future work should allow for anomaly models which are non-constant in length.  A
 \end{figure}
 
 
-
 \subsection{TSMG derivation}
-TODO Move this derivation to the APPENDIX AND JUST DISCUSS OUR MODEL APPROACH HERE.
+A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  Traditionally, a mixture of Gaussians is for data vectors with no time element, but some research has been done on using a mixture of Gaussians for time series data clustering.  In one paper \cite{Eirola2013} the authors create a design matrix to construct a delayed embedding of the original time series.  From this embedding, they use the output to compute a set of inputs on which to compute a mixture of Gaussians to approximately reconstruct the time series.  In another paper \cite{Kalliovirta2012} Gaussian mixture models are used to mix the weights of an autoregressive model in an attempt to reconstruct the original time series.
 
-Discuss the silhouette score for best fit clusters.
-
-
-A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  Traditionally, a mixture of Gaussians is implemented for either a one dimensional time series (CITE PAPER TO SUPPORT THIS) or for data vectors with no time element.  Here we combine the two approaches, creating a mixture of Gaussians for multi-dimensional time series data.  While this approach has not yet been implemented, based on the success of mixture of Gaussians in other domains, we expect good results.
+Here we introduce another technique for modeling time series data were we assume that each residual time series is made up of a number of multidimensional readings each with a different mean and variance.  Our approach is used when there exist multiple time series in which each is assume to be derived from a set of $k$ unique time series.  The following is our derivation of this approach.
 
 The goal of mixture of Gaussians is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given dataset $\{x^{(i)}\}$ we maximize
 \begin{equation}
@@ -252,7 +247,7 @@ The results of these maximizations are given below:
 \subsection{Sample representative clusters and a discussion about them}
 This section visually demonstrates a few of the clusters extracted from our datasets.  These cluster sets were chosen from each dataset and from three of our base forecasting approaches.  The structure from these clusters again leads further credibility to the residual data containing some structure.  
 
-\ref{fig:merl_clusters} is a set of clusters from the Merl dataset extracted from the SVM forecaster at a horizon of 20 minutes.  The extracted window length is 7 time steps (past 70 minutes).  These clusters were taken from the top 10\% of the MERL data residuals.
+\ref{fig:merl_clusters} is a set of clusters from the Merl dataset extracted from the SVM forecaster at a horizon of 20 minutes.  The extracted window length is 7 time steps (past 70 minutes).  These clusters were taken from the top 10\% of the Merl data residuals.
 
 \begin{figure}
 	\begin{center}
@@ -280,7 +275,7 @@ This section visually demonstrates a few of the clusters extracted from our data
 	\label{fig:denver_clusters}
 \end{figure}
 
-\ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  Unlike in the extracted clusters of MERL and Brown, these clusters appear to have "sharp" transition.  This is likely due to the data being aggregated every 30 minutes instead of every 10 minutes like the other dataset.  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  Such a clustering is likely a scenario where modeling these clusters through a non-fixed technique may lead to better results.
+\ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  Unlike in the extracted clusters of Merl and Brown, these clusters appear to have "sharp" transition.  This is likely due to the data being aggregated every 30 minutes instead of every 10 minutes like the other dataset.  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  Such a clustering is likely a scenario where modeling these clusters through a non-fixed technique may lead to better results.
 
 
 \subsection{ABCF Derived}
@@ -390,78 +385,37 @@ The recursive nature of our likelihood time step propagation in the ABCF algorit
 \subsection{Results of ABCF}
 Since the number of potential images to display about the improvements due to ABCF is quite large  we provide a few images here to demonstrate our results and put the remaining images in Appendix \ref{app:results} for the interested reader.
 
-\bigskip
-\noindent \textbf{Results per forecaster} 
-
-%SQEONAN
 \begin{figure}[!b]
 	\begin{center}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_merl_avg.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_denver_svm.png}
-		} \\
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_brown_arima.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqe_brown_bcf.png}
-		}
+		\includegraphics[width=1.0\textwidth]{sqeonan_average_abcf_Denver.png}
 	\end{center}
-	\caption{SQEONAN results of four sample forecasters with and without ABCF}
-	\label{fig:sqe_results}
+	\caption{SQEONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset}
+	\label{fig:average_abcf_denver}
 \end{figure}
 
 
-%RMSE
-\begin{figure}[!t]
+\begin{figure}[!b]
 	\begin{center}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{rmse_merl_avg.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{rmse_denver_svm.png}
-		} \\
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{rmse_brown_arima.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{rmse_brown_svm.png}
-		}
+		\includegraphics[width=1.0\textwidth]{sqeonan_arima_abcf_Merl.png}
 	\end{center}
-	\caption{RMSE results of four sample forecasters with and without ABCF}
-	\label{fig:rmse_results}
+	\caption{SQEONAN vs forecasting horizon for Arima model and Arima + ABCF on the Merl dataset}
+	\label{fig:arima_merl_sqe}
 \end{figure}
 
-%MASE
-\begin{figure}[!t]
+
+\begin{figure}[!h]
 	\begin{center}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{mase_Merl_avg.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{mase_Brown_svm.png}
-		} \\
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{mase_Brown_arima.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{mase_Denver_tdnn.png}
-		}
+		\includegraphics[width=1.0\textwidth]{rmse_arima_abcf_Merl.png}
 	\end{center}
-	\caption{MASE results of four sample forecasters with and without ABCF}
-	\label{fig:mase_results}
+	\caption{RMSE vs forecasting horizon for Arima model and Arima + ABCF on the Merl dataset}
+	\label{fig:arima_merl_rmse}
 \end{figure}
 
-\ref{fig:sqe_results} demonstrate the improvements to the SQEONAN metric of applying our ABCF algorithm to each dataset for each activity model.  A set of sample RMSE and MASE results are given in \ref{fig:rmse_results} and \ref{fig:mase_results}.  In most of these figures, ABCF improves or is equal to the forecasting algorithm on its own for each forecasting horizon up to 15 time steps in the future.  Maximum total improvement is typically achieved between two and four time steps into the future.  Maximum percentage improvement is typically between one and two time steps into the future.
+\ref{fig:average_abcf_denver} demonstrate the improvements to the SQEONAN metric of applying our ABCF algorithm to the average forecasting algorithm for the Denver dataset.  Unsurprisingly we found our largest improvements came with the historic average model.  The reason for this is that any activities or consistent deviations from normal behavior show up in the average model.  These behaviors are well represented in the residuals and thus make good candidate models for our ABCF model.
 
-As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.  \ref{fig:sqe_results}(d) and \ref{fig:mase_results}(d) demonstrate cases where ABCF performed worse than simply the base forecaster.  For forecasts one time step ahead on the Brown Hall dataset, the BCF forecaster out performed a hybrid BCF + ABCF forecast.  From our results, we found that such negative effects on forecasting performance were rare, occurring in only a few of our examples.
-
-\ref{fig:rmse_results} and \ref{fig:mase_results} demonstrates the results of ABCF applied to the same some of the same datasets from \ref{fig:sqe_results}.  Notice that in most cases, there are significantly smaller improvements in both MASE and RMSE than that measured with SQEONAN.  This result is expected.  ABCF improves forecasting during the presence of anomalies.  Due to the nature of anomalies being sufficiently rare, ABCF may not improve overall forecasting accuracy by a large margin.  \ref{fig:rmse_results}(b) and (d) show almost no difference.  
+\ref{fig:arima_merl_sqe} and \ref{fig:arima_merl_rmse} display the improvement to both the SQEONAN metric and RMSE metric when applying ABCF to an Arima forecaster on the Merl dataset.  Notice that while the improvement to the SQEONAN metric is significant in \ref{fig:arima_merl_sqe}, the improvement to RMSE considerably smaller.  This result is expected.  ABCF improves forecasting during the presence of anomalies.  Due to the nature of anomalies being sufficiently rare, ABCF may not improve overall forecasting accuracy by a large margin.
 
 \newpage
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -470,41 +424,91 @@ As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.
 \bigskip
 \noindent \textbf{Aggregated Results} 
 
-\begin{figure}[!b]
+\begin{figure}[!h]
 	\begin{center}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqeonan_improvement_for_each_forecaster_for_Merl.png}
-		}
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqeonan_improvement_for_each_forecaster_for_Brown.png}
-		} \\
-		\subfigure[] {
-			\includegraphics[width=0.49\textwidth]{sqeonan_improvement_for_each_forecaster_for_Denver.png}
-		}
+		\includegraphics[width=1.0\textwidth]{sqeonan_improvement_for_each_forecaster_for_Merl.png}
 	\end{center}
-	\caption{Percentage improvement to SQEONAN due to application of ABCF}
-	\label{fig:sqe_improvement_dataset}
+	\caption{}
+	\label{fig:sqe_improve_merl}
 \end{figure}
 
-\ref{fig:sqe_improvement_dataset} shows the percentage improvement using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset.  As expected, ABCF improves a historic average forecaster by the largest margin.  The improvement is over 70\% on the Denver dataset and still over 25\% on the Brown hall set.
-
-Both BCF and our IBCF algorithm introduced in the last chapter appear to have the smallest margin for improvement.  In the case of the Denver dataset, forecasts more than 10 time steps in the future are negatively affected by ABCF.  We believe the smaller improvement margins are due the properties of ensemble forecasters.  Such forecasters will change forecasting models based on the structure of the dataset at any given time.  These changes may not lead to clusters which are clean and thus as easily able to be modeled.  (TODO back this up with silhouette scores)
-
-TODO include selected RMSE and MASE results
-
-TODO include overall average improvement
-
-TODO include results of sqeonan with ABCF improvements vs a few other forecasters
-
-
-\begin{figure}
+\begin{figure}[!h]
 	\begin{center}
-		\includegraphics[width = 1.0\textwidth]{sqeonan_improvement_for_each_dataset.png}
+		\includegraphics[width=1.0\textwidth]{sqeonan_improvement_for_each_forecaster_for_Brown.png}
 	\end{center}
-	\caption{Average percent improvement of applying ABCF to each forecaster to a given dataset.}
-	\label{fig:sqeonan_improvement_all_dataset}
+	\caption{}
+	\label{fig:sqe_improve_brown}
 \end{figure}
 
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{sqeonan_improvement_for_each_forecaster_for_Denver.png}
+	\end{center}
+	\caption{}
+	\label{fig:sqe_improve_denver}
+\end{figure}
+
+
+\ref{fig:sqe_improve_merl}, \ref{fig:sqe_improve_brown}, and \ref{fig:sqe_improve_denver} shows the percentage improvement to the SQEONAN metric using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset.  As expected, ABCF improves a historic average forecaster by the largest margin.  The improvement is over 70\% on the Denver dataset and still over 25\% on the Brown hall set.
+
+At the one and two time step forecasting horizon, both BCF and our IBCF algorithm introduced in the last chapter are amongst the forecasters that benefit the least from applying ABCF.  We believe the smaller improvement margins are due the properties of ensemble forecasters.  Such forecasters will change forecasting models based on the structure of the dataset at any given time.  These changes may not lead to clusters which are clean and thus as easily able to be modeled.  I
+
+As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.  For forecasts one time step ahead using the SQEONAN metric on the Brown Hall dataset, the BCF forecaster out performed a hybrid BCF + ABCF forecast.  From our results, we found that such negative effects on forecasting performance were rare, occurring in only a few of our examples.
+
+\ref{fig:rmse_improve_merl}, \ref{fig:rmse_improve_brown}, and \ref{fig:rmse_improve_denver} show the improvement of applying ABCF to each model using RMSE. \ref{fig:mase_improve_merl}, \ref{fig:mase_improve_brown}, and \ref{fig:mase_improve_denver} show the improvements of ABCF using MASE.  These images demonstrate that our forecasting improvements when applying ABCF are typically quite small (<5\%) when considering the entire time series.  These improvements are tied to the density of anomalies within the dataset.  A dataset with more anomalies relative to the forecaster will experience a larger overall improvement in forecasting error.
+
+Overall these results demonstrate that ABCF has the power to improve anomaly forecasting while having a little to no detrimental effect on the overall forecasting performance of our forecaster.  Our worse case scenario occurred when applying ABCF to an SVM forecaster on the Merl dataset and for a forecasting horizon of 2 and 3 we experienced 3 - 4\% error in forecasting performance.  However, in almost all other scenarios ABCF improved the overall forecasting accuracy and greatly improved the accuracy of anomaly forecasting as measured by our SQEONAN metric.
+
+  
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{rmse_improvement_for_each_forecaster_for_Merl.png}
+	\end{center}
+	\caption{}
+	\label{fig:rmse_improve_merl}
+\end{figure}
+
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{rmse_improvement_for_each_forecaster_for_Brown.png}
+	\end{center}
+	\caption{}
+	\label{fig:rmse_improve_brown}
+\end{figure}
+
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{rmse_improvement_for_each_forecaster_for_Denver.png}
+	\end{center}
+	\caption{}
+	\label{fig:rmse_improve_denver}
+\end{figure}
+
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{mase_improvement_for_each_forecaster_for_Merl.png}
+	\end{center}
+	\caption{}
+	\label{fig:mase_improve_merl}
+\end{figure}
+
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{mase_improvement_for_each_forecaster_for_Brown.png}
+	\end{center}
+	\caption{}
+	\label{fig:mase_improve_brown}
+\end{figure}
+
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{mase_improvement_for_each_forecaster_for_Denver.png}
+	\end{center}
+	\caption{}
+	\label{fig:mase_improve_denver}
+\end{figure}
+
+\newpage
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

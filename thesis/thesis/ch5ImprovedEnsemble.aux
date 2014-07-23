@@ -42,6 +42,8 @@
 \citation{Clarkson1999}
 \citation{Wren2006}
 \citation{Huynh2005}
+\citation{Kim2010}
+\citation{Mairal2009}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{52}{subsection.5.4}}
 \@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.4}{\ignorespaces Demonstration of a fixed width sliding window looking for locally maximal deviations from background behavior.\relax }}{52}{figure.caption.40}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{52}{subfigure.4.1}}
@@ -49,12 +51,14 @@
 \newlabel{fig:sliding_window}{{\relax Figure\nobreakspace  {\relax 5}.4}{52}{Demonstration of a fixed width sliding window looking for locally maximal deviations from background behavior.\relax \relax }{figure.caption.40}{}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Algorithm for candidate data extraction\relax }}{53}{algorithm.1}}
 \newlabel{alg:dataextract}{{1}{53}{Algorithm for candidate data extraction\relax \relax }{algorithm.1}{}}
+\citation{Eirola2013}
+\citation{Kalliovirta2012}
 \@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.5}{\ignorespaces Extracted residuals from the Merl dataset using the sliding window extraction method with window length of 7\relax }}{54}{figure.caption.41}}
 \newlabel{fig:extracted_residuals}{{\relax Figure\nobreakspace  {\relax 5}.5}{54}{Extracted residuals from the Merl dataset using the sliding window extraction method with window length of 7\relax \relax }{figure.caption.41}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5}TSMG derivation}{54}{subsection.5.5}}
 \newlabel{eq:em_likelihood}{{{\relax 5}.3}{55}{TSMG derivation\relax }{equation.\relax 5.3}{}}
 \newlabel{eq:model}{{{\relax 5}.4}{55}{TSMG derivation\relax }{equation.\relax 5.4}{}}
-\newlabel{eq:em_combined}{{{\relax 5}.5}{55}{TSMG derivation\relax }{equation.\relax 5.5}{}}
+\newlabel{eq:em_combined}{{{\relax 5}.5}{56}{TSMG derivation\relax }{equation.\relax 5.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Sample representative clusters and a discussion about them}{56}{subsection.5.6}}
 \@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.6}{\ignorespaces Extracted residuals from the Merl dataset. Data was taken from the top 10\% of the SVM forecaster's residuals.\relax }}{57}{figure.caption.42}}
 \newlabel{fig:merl_clusters}{{\relax Figure\nobreakspace  {\relax 5}.6}{57}{Extracted residuals from the Merl dataset. Data was taken from the top 10\% of the SVM forecaster's residuals.\relax \relax }{figure.caption.42}{}}
@@ -64,42 +68,41 @@
 \newlabel{fig:denver_clusters}{{\relax Figure\nobreakspace  {\relax 5}.8}{58}{Extracted residuals from the Denver dataset. Data was taken from the top 10\% of the TDNN forecaster's residuals.\relax \relax }{figure.caption.44}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.7}ABCF Derived}{58}{subsection.5.7}}
 \newlabel{sec:abcf}{{5.7}{58}{ABCF Derived\relax }{subsection.5.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.9}{\ignorespaces Sample residual and the respective probabilities of each time step for the base forecaster and the a single activity model.\relax }}{60}{figure.caption.45}}
-\newlabel{fig:sample_abcf_residual}{{\relax Figure\nobreakspace  {\relax 5}.9}{60}{Sample residual and the respective probabilities of each time step for the base forecaster and the a single activity model.\relax \relax }{figure.caption.45}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Demonstration of ABCF}{60}{subsection.5.8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.10}{\ignorespaces Extracted sample clustered anomaly.\relax }}{61}{figure.caption.46}}
-\newlabel{fig:sample_cluster}{{\relax Figure\nobreakspace  {\relax 5}.10}{61}{Extracted sample clustered anomaly.\relax \relax }{figure.caption.46}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Results of ABCF}{61}{subsection.5.9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.9}{\ignorespaces Sample residual and the respective probabilities of each time step for the base forecaster and the a single activity model.\relax }}{61}{figure.caption.45}}
+\newlabel{fig:sample_abcf_residual}{{\relax Figure\nobreakspace  {\relax 5}.9}{61}{Sample residual and the respective probabilities of each time step for the base forecaster and the a single activity model.\relax \relax }{figure.caption.45}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.10}{\ignorespaces Extracted sample clustered anomaly.\relax }}{62}{figure.caption.46}}
+\newlabel{fig:sample_cluster}{{\relax Figure\nobreakspace  {\relax 5}.10}{62}{Extracted sample clustered anomaly.\relax \relax }{figure.caption.46}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.11}{\ignorespaces Two horizon time step results when applying ABCF to an ARIMA forecaster for a segment of the Denver dataset.\relax }}{62}{figure.caption.47}}
 \newlabel{fig:sample_abcf_denver}{{\relax Figure\nobreakspace  {\relax 5}.11}{62}{Two horizon time step results when applying ABCF to an ARIMA forecaster for a segment of the Denver dataset.\relax \relax }{figure.caption.47}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.12}{\ignorespaces SQEONAN results of four sample forecasters with and without ABCF\relax }}{63}{figure.caption.48}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{63}{subfigure.12.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{63}{subfigure.12.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {}}}{63}{subfigure.12.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {}}}{63}{subfigure.12.4}}
-\newlabel{fig:sqe_results}{{\relax Figure\nobreakspace  {\relax 5}.12}{63}{SQEONAN results of four sample forecasters with and without ABCF\relax \relax }{figure.caption.48}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.13}{\ignorespaces RMSE results of four sample forecasters with and without ABCF\relax }}{64}{figure.caption.49}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{64}{subfigure.13.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{64}{subfigure.13.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {}}}{64}{subfigure.13.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {}}}{64}{subfigure.13.4}}
-\newlabel{fig:rmse_results}{{\relax Figure\nobreakspace  {\relax 5}.13}{64}{RMSE results of four sample forecasters with and without ABCF\relax \relax }{figure.caption.49}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.14}{\ignorespaces MASE results of four sample forecasters with and without ABCF\relax }}{65}{figure.caption.50}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{65}{subfigure.14.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{65}{subfigure.14.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {}}}{65}{subfigure.14.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {}}}{65}{subfigure.14.4}}
-\newlabel{fig:mase_results}{{\relax Figure\nobreakspace  {\relax 5}.14}{65}{MASE results of four sample forecasters with and without ABCF\relax \relax }{figure.caption.50}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{65}{subsection.5.10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.15}{\ignorespaces Percentage improvement to SQEONAN due to application of ABCF\relax }}{66}{figure.caption.51}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{66}{subfigure.15.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{66}{subfigure.15.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {}}}{66}{subfigure.15.3}}
-\newlabel{fig:sqe_improvement_dataset}{{\relax Figure\nobreakspace  {\relax 5}.15}{66}{Percentage improvement to SQEONAN due to application of ABCF\relax \relax }{figure.caption.51}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.16}{\ignorespaces Average percent improvement of applying ABCF to each forecaster to a given dataset.\relax }}{67}{figure.caption.52}}
-\newlabel{fig:sqeonan_improvement_all_dataset}{{\relax Figure\nobreakspace  {\relax 5}.16}{67}{Average percent improvement of applying ABCF to each forecaster to a given dataset.\relax \relax }{figure.caption.52}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Results of ABCF}{62}{subsection.5.9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.12}{\ignorespaces SQEONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset\relax }}{63}{figure.caption.48}}
+\newlabel{fig:average_abcf_denver}{{\relax Figure\nobreakspace  {\relax 5}.12}{63}{SQEONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset\relax \relax }{figure.caption.48}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.13}{\ignorespaces SQEONAN vs forecasting horizon for Arima model and Arima + ABCF on the Merl dataset\relax }}{63}{figure.caption.49}}
+\newlabel{fig:arima_merl_sqe}{{\relax Figure\nobreakspace  {\relax 5}.13}{63}{SQEONAN vs forecasting horizon for Arima model and Arima + ABCF on the Merl dataset\relax \relax }{figure.caption.49}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.14}{\ignorespaces RMSE vs forecasting horizon for Arima model and Arima + ABCF on the Merl dataset\relax }}{64}{figure.caption.50}}
+\newlabel{fig:arima_merl_rmse}{{\relax Figure\nobreakspace  {\relax 5}.14}{64}{RMSE vs forecasting horizon for Arima model and Arima + ABCF on the Merl dataset\relax \relax }{figure.caption.50}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.15}{\ignorespaces \relax }}{65}{figure.caption.51}}
+\newlabel{fig:sqe_improve_merl}{{\relax Figure\nobreakspace  {\relax 5}.15}{65}{\relax \relax }{figure.caption.51}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.16}{\ignorespaces \relax }}{65}{figure.caption.52}}
+\newlabel{fig:sqe_improve_brown}{{\relax Figure\nobreakspace  {\relax 5}.16}{65}{\relax \relax }{figure.caption.52}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.17}{\ignorespaces \relax }}{66}{figure.caption.53}}
+\newlabel{fig:sqe_improve_denver}{{\relax Figure\nobreakspace  {\relax 5}.17}{66}{\relax \relax }{figure.caption.53}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.18}{\ignorespaces \relax }}{67}{figure.caption.54}}
+\newlabel{fig:rmse_improve_merl}{{\relax Figure\nobreakspace  {\relax 5}.18}{67}{\relax \relax }{figure.caption.54}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.19}{\ignorespaces \relax }}{68}{figure.caption.55}}
+\newlabel{fig:rmse_improve_brown}{{\relax Figure\nobreakspace  {\relax 5}.19}{68}{\relax \relax }{figure.caption.55}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.20}{\ignorespaces \relax }}{68}{figure.caption.56}}
+\newlabel{fig:rmse_improve_denver}{{\relax Figure\nobreakspace  {\relax 5}.20}{68}{\relax \relax }{figure.caption.56}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{68}{subsection.5.10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.21}{\ignorespaces \relax }}{69}{figure.caption.57}}
+\newlabel{fig:mase_improve_merl}{{\relax Figure\nobreakspace  {\relax 5}.21}{69}{\relax \relax }{figure.caption.57}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.22}{\ignorespaces \relax }}{69}{figure.caption.58}}
+\newlabel{fig:mase_improve_brown}{{\relax Figure\nobreakspace  {\relax 5}.22}{69}{\relax \relax }{figure.caption.58}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax Figure\nobreakspace  {\relax 5}.23}{\ignorespaces \relax }}{70}{figure.caption.59}}
+\newlabel{fig:mase_improve_denver}{{\relax Figure\nobreakspace  {\relax 5}.23}{70}{\relax \relax }{figure.caption.59}{}}
 \@setckpt{ch5ImprovedEnsemble}{
-\setcounter{page}{68}
+\setcounter{page}{72}
 \setcounter{equation}{14}
 \setcounter{enumi}{3}
 \setcounter{enumii}{0}
@@ -113,7 +116,7 @@
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{16}
+\setcounter{figure}{23}
 \setcounter{table}{0}
 \setcounter{csm@abstract@words}{141}
 \setcounter{csm@longtable@pages}{0}
@@ -138,20 +141,20 @@
 \setcounter{csm@list@char@temp}{66}
 \setcounter{csm@list@tempA}{1}
 \setcounter{csm@list@tempB}{1}
-\setcounter{csm@tocentry@count}{127}
+\setcounter{csm@tocentry@count}{119}
 \setcounter{csm@num@tables}{2}
-\setcounter{csm@num@figures}{127}
+\setcounter{csm@num@figures}{119}
 \setcounter{csmsectionline}{4}
 \setcounter{appendix}{0}
 \setcounter{csm@redefined@appendix}{0}
-\setcounter{csmpage}{68}
-\setcounter{truepage}{68}
+\setcounter{csmpage}{72}
+\setcounter{truepage}{72}
 \setcounter{emptypage}{0}
 \setcounter{csm@figure@heredefinitely}{0}
 \setcounter{float@type}{16}
-\setcounter{csm@label@j}{54}
-\setcounter{csm@label@k}{54}
-\setcounter{csm@label@count}{55}
+\setcounter{csm@label@j}{61}
+\setcounter{csm@label@k}{62}
+\setcounter{csm@label@count}{62}
 \setcounter{pp@next@reset}{0}
 \setcounter{csm@symbol@symbolnote}{0}
 \setcounter{csm@symbol@numberednote}{0}
@@ -178,7 +181,7 @@
 \setcounter{ContinuedFloat}{0}
 \setcounter{KVtest}{1}
 \setcounter{subfigure}{0}
-\setcounter{subfigure@save}{3}
+\setcounter{subfigure@save}{2}
 \setcounter{lofdepth}{1}
 \setcounter{subtable}{0}
 \setcounter{subtable@save}{0}

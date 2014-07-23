@@ -1,4 +1,4 @@
-\begin{thebibliography}{79}
+\begin{thebibliography}{83}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -615,5 +615,31 @@ T\^{a}m Huynh and Bernt Schiele.
 \newblock ISBN 1595933042.
 \newblock \doi{10.1145/1107548.1107591}.
 \newblock URL \url{http://portal.acm.org/citation.cfm?doid=1107548.1107591}.
+
+\bibitem[Kim et~al.(2010)Kim, Shakhnarovich, and Urtasun]{Kim2010}
+T.~Kim, G.~Shakhnarovich, and R.~Urtasun.
+\newblock {Sparse coding for learning interpretable spatio-temporal
+  primitives}.
+\newblock In \emph{Proceedings of Neural Information Processing Systems
+  (NIPS)}, 2010.
+
+\bibitem[Mairal et~al.(2009)Mairal, Bach, Ponce, and Sapiro]{Mairal2009}
+Julien Mairal, Francis Bach, Jean Ponce, and Guillermo Sapiro.
+\newblock {Online dictionary learning for sparse coding}.
+\newblock In \emph{Proceedings of the 26th Annual International Conference on
+  Machine Learning}, pages 689 -- 696, 2009.
+
+\bibitem[Eirola and Lendasse(2013)]{Eirola2013}
+Emil Eirola and Amaury Lendasse.
+\newblock {Gaussian Mixture Models for Time Series Modelling, Forecasting, and
+  Interpolation}.
+\newblock In \emph{Advances in Intelligent Data Analysis XII}, pages 162 --
+  173. Springer Berlin Heidelberg, 2013.
+
+\bibitem[Kalliovirta et~al.(2012)Kalliovirta, Meitz, and
+  Saikkonen]{Kalliovirta2012}
+Leena Kalliovirta, Mika Meitz, and Pentti Saikkonen.
+\newblock {A Gaussian mixture autoregressive model for univariate time series}.
+\newblock Technical report, Helsinki Center of Economic Research, 2012.
 
 \end{thebibliography}
