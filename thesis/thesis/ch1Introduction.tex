@@ -16,7 +16,7 @@ In both of the above environments, the control systems have to account for futur
 
 %Problem Statement
 \subsection{Problem and Objective}
-As alluded to with the above examples, our focus is on improving forecasting accuracy on human controlled traffic systems.  By “traffic”, we mean the movement of vehicles along a road network, the movement of people in a building, or similar data derived from the actions of a group of people.  For the rest of this paper, we define a time series dataset as $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.  Our objective in this work is then:
+As alluded to with the above examples, our focus is on improving forecasting accuracy on human controlled traffic systems.  By “traffic”, we mean the movement of vehicles along a road network, the movement of people in a building, or similar data derived from the actions of a group of people.  Overall, our method is more general than just traffic systems and we believe it will work with any dataset which has rare repeated events that lead to similar effects in the system.  For the rest of this paper, we define a time series dataset as $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.  Our objective in this work is then:
 
 \begin{enumerate}
 	\item Produce an accurate forecast for $x_{t}^{(m)}$ $\delta$ time steps into the future.
