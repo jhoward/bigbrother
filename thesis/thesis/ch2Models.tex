@@ -1,17 +1,14 @@
-`\chapter{Models}
-With this chapter we explore some of the most common forecasting models for traffic datasets.  These models are meant to be used as a baseline from which to compare our results.  Also, in chapter 4 the models presented here are incorporated into an ensemble forecasting model.  The models selected for this work are:
+\chapter{Models}
+With this chapter we explore some of the most common forecasting models for traffic datasets.  These models are meant to be used as a baseline from which to compare our results.  In Chapter 4 the models presented here are incorporated into an ensemble forecasting model.  The models selected for this work are:
 
 \begin{itemize}
-	\item Seasonal auto regressive integrated moving average
-	\item Historic average
-	\item Time delayed neural network
-	\item Support vector regression
+	\item Seasonal Auto Regressive Integrated Moving Average (ARIMA)
+	\item Historic Average
+	\item Time Delayed Neural Network (TDNN)
+	\item Support Vector Regression (SVM)
 \end{itemize}
 
-
-Also in this chapter, we introduce the metrics which will be used for our analysis.  We feel this analysis useful to empirically demonstrate the various forecasting capabilities of these established models.
-
-Some of the discussions of models within this chapter make mention of our datasets.  These datasets are described in detail in Chapter 3.  We chose to describe the specifics of our forecasting models prior to our datasources because we believe this makes for a more coherent paper.
+Also in this chapter, we introduce the metrics which will be used to empirically demonstrate the various forecasting capabilities of these established models.  Some of the discussions of models within this chapter make mention of our datasets.  These datasets are described in detail in Chapter 3.  We chose to describe the specifics of our forecasting models prior to our datasources because we believe this makes for a more coherent paper.
 
 \subsection{Notation}
 As already stated, we define a time series dataset used within as  $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.  In total the number of time blocks are represented by $N$.
@@ -35,39 +32,40 @@ r_{t,\delta} =  x_{t + \delta} - y_{t + \delta}.
 This set of residuals is the difference between the raw data and a forecasting function operating $\delta$ time steps into the future. 
 
 
-\subsection{Forecast Error Measurements}
+\subsection{Forecast Error Metrics}
 There are a multitude of various forecasting error measurements that have been used to assess forecast accuracy.  Expert recommendation of which forecast error measurement to use for what types of data has changed over time.  Armstrong \cite{Armstrong2001, Yokuma1995} found that root mean squared error (RMSE) was by far the most popular error measurement in 1981 among academics.  However, by 1995 RMSE preference by academics had dropped by roughly half and mean absolute percentage error (MAPE) was the preferred error measurement. 
 
-For this work, to coincide with expert opinion on forecast error measurements, we use both mean absolute scale error (MASE) \cite{Hyndman2006, Hyndman2006a} and RMSE as cost functions to compare our forecasting accuracy.  RMSE was selected due to its simplicity and ubiquity within the forecasting community.  MASE was selected for it being both a modern derivation of MAPE and for its accuracy in places where MAPE does not provide adequate results.  
+For this work, to coincide with expert opinion on forecast error measurements, we use both mean absolute scale error (MASE) \cite{Hyndman2006, Hyndman2006a} and RMSE as cost functions to compare our forecasting accuracy.  RMSE was selected due to its simplicity and ubiquity within the forecasting community.  MASE was selected for it being both a modern derivation of MAPE and for its accuracy in places where MAPE and RMSE does not provide adequate results.  
 
-Also, because much of the focus of our work is interested in reducing inaccurate forecasts during the presence of some anomalous event, we introduce another forecasting measurement which we call root mean squared error outside of noise against naive (RMSEONAN).  This metric provides a convenient way to measure the improvement our approach yields which is not easily captured by RMSE and MASE.
+Also, because much of the focus of our work is interested in reducing inaccurate forecasts during the presence of some anomalous event, we introduce another forecasting measurement which we call "root mean squared error outside of noise against naive" (RMSE-ONAN).  This metric provides a convenient way to measure the improvement our approach yields which is not easily captured by RMSE and MASE.  The following is a detailed description of our metrics:
 
 \bigskip
 \noindent \textbf{RMSE} \\
-One of the most common error functions used to determine the quality of a set of forecasts.  It measures the average difference between two time series.  Due to its squared error term, this measurement is not a good indicator of error between distinctly different datasets.  For our work comparing the input series $x$ and the forecast series $y$ RMSE performs adequately.
+RMSE is one of the most common error functions used to determine the quality of a set of forecasts.  It measures the average difference between two time series.  Due to its squared error term, this measurement is not a good indicator of error between distinctly different datasets.  For our work comparing the input series $x$ and the forecast series $y$ RMSE performs adequately.
 \begin{equation}
 RMSE_{\delta} = \sqrt{\frac{\sum_{t = 1}^{N - \delta}{(x_{t + \delta} - y_{t + \delta})^{2}}}{N - \delta}}
 \end{equation}
 
 \bigskip
 \noindent \textbf{MASE} \\
-Mean absolute scaled error was developed to be a generally applicable measurement of forecast error.  The metric is especially useful for datasets with intermittent demand unlike the commonly used MAPE score.  The reason it works well with intermittent time is that it will not return undefined or infinite values unless the compared datasets are equal \cite{Hyndman2008}.
+Mean absolute scaled error was developed to be a generally applicable measurement of forecast error.  The metric is especially useful for datasets with intermittent demand unlike the commonly used MAPE score because MASE will never results in infinite or undefined values unless all historic data is equal \cite{Hyndman2008}.  We thought this metric pertinent to include because both roadway and building traffic will likely have times with little to no traffic.  
 
 \begin{equation}
 MASE_{\delta} = \frac{\sum_{t = 1}^{N - \delta}{r_{t, \delta}}}{\frac{N}{N - 1}\sum_{i = 2}^{N}|y_{i} - y_{i - 1}|}
 \end{equation}
 
 \bigskip
-\noindent \textbf{RMSEONAN} \\
+\noindent \textbf{RMSE-ONAN} \\
 Root mean squared error outside noise against naive measures a forecast's accuracy during its worst case scenarios.  This is performed by measuring the sum of squared errors of forecasts outside a prescribed boundary.  We compute this boundary from the forecasting accuracy of a naive forecaster.  For our work, we consider the naive forecaster to be the historical average of the data for a given time.  
 
-Most of the results of this work deal with boundaries set by one standard deviation of the residual dataset formed but the historic average (naive) model.  RMSEONAN is defined as
+Most of the results of this work deal with boundaries set by one standard deviation of the residual dataset formed by the historic average (naive) model.  RMSE-ONAN is defined as
+
 
 \begin{equation}
-RMSEONAN_{\delta, \sigma} = \frac{\sqrt{\sum_{t = 1}^{N - \delta}{A(r_{t, \delta}; \sigma)^{2}}}} {N - \delta}.
+RMSE-ONAN_{\delta, \sigma} = \frac{\sqrt{\sum_{t = 1}^{N - \delta}{A(r_{t, \delta}; \sigma)^{2}}}} {N - \delta}.
 \end{equation}
 
-Where $A(r_{\delta}; \sigma)$ is 
+We define $A(r_{\delta}; \sigma)$ as
 
 \begin{equation}
 A(r_{t, \delta}; \sigma_{t}) = \begin{cases}
@@ -78,17 +76,17 @@ A(r_{t, \delta}; \sigma_{t}) = \begin{cases}
 
 $\sigma_{t}$ is the standard deviation of the data at that time step for that given day.  For certain comparisons, it is useful to use $n*\sigma$ with values of $n > 1$.  
 
-Notice that this function is an average of all values of $A(r_{\delta})$.  This is because RMSEONAN is used to compare between multiple forecasting algorithms of the same dataset the total effect of sufficiently inaccurate forecasts (by sufficiently inaccurate, we mean any forecast outside a defined  accuracy boundary).  If we were to measure only values where $A(r_{\delta}) > 0$, then an average value is not able to distinguish between forecasting models that leave few sufficiently inaccurate forecasts and many inaccurate forecasts assuming they are of similar value.  
-
-An example demonstrating the regions summed by RMSEONAN is given by ~\ref{fig:dem_RMSEONAN}.  In this image, only the area of the green spaces are squared and summed towards RMSEONAN.  All other regions are zero.  The large salmon colored region is the area that is one standard deviation for all days at that time for the residual dataset.
-
-\begin{figure}[t]
+\begin{figure}[!t]
 	\begin{center}
-		\includegraphics[width = .8\linewidth]{demonstration_RMSEONAN}
+		\includegraphics[width = 1.0\linewidth]{demonstration_RMSEONAN}
 	\end{center}
-	\caption{Demonstration of the area measured by RMSEONAN.  Only the solid green regions are measured.  These regions correspond with forecasting errors outside a prescribed boundary which in this case is one standard deviation from the mean for that given period of time.}
+	\caption{Demonstration of the area measured by RMSE-ONAN.  This data is two days worth of residual data from a Seasonal ARIMA model on Denver traffic data.  The solid green areas are measured and squared towards RMSE-ONAN.  All other areas will be given a value of zero.  These solid green regions correspond with forecasting errors outside a prescribed boundary which in this case is one standard deviation from the mean for that given period of time.}
 	\label{fig:dem_RMSEONAN}
 \end{figure}
+
+Notice that this function is a RMSE average of all values of $A(r_{\delta})$ instead of simply the average RMSE of values where $A(r_{\delta}) > 0$.  This is because RMSE-ONAN is used to compare between multiple forecasting algorithms of the same dataset the total effect of sufficiently inaccurate forecasts (by sufficiently inaccurate, we mean any forecast outside a defined accuracy boundary).  If we were to measure only values where $A(r_{\delta}) > 0$, then an average value is not able to distinguish between forecasting models that leave few sufficiently inaccurate forecasts and many inaccurate forecasts assuming they are of similar value.
+
+An example demonstrating the regions summed by RMSE-ONAN is given by \ref{fig:dem_RMSEONAN}.  In this image, only the area of the green spaces are squared and summed towards RMSE-ONAN.  All other regions are zero.  The large salmon colored region is the area that is one standard deviation for all days at that time for the residual dataset.
 
 %MODELS
 \subsection{Seasonal ARIMA model}
@@ -117,7 +115,9 @@ Forecasting from this model is performed by iteratively forward feeding values o
 
 \subsubsection{Fitting a Seasonal ARIMA}
 
-Finding the correct values of $p, d, q, P, D, Q, s$ is traditionally a hard problem.  To fit our parameters we use a method similar to Williams \cite{Williams2003}.  The underlying math of ARMA models stems from a linear filter operating on input from a stationary stochastic process.  ARIMA models were created to handle non-stationary data by differencing the data to induce stationarity.  A necessary step in fitting a ARIMA model to the data is first to determine the steps necessary to make the time series weakly stationary.  For a time series to be weakly stationary two conditions must be satisfied: The expected value of $x^{(t)}$ is the same for all $t$ and the covariance between any two observations depends only on the lag.  
+Finding the correct values of $p, d, q, P, D, Q, s$ is traditionally a hard problem.  To fit our parameters we use a method similar to Williams \cite{Williams2003}.  The underlying math of ARMA models stems from a linear filter operating on input from a stationary stochastic process.  ARIMA models were created to handle non-stationary data by differencing the data to induce stationarity.  
+
+A necessary step in fitting a ARIMA model to the data is first to determine the the stationarity of the time series.  For a time series to be weakly stationary two conditions must be satisfied: The expected value of $x^{(t)}$ is the same for all $t$ and the covariance between any two observations depends only on the lag.  
 
 \begin{table}[t]
 \centering
@@ -177,24 +177,26 @@ Verifying our seasonal ARIMA fit is accurate ~\ref{fig:arima_prediction} shows a
 This model is simply the per day average of readings at each time step.  For certain types of data this model is has been shown to be more accurate than seasonal ARIMA forecasting \cite{Newsham2010}, specifically when the data has a strong historic correlation.  Average forecasts have the advantage of being extremely computationally fast and having a forecast accuracy that does not depend on the forecasting horizon.  This result will be shown later.
 
 
-\subsection{Time delayed neural networks}
-
-Time delayed neural networks (TDNN) are a special subset of regression neural networks where the input data is a local history of data from the time series.  This special class of neural networks have been used frequently traffic forecasting literature \cite{Abdulhai1999, Ishak2003}.  Commonly the output is a single point forecast from that same time series at some point $t + \delta$ in the future.   The form of our 1 hidden layer time delayed neural network is:
-\begin{equation}
-y_{t + 1} = \phi \{ \sum_{j = 1}^{J} w_{j}\psi_{j} \bigg[ \sum_{l = 0}^{m}w_{ji}x_{t - l\delta} + w_{j0} \bigg] + w_0 \}
-\end{equation}
-\noindent where $\phi\{\bullet\}$ is a linear activation function on the output layer and $\psi[\bullet]$ is the standard sigmoid function.  A visual representation of the node architecture of a time delayed neural network is displayed in ~\ref{fig:tdnnarch}.
-
-\begin{figure}[h]
+\begin{figure}[!t]
 	\centering
 		\includegraphics[width = .8\linewidth]{time_delay_neural_network.png}
 		\caption{Architecture of a time delayed neural network with $m + 1$ inputs and J outputs \cite{Hansen2003}.}
 	\label{fig:tdnnarch}
 \end{figure}
 
+
+\subsection{Time delayed neural networks}
+
+Time delayed neural networks (TDNN) are a special subset of regression neural networks where the input data is a the previous $\Delta$ time steps of data from the time series.  This special class of neural networks have been used frequently in vehicle traffic forecasting literature \cite{Abdulhai1999, Ishak2003}.  Commonly the output is a single point forecast from that same time series at some point $t + \delta$ in the future.   The form of our 1 hidden layer time delayed neural network is:
+\begin{equation}
+y_{t + 1} = \phi \{ \sum_{j = 1}^{J} w_{j}\psi_{j} \bigg[ \sum_{l = 0}^{m}w_{ji}x_{t - l\delta} + w_{j0} \bigg] + w_0 \}
+\end{equation}
+\noindent where $\phi\{\bullet\}$ is a linear activation function on the output layer and $\psi[\bullet]$ is the standard sigmoid function.  A visual representation of the node architecture of a time delayed neural network is displayed in \ref{fig:tdnnarch}.
+
+
 Forecasting is performed by computing the output for a $m + 1$ length window of time and then iteratively forecasting a set of time steps in the future by using forecast data as inputs into the next forecast. 
 
-The number of input nodes and hidden nodes for each dataset is given in ~\ref{fig:tdnntab}.
+The number of input nodes and hidden nodes for each dataset is given in \ref{fig:tdnntab}.
 
 \begin{table}[h]
 \centering
@@ -212,7 +214,7 @@ DENVER & 6 & 6\\ \hline
 \subsection{Support Vector Regression}
 Support vector regression (SVR) is a universal learning method which offers a powerful way to forecast time series.  It has been used in the past successfully to forecast travel times and vehicle counts for roadway traffic systems \cite{Wu2004, Wei2013, Wei2012, Howard2013}.  Many of these empirical studies have demonstrated SVR as outperforming other forecasting techniques including ARIMA and TDNN.
 
-The support vector machines was developed by Vapnik \cite{Vapnik1998}.  SVM's use structural risk minimization to find an minimal upper bound on some expected risk.  As training support vector machines to be used for regression is not done in the same way as other time series models, we first had to transform our dataset to a series of examples with a fixed window.  For a fixed window of size $w$, training input data is of the form $\{x_{t}, x_{t - 1}, ..., x_{t - w + 1}\}$.  Target data is of the form $x_{t + 1}$.  Thus the training examples which we provided to our SVM was $\{x_{t + 1}, [x_{t}, x_{t - 1}, ..., x_{t - w + 1}]\}$.
+Support vector machines was developed by Vapnik \cite{Vapnik1998}.  SVM's use structural risk minimization to find an minimal upper bound on some expected risk.  As training support vector machines to be used for regression is not done in the same way as other time series models, we first had to transform our dataset to a series of examples with a fixed window.  For a fixed window of size $w$, training input data is of the form $\{x_{t}, x_{t - 1}, ..., x_{t - w + 1}\}$.  Target data is of the form $x_{t + 1}$.  Thus the training examples which we provided to our SVM was $\{x_{t + 1}, [x_{t}, x_{t - 1}, ..., x_{t - w + 1}]\}$.
 
 The general formulation for support vector regression is to minimize the following:
 
@@ -229,6 +231,6 @@ The general formulation for support vector regression is to minimize the followi
 
 From this formulation the function $f()$ is the regression function, $w$ are the parameters of the regression function $f()$, $\gamma$ is loss function sensitivity and finally $\epsilon$ are the slack variables which measure the deviation of training samples.  
 
-To perform SVR training we used the popular $libsvm$ package.  Because parameter selection is a notoriously difficult problem for SVR, we followed the guidelines as outlined by Hsu, Chih-Chang and Lin, creators of the libsvm package \cite{Hsu2003}.  We first scaled the data by normalizing it between $[0, 1]$.  Then we searched for our best values of $C$, $\epsilon$ and $\gamma$ using the root mean squared error of the validation set factor to determine performance of those parameters. 
+To perform SVR training we used the popular $libsvm$ package \cite{Hsu2003}.  Because parameter selection is a notoriously difficult problem for SVR, we followed the guidelines as outlined by Hsu, Chih-Chang and Lin, who are the creators of the libsvm package.  We first scaled the data by normalizing it between $[0, 1]$.  Then we searched for our best values of $C$, $\epsilon$ and $\gamma$ using the root mean squared error of the validation set factor to determine performance of those parameters. 
 
-For all of our datasets we used a historic window of length five.  This happened to be the same window length used by \cite{Wu2004} in past vehicle forecasting work.  Also, we empirically tried four common kernel functions: linear, polynomial, radial basis and sigmoid.  We had best for all three datasets with radial basis kernels, but a linear kernel also produced good results.
+For all of our datasets we used a historic window equal to length five.  This happened to be the same window length used by \cite{Wu2004} in past vehicle forecasting work.  Also, we empirically tried four common kernel functions: linear, polynomial, radial basis and sigmoid.  We had best for all three datasets with radial basis kernels, but a linear kernel also produced good results.
