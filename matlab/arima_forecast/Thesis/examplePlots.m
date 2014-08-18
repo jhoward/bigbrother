@@ -82,7 +82,7 @@ cauchypdf([0.8 0.6 0.4 -0.4], m, s/3.7)
 %HISTOGRAM OF INDIVIDUAL HOUR OF DATA DATA
 %==========================================================================
 hour = 38;
-res = data.testData(1, data.blocksInDay:end) - horizons.arima{11}{3};
+res = data.testData(1, data.blocksInDay:end) - results.arima.testForecast{11};
 tmpRes = res(data.blocksInDay + 2:end);
 tmpRes = reshape(tmpRes, data.blocksInDay, size(tmpRes, 2)/data.blocksInDay);
 
@@ -756,9 +756,89 @@ LEG = findobj(ax,'type','text');
 set(LEG,'FontSize',14)
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
         'rmse_arima_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
-    
-    
-    
+
+%==========================================================================
+% PLOT SAMPLE WINDOW FOR GIVEN DATASET
+%==========================================================================
+dataSet = 3;
+
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataset});
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataset});
+plotTitle = ['Scaled data for ', MyConstants.DATA_SETS{dataset}, ' dataset.'];
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+startTime = 2260;
+endTime = 2356;
+
+figsizeX = 1200;
+figsizeY = 550;
+horizon = 2;
+
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+test_data = data.testData(1, fStart:fEnd);
+
+hold on
+
+plot(test_data(1, startTime:endTime), 'Color', [0, 0, 0], 'Linewidth', 2)
+
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Time', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('Scaled sensor counts', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+xlim([1 96])
+
+%set(gca,'XTick','')
+
+%ax = legend('Raw ');
+%LEG = findobj(ax,'type','text');
+%set(LEG,'FontSize',14)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, MyConstants.DATA_SETS{dataset}, ' 2 days.png'), fig, '-transparent', '-nocrop');
+
+
+
+%==========================================================================
+% PLOT Autocorrelation / Partial auto correlation
+%==========================================================================
+dataSet = 3;
+
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataset});
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataset});
+plotTitle = ['Scaled data for ', MyConstants.DATA_SETS{dataset}, ' dataset.'];
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+startTime = 2260;
+endTime = 2356;
+
+figsizeX = 1200;
+figsizeY = 550;
+horizon = 2;
+
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+test_data = data.testData(1, fStart:fEnd);
+
+hold on
+
+plot(test_data(1, startTime:endTime), 'Color', [0, 0, 0], 'Linewidth', 2)
+
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Time', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('Scaled sensor counts', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+xlim([1 96])
+
+%set(gca,'XTick','')
+
+%ax = legend('Raw ');
+%LEG = findobj(ax,'type','text');
+%set(LEG,'FontSize',14)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, MyConstants.DATA_SETS{dataset}, ' 2 days.png'), fig, '-transparent', '-nocrop');
+
+
+
 
 
 

@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: MainThesis.aux
+A level-1 auxiliary file: ch1Introduction.aux
+A level-1 auxiliary file: ch2Models.aux
+A level-1 auxiliary file: ch3Datasets.aux
+A level-1 auxiliary file: ch4Ensemble.aux
+A level-1 auxiliary file: ch5ImprovedEnsemble.aux
+A level-1 auxiliary file: ch6Conclusion.aux
+A level-1 auxiliary file: thesis_appendix.aux
+The style file: unsrtnat.bst
+Database file #1: Final_Thesis.bib
+Warning--there's a number but no volume in Wei2013
+Warning--empty journal in Hsu2003
+Warning--there's a number but no volume in Hsu2003
+Warning--can't use both author and editor fields in Dessein2013
+Warning--there's a number but no series in Huynh2005
+You've used 85 entries,
+            2481 wiz_defined-function locations,
+            1192 strings with 23655 characters,
+and the built_in function-call counts, 35045 in all, are:
+= -- 3226
+> -- 1571
+< -- 75
++ -- 618
+- -- 446
+* -- 2574
+:= -- 5408
+add.period$ -- 355
+call.type$ -- 85
+change.case$ -- 171
+chr.to.int$ -- 83
+cite$ -- 90
+duplicate$ -- 1855
+empty$ -- 3201
+format.name$ -- 597
+if$ -- 7706
+int.to.chr$ -- 3
+int.to.str$ -- 86
+missing$ -- 80
+newline$ -- 519
+num.names$ -- 257
+pop$ -- 723
+preamble$ -- 1
+purify$ -- 85
+quote$ -- 0
+skip$ -- 1156
+stack$ -- 0
+substring$ -- 1465
+swap$ -- 405
+text.length$ -- 30
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 583
+warning$ -- 5
+while$ -- 298
+width$ -- 0
+write$ -- 1288
+(There were 5 warnings)

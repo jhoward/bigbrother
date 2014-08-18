@@ -5,7 +5,7 @@ With this chapter we explore some of the most common forecasting models for traf
 	\item Seasonal Auto Regressive Integrated Moving Average (ARIMA)
 	\item Historic Average
 	\item Time Delayed Neural Network (TDNN)
-	\item Support Vector Regression (SVM)
+	\item Support Vector Regression (SVM from the well known Support Vector Machine)
 \end{itemize}
 
 Also in this chapter, we introduce the metrics which will be used to empirically demonstrate the various forecasting capabilities of these established models.  Some of the discussions of models within this chapter make mention of our datasets.  These datasets are described in detail in Chapter 3.  We chose to describe the specifics of our forecasting models prior to our datasources because we believe this makes for a more coherent paper.
@@ -32,7 +32,15 @@ r_{t,\delta} =  x_{t + \delta} - y_{t + \delta}.
 This set of residuals is the difference between the raw data and a forecasting function operating $\delta$ time steps into the future. 
 
 
-\subsection{Forecast Error Metrics}
+\begin{figure}[!t]
+	\begin{center}
+		\includegraphics[width = 1.0\linewidth]{demonstration_RMSEONAN}
+	\end{center}
+	\caption{Demonstration of the area measured by RMSE-ONAN.  This data is two days worth of residual data from a Seasonal ARIMA model on Denver traffic data.  The solid green areas are measured and squared towards RMSE-ONAN.  All other areas will be given a value of zero.  These solid green regions correspond with forecasting errors outside a prescribed boundary which in this case is one standard deviation from the mean for that given period of time.}
+	\label{fig:dem_RMSEONAN}
+\end{figure}
+
+\subsection{Forecast error metrics}
 There are a multitude of various forecasting error measurements that have been used to assess forecast accuracy.  Expert recommendation of which forecast error measurement to use for what types of data has changed over time.  Armstrong \cite{Armstrong2001, Yokuma1995} found that root mean squared error (RMSE) was by far the most popular error measurement in 1981 among academics.  However, by 1995 RMSE preference by academics had dropped by roughly half and mean absolute percentage error (MAPE) was the preferred error measurement. 
 
 For this work, to coincide with expert opinion on forecast error measurements, we use both mean absolute scale error (MASE) \cite{Hyndman2006, Hyndman2006a} and RMSE as cost functions to compare our forecasting accuracy.  RMSE was selected due to its simplicity and ubiquity within the forecasting community.  MASE was selected for it being both a modern derivation of MAPE and for its accuracy in places where MAPE and RMSE does not provide adequate results.  
@@ -48,10 +56,10 @@ RMSE_{\delta} = \sqrt{\frac{\sum_{t = 1}^{N - \delta}{(x_{t + \delta} - y_{t + \
 
 \bigskip
 \noindent \textbf{MASE} \\
-Mean absolute scaled error was developed to be a generally applicable measurement of forecast error.  The metric is especially useful for datasets with intermittent demand unlike the commonly used MAPE score because MASE will never results in infinite or undefined values unless all historic data is equal \cite{Hyndman2008}.  We thought this metric pertinent to include because both roadway and building traffic will likely have times with little to no traffic.  
+Mean absolute scaled error was developed to be a generally applicable measurement of forecast error.  The metric is especially useful for datasets with intermittent demand unlike the commonly used MAPE score because MASE will never results in infinite or undefined values unless all historic data is equal (\textit{i.e.\ }$\sum_{i = 2}^{N}|x_{i} - x_{i - 1}| = 0$)\cite{Hyndman2008}.  We thought this metric pertinent to include because both roadway and building traffic will likely have times with little to no traffic.  
 
 \begin{equation}
-MASE_{\delta} = \frac{\sum_{t = 1}^{N - \delta}{r_{t, \delta}}}{\frac{N}{N - 1}\sum_{i = 2}^{N}|y_{i} - y_{i - 1}|}
+MASE_{\delta} = \frac{\sum_{t = 1}^{N - \delta}{r_{t, \delta}}}{\frac{N}{N - 1}\sum_{i = 2}^{N}|x_{i} - x_{i - 1}|}
 \end{equation}
 
 \bigskip
@@ -62,27 +70,19 @@ Most of the results of this work deal with boundaries set by one standard deviat
 
 
 \begin{equation}
-RMSE-ONAN_{\delta, \sigma} = \frac{\sqrt{\sum_{t = 1}^{N - \delta}{A(r_{t, \delta}; \sigma)^{2}}}} {N - \delta}.
+RMSE-ONAN_{\delta, \sigma} = \frac{\sqrt{\sum_{t = 1}^{N - \delta}{A(r_{t, \delta}; \sigma_{t})^{2}}}} {N - \delta}.
 \end{equation}
 
 We define $A(r_{\delta}; \sigma)$ as
 
 \begin{equation}
 A(r_{t, \delta}; \sigma_{t}) = \begin{cases}
-			r_{t, \delta}    &    \text{If }r_{t, \delta} \ge \sigma_{t} \\
+			r_{t, \delta} - \sigma_{t}   &    \text{If }r_{t, \delta} \ge \sigma_{t} \\
 			0                     &    \text{otherwise.}
 			\end{cases}
 \end{equation}
 
 $\sigma_{t}$ is the standard deviation of the data at that time step for that given day.  For certain comparisons, it is useful to use $n*\sigma$ with values of $n > 1$.  
-
-\begin{figure}[!t]
-	\begin{center}
-		\includegraphics[width = 1.0\linewidth]{demonstration_RMSEONAN}
-	\end{center}
-	\caption{Demonstration of the area measured by RMSE-ONAN.  This data is two days worth of residual data from a Seasonal ARIMA model on Denver traffic data.  The solid green areas are measured and squared towards RMSE-ONAN.  All other areas will be given a value of zero.  These solid green regions correspond with forecasting errors outside a prescribed boundary which in this case is one standard deviation from the mean for that given period of time.}
-	\label{fig:dem_RMSEONAN}
-\end{figure}
 
 Notice that this function is a RMSE average of all values of $A(r_{\delta})$ instead of simply the average RMSE of values where $A(r_{\delta}) > 0$.  This is because RMSE-ONAN is used to compare between multiple forecasting algorithms of the same dataset the total effect of sufficiently inaccurate forecasts (by sufficiently inaccurate, we mean any forecast outside a defined accuracy boundary).  If we were to measure only values where $A(r_{\delta}) > 0$, then an average value is not able to distinguish between forecasting models that leave few sufficiently inaccurate forecasts and many inaccurate forecasts assuming they are of similar value.
 
@@ -90,15 +90,15 @@ An example demonstrating the regions summed by RMSE-ONAN is given by \ref{fig:de
 
 %MODELS
 \subsection{Seasonal ARIMA model}
-The Auto Regressive Moving Average Model (ARMA) or derivations on its form (Auto Regressive Integrated Moving Average, Seasonal Auto Regressive Moving Average, $etc$) have been used in numerous forecasting applications from economics to vehicle traffic systems.  While we have been unable to find ARMA based models used on building occupancy data directly, we have found it used to forecast building energy usage and vehicle occupancy \cite{Williams2003, Hong2011, Newsham2010, Howard2013, Fernandez2011}.  Due to ARIMA models having a strong forecasting accuracy and frequent academic use, we believe it serves as an excellent baseline of comparison for a forecasting problem.  
+The Auto Regressive Moving Average Model (ARMA) or derivations on its form (Auto Regressive Integrated Moving Average, Seasonal Auto Regressive Moving Average, $etc$) have been used in numerous forecasting applications from economics to vehicle traffic systems.  While we have been unable to find ARMA based models used on building occupancy data directly, we have found it used to forecast building energy usage and vehicle occupancy \cite{Williams2003, Hong2011, Newsham2010, Howard2013, Fernandez2011}.  Due to ARIMA models having strong forecasting accuracy and frequent academic use, we believe it serves as an excellent baseline of comparison for a forecasting problem.  
 
-Our building and traffic data has periodic trends and a non stationary mean, thus from the class of ARIMA models, we believe a seasonal ARIMA model is best suited to fit our data.  The seasonal ARIMA model is defined as:
+Our building and traffic data has periodic trends and a non stationary mean, thus from the class of ARIMA models, we believe a seasonal ARIMA model is best suited to fit our data.  The seasonal ARIMA model as defined by Box and Jenkins \cite{Box2008} is:
 \begin{equation}
 \label{eq:sarima}
 \phi_{p}(B)\Phi_{p}(B^{s})\nabla^{d}\nabla^{D}_{s}T_{t} = \theta_{q}(B)\Theta_{Q}(B^{s})e_{t}
 \end{equation}
 \noindent
-where $\{T_{t}\}$ is our observed time series and $\{e_t\}$ represents an unobserved white noise series ($e_{t} \sim N(0, \sigma^{2})$) the values of which are computed through model training and are not known a priori.  $B$ is the backshift operator which is a function that allows access to older time readings.  For example $BT_{t} = T_{t-1}$ and $B^{5}T_{t} = T_{t-5}$.  $\nabla^{D}_{s}$ is the seasonal difference operator ($\nabla^{D}_{s}T_{t} = (1 - B^{s})^{D}T_{t}$) and $\phi,\  \Phi,\  \theta,\ \Theta$ are trainable parameters.  
+where $\{T_{t}\}$ is our observed time series and $\{e_t\}$ represents an unobserved white noise series ($e_{t} \sim N(0, \sigma^{2})$) the values of which are computed through model training and are not known a priori.  $B$ is the backshift operator which is a function that allows access to older time readings.  For example $BT_{t} = T_{t-1}$ and $B^{5}T_{t} = T_{t-5}$.  $\nabla^{D}_{s}$ is the seasonal difference operator ($\nabla^{D}_{s}T_{t} = (1 - B^{s})^{D}T_{t}$) and $\phi,\  \Phi,\  \theta,\ \Theta$ are trainable parameters.
 
 Seasonal ARIMA models are notated as
 \begin{equation}
@@ -113,13 +113,76 @@ Forecasting from this model is performed by iteratively forward feeding values o
 \end{equation}
 
 
-\subsubsection{Fitting a Seasonal ARIMA}
+\subsubsection{Fitting a seasonal ARIMA}
 
-Finding the correct values of $p, d, q, P, D, Q, s$ is traditionally a hard problem.  To fit our parameters we use a method similar to Williams \cite{Williams2003}.  The underlying math of ARMA models stems from a linear filter operating on input from a stationary stochastic process.  ARIMA models were created to handle non-stationary data by differencing the data to induce stationarity.  
+Finding the correct values of $p, d, q, P, D, Q, s$ is traditionally a hard problem.  To fit our parameters we use a method recommended by Robert Nau from his lecture notes on optimally fitting ARIMA models \cite{Nau2014}.  Nau first recommends estimating the order of differencing on the data to achieve stationarity.  After estimating the proper order of differencing, the autoregressive and moving average terms can be identified through visual inspection of the autocorrelation and partial autocorrelation plots.    
 
-A necessary step in fitting a ARIMA model to the data is first to determine the the stationarity of the time series.  For a time series to be weakly stationary two conditions must be satisfied: The expected value of $x^{(t)}$ is the same for all $t$ and the covariance between any two observations depends only on the lag.  
+\bigskip
+\noindent \textbf{Achieving stationarity} \\
+Accurately identifying the required order of differencing will lead to a stationary dataset and thus one which can be forecasted by an ARIMA model.  For a time series to be weakly stationary two conditions must be satisfied: The expected value of $x^{(t)}$ is the same for all $t$ and the covariance between any two observations depends only on the lag.  
 
-\begin{table}[t]
+\begin{figure}[]
+	\begin{center}
+		\includegraphics[width = .8\linewidth]{denver_counts.png}
+	\end{center}
+	\caption{Raw counts of Denver data for one sensor over a two week period.}
+	\label{fig:denver_raw_data}
+\end{figure}
+
+In general it is difficult to prove stationarity, but there exists a number of methods which assist in determining if a time series is close enough to stationary to be modeled by an ARMA model.  Visual inspection of both the raw data and the autocorrelation function is a useful tool to test for stationarity.  \ref{fig:denver_raw_data} shows the raw counts values at hourly lags of vehicle counts for one sensor over a two week period from the Denver dataset.  The data shows no constant mean and thus can not be stationary.  The graph of autocorrelation values shows local peaks every 24 hours with a significant peak at one week of lag (168 hours).
+
+\begin{figure}[!t]
+\begin{center}
+\subfloat[][Seasonal difference counts] {
+\includegraphics[width=0.9\textwidth]{lag_counts.png}
+%\label{fig:acf_counts}
+} \\
+\subfloat[][Autocorrelation of seasonal difference counts] {
+\includegraphics[width=0.9\textwidth]{autocorrelation_denver.png}
+%\label{fig:acf_lag}
+}
+\end{center}
+\caption{Denver data: one week seasonal difference counts and autocorrelation over a two week period.}
+\label{fig:lag_data}
+\end{figure}
+
+\begin{figure}[!t]
+\begin{center}
+\subfloat[][Residual autocorrelations for Seasonal ARIMA model.] {
+\includegraphics[width=0.9\textwidth]{autocorrelation_residual_denver.png}
+%\label{fig:acf_counts}
+} \\
+\subfloat[][Residual partial autocorrelations for Seasonal ARIMA model] {
+\includegraphics[width=0.9\textwidth]{partial_autocorrelation_residual_denver.png}
+%\label{fig:acf_lag}
+}
+\end{center}
+\caption{Denver data: Residual autocorrelation and partial autocorrelation results from fit seasonal ARIMA model.}
+\label{fig:fit_lag_data}
+\end{figure}
+
+
+Intuitively a one week seasonal difference should yield a stationary time series and visually, outside of an anomalous reading, \ref{fig:lag_data} shows such stationarity.  Applying the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) \cite{Kwiatkowski1992} test for stationarity on the seasonally differenced data confirms the visual inspection.  Using R's implementation of KPSS gives a p-value greater than 0.1.  This is significantly higher than the standard value to reject the stationarity hypothesis of 0.05.  
+
+As a verification of our model, we applied the LJung-Box test \cite{Ljung1978} on our set of residual data for each model.  This tests if any of the auto correlation values on the residual dataset are significantly different from 0.  To be valid, the LJung-Box test should return a value of $p > 0.05$.  All of our residual sets passed: $p = 0.9964$ for MERL and $p = 0.1072$ for CSMBB and $p = 0.1266$ for Denver.  
+
+\bigskip
+\noindent \textbf{Determining auto regressive and moving average parameters} \\
+The autoregressive, moving average, differencing parameter and their respective seasonal parameter values for ARIMA models tend to be 0, 1, 2, or 3 \cite{Box2008}.  Due to this small range of input values the total input space is relatively small (six parameters with four possible values equates to $4^6 = 4096$) allowing us to apply a brute-force search for the best model.  Model performance is determined by the Akaike information criterion (AIC) \cite{Akaike1974}.  Our optimal model is a seasonal ARIMA $(1,0,1)(0,1,1)_{168}$.      This model is very similar to \cite{Williams2003} who also fit a seasonal ARIMA model to traffic data.
+
+For datasets where such brute force methods are not possible, a visual analysis of the residual plots is suggested.  This analysis relies on looking a various residual autocorrelation and partial autocorrelation plots.  \ref{fig:fit_lag_data} displays the plots for our fit seasonal ARIMA model.  Ideally these plots should so no correlation between the lags of the data.  Our plots display a strong correlation on lag 48.  This correlation is due daily seasonality (one day is similar to another day).  However this correlation was weaker than our weekly seasonality and thus our introduced seasonal difference was for one week instead of one day.  Because our data exhibited little lag correlation with one large blip at lag 48 instead of the common slow decay of lag values, we believe this fit to be sufficient.  
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{broncos_predicted.png}
+\end{center}
+\caption{One-step ahead prediction for a sample week.  Black line is original data.  Red line is forecasted data.  Dotted box shows an example of mis-forecasting due to a Broncos game.}
+\label{fig:arima_prediction}
+\end{figure}
+
+To verify our seasonal ARIMA fit is accurate \ref{fig:arima_prediction} shows an example of one-step ahead prediction performed on a sample week of test data.  The mean absolute percentage error for this week was approximately 8.2\%.  This error score is close to the results from other authors on other vehicle traffic datasets \cite{Williams2003,Smith1997}.  Also, for \ref{fig:arima_prediction} the dotted line boxes a time when a Broncos game was occurring.  Forecasting during the Broncos game was initially low while traffic was unusually high as people were traveling to the game and then too high for much of the duration of the game.  We discuss our approach to solving such misforecasts in Chapter 5.
+
+\begin{table}[!h]
 \centering
 \caption{The parameter values that were fit for MERL and CSMBB datasets for a Seasonal ARIMA model}
 \begin{tabular}{|c|c|c|c|c|c|c|c|} \hline
@@ -131,55 +194,26 @@ DENVER & 1 & 0 & 1 & 0 & 1 & 1 & 168\\ \hline
 \label{fig:sarimatab}
 \end{table}
 
-As a verification of our model, we applied the LJung-Box test \cite{Ljung1978} on our set of residual data for each model.  This tests if any of the auto correlation values on the residual dataset are significantly different from 0.  To be valid, the LJung-Box test should return a value of $p > 0.05$.  All of our residual sets passed: $p = 0.9964$ for MERL and $p = 0.1072$ for CSMBB and $p = 0.1266$ for Denver.  Our final model parameters can be seen in ~\ref{fig:sarimatab}.  Notice that the season is different for each model due to a difference in window of time for each day that we extracted data.
-
-\begin{figure}[]
-	\begin{center}
-		\includegraphics[width = .6\linewidth]{denver_counts.png}
-	\end{center}
-	\caption{Raw counts of Denver data for one sensor over a two week period.}
-	\label{fig:denver_raw_data}
-\end{figure}
-
-In general it is difficult to prove stationarity, but there exists a number of methods which assist in determining if a time series is close enough to stationary to be modeled by an ARMA model.  Visual inspection of both the raw data and the autocorrelation function is a useful tool to test for stationarity.  ~\ref{fig:denver_raw_data} shows the raw counts values at hourly lags of vehicle counts for one sensor over a two week period from the Denver dataset.  The data shows no constant mean and thus can not be stationary.  The graph of autocorrelation values shows local peaks every 24 hours with a significant peak at one week of lag (168 hours).
-
-Intuitively a one week seasonal difference should yield a stationary time series and visually, outside of an anomalous reading, Figure~\ref{fig:lag_data} shows such stationarity.  Applying the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) \cite{Kwiatkowski1992} test for stationarity on the seasonally differenced data confirms the visual inspection.  Using R's implementation of KPSS gives a p-value greater than 0.1.  This is significantly higher than the standard value to reject the stationarity hypothesis of 0.05.  
-
-\begin{figure}[t]
-\begin{center}
-\subfloat[][Seasonal difference counts] {
-\includegraphics[width=0.45\textwidth]{lag_counts.png}
-%\label{fig:acf_counts}
-}
-\subfloat[][Autocorrelation of seasonal difference counts] {
-\includegraphics[width=0.45\textwidth]{acf_lag.png}
-%\label{fig:acf_lag}
-}
-\end{center}
-\caption{One week seasonal difference counts and autocorrelation over a two week period.}
-\label{fig:lag_data}
-\end{figure}
-
-Most of the input parameter values for seasonal ARIMA models tend to be 0, 1, 2, or 3 \cite{Box2008}.  Due to this small range of input values the total input space is relatively small (Six parameters with four possible values equates to $4^6 = 4096$) allowing us to apply a brute-force search for the best model.  Model performance is determined by the Akaike information criterion (AIC) \cite{Akaike1974}.  Our optimal model is a seasonal ARIMA $(1,0,1)(0,1,1)_{168}$.  
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.8\textwidth]{broncos_predicted.png}
-\end{center}
-\caption{One-step ahead prediction for a sample week.  Black line is original data.  Red line is forecasted data.  Dotted box shows an example of mis-forecasting due to a broncos game.}
-\label{fig:arima_prediction}
-\end{figure}
-
-Verifying our seasonal ARIMA fit is accurate ~\ref{fig:arima_prediction} shows an example of one-step ahead prediction performed on a sample week of test data.  The mean absolute percentage error (MAPE) for this week was approximately 8.2\%.  This MAPE is close to the results from other authors on other vehicle traffic datasets \cite{Williams2003,Smith1997}.  Also, for \ref{fig:arima_prediction} the dotted line boxes a time when a Broncos game was occurring.  Forecasting during the Broncos game was initially low while traffic was unusually high as people were traveling to the game and then too high for much of the duration of the game.  We discuss our approach to solving such misforecasts in Chapter 5.
+Our final model parameters can be seen in \ref{fig:sarimatab}.  Each dataset we have for analysis has a strong weekly trend and a weaker daily trend, \textit{i.e.\ } Mondays from one week should be similar to Mondays from another week, but Mondays may not necessarily be similar to Tuesdays, Wednesdays or Fridays.  We see that the best fit ARIMA models for each dataset find this weekly trend with the season parameter (s).  Note, the season is different for each model due to a difference in number of readings for each day that we extracted data.
 
 
 \subsection{Historic average}
 This model is simply the per day average of readings at each time step.  For certain types of data this model is has been shown to be more accurate than seasonal ARIMA forecasting \cite{Newsham2010}, specifically when the data has a strong historic correlation.  Average forecasts have the advantage of being extremely computationally fast and having a forecast accuracy that does not depend on the forecasting horizon.  This result will be shown later.
 
+TODO Explain this math quickly
 
-\begin{figure}[!t]
+\begin{equation}
+Enter equation here \\
+\end{equation}
+
+\begin{equation}
+This will take a bit more explanation here \\
+\end{equation}
+
+
+\begin{figure}[!]
 	\centering
-		\includegraphics[width = .8\linewidth]{time_delay_neural_network.png}
+		\includegraphics[width = .7\linewidth]{time_delay_neural_network.png}
 		\caption{Architecture of a time delayed neural network with $m + 1$ inputs and J outputs \cite{Hansen2003}.}
 	\label{fig:tdnnarch}
 \end{figure}
@@ -211,25 +245,27 @@ DENVER & 6 & 6\\ \hline
 \end{table}
 
 
-\subsection{Support Vector Regression}
+\subsection{Support vector regression}
 Support vector regression (SVR) is a universal learning method which offers a powerful way to forecast time series.  It has been used in the past successfully to forecast travel times and vehicle counts for roadway traffic systems \cite{Wu2004, Wei2013, Wei2012, Howard2013}.  Many of these empirical studies have demonstrated SVR as outperforming other forecasting techniques including ARIMA and TDNN.
 
-Support vector machines was developed by Vapnik \cite{Vapnik1998}.  SVM's use structural risk minimization to find an minimal upper bound on some expected risk.  As training support vector machines to be used for regression is not done in the same way as other time series models, we first had to transform our dataset to a series of examples with a fixed window.  For a fixed window of size $w$, training input data is of the form $\{x_{t}, x_{t - 1}, ..., x_{t - w + 1}\}$.  Target data is of the form $x_{t + 1}$.  Thus the training examples which we provided to our SVM was $\{x_{t + 1}, [x_{t}, x_{t - 1}, ..., x_{t - w + 1}]\}$.
+Support vector machines were developed by Vapnik in 1993 \cite{Vapnik1998}.  SVM's use structural risk minimization to find an minimal upper bound on some expected risk.  Training support vector machines to be used for regression is not done in the same way as other time series models.  We first had to transform our dataset to a series of examples with a fixed length window.  For a fixed window of size $w$, training input data is of the form $\{x_{t}, x_{t - 1}, ..., x_{t - w + 1}\}$.  Target data is of the form $x_{t + 1}$.  Thus the training examples which we provided to our SVM was $\{x_{t + 1}, [x_{t}, x_{t - 1}, ..., x_{t - w + 1}]\}$.
 
-The general formulation for support vector regression is to minimize the following:
+The general formulation for support vector regression is to minimize the following \cite{Smola1998}:
 
-\begin{equation}
-	\begin{split}
-	\min \frac{1}{2}\|w\|^{2} + c \sum_{i = 1}^{n}(\epsilon_{i} + \epsilon^{*}_{i}) \\
-	\begin{cases}
-		y_{i} - f(x_{i}, w) \le \gamma + \epsilon^{*}_{i} \\
-		f(x_{i}, w) - y_{i} \le \gamma + \epsilon_{i} \\
-		\epsilon_{i}, \epsilon_{i}^{*} \ge 0, i = 1, \ldots, n
-	\end{cases}
-	\end{split}
-\end{equation}
+\begin{equation*}
+\begin{aligned}
+	& \underset{w}{\text{minimize}}
+		& & \frac{1}{2}\|w\|^{2} + c \sum_{i = 1}^{n}(\epsilon_{i} + \epsilon^{*}_{i}) \\
+	& \text{subject to}
+		& & \begin{cases}
+			y_{i} - f(x_{i}, w) \le \gamma + \epsilon^{*}_{i} \\
+			f(x_{i}, w) - y_{i} \le \gamma + \epsilon_{i} \\
+			\epsilon_{i}, \epsilon_{i}^{*} \ge 0, i = 1, \ldots, n
+			\end{cases}
+\end{aligned}
+\end{equation*}
 
-From this formulation the function $f()$ is the regression function, $w$ are the parameters of the regression function $f()$, $\gamma$ is loss function sensitivity and finally $\epsilon$ are the slack variables which measure the deviation of training samples.  
+This formulation  is analogous to common "soft margin" formulation of the SVM.   $\epsilon$ and $\epsilon^{*}$ are the slack variables which measure the deviation of training samples.  The function $f()$ is the regression function and $w$ are the parameters of the regression function $f()$.  $\gamma$ is loss function sensitivity and finally the constant $c > 0$ determines the trade-off between selection of the function $f$ and the amount the slack variables $\epsilon$ and $\epsilon^{*}$ are tolerated.  
 
 To perform SVR training we used the popular $libsvm$ package \cite{Hsu2003}.  Because parameter selection is a notoriously difficult problem for SVR, we followed the guidelines as outlined by Hsu, Chih-Chang and Lin, who are the creators of the libsvm package.  We first scaled the data by normalizing it between $[0, 1]$.  Then we searched for our best values of $C$, $\epsilon$ and $\gamma$ using the root mean squared error of the validation set factor to determine performance of those parameters. 
 

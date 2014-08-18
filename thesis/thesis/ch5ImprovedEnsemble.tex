@@ -1,5 +1,5 @@
 \chapter{Improved Ensemble}
-In the past chapter, we showed that a few changes can lead to some significant improvements in multi-step forecasting accuracy when ensemble Bayesian Combined Forecasting is applied to our traffic datasets.  This chapter describes more in depth some of the problems with BCF.  We look at some related work into potentially solving these problems through the identification and modeling of activities and finally introduce a new ensemble forecasting technique which solves these problems.  
+In the past chapter, we showed that a few changes can lead to some significant improvements in multi-step forecasting accuracy when ensemble Bayesian combined forecasting is applied to our traffic datasets.  This chapter initially investigates BCF further by exposing some potential problem scenarios.  We look at some related work into potentially solving these problems through the identification and modeling of activities and finally introduce a new ensemble forecasting technique which solves many of these problems.  
 
 \begin{figure}[!b]
 	\begin{center}
@@ -10,7 +10,7 @@ In the past chapter, we showed that a few changes can lead to some significant i
 			\includegraphics[width=0.49\textwidth]{sample_residual_event_6024.png}
 		}
 	\end{center}
-	\caption{Two similar events occurring at different time in the same residual dataset.}
+	\caption{Two similar events occurring at different time in the same Denver residual dataset.}
 	\label{fig:sample_residual_events}
 \end{figure}
 
@@ -50,7 +50,7 @@ The unlikely existence of these events along evidence that the remaining residua
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Overview ABCF
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bayesian Combined Forecasting with Activity and Anomaly Modeling (ABCF)}
+\subsection{Bayesian combined forecasting with activity and anomaly modeling (ABCF)}
 
 \begin{wrapfigure}{L}{0.3\textwidth}
 \centering
@@ -69,7 +69,7 @@ In section \ref{sec:abcf} we introduce a recursive ensemble forecaster which use
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Background literature
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Background Literature on Activity Recognition and Anomaly Detection}
+\subsection{Background literature on activity recognition and anomaly detection}
 To construct our approach we need to identify and model these anomalous events.  Considerable work has been done in the field of time series anomaly detection, however this work is typically limited to anomaly detection and classification.  Anomaly modeling as used for improved forecasting seems to have limited results in the forecasting literature.  We believe that this limited amount of anomaly modeling is often due to the nature of anomalies, either they are random and seemingly often times difficult to predict as is the case with stock market anomalies ~\cite{Kontonikas2013, Thushara2014} or they require some immediate attention and thus forecasting is an inappropriate response to the anomaly.  Such a situation arises frequently in network data monitoring.  Detection and classification of network anomalies help to determine potential network attacks \cite{Tartakovsky2013, Gogoi2011} and allow for preventive measures to take place, but forecasting network traffic during these anomalies is of little utility.  
    
 Our anomalies tend to be repetitive and multiple time steps in length.  Data of this form is very closely related to another field of time series data analysis - that of activity recognition.   Due broad nature of this term and the breadth of research on anomaly detection, we briefly discuss some of the ways in which time series anomaly detection and activity recognition has been utilized in the past as a way to familiarize the reader with a discussion of the literature.  This review is not meant to be a complete list of all works in these fields, but instead gives an overview of the types of work done in this field so that we may better contrast previous work with our approach.
@@ -278,7 +278,7 @@ This section visually demonstrates a few of the clusters extracted from our data
 \ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  Unlike in the extracted clusters of Merl and Brown, these clusters appear to have "sharp" transition.  This is likely due to the data being aggregated every 30 minutes instead of every 10 minutes like the other dataset.  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  Such a clustering is likely a scenario where modeling these clusters through a non-fixed technique may lead to better results.
 
 
-\subsection{ABCF Derived}
+\subsection{ABCF derived}
 \label{sec:abcf}
 Here we present the math behind our Anomaly Bayesian combined forecasting algorithm.  Similar to the Bayesian combined forecaster introduced in Chapter 4, our ABCF algorithm is recursive and computationally efficient.  
 

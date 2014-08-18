@@ -10,8 +10,8 @@ Because some of our forecasting models work better for scaled data, we first nor
 
 $x_{min}$ and $x_{max}$ represent the minimum and maximum values that x takes on within the time series.
 
-\subsection{Building Datasets}
-While there has been considerable work in estimating building occupancy values, due to difficulties with acquiring accurate ground truth occupancy values, such datasets are rare.  The problem in acquiring these occupancy values is that many buildings do not have sufficient infrastructure to accurately sense people throughout a building.  One approach used by researchers is to use simulated models of occupancy \cite{page2008, goldstein2010}.  These agent based models have the potential for significant accuracy, but tend not to scale well to large buildings where the large number of agents, rooms and interactions lead to non-trivial solutions.  Due to these problems, for our work, we prefer to estimate occupancy from sensor data rather than simulated data.
+\subsection{Building datasets}
+While there has been considerable work in estimating building occupancy values, due to difficulties with acquiring accurate ground truth occupancy values, such datasets are rare.  The problem in acquiring these occupancy values is that many buildings do not have sufficient infrastructure to accurately sense people throughout a building.  One approach used by researchers is to use simulated models of occupancy \cite{page2008, goldstein2010}.  These agent based models have the potential for significant accuracy, but tend not to scale well to large buildings where the large number of agents, rooms and interactions lead to non-trivial solutions.  Due to these problems with simulation approaches, we prefer to estimate occupancy from sensor data rather than simulated data.
 
 To estimate building occupancy from sensor data, numerous techniques have been developed.  A common system uses a combination of simple sensors and wireless motes.  Agarwal, et. al \cite{agarwal2010} created motes using a combination of IR sensors and reed switches placed on doors to determine the likelihood that a room is occupied.  The focus was not on estimating the number of occupants, but instead to determine if the room was occupied at all.  
 
@@ -31,7 +31,7 @@ Our building datasets come from two sources.  The first is a combined research a
 
 Due to the nature of IR sensors, we are only able to detect motion instead of actual occupancy; for example, a group of three people would occur as one reading in both systems.  Despite this drawback, real occupancy data would likely be similar to our data, but with higher variance and higher means.  As the range of occupancy estimates in our two datasets are quite different and we are able to achieve accurate estimates in both scenarios, we do not foresee problems when applying our forecasting techniques to more accurate estimated values.  We thus believe this data sufficient to test our occupancy estimation algorithms.
 
-\subsubsection{MERL Dataset} 
+\subsubsection{MERL dataset} 
 The Mitsubishi Electronic Research Labs dataset is derived from a collection of over 200 passive infrared sensors place densely throughout the 7th and 8th floor of a research office building.  This dataset has been used as the basis for multiple areas of research \cite{Wren2003, Wren2006, Wren2007a, Dong2011, Minnen2004, Wren2006a, Wren2007}.  However, none of this research to our knowledge focused on building occupancy forecasting.  The closest related work focused on tracking individuals within the building.
 
 \begin{figure}[!ht]
@@ -45,13 +45,13 @@ The Mitsubishi Electronic Research Labs dataset is derived from a collection of 
 			%\label{fig:merl_sensors}
 		}
 	\end{center}
-	\caption{Floor plan and sensor locations for the MERL office building dataset.  The red rectangle is the location of our sensor for this work.}
+	\caption{Floor plan and sensor locations for the MERL office building dataset.  The red rectangle in (a) and (b) is the location of our sensor for this work.}
 	\label{fig:merlfloor}
 \end{figure}
 
 The sensors are placed roughly two meters apart on the ceilings, creating a dense sensing area with little non-sensed space.  Readings are taken at the millisecond level, but due to the sensors' settling times the inter-detection time of motion is approximately 1.5 seconds.  A representation of this floor plan is given in~\ref{fig:merlfloor}.
 
-The data was collected from March 2006 through March 2008 and there are roughly 53 million sensor readings.  This building is similar to most office buildings with a number of personal offices along with labs and conference rooms.  Employees have roughly set schedules and holidays are observed as normal. 
+The data was collected from March 2006 through March 2008 and there are roughly 53 million sensor readings.  This building is similar to most office buildings with a number of personal offices along with labs and conference rooms.  Employees have roughly set schedules and holidays are observed as normal.  We chose a sensor near a commonly used conference room to give us a significant number of daily readings.  Many of the other sensors throughout the building had few readings as they covered areas with little traffic near employee office areas. 
 
 The counts of sensor activations have been aggregated every 10 minutes.  Because of the lack of significant motion at night, we look only at activations that occur between 6:00am and 7:00pm daily.  A plot of the average activations of all days for a single sensor along with a range of one standard deviation is given in \ref{fig:merl_scaled}(a).
 
@@ -72,16 +72,16 @@ The counts of sensor activations have been aggregated every 10 minutes.  Because
 
 Peak motion unsurprisingly occurs during the middle of the day corresponding to lunch time.  Peak standard deviation appears to occur near noon and 4pm.  The noon variation is unsurprising as people will commonly skip lunch for various reasons.  The 3pm variation is more surprising.  This seems earlier than expected for daily departure, but perhaps it is at the early window of when people will begin to depart for the day.  
 
-An image for the typical data values throughout a couple of days is given in \ref{fig:merl_scaled}(b).  Despite the mean appearing smooth in \ref{fig:merl_scaled}(a), we see how volatile sensor activation readings are though out the day.
+An image representing sample values throughout two days is given in \ref{fig:merl_scaled}(b).  Despite the mean appearing smooth in \ref{fig:merl_scaled}(a), we see how volatile sensor activation readings are though out the day.
 
 
-\subsubsection{Colorado School of Mines Dataset}
+\subsubsection{Colorado School of Mines dataset}
 
 \begin{figure}[t!]
 	\begin{center}
 		\includegraphics[width=0.75\textwidth]{brown_motes.png}
 	\end{center}
-	\caption{Sensor locations for the Colorado School of Mines Brown Building}
+	\caption{Sensor locations for the Colorado School of Mines Brown Building.  The red rectangle is the location of the sensor used for our analysis.}
 	\label{fig:csmbbfloor}
 \end{figure}
 
@@ -120,14 +120,14 @@ In contrast to building occupancy datasets used for forecasting, there exist num
 
 \begin{figure}[!b]
 	\begin{center}
-		\includegraphics[width=0.6\textwidth]{denver_sensors.png}
+		\includegraphics[width=1.0\textwidth]{denver_sensors.png}
 	\end{center}
-	\caption{City of Denver traffic sensors.}
+	\caption{City of Denver traffic sensors.  Data analyzed for this work is from the sensor in red.}
 	\label{fig:denvertraffic}
 \end{figure}
 
 \subsubsection{Denver traffic dataset}
-The Denver traffic dataset is collected from many in road inductive loop sensors which count the number of vehicles passing over sensor throughout the day.  Data is available from 2008 to 2013 on most days of the week.  The data is nearly 1 million readings for the sensors we extracted and approximately 33,000 readings for any one sensor.  For this work we use a freeway sensor near downtown Denver, closely located to Mile High Stadium; the home of the Denver Broncos.  The sensor is located on \ref{fig:denvertraffic} represented by a red rectangle.
+The Denver traffic dataset is collected from many doppler radar vehicle counters which count the number of vehicles passing through a small region of road throughout the day.  Data is available from 2008 to 2013 on most days of the week.  The data is nearly 1 million readings for the sensors we extracted and approximately 33,000 readings for any one sensor.  For this work we use a freeway sensor near downtown Denver, closely located to Mile High Stadium; the home of the Denver Broncos.  The sensor is located on \ref{fig:denvertraffic} represented by a red rectangle.
 
 \begin{figure}[t]
 	\begin{center}
@@ -147,11 +147,11 @@ Count data is aggregated per hour for each direction of traffic at every sensor 
 \begin{figure}[h]
 	\begin{center}
 		\subfigure[] {
-			\includegraphics[width=0.45\textwidth]{denver_aggregate.png}
+			\includegraphics[width=0.49\textwidth]{denver_aggregate.png}
 		}
 		%\label{fig:denver_scaled_aggregate}
 		\subfigure[] {
-			\includegraphics[width=0.45\textwidth]{denver_oneDay.png}
+			\includegraphics[width=0.49\textwidth]{denver_oneDay.png}
 		}
 		%\label{fig:denver_scaled_raw}
 	\end{center}
@@ -159,7 +159,7 @@ Count data is aggregated per hour for each direction of traffic at every sensor 
 	\label{fig:denver_scaled}
 \end{figure}
 
-The scaled dataset that we use for this work is shown in figure \ref{fig:denver_scaled}(a).  This is an average of all Monday through Thursdays for the sensor indicated earlier.  Also, unlike in the other datasets, we do not cut the data down to specific times of day.  This is done, both because there is more traffic during the early morning and late night on this dataset compared to the others and because the data is aggregated only every Hour, and we do not want to remove more readings from the dataset.  Finally figure \ref{fig:denver_scaled}(b) shows an example of two days of scaled data.  Due to the 60 minute readings instead of 10 minute readings, the data appears much smoother.  
+The scaled dataset used for this work is shown in \ref{fig:denver_scaled}(a).  This is an average of all Monday through Thursdays for the sensor indicated earlier.  Also, unlike in the other datasets, we do not cut the data down to specific times of day.  This is done, both because there is more traffic during the early morning and late night on this dataset compared to the others and because the data is aggregated only every hour, and we do not want to remove more readings from the dataset.  Finally \ref{fig:denver_scaled}(b) shows an example of two days of scaled data.  Due to the 60 minute readings instead of 10 minute readings, the data appears much smoother.  
 
 
 \subsection{Additional notes on the datasets} 
@@ -170,7 +170,7 @@ These three datasets are distinct in many ways.  They differ significantly in to
 
 \noindent
 \textbf{One sensor vs Multiple sensors - why we use a univariate dataset} \\
-For this work, we use only one sensor to perform our forecasts.  While intuition may imply that a multivariate approach to forecasting out perform a univariate approach this was show to not be the case by Kamarianakis and Prastacos \ref{kamarianakis2003}.  They studied the problem of forecasting vehicular traffic flow and found similar results using both multivariate and univariate approaches.
+For this work, we use only one sensor to perform our forecasts.  While intuition may imply that a multivariate yields greater forecasting accuracy when compared to a univariate approach; Kamarianakis and Prastacos \cite{Kamarianakis2003} demonstrated this is not necessarily true.  They studied the problem of forecasting vehicular traffic flow and found similar results using both multivariate and univariate approaches.
 
 We believe the same results hold when it comes to building datasets instead of vehicle datasets.  This is primarily motivated by the geographic size of our data and the time of reading aggregation.  For our building datasets, the data is accumulated in 10 minute intervals.  That resolution of detail was empirically selected because it smooths the data sufficiently to allow for accurate forecasting while still being short enough to provide meaningful forecasts.  10 minutes is however, longer than it takes an individual to walk from one end of our buildings to the other.  Therefore at a scale of 10 minutes, knowledge of occupancy in one sensor does not seem to imply occupancy in another sensor.  This same scaling problem exists for the Denver dataset as well.  Unless traffic is exceptionally bad, the travel time across all of Denver is less than one hour.\\
 

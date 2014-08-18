@@ -15,7 +15,7 @@ As with the building scenario, what happens when the traffic deviates from norma
 In both of the above environments, the control systems have to account for future occupancy of the environment.  It is inadequate for these systems to use only current data to control the system.  Accurate forecasts of the systems usage are necessary to produce optimal control systems.  
 
 %Problem Statement
-\subsection{Problem and Objective}
+\subsection{Problem and objective}
 As alluded to with the above examples, our focus is on improving forecasting accuracy on human controlled traffic systems.  By “traffic”, we mean the movement of vehicles along a road network, the movement of people in a building, or similar data derived from the actions of a group of people.  Overall, our method is more general than just traffic systems and we believe it will work with any dataset which has rare repeated events that lead to similar effects in the system.  For the rest of this paper, we define a time series dataset as $\{x_{t}^{(m)}\}$.  Each $x_{t}^{m}$ is an aggregate of the readings from sensor $m$ reading at time block $t$.  Our objective in this work is then:
 
 \begin{enumerate}
@@ -79,5 +79,5 @@ The contributions to the field of unsupervised traffic forecasting from this wor
 \item{A combined prediction model using an ensemble forecaster and activity models to improve short term forecasts during the presence of anomalous activities}
 \end{itemize}
 
-\subsection{Structure of the Thesis}
+\subsection{Structure of the thesis}
 The remainder of this thesis is outlined as follows: Chapter 2 defines typical forecasting models which are to be used for comparison and as base native forecasters for our final ensemble forecaster.  This chapter also introduces some notation used through this document.  Chapter 3 discusses the datasets used therein along with specifics details on any necessary changes to make the datasets compatible with our forecasters.  Chapter 4 discusses a classic ensemble forecaster which we apply to our datasets along with introducing some improvements on this forecaster which greatly improve its long term forecasting performance.  Finally Chapter 5 discusses our novel approach using activity modeling to improve the short term accuracy of any of our base forecaster for our datasets.  This section also includes a brief discussion of previous work in the realm of anomaly detection.

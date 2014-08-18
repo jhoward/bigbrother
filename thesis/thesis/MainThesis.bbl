@@ -1,4 +1,4 @@
-\begin{thebibliography}{83}
+\begin{thebibliography}{85}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -145,10 +145,9 @@ George Box, Gwilym Jenkings, and Gregory Reinsel.
 \newblock John Wiley \& Sons, Inc., 4th edition, 2008.
 \newblock ISBN 978 0 470 27284 8.
 
-\bibitem[Ljung and Box(1978)]{Ljung1978}
-G.~M. Ljung and G.~E.~P. Box.
-\newblock {On a Measure of a Lack of Fit in Time Series Models}.
-\newblock \emph{Biometrika}, 65\penalty0 (2):\penalty0 297--303, 1978.
+\bibitem[Nau(2014)]{Nau2014}
+Robert Nau.
+\newblock {Seasonal Arima Models}, 2014.
 
 \bibitem[Kwiatkowski et~al.(1992)Kwiatkowski, Phillips, Schmidt, and
   Shin]{Kwiatkowski1992}
@@ -159,6 +158,11 @@ Denis Kwiatkowski, P.C.B. Phillips, P.~Schmidt, and Y.~Shin.
   1992.
 \newblock URL
   \url{http://www.sciencedirect.com/science/article/pii/030440769290104Y}.
+
+\bibitem[Ljung and Box(1978)]{Ljung1978}
+G.~M. Ljung and G.~E.~P. Box.
+\newblock {On a Measure of a Lack of Fit in Time Series Models}.
+\newblock \emph{Biometrika}, 65\penalty0 (2):\penalty0 297--303, 1978.
 
 \bibitem[Akaike(1974)]{Akaike1974}
 Hirotsugu Akaike.
@@ -172,6 +176,13 @@ Brian~L. Smith and Michael~J. Demetsky.
 \newblock \emph{Journal of Transportation Engineering}, 123(4)\penalty0
   (August):\penalty0 261--266, 1997.
 \newblock URL \url{http://link.aip.org/link/?JTPEDI/123/261/1}.
+
+\bibitem[Hansen and Nelson(2003)]{Hansen2003}
+J.V. Hansen and R.D. Nelson.
+\newblock {Forecasting and recombining time-series compents by using neural
+  networks}.
+\newblock \emph{Joural of the Operational Research Society}, 54:\penalty0
+  307--317, 2003.
 
 \bibitem[Abdulhai et~al.(1999)Abdulhai, Porwal, and Recker]{Abdulhai1999}
 B~Abdulhai, H~Porwal, and W~Recker.
@@ -188,13 +199,6 @@ Sherif Ishak, Prashanth Kotha, and Ciprian Alecsandru.
 \newblock \emph{Transportation Research Record: Journal of the Transportation
   Research Board}, 1836\penalty0 (1):\penalty0 45--56, 2003.
 \newblock URL \url{http://trb.metapress.com/index/901451745921351g.pdf}.
-
-\bibitem[Hansen and Nelson(2003)]{Hansen2003}
-J.V. Hansen and R.D. Nelson.
-\newblock {Forecasting and recombining time-series compents by using neural
-  networks}.
-\newblock \emph{Joural of the Operational Research Society}, 54:\penalty0
-  307--317, 2003.
 
 \bibitem[Wu et~al.(2004)Wu, Ho, and Lee]{Wu2004}
 C.-H. Wu, J.-M. Ho, and D.T. Lee.
@@ -226,6 +230,11 @@ Dali Wei and Hongchao Liu.
 Vladimir Vapnik.
 \newblock \emph{{Statistical Learning Theory}}.
 \newblock Wiley Interscience, 1 edition, 1998.
+
+\bibitem[Smola and Scholkopf(1998)]{Smola1998}
+A.~Smola and B.~Scholkopf.
+\newblock {A tutorial on support vector regression}.
+\newblock In \emph{NeuroColt2-TR}, 1998.
 
 \bibitem[Hsu et~al.(2003)Hsu, Chang, and Lin]{Hsu2003}
 CW~Hsu, CC~Chang, and CJ~Lin.
