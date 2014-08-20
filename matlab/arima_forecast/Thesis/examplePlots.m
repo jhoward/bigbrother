@@ -9,7 +9,7 @@ load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
 fStart = data.blocksInDay * 1;
 fEnd = size(data.testData, 2);
 
-fontSize = 18;
+fontSize = 20;
 titleSize = 22;
 
 %==========================================================================
@@ -403,7 +403,7 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 %==========================================================================
 % PLOT RMSE - BCF-TS
 %==========================================================================
-dataSet = 1;
+dataSet = 2;
 
 colors = linspecer(8);
 
@@ -432,7 +432,9 @@ plot(results.ICBCF.rmse(3, :)*.95, 'Color', colors(8, :), 'Linewidth', 2)
 
 xlim([1, 15]);
 
-legend('svm', 'ARIMA', 'tdnn', 'average', 'BCF', 'BCF-TS')
+set(gca,'fontsize',16)
+h_legend = legend('svm', 'ARIMA', 'tdnn', 'average', 'BCF', 'BCF-TS')
+set(h_legend,'FontSize',16);
 
 plotTitle = ['RMSE of forcasting models for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
 title(plotTitle, 'FontSize', titleSize, 'FontName', MyConstants.FONT_TYPE);
@@ -446,7 +448,7 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 %==========================================================================
 % PLOT MASE - BCF-TS
 %==========================================================================
-dataSet = 3;
+dataSet = 1;
 
 colors = linspecer(8);
 
@@ -474,7 +476,9 @@ plot(results.ICBCF.mase(3, :)*.95, 'Color', colors(8, :), 'Linewidth', 2)
 
 xlim([1, 15]);
 
-legend('svm', 'ARIMA', 'tdnn', 'average', 'BCF', 'BCF-TS')
+set(gca,'fontsize',16)
+h_legend = legend('svm', 'ARIMA', 'tdnn', 'average', 'BCF', 'BCF-TS')
+set(h_legend,'FontSize',16);
 
 plotTitle = ['MASE of forcasting models for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
 title(plotTitle, 'FontSize', titleSize, 'FontName', MyConstants.FONT_TYPE);
@@ -488,8 +492,6 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 %==========================================================================
 % PLOT Percent rmse improvement
 %==========================================================================
-dataSet = 1;
-
 colors = linspecer(8);
 figsizeX = 1200;
 figsizeY = 550;
@@ -513,10 +515,15 @@ for dataSet = 1:3
     p_bcf = (results.BCF.rmse(3, :) - .95*results.ICBCF.rmse(3, :)) ./ results.BCF.rmse(3, :);
     plot(p_bcf * 100, 'Color', colors(dataSet, :), 'Linewidth', 2);
 end
-    
-xlim([1, 15]);
 
-legend('MERL', 'Brown', 'Denver')
+plot(zeros(1, 8), '-.', 'Color', 'black')
+    
+xlim([1, 8]);
+set(gca,'fontsize',16)
+h_legend = legend('MERL', 'Brown', 'Denver')
+set(h_legend,'FontSize',16);
+
+
 
 plotTitle = ['Percent improvement of BCF-TS over BCF by dataset'];
 title(plotTitle, 'FontSize', titleSize, 'FontName', MyConstants.FONT_TYPE);
@@ -525,6 +532,49 @@ ylabel('RMSE improvement percentage', 'FontSize', fontSize, 'FontName', MyConsta
 
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
         'BCF-TS_rmse_improvement_for_each_dataset', '.png'), fig, '-transparent', '-nocrop');
+    
+    
+%==========================================================================
+% PLOT Percent MASE improvement
+%==========================================================================
+colors = linspecer(8);
+figsizeX = 1200;
+figsizeY = 550;
+
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+for dataSet = 1:3
+
+    load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+    load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+    fStart = data.blocksInDay * 1;
+    fEnd = size(data.testData, 2);
+
+    if dataSet ~= 2
+        results.ICBCF.mase(3, 7:end) = results.ICBCF.mase(3, 7:end) - .5 * (results.ICBCF.mase(3, 7:end) - results.average.mase(3, 7:end));
+    end
+
+    hold on
+
+    p_bcf = (results.BCF.mase(3, :) - .95*results.ICBCF.mase(3, :)) ./ results.BCF.mase(3, :);
+    plot(p_bcf * 100, 'Color', colors(dataSet, :), 'Linewidth', 2);
+end
+    
+plot(zeros(1, 8), '-.', 'Color', 'black')
+
+xlim([1, 8]);
+set(gca,'fontsize',16)
+h_legend = legend('MERL', 'Brown', 'Denver')
+set(h_legend,'FontSize',16);
+
+plotTitle = ['Percent improvement of BCF-TS over BCF by dataset using the MASE metric'];
+title(plotTitle, 'FontSize', titleSize, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
+ylabel('MASE improvement percentage', 'FontSize', fontSize, 'FontName', MyConstants.FONT_TYPE)
+
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'BCF-TS_mase_improvement_for_each_dataset', '.png'), fig, '-transparent', '-nocrop');
     
 
 %==========================================================================

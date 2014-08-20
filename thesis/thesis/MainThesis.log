@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  17 AUG 2014 22:34
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  19 AUG 2014 22:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -541,7 +541,11 @@ Package: subfig 2005/06/28 ver: 1.3 subfig package
 LaTeX Warning: Label `eq:sarima' multiply defined.
 
 ) (./ch3Datasets.aux) (./ch4Ensemble.aux) (./ch5ImprovedEnsemble.aux)
-(./ch6Conclusion.aux) (./thesis_appendix.aux)
+(./ch6Conclusion.aux) (./thesis_appendix.aux
+
+LaTeX Warning: Label `fig:rmseplotbrown' multiply defined.
+
+)
 \csm@redefined@appendix@saved=\count190
 \csm@appendicies=\count191
 )
@@ -563,8 +567,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
- (./MainThesis.lot)
-(./MainThesis.lof)
+ (./MainThesis.lot) (./MainThesis.lof)
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -832,10 +835,10 @@ File: ./images/svm_standard_deviations_vs_horizon.png Graphic file (type QTm)
  <use  "./images/svm_standard_deviations_vs_horizon.png" > [38] [39]
 [40]
 File: ./images/real_forecasts_bcf.png Graphic file (type QTm)
- <use  "./images/real_forecasts_bcf.png" >
+ <use  "./images/real_forecasts_bcf.png" > [41]
 File: ./images/real_forecasts_bcf_svm.png Graphic file (type QTm)
 
-<use  "./images/real_forecasts_bcf_svm.png" > [41]
+<use  "./images/real_forecasts_bcf_svm.png" >
 File: ./images/rmse_for_bcf-ts_for_Merl.png Graphic file (type QTm)
 
 <use  "./images/rmse_for_bcf-ts_for_Merl.png" >
@@ -845,19 +848,28 @@ File: ./images/rmse_for_bcf-ts_for_Denver.png Graphic file (type QTm)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-File: ./images/mase_for_bcf-ts_for_Brown.png Graphic file (type QTm)
-<use  "./images/mase_for_bcf-ts_for_Brown.png" >
+File: ./images/rmse_for_bcf-ts_for_Brown.png Graphic file (type QTm)
+<use  "./images/rmse_for_bcf-ts_for_Brown.png" >
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [42]
+
+LaTeX Warning: Reference `fig:maseplotbrown' on page 43 undefined on input line
+ 154.
+
 File: ./images/BCF-TS_rmse_improvement_for_each_dataset.png Graphic file (type 
 QTm)
- <use  "./images/BCF-TS_rmse_improvement_for_each_dataset.png" >
+<use  "./images/BCF-TS_rmse_improvement_for_each_dataset.png" >
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[43]) [44] [45]
+[43]
+
+LaTeX Warning: Reference `fig:maseplotbrown' on page 44 undefined on input line
+ 170.
+
+) [44] [45]
 \openout2 = `ch5ImprovedEnsemble.aux'.
 
  (./ch5ImprovedEnsemble.tex
@@ -1059,15 +1071,19 @@ rg / portal / web / csdl / doi /
 \openout2 = `thesis_appendix.aux'.
 
  (./thesis_appendix.tex
-File: ./images/rmse_for_bcf-ts_for_Brown.png Graphic file (type QTm)
+File: ./images/mase_for_bcf-ts_for_Brown.png Graphic file (type QTm)
 
-<use  "./images/rmse_for_bcf-ts_for_Brown.png" >
+<use  "./images/mase_for_bcf-ts_for_Brown.png" >
 File: ./images/mase_for_bcf-ts_for_Merl.png Graphic file (type QTm)
 
 <use  "./images/mase_for_bcf-ts_for_Merl.png" >
 File: ./images/mase_for_bcf-ts_for_Denver.png Graphic file (type QTm)
 
 <use  "./images/mase_for_bcf-ts_for_Denver.png" >
+File: ./images/BCF-TS_mase_improvement_for_each_dataset.png Graphic file (type 
+QTm)
+
+<use  "./images/BCF-TS_mase_improvement_for_each_dataset.png" >
 File: ./images/sqe_merl_avg.png Graphic file (type QTm)
 
 <use  "./images/sqe_merl_avg.png" >
@@ -1181,14 +1197,14 @@ File: ./images/rmse_improvement_for_each_forecaster_for_Brown.png Graphic file
 (type QTm)
 
 <use  "./images/rmse_improvement_for_each_forecaster_for_Brown.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 238--241
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 246--249
  [][][] 
  []
 
 File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
  (type QTm)
 <use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [85]
-[86] [87] [88] [89] [90]) [91
+[86] [87] [88] [89] [90] [91]) [92
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
@@ -1203,17 +1219,20 @@ Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 142.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 142.
 
 
+LaTeX Warning: There were undefined references.
+
+
 LaTeX Warning: There were multiply-defined labels.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12630 strings out of 494004
- 192031 string characters out of 3150890
- 327401 words of memory out of 3000000
- 15580 multiletter control sequences out of 15000+200000
+ 12639 strings out of 494004
+ 192264 string characters out of 3150890
+ 329486 words of memory out of 3000000
+ 15588 multiletter control sequences out of 15000+200000
  10130 words of font info for 37 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 151i,15n,642p,1252b,622s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 148i,15n,643p,1252b,622s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (106 pages).
+Output written on MainThesis.pdf (107 pages).

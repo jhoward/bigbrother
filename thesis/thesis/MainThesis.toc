@@ -46,4 +46,4 @@
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{74}{section*.61}
 \contentsline {section}{\texorpdfupper {References Cited}}{75}{section*.62}
 \contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{84}{section*.63}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{91}{section*.77}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{92}{section*.78}

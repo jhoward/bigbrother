@@ -82,7 +82,7 @@ The forecasting error distribution for models at $1$ time step into the future i
 \label{fig:svmstd}
 \end{figure*}
 
-Despite other implementations of BCF using fixed error distributions, our data has clear daily trends.  For some of our models, the forecasted residuals follow these same trends.  See \ref{fig:svmstd} for an example of how the forecasting error distribution for a trained support vector regression model on the MERL dataset depends on the time and on the forecasting horizon.
+The standard implementation of BCF assumes a single fixed error distribution for each component model.  An inspection of the residuals of each model demonstrates some clear daily and weekly trends.  See \ref{fig:svmstd} for an example of how the forecasting error distribution for a trained support vector regression model on the MERL dataset depends on the time and on the forecasting horizon.  From this figure, it is clear that we get peaks of forecasting error that occurs at roughly time index 12 (~8:00 am) and another at about time index 35 (~11:50 am) and finally one at about time index 60 (~4:00 pm).  These residual peaks persist at horizons of 1 and 5, but significantly drop off by horizon 10.  For a short data horizon, it is clear that the residual error distribution is not fixed.
 
 To represent a more realistic error distribution instead of a fixed white noise Gaussian that is commonly used in the literature, we fit a Gaussian for each slice of a day.  For example, the data from the MERL dataset was used from 6:00am to 7:00pm. The thirteen hours of data used per day represent 78 time slices.  These Gaussians are computed from a validation set representing 20\% of our data.  It is from this set of model error distributions that we compute BCF.
 
@@ -123,7 +123,7 @@ It is common for one model's normalized posterior probability to be near one whe
 \label{fig:realbcfsvm}
 \end{figure}
 
-\ref{fig:rmseplotdenver}, \ref{fig:rmseplotmerl} and \ref{fig:maseplotbrown} show the results of the RMSE and MASE results of forecasts across a forecast horizon up to 15 time steps into the future for each model.  These plots show that BCF-TS generally has the lowest error for forecasts more than a couple of time steps into the future.  However, the average model shows itself to be a strong indicator of future activity for forecasts beyond 6 to 8 time steps into the future.
+\ref{fig:rmseplotdenver}, \ref{fig:rmseplotmerl} and \ref{fig:rmseplotbrown} show the results of the RMSE and MASE results of forecasts across a forecast horizon up to 15 time steps into the future for each model.  These plots show that BCF-TS generally has the lowest error for forecasts more than a couple of time steps into the future.  However, the average model shows itself to be a strong indicator of future activity for forecasts beyond 6 to 8 time steps into the future.
 
 \begin{figure}[!ht]
 	\begin{center}
@@ -143,17 +143,15 @@ It is common for one model's normalized posterior probability to be near one whe
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=1.0\linewidth]{mase_for_bcf-ts_for_Brown.png}
+		\includegraphics[width=1.0\linewidth]{rmse_for_bcf-ts_for_Brown.png}
 	\end{center}
-	\caption{Brown dataset: MASE of forecasting for each model vs forecasting horizon.}
-	\label{fig:maseplotbrown}
+	\caption{Brown dataset: RMSE of forecasting for each model vs forecasting horizon.}
+	\label{fig:rmseplotbrown}
 \end{figure}
 
-In the CSM Brown building dataset the Seasonal ARIMA model was a good forecaster of future activity while in the MERL set it performed significantly worse than even the average model on all nearly all forecasting horizons.  This is likely due to a stronger seasonal component to the Brown building dataset due class schedules.  Instead, on the MERL dataset there is little seasonal correlation and thus natural variance from a prior season may incorrectly affect current forecasts.  This result is similar to that of other papers that use seasonal ARIMA models \cite{Newsham2010}; where in the case of strong seasonal data, results are better for short horizon forecasts, but longer forecasts favor historic averages.
+In the CSM Brown building dataset the Seasonal ARIMA model was a good forecaster of future activity while in the MERL set it performed significantly worse than even the average model on all nearly all forecasting horizons.  This is likely due to a stronger seasonal component to the Brown building dataset due class schedules.  Instead, on the MERL dataset there is little seasonal correlation and thus natural variance from a prior season may incorrectly affect current forecasts.  This result is similar to that of other papers that use seasonal ARIMA models \cite{Newsham2010}; where in the case of strong seasonal data, results are better for short horizon forecasts, but longer forecasts favor historic averages.  Scenarios such as the one demonstrated here where one forecaster is better suited for a short forecasting horizon and another forecaster is for long forecasting horizon are excellent provide excellent candidates for Bayesian combined forecasting.
 
-In each of our data sets, BCF and BCF-TS generally outperformed the component models given all time steps.  In some cases for certain time steps, a component model may be more accurate, but generally our ensemble forecasters were more accurate.  \ref{fig:bcftsrmseimprovement} shows the percent improvement of BCF-TS over BCF on each of the datasets.  In general our modifications to BCF allow BCF-TS to perform better in almost every forecasting horizon.  
-
-Since our changes to BCF-TS deal with multi-step forecasts, it is not surprising that most of our improvement over BCF occurs multiple time steps into the future and generally gets better as our forecasting horizon is extended farther into the future.  The improvement can be easily seen in \ref{fig:rmseplotdenver} as BCF-TS trends to the best model (historic average) when all other models begin to forecast poorly.
+In the Brown hall dataset \ref{fig:maseplotbrown} BCF and BCF-TS produce very similar results, with BCF-TS only demonstrating modest improvement in most time steps.  This is likely due to forecasts by both SVM and ARIMA component models remaining generally in agreement for throughout our forecasting horizon.  Due to this agreement BCF is able to remain an accurate forecaster and is not subject to the typical underflow problems discussed earlier.  Despite this strong forecasting from BCF, our changes still allowed BCF-TS to outperform BCF in most cases.
 
 \begin{figure}[!h]
 	\begin{center}
@@ -163,7 +161,12 @@ Since our changes to BCF-TS deal with multi-step forecasts, it is not surprising
 	\label{fig:bcftsrmseimprovement}
 \end{figure}
 
-In the Brown hall dataset \ref{fig:maseplotbrown} BCF and BCF-TS produce very similar results, with BCF-TS only demonstrating modest improvement in most time steps.  This is likely due to forecasts by both SVM and ARIMA component models remaining generally in agreement for throughout our forecasting horizon.  Due to this agreement BCF is able to remain an accurate forecaster and is not subject to the typical underflow problems discussed earlier.  Despite this strong forecasting from BCF, our changes still allowed BCF-TS to outperform BCF in most cases.
+In each of our data sets, BCF and BCF-TS generally outperformed the component models given all time steps.  In some cases for certain time steps, a component model may be more accurate, but generally our ensemble forecasters were more accurate.  \ref{fig:bcftsrmseimprovement} shows the percent improvement of BCF-TS over BCF on each of the datasets.  In general, our modifications to BCF allow BCF-TS to perform better in almost every forecasting horizon.  
 
-Plots for the results of RMSE values on the Brown building dataset along with MASE values for both Denver and MERL datasets are included in the appendix (\ref{fig:rmseplotbrown}, \ref{fig:maseplotdenver}, and \ref{fig:maseplotmerl}).
+Since our changes to BCF-TS deal with multi-step forecasts, it is not surprising that most of our improvement over BCF occurs multiple time steps into the future and generally remains multiple time steps into the horizon.  We especially focus on forecasting horizons 3 to 6 which are generally 5 to 10\% for both Brown and MERL datasets with the Denver dataset much higher.   Improvement can be easily seen in \ref{fig:rmseplotdenver} as BCF-TS trends to the best model (historic average) when all other models begin to forecast poorly.
+
+We feel BCF-TS demonstrates empirically a general improvement over BCF.  In our dataset it almost always improves the forecasting accuracy with no additional expert knowledge required for training.
+
+Plots for the results of MASE values for all datasets along with a percent improvement plot for MASE values similar to \ref{fig:bcftsrmseimprovement} are included in the appendix (\ref{fig:maseplotbrown}, \ref{fig:maseplotdenver}, \ref{fig:maseplotmerl} and, \ref{fig:bcftsmaseimprovement}).
+
 
