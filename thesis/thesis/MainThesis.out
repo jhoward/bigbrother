@@ -33,7 +33,7 @@
 \BOOKMARK [3][-]{subsubsection.4.3.2}{Improving\040model\040error\040distributions}{subsection.4.3}% 33
 \BOOKMARK [3][-]{subsubsection.4.3.3}{Model\040selection\040thresholding}{subsection.4.3}% 34
 \BOOKMARK [2][-]{subsection.4.4}{Results\040of\040BCF\040and\040BCF-TS}{section*.28}% 35
-\BOOKMARK [1][-]{section*.37}{Improved\040Ensemble}{}% 36
+\BOOKMARK [1][-]{section*.37}{ACTIVITY\040RECOGNITION\040ENSEMBLE\040FORECASTING}{}% 36
 \BOOKMARK [2][-]{subsection.5.1}{The\040need\040for\040another\040ensemble\040forecaster}{section*.37}% 37
 \BOOKMARK [2][-]{subsection.5.2}{Bayesian\040combined\040forecasting\040with\040activity\040and\040anomaly\040modeling\040\(ABCF\)}{section*.37}% 38
 \BOOKMARK [2][-]{subsection.5.3}{Background\040literature\040on\040activity\040recognition\040and\040anomaly\040detection}{section*.37}% 39
