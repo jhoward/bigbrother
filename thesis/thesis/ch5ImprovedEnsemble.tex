@@ -104,14 +104,13 @@ To account for activities of varying time lengths, probabilistic suffix trees \c
 
 \bigskip
 \noindent \textbf{Group Activity Modeling and Recognition} \\
-There are a limited number of publications that exist on group activity modeling recognition using a large number of sensors.  Within this problem domain the challenges to solve are different due to the type of data collected and due to group activities typically occurring over multiple sensors.  The data from the sensors is normally binary which leads to ambiguity determining true counts and direction of motion for cars or people.  Despite this ambiguity it is relatively easy to automatically construct the topology of the sensors \cite{Wren2003, Wren2006a}.  Empirically it seems as though this topology roughly correlates to the spatial distribution of the sensors.  We will use this spatial information later to better model events which occur over multiple sensors.
+There are a limited number of publications that exist on group activity modeling recognition using a large number of sensors.  Within this problem domain the challenges to solve are different due to the type of data collected and due to group activities typically occurring over multiple sensors.  The work within this domain that is most similar to our work is from Mitsubishi Electronic Research Laboratories (the creators of the MERL dataset) \cite{Wren2003, Wren2006a}.  The goal of such group activity work is to utilize a set of sensors to describe activities or events which effect many individuals within the environment.  As expected, these group event models are typically used to describe larger or longer movements within the environment.  For example, such modeled events may be holiday movement vs workday movement or general flow through out a building based on sensor topology \cite{Wren2006, Hoff2009}.  
 	
-HMMs have been used as a model for learned activities.  These models are used to build a tree \cite{Minnen2004, Wren2006a} with each level described by a model with a different number of hidden nodes meaning that model accuracy is roughly correlated to tree depth.  At the top of the tree are simple models used to describe gross activities.  The leaves of the tree are highly complex models describing specific activities.  This tree structure has the advantage of being computationally efficient while maintaining accuracy on par with other techniques based on clustering of HMMs \cite{Clarkson1999}.  
+HMMs have been used as a model for learned activities.  These models are used to build a tree \cite{Minnen2004, Wren2006a} with each level described by a model with a different number of hidden nodes, meaning that model accuracy is roughly correlated to tree depth.  At the top of the tree are simple models used to describe gross activities.  The leaves of the tree are highly complex models describing specific activities.  This tree structure has the advantage of being computationally efficient while maintaining accuracy on par with other techniques based on clustering of HMMs \cite{Clarkson1999}.  
 	
 In a method similar to the HMM tree, work has been done to create a hierarchy of fixed filters based on possible sensor topologies \cite{Wren2006}.  At each level of the hierarchy, the number of sensors and the amount of time history increases.  The probability of occurrence of each fixed arrangement is then computed when all levels are created, the resulting model represents the total classifier.  The usage of fixed sensor topologies is highly environment dependent and the fixed time lengths with each level of the hierarchy are likely too restraining for the types of activities we expect to observe.  
 
-From the results of all activity recognition papers, it appears that approaches which show the most promise tend to use a model which allows comparison of inputs with various time lengths.  Also, hierarchical techniques tend to perform better than multiple models of equal complexity.  In defense of these general observations is the work of Huynh \cite{Huynh2005} who found that empirically for his problem, there is not a single feature or time window of past history that will perform best for all activities.  Instead each activity is best modeled by a set of features and length of time unique to that activity.  Huynh postulates that his finding is true of most activity recognition problems and concludes that his finding demonstrates a fundamental flaw present in many of the activity recognition techniques to be described as the typical approach is to search for an optimal set of activity models for a fixed feature space and window of time.
-
+From the results of all activity recognition papers, it appears that approaches which show the most promise tend to use a model which allows comparison of inputs with various time lengths.  Also, hierarchical techniques tend to perform better than multiple models of equal complexity.  In defense of these general observations is the work of Huynh \cite{Huynh2005} who found that empirically for his problem, there is not a single feature or time window of past history that will perform best for all activities.  Instead each activity is best modeled by a set of features and length of time unique to that activity.  Huynh postulates that his finding is true of most activity recognition problems.  Our approach, which will be described in detail in the next section is to represent activities as a mixture of Gaussians.  While for this work we use fixed length activities, our ensemble forecaster (described in Section 5.7) is derived to work with activities each which may have any length independent of the other modeled activities.  Modeling mixed length activities is recommended for future work.
 
 \subsection{Anomaly extraction and representation}
 As we showed earlier in this section with ~\ref{fig:denver_bcf_residual}, the tails of the best fit Gaussian for the BCF residual random variable tend to have larger than expected likelihoods.  These unlikely residuals do not appear to be completely random.  From a review of the literature, we know that there are numerous methods to extract and model this data.  For our work, we propose a simple extraction technique and then model the data according to a time-series mixture of Gaussians.  This method allows us to impart a probabilistic behavior to our anomaly models.  Such behavior is essential to our eventual forecasting technique.
@@ -172,7 +171,7 @@ Given a time series of residual data, we extract the top $k\%$ of the maximum re
 \end{algorithm}
 
 
-Algorithm \ref{alg:dataextract} precisely describes our approach.  The input parameter $k$ is chosen empirically for each dataset and underlying forecasting model.  The effects of this parameter $k$ are discussed later.  A sample of the top 10\% extracted residuals for the Merl dataset is displayed in \ref{fig:extracted_residuals}
+Algorithm \ref{alg:dataextract} precisely describes our approach.  The input parameter $k$ is chosen empirically for each dataset and underlying forecasting model.  The effects of this parameter $k$ are discussed later.  A sample of the top 10\% extracted residuals for the MERL dataset is displayed in \ref{fig:extracted_residuals}.
 
 On additional possible technique for data extraction is sparse dictionary coding.  This technique finds a set of primitives (in this case small representations of the time series residual data) which can be used to best approximate the original dataset.  We believe it likely that primitives with the largest residual values would most likely correspond to the anomalies we would like to find.  This technique has been extensively to find primitives activations on time series EMG data \cite{Kim2010} and for image reconstructions \cite{Mairal2009}.  
 
@@ -182,80 +181,91 @@ For this work however, we believe that our constant length anomaly extraction is
 	\begin{center}
 		\includegraphics[width=0.90\textwidth]{arima_abcf_extracted_residuals_Merl.png}
 	\end{center}
-	\caption{Extracted residuals from the Merl dataset using the sliding window extraction method with window length of 7}
+	\caption{Extracted residuals from the MERL dataset using the sliding window extraction method with window length of 7}
 	\label{fig:extracted_residuals}
 \end{figure}
 
 
-\subsection{TSMG derivation}
-A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  Traditionally, a mixture of Gaussians is for data vectors with no time element, but some research has been done on using a mixture of Gaussians for time series data clustering.  In one paper \cite{Eirola2013} the authors create a design matrix to construct a delayed embedding of the original time series.  From this embedding, they use the output to compute a set of inputs on which to compute a mixture of Gaussians to approximately reconstruct the time series.  In another paper \cite{Kalliovirta2012} Gaussian mixture models are used to mix the weights of an autoregressive model in an attempt to reconstruct the original time series.
+\subsection{Time series mixture of Gaussians derivation}
+A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  A mixture of Gaussians models a set of data by positing that each data point ($x_{i}$) is generated from one of $K$ Gaussians.  Borrowing partially the notation of Andrew Ng \cite{Ng2008}, a mixture of Gaussians is described mathematically by specifying a joint distribution $p(x_{i}, z_{i}) = p(x_{i}|z_{i})p(z_{i})$.  $z_{i}$ is Multinomial on parameter $\phi$  ($\phi_{j} \ge 0$,  $\sum_{j=1}^{K}{ \phi_{j}} = 1$ and $p(z_{i} = j)$).  Each $x_{i}|z_{i} = j \sim \mathcal{N}(\mu_{j}, \Sigma_{j})$.  From this derivation, the $z_{i}$'s are latent variables which makes the estimation of the Gaussian models more difficult.  The result of mixture of Gaussian training is to produce a soft clustering of every datapoint $x_{i}$ to each trained Gaussian distribution.
 
-Here we introduce another technique for modeling time series data were we assume that each residual time series is made up of a number of multidimensional readings each with a different mean and variance.  Our approach is used when there exist multiple time series in which each is assume to be derived from a set of $k$ unique time series.  The following is our derivation of this approach.
+Traditionally, a mixture of Gaussians is for data vectors with no time element, but some research has been done on using a mixture of Gaussians for time series data clustering.  In one paper \cite{Eirola2013}, the authors create a design matrix to construct a delayed embedding of the original time series.  Each row in the matrix corresponds to a fixed length vector selected from the input time series.  All of the rows together contain all data from the time series with each row over containing overlapping data with one new time series element.  From this embedding, the authors compute a mixture of Gaussians to approximately reconstruct the time series.  In another paper \cite{Kalliovirta2012} Gaussian mixture models are used to mix the weights of an autoregressive model in an attempt to reconstruct the original time series.
 
-The goal of mixture of Gaussians is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given dataset $\{x^{(i)}\}$ we maximize
+Here we introduce another technique for modeling time series data were we assume the presence of multiple short (typically fewer than 10 time steps) residual time series.  These time series are assumed to be derived from a set of $K$ unique time series.  In each of these time series, we model the time steps as Gaussians, each with their own unique mean and covariance.   For our work, the input time series are those candidate extracted anomalies from the previous section (i.e. we are attempting to model and cluster data from \ref{fig:extracted_residuals}).  The following is our derivation of this approach.
+
+The goal of mixture of Gaussians is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given dataset (in this case a dataset of residuals) $\{r^{(i)}\}$ we maximize
 \begin{equation}
-\ell(\theta) = \sum_{i = 1}^{\bf M}log\{p(x^{(i)}|\theta)\}
+\ell(\theta) = \sum_{i = 1}^{M}log\{p(r^{(i)};\phi, \mu, \Sigma)\}
 \end{equation}
 \noindent 
-where ${\bf M}$ is the total number of time series instances.
+where ${M}$ is the total number of time series instances.  In this equation, the $r^{(i)}$'s are each time series slices from the candidate residuals.  The $(i)$ represents the $ith$ residual candidate time series - we use the $(\bullet)$ notation to distinguish from the exponent operator.  For this work, each $r^{(i)}$ is of fixed length.  $\phi, \mu,$ and $\Sigma$ are the parameters to optimize for each time series Gaussian.
 
 The expectation maximization (EM) algorithm is commonly used to maximize dataset likelihood.  To use this algorithm we need to define a set of variables
 \begin{equation}
-w_{k}^{(i)} = p(z = k|x^{(i)})
+w_{k}^{(i)} = p(z^{(i)} = k|r^{(i)};\mu, \Sigma)
 \end{equation}
 \noindent
-where ${\bf K}$ is the total number of Gaussians to train and $k$ is an index of ${\bf K}$.  
+where $K$ is the total number of Gaussians to train and $k$ is an index of $K$.  
 
 The general equation for the likelihood of the models is: 
 \begin{equation}
 \label{eq:em_likelihood}
-\ell(\theta|x) = \sum_{i = 1}^{{\bf M}}\sum_{k = 1}^{{\bf K}}w_{k}^{(i)}\log \{ \frac{p(x^{(i)}|z=k)p(z = k)}{w_{k}^{(i)}} \}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)}\log \{ \frac{p(r^{(i)}|z^{(i)}=k;\mu, \Sigma)p(z^{(i)} = k;\phi)}{w_{k}^{(i)}} \}
 \end{equation}
 
 In the traditional mixture of Gaussians algorithm each model is ostensibly a Gaussian.  To make this algorithm work with multi-dimensional time series, we define the models instead by
 \begin{equation}
 \label{eq:model}
-p(x^{(i)}|z = k) = \prod_{n = 1}^{{\bf N}}\mathcal{N}_{n}(x^{(i)})
+p(r^{(i)}|z^{(i)} = k;\mu, \Sigma) = \prod_{n = 1}^{N}\mathcal{N}_{n}(r^{(i)})
 \end{equation}
 \noindent
-where ${\bf N}$ is the length of each time series instance.  Thus our model for each time series is ${\bf N}$ independent multivariate Gaussians.
+where $N$ is the length of each time series instance.  Thus our model for each time series is $N$ independent multivariate Gaussians.
 
 Combining equations~\ref{eq:em_likelihood} and~\ref{eq:model} gives the following log likelihood
 \begin{equation}
 \label{eq:em_combined}
-\ell(\theta|x) = \sum_{i = 1}^{{\bf M}}\sum_{k = 1}^{{\bf K}}w_{k}^{(i)}\{ \log\frac{p(z = k)}{w_{k}} + \sum_{n = 1}^{{\bf N}} \log \mathcal{N}_{n}(x^{(i)})\}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)}\{ \log\frac{p(z^{(i)} = k)}{w_{k}} + \sum_{n = 1}^{N} \log \mathcal{N}_{n}(r^{(i)})\}
 \end{equation}
 
-\textbf{E-Step}
+\bigskip
+\noindent
+\textbf{E-Step} \\
 The E-step hardly changes from the traditional EM mixture of Gaussians algorithm.  We simply need to calculate 
 \begin{equation}
-w^{(i)}_{k} = p(z = k|x^{(i)})
+w^{(i)}_{k} = p(z^{(i)} = k|r^{(i)})
 \end{equation}
 
-\textbf{M-Step}
-For the maximization step, it is assumed that we know the values of $w_{k}^{(i)}$.  Thus, we need to maximize equation~\ref{eq:em_combined} with respect to $\mu$,  $\Sigma$, and $\theta$.
+Applying Bayes rule, we can compute the $w^{(i)}_{k}$'s as:
+\begin{equation}
+w^{(i)}_{k} = TODO FINISH THIS
+\end{equation}
+
+\bigskip
+\noindent
+\textbf{M-Step} \\
+For the maximization step, it is assumed that we know the values of $w_{k}^{i}$.  Thus, we need to maximize equation~\ref{eq:em_combined} with respect to $\mu$, $\Sigma$, and $\phi$.
 The results of these maximizations are given below:
 \begin{equation}
-\theta_{k} = \frac{1}{{\bf M}}\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}
+\phi_{k} = \frac{1}{M}\sum_{i = 1}^{M}w_{k}^{(i)}
 \end{equation}
 \begin{equation}
-\mu_{k, n} = \frac{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}x^{(i)}_{n}}{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}}
+\mu_{k, n} = \frac{\sum_{i = 1}^{M}w_{k}^{(i)}r^{(i)}_{n}}{\sum_{i = 1}^{M}w_{k}^{(i)}}
 \end{equation}
 \begin{equation}
-\Sigma_{k, n} = \frac{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}(x^{(i)} - \mu_{k, n})(x^{(i)} - \mu_{k, n})^{\mathrm{T}}}{\sum_{i = 1}^{{\bf M}}w_{k}^{(i)}}
+\Sigma_{k, n} = \frac{\sum_{i = 1}^{M}w_{k}^{(i)}(r^{(i)} - \mu_{k, n})(r^{(i)} - \mu_{k, n})^{\mathrm{T}}}{\sum_{i = 1}^{M}w_{k}^{(i)}}
 \end{equation}
 
 
 \subsection{Sample representative clusters and a discussion about them}
 This section visually demonstrates a few of the clusters extracted from our datasets.  These cluster sets were chosen from each dataset and from three of our base forecasting approaches.  The structure from these clusters again leads further credibility to the residual data containing some structure.  
 
-\ref{fig:merl_clusters} is a set of clusters from the Merl dataset extracted from the SVM forecaster at a horizon of 20 minutes.  The extracted window length is 7 time steps (past 70 minutes).  These clusters were taken from the top 10\% of the Merl data residuals.
+\ref{fig:merl_clusters} is a set of clusters from the MERL dataset extracted from the SVM forecaster residuals at a horizon of 20 minutes (which is 2 time steps).  The extracted window length is 7 time steps (past 70 minutes).  These clusters were taken from the top 10\% of the MERL data residuals.
 
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=1.00\textwidth]{merl_sample_clusters_svm.png}
 	\end{center}
-	\caption{Extracted residuals from the Merl dataset.  Data was taken from the top 10\% of the SVM forecaster's residuals.}
+	\caption{Extracted residuals from the MERL dataset.  Data was taken from the top 10\% of the SVM forecaster's residuals.  The red line in the center of the clusters represents the cluster average.}
 	\label{fig:merl_clusters}
 \end{figure}
 
@@ -263,11 +273,11 @@ This section visually demonstrates a few of the clusters extracted from our data
 	\begin{center}
 		\includegraphics[width = 1.0\textwidth]{brown_sample_clusters_arima.png}
 	\end{center}
-	\caption{Extracted residuals from the Brown dataset.  Data was taken from the top 15\% of the Arima forecaster's residuals.}
+	\caption{Extracted residuals from the Brown dataset.  Data was taken from the top 15\% of the ARIMA forecaster's residuals.  The red line in the center of the clusters represents the cluster average.}
 	\label{fig:brown_clusters}
 \end{figure}
 
-\ref{fig:brown_clusters} is the set of clusters from the Brown dataset extracted from the Arima forecaster.  The clusters from the dataset were taken from the top 15\% of the Brown data residuals.  Notice how these clusters, unlike the clusters from \ref{fig:merl_clusters} do not begin nor end on zero.  This likely means that the true residuals are longer in length and those extracted.  However, our method of silhouette score maximization returned this set as the best.  Most likely this is due to non-consistent residual behavior if the extracted residual window is increased.
+\ref{fig:brown_clusters} is the set of clusters from the Brown dataset extracted from the ARIMA forecaster.  The clusters from the dataset were taken from the top 15\% of the Brown data residuals.  Notice how these clusters, unlike the clusters from \ref{fig:merl_clusters} do not begin nor end on zero.  This likely means that the true residuals are longer in length and those extracted.  However, our method of silhouette score maximization returned this set as the best.  Most likely this is due to non-consistent residual behavior if the extracted residual window is increased.
   
 \begin{figure}
 	\begin{center}
@@ -277,7 +287,7 @@ This section visually demonstrates a few of the clusters extracted from our data
 	\label{fig:denver_clusters}
 \end{figure}
 
-\ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  Unlike in the extracted clusters of Merl and Brown, these clusters appear to have "sharp" transition.  This is likely due to the data being aggregated every 30 minutes instead of every 10 minutes like the other dataset.  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  Such a clustering is likely a scenario where modeling these clusters through a non-fixed technique may lead to better results.
+\ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  Unlike in the extracted clusters of MERL and Brown, these clusters appear to have "sharp" transition.  This is likely due to the data being aggregated every 30 minutes instead of every 10 minutes like the other dataset.  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  Such a clustering is likely a scenario where modeling these clusters through a non-fixed technique may lead to better results.
 
 
 \subsection{ABCF derived}
@@ -400,7 +410,7 @@ Since the number of potential images to display about the improvements due to AB
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{sqeonan_arima_abcf_Merl.png}
 	\end{center}
-	\caption{SQEONAN vs forecasting horizon for Arima model and Arima + ABCF on the Merl dataset}
+	\caption{SQEONAN vs forecasting horizon for ARIMA model and ARIMA + ABCF on the MERL dataset}
 	\label{fig:arima_merl_sqe}
 \end{figure}
 
@@ -409,13 +419,13 @@ Since the number of potential images to display about the improvements due to AB
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{rmse_arima_abcf_Merl.png}
 	\end{center}
-	\caption{RMSE vs forecasting horizon for Arima model and Arima + ABCF on the Merl dataset}
+	\caption{RMSE vs forecasting horizon for ARIMA model and ARIMA + ABCF on the MERL dataset}
 	\label{fig:arima_merl_rmse}
 \end{figure}
 
 \ref{fig:average_abcf_denver} demonstrate the improvements to the SQEONAN metric of applying our ABCF algorithm to the average forecasting algorithm for the Denver dataset.  Unsurprisingly we found our largest improvements came with the historic average model.  The reason for this is that any activities or consistent deviations from normal behavior show up in the average model.  These behaviors are well represented in the residuals and thus make good candidate models for our ABCF model.
 
-\ref{fig:arima_merl_sqe} and \ref{fig:arima_merl_rmse} display the improvement to both the SQEONAN metric and RMSE metric when applying ABCF to an Arima forecaster on the Merl dataset.  Notice that while the improvement to the SQEONAN metric is significant in \ref{fig:arima_merl_sqe}, the improvement to RMSE considerably smaller.  This result is expected.  ABCF improves forecasting during the presence of anomalies.  Due to the nature of anomalies being sufficiently rare, ABCF may not improve overall forecasting accuracy by a large margin.
+\ref{fig:arima_merl_sqe} and \ref{fig:arima_merl_rmse} display the improvement to both the SQEONAN metric and RMSE metric when applying ABCF to an ARIMA forecaster on the MERL dataset.  Notice that while the improvement to the SQEONAN metric is significant in \ref{fig:arima_merl_sqe}, the improvement to RMSE considerably smaller.  This result is expected.  ABCF improves forecasting during the presence of anomalies.  Due to the nature of anomalies being sufficiently rare, ABCF may not improve overall forecasting accuracy by a large margin.
 
 \newpage
 
@@ -459,7 +469,7 @@ As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.
 
 \ref{fig:rmse_improve_merl}, \ref{fig:rmse_improve_brown}, and \ref{fig:rmse_improve_denver} show the improvement of applying ABCF to each model using RMSE. \ref{fig:mase_improve_merl}, \ref{fig:mase_improve_brown}, and \ref{fig:mase_improve_denver} show the improvements of ABCF using MASE.  These images demonstrate that our forecasting improvements when applying ABCF are typically quite small (<5\%) when considering the entire time series.  These improvements are tied to the density of anomalies within the dataset.  A dataset with more anomalies relative to the forecaster will experience a larger overall improvement in forecasting error.
 
-Overall these results demonstrate that ABCF has the power to improve anomaly forecasting while having a little to no detrimental effect on the overall forecasting performance of our forecaster.  Our worse case scenario occurred when applying ABCF to an SVM forecaster on the Merl dataset and for a forecasting horizon of 2 and 3 we experienced 3 - 4\% error in forecasting performance.  However, in almost all other scenarios ABCF improved the overall forecasting accuracy and greatly improved the accuracy of anomaly forecasting as measured by our SQEONAN metric.
+Overall these results demonstrate that ABCF has the power to improve anomaly forecasting while having a little to no detrimental effect on the overall forecasting performance of our forecaster.  Our worse case scenario occurred when applying ABCF to an SVM forecaster on the MERL dataset and for a forecasting horizon of 2 and 3 we experienced 3 - 4\% error in forecasting performance.  However, in almost all other scenarios ABCF improved the overall forecasting accuracy and greatly improved the accuracy of anomaly forecasting as measured by our SQEONAN metric.
 
   
 \begin{figure}[!h]

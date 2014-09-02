@@ -38,7 +38,7 @@
 \BOOKMARK [2][-]{subsection.5.2}{Bayesian\040combined\040forecasting\040with\040activity\040and\040anomaly\040modeling\040\(ABCF\)}{section*.37}% 38
 \BOOKMARK [2][-]{subsection.5.3}{Background\040literature\040on\040activity\040recognition\040and\040anomaly\040detection}{section*.37}% 39
 \BOOKMARK [2][-]{subsection.5.4}{Anomaly\040extraction\040and\040representation}{section*.37}% 40
-\BOOKMARK [2][-]{subsection.5.5}{TSMG\040derivation}{section*.37}% 41
+\BOOKMARK [2][-]{subsection.5.5}{Time\040series\040mixture\040of\040Gaussians\040derivation}{section*.37}% 41
 \BOOKMARK [2][-]{subsection.5.6}{Sample\040representative\040clusters\040and\040a\040discussion\040about\040them}{section*.37}% 42
 \BOOKMARK [2][-]{subsection.5.7}{ABCF\040derived}{section*.37}% 43
 \BOOKMARK [2][-]{subsection.5.8}{Demonstration\040of\040ABCF}{section*.37}% 44
