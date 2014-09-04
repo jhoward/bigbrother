@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  1 SEP 2014 21:10
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  3 SEP 2014 21:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -948,7 +948,7 @@ File: ./images/sample_residual_plot_dataset_Denver.png Graphic file (type QTm)
 File: ./images/denver_sample_cluster.png Graphic file (type QTm)
 
 <use  "./images/denver_sample_cluster.png" >
-Underfull \hbox (badness 6608) in paragraph at lines 377--377
+Underfull \hbox (badness 6608) in paragraph at lines 378--378
 []\OT1/cmr/m/n/12 Figure 5.10: |Ex-tracted
  []
 
@@ -988,13 +988,13 @@ ile (type QTm)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [67] [68]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 470.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 471.
 
  (/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 470.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 471.
 File: ./images/rmse_improvement_for_each_forecaster_for_Merl.png Graphic file (
 type QTm)
 

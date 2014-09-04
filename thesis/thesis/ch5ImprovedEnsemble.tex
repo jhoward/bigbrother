@@ -187,7 +187,7 @@ For this work however, we believe that our constant length anomaly extraction is
 
 
 \subsection{Time series mixture of Gaussians derivation}
-A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  A mixture of Gaussians models a set of data by positing that each data point ($x_{i}$) is generated from one of $K$ Gaussians.  Borrowing partially the notation of Andrew Ng \cite{Ng2008}, a mixture of Gaussians is described mathematically by specifying a joint distribution $p(x_{i}, z_{i}) = p(x_{i}|z_{i})p(z_{i})$.  $z_{i}$ is Multinomial on parameter $\phi$  ($\phi_{j} \ge 0$,  $\sum_{j=1}^{K}{ \phi_{j}} = 1$ and $p(z_{i} = j)$).  Each $x_{i}|z_{i} = j \sim \mathcal{N}(\mu_{j}, \Sigma_{j})$.  From this derivation, the $z_{i}$'s are latent variables which makes the estimation of the Gaussian models more difficult.  The result of mixture of Gaussian training is to produce a soft clustering of every datapoint $x_{i}$ to each trained Gaussian distribution.
+A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  This technique models a set of data by positing that each data point ($x_{i}$) is generated from one of $K$ Gaussians.  Borrowing partially the notation of Andrew Ng \cite{Ng2008}, a mixture of Gaussians is described mathematically by specifying a joint distribution $p(x_{i}, z_{i}) = p(x_{i}|z_{i})p(z_{i})$.  $z_{i}$ is Multinomial on parameter $\phi$  ($\phi_{j} \ge 0$,  $\sum_{j=1}^{K}{ \phi_{j}} = 1$ and $p(z_{i} = j)$).  Each $x_{i}|z_{i} = j \sim \mathcal{N}(\mu_{j}, \Sigma_{j})$.  From this derivation, the $z_{i}$'s are latent variables which makes the estimation of the Gaussian models more difficult.  The result of mixture of Gaussian training is to produce a soft clustering of every datapoint $x_{i}$ to each trained Gaussian distribution.
 
 Traditionally, a mixture of Gaussians is for data vectors with no time element, but some research has been done on using a mixture of Gaussians for time series data clustering.  In one paper \cite{Eirola2013}, the authors create a design matrix to construct a delayed embedding of the original time series.  Each row in the matrix corresponds to a fixed length vector selected from the input time series.  All of the rows together contain all data from the time series with each row over containing overlapping data with one new time series element.  From this embedding, the authors compute a mixture of Gaussians to approximately reconstruct the time series.  In another paper \cite{Kalliovirta2012} Gaussian mixture models are used to mix the weights of an autoregressive model in an attempt to reconstruct the original time series.
 
@@ -224,7 +224,7 @@ where $N$ is the length of each time series instance.  Thus our model for each t
 Combining equations~\ref{eq:em_likelihood} and~\ref{eq:model} gives the following log likelihood
 \begin{equation}
 \label{eq:em_combined}
-\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)}\{ \log\frac{p(z^{(i)} = k)}{w_{k}} + \sum_{n = 1}^{N} \log \mathcal{N}_{n}(r^{(i)})\}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)} (\log \{ \frac{p(z^{(i)} = k)}{w_{k}}\} +  \log \{ \frac{\sum_{n = 1}^{N} \log \mathcal{N}_{n}(r^{(i)})}{w_{k}}\})
 \end{equation}
 
 \bigskip
@@ -237,7 +237,8 @@ w^{(i)}_{k} = p(z^{(i)} = k|r^{(i)})
 
 Applying Bayes rule, we can compute the $w^{(i)}_{k}$'s as:
 \begin{equation}
-w^{(i)}_{k} = TODO FINISH THIS
+w^{(i)}_{k} = p(z^{(i)} = j|r^{(i)}) = \frac{p(r^{(i)}|z^{(i)}=j)p(z^{(i)}=j)}
+						{\sum_{k=1}^{K}p(r^{(i)}|z^{(i)}=k)p(z^{(i)}=k)}
 \end{equation}
 
 \bigskip

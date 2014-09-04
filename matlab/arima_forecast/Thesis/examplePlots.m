@@ -81,7 +81,7 @@ cauchypdf([0.8 0.6 0.4 -0.4], m, s/3.7)
 %==========================================================================
 %HISTOGRAM OF INDIVIDUAL HOUR OF DATA DATA
 %==========================================================================
-hour = 24;
+hour = 23;
 res = data.testData(1, data.blocksInDay:end) - results.arima.testForecast{11};
 tmpRes = res(data.blocksInDay + 2:end);
 tmpRes = reshape(tmpRes, data.blocksInDay, size(tmpRes, 2)/data.blocksInDay);
