@@ -246,6 +246,9 @@ w^{(i)}_{k} = p(z^{(i)} = j|r^{(i)}) = \frac{p(r^{(i)}|z^{(i)}=j)p(z^{(i)}=j)}
 \textbf{M-Step} \\
 For the maximization step, it is assumed that we know the values of $w_{k}^{i}$.  Thus, we need to maximize equation~\ref{eq:em_combined} with respect to $\mu$, $\Sigma$, and $\phi$.
 The results of these maximizations are given below:
+
+TODO - REDERIVE WITH NEW NOTATION
+
 \begin{equation}
 \phi_{k} = \frac{1}{M}\sum_{i = 1}^{M}w_{k}^{(i)}
 \end{equation}
@@ -258,9 +261,12 @@ The results of these maximizations are given below:
 
 
 \subsection{Sample representative clusters and a discussion about them}
-This section visually demonstrates a few of the clusters extracted from our datasets.  These cluster sets were chosen from each dataset and from three of our base forecasting approaches.  The structure from these clusters again leads further credibility to the residual data containing some structure.  
 
-\ref{fig:merl_clusters} is a set of clusters from the MERL dataset extracted from the SVM forecaster residuals at a horizon of 20 minutes (which is 2 time steps).  The extracted window length is 7 time steps (past 70 minutes).  These clusters were taken from the top 10\% of the MERL data residuals.
+TODO INSERT A DISCUSSION OF CLUSTER ASSIGNMENT AND SILHOUETTE SCORE MAXIMAZATION
+
+This section visually demonstrates a few of the clusters extracted from our datasets using the time series mixture of Gaussian's approach.  These residual clusters were chosen from each dataset and from different base forecasting approaches.  We chose the base forecasters from which we select the following clusters arbitrarily without regard to the forecaster's accuracy.  Such clusters have been generated for every combination of dataset and forecaster residuals.  
+
+\ref{fig:merl_clusters} is a set of clusters from a residual time series of MERL dataset extracted using the SVM forecaster.  The residuals are from a time series forecasting horizon of 20 minutes (two time steps).  The extracted window length is 70 minutes (seven time steps).  These clusters were taken from the top 10\% of the MERL data residuals.
 
 \begin{figure}
 	\begin{center}
@@ -274,11 +280,11 @@ This section visually demonstrates a few of the clusters extracted from our data
 	\begin{center}
 		\includegraphics[width = 1.0\textwidth]{brown_sample_clusters_arima.png}
 	\end{center}
-	\caption{Extracted residuals from the Brown dataset.  Data was taken from the top 15\% of the ARIMA forecaster's residuals.  The red line in the center of the clusters represents the cluster average.}
+	\caption{Extracted residuals from the Brown dataset.  Data was taken from the top 10\% of the ARIMA forecaster's residuals.  The red line in the center of the clusters represents the cluster average.}
 	\label{fig:brown_clusters}
 \end{figure}
 
-\ref{fig:brown_clusters} is the set of clusters from the Brown dataset extracted from the ARIMA forecaster.  The clusters from the dataset were taken from the top 15\% of the Brown data residuals.  Notice how these clusters, unlike the clusters from \ref{fig:merl_clusters} do not begin nor end on zero.  This likely means that the true residuals are longer in length and those extracted.  However, our method of silhouette score maximization returned this set as the best.  Most likely this is due to non-consistent residual behavior if the extracted residual window is increased.
+\ref{fig:brown_clusters} is the set of clusters from the Brown dataset extracted from the ARIMA forecaster.  The clusters from the dataset were taken from the top 10\% of the Brown data residuals.  Notice how these clusters, unlike the clusters from \ref{fig:merl_clusters} do not begin nor end with a residual value of zero.  This likely means that the true residuals are longer in length than those displayed here.  However, our method of silhouette score maximization returned this set as the best.  Most likely this is due to non-consistent residual behavior if the extracted residual window is increased.
   
 \begin{figure}
 	\begin{center}
@@ -288,14 +294,18 @@ This section visually demonstrates a few of the clusters extracted from our data
 	\label{fig:denver_clusters}
 \end{figure}
 
-\ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  Unlike in the extracted clusters of MERL and Brown, these clusters appear to have "sharp" transition.  This is likely due to the data being aggregated every 30 minutes instead of every 10 minutes like the other dataset.  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  Such a clustering is likely a scenario where modeling these clusters through a non-fixed technique may lead to better results.
+\ref{fig:denver_clusters} displays the set of modeled clusters from the Denver dataset extracted from the TDNN forecaster.  These clusters were taken from the top 10\% of the forecaster's residuals.  The time series within the Denver dataset correspond to 30 minute intervals.  Thus, the clusters shown in \ref{fig:denver_clusters} demonstrate events that occur over at least 3 hours (six time steps).  Also, some of the clusters begin or end with a 0 residual, but others drift higher or lower.  We believe this demonstrates events which may not have finished during the duration of the clusters demonstrated here.  Ideally we would like to have clusters long enough to fit the entire event, but short enough that they don't contain "normal" behavior.  Clusterings such as this demonstrate a scenario where modeling these clusters through a non-fixed length technique may lead to better results.
+
+TODO DISCUSS POTENTIAL TO REMOVE OUTLIERS WITHIN EACH CLUSTER
+
+Finally, we believe that the structure demonstrated from these clusters again leads further credibility to the residual data containing some information about the activity or anomaly that generated the data.  These residual clusters do not appear to be simply the product of random noise.  
 
 
 \subsection{ABCF derived}
 \label{sec:abcf}
 Here we present the math behind our Anomaly Bayesian combined forecasting algorithm.  Similar to the Bayesian combined forecaster introduced in Chapter 4, our ABCF algorithm is recursive and computationally efficient.  
 
-We present the algorithm using two anomaly event models $a$ and $b$ with a background model $c$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $a$ and $b$ are modeled anomalies from our time series mixture of Gaussians, however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(x_{t} | a^{(i)}_{t})$.  Also, the model $c$ is assumed to be a background model which allows for the computation of $p(c_{t}|x_{t})$.  
+We present the algorithm using two anomaly event models $a$ and $b$ with a background model $c$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $a$ and $b$ are modeled anomalies from our time series mixture of Gaussians; however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(x_{t} | a^{(i)}_{t})$.  Also, the model $c$ is assumed to be a background model which allows for the computation of $p(c_{t}|x_{t})$.  
 
 Let $a_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$ and $b_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$.  At any time $t$ we have one of ${a^{(i)}_{t}}$, ${b^{(i)}_{t}}$ or $c$.  From this we know that 
 

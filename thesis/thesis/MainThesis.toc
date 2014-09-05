@@ -39,11 +39,11 @@
 \contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{54}{subsection.5.4}
 \contentsline {subsection}{\numberline {5.5}Time series mixture of Gaussians derivation}{56}{subsection.5.5}
 \contentsline {subsection}{\numberline {5.6}Sample representative clusters and a discussion about them}{59}{subsection.5.6}
-\contentsline {subsection}{\numberline {5.7}ABCF derived}{61}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.7}ABCF derived}{62}{subsection.5.7}
 \contentsline {subsection}{\numberline {5.8}Demonstration of ABCF}{63}{subsection.5.8}
 \contentsline {subsection}{\numberline {5.9}Results of ABCF}{65}{subsection.5.9}
-\contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{70}{subsection.5.10}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{74}{section*.61}
-\contentsline {section}{\texorpdfupper {References Cited}}{75}{section*.62}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{84}{section*.63}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{92}{section*.78}
+\contentsline {subsection}{\numberline {5.10}Future unexplored work on ABCF}{71}{subsection.5.10}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{75}{section*.61}
+\contentsline {section}{\texorpdfupper {References Cited}}{76}{section*.62}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{85}{section*.63}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{93}{section*.78}
