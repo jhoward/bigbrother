@@ -187,7 +187,7 @@ For this work however, we believe that our constant length anomaly extraction is
 
 
 \subsection{Time series mixture of Gaussians derivation}
-A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  This technique models a set of data by positing that each data point ($x_{i}$) is generated from one of $K$ Gaussians.  Borrowing partially the notation of Andrew Ng \cite{Ng2008}, a mixture of Gaussians is described mathematically by specifying a joint distribution $p(x_{i}, z_{i}) = p(x_{i}|z_{i})p(z_{i})$.  $z_{i}$ is Multinomial on parameter $\phi$  ($\phi_{j} \ge 0$,  $\sum_{j=1}^{K}{ \phi_{j}} = 1$ and $p(z_{i} = j)$).  Each $x_{i}|z_{i} = j \sim \mathcal{N}(\mu_{j}, \Sigma_{j})$.  From this derivation, the $z_{i}$'s are latent variables which makes the estimation of the Gaussian models more difficult.  The result of mixture of Gaussian training is to produce a soft clustering of every datapoint $x_{i}$ to each trained Gaussian distribution.
+A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  This technique models a set of data by positing that each data point ($x_{i}$) is generated from one of $K$ Gaussians.  Borrowing partially the notation of Andrew Ng \cite{Ng2008}, a mixture of Gaussians is described mathematically by specifying a joint distribution $p(x_{i}, z_{i}) = p(x_{i}|z_{i})p(z_{i})$.  $z_{i}$ is multinomial on parameter $\phi$  ($\phi_{j} \ge 0$,  $\sum_{j=1}^{K}{ \phi_{j}} = 1$ and $p(z_{i} = j)$).  Each $x_{i}|z_{i} = j \sim \mathcal{N}(\mu_{j}, \Sigma_{j})$.  From this derivation, the $z_{i}$'s are latent variables which makes the estimation of the Gaussian models more difficult.  The result of mixture of Gaussian training is to produce a soft clustering of every datapoint $x_{i}$ to each trained Gaussian distribution.
 
 Traditionally, a mixture of Gaussians is for data vectors with no time element, but some research has been done on using a mixture of Gaussians for time series data clustering.  In one paper \cite{Eirola2013}, the authors create a design matrix to construct a delayed embedding of the original time series.  Each row in the matrix corresponds to a fixed length vector selected from the input time series.  All of the rows together contain all data from the time series with each row over containing overlapping data with one new time series element.  From this embedding, the authors compute a mixture of Gaussians to approximately reconstruct the time series.  In another paper \cite{Kalliovirta2012} Gaussian mixture models are used to mix the weights of an autoregressive model in an attempt to reconstruct the original time series.
 
@@ -195,31 +195,45 @@ Here we introduce another technique for modeling time series data were we assume
 
 The goal of mixture of Gaussians is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given dataset (in this case a dataset of residuals) $\{r^{(i)}\}$ we maximize
 \begin{equation}
-\ell(\theta) = \sum_{i = 1}^{M}log\{p(r^{(i)};\phi, \mu, \Sigma)\}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}log\{p(r^{(i)};\phi, \mu, \Sigma)\}
 \end{equation}
 \noindent 
-where ${M}$ is the total number of time series instances.  In this equation, the $r^{(i)}$'s are each time series slices from the candidate residuals.  The $(i)$ represents the $ith$ residual candidate time series - we use the $(\bullet)$ notation to distinguish from the exponent operator.  For this work, each $r^{(i)}$ is of fixed length.  $\phi, \mu,$ and $\Sigma$ are the parameters to optimize for each time series Gaussian.
+where ${M}$ is the total number of time series instances.  In this equation, the $r^{(i)}$'s are each time series slices from the candidate residuals.  The $(i)$ represents the $i$th residual candidate time series - we use the $(i)$ notation to distinguish from the exponent operator.  For this work, each $r^{(i)}$ is of fixed length $N$.  $\phi, \mu,$ and $\Sigma$ are the parameters to optimize for each time series Gaussian.  Each $r^{(i)}$ is roughly analogous to $x_{i}$ in the typical derivation of a mixture of gaussians with the difference here that each $r^{(i)}$ is $N$ readings in length.
 
-The expectation maximization (EM) algorithm is commonly used to maximize dataset likelihood.  To use this algorithm we need to define a set of variables
+As in traditional mixture of Gaussians formulation, we introduce a latent variable $z^{(i)}$ which is multinomial on parameter $\phi$ ($\phi_{j} \ge 0$,  $\sum_{j=1}^{K}{ \phi_{j}} = 1$ and $p(z_{i} = j)$).  With this latent variable $z^{(i)}$ we now maximize the likelihood of the joint distribution of $r$ and $z$.  This equation is given as 
+
+\begin{equation}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\log \sum_{k = 1}^{K}p(r^{(i)}, z^{(i)} = k;\phi, \mu, \Sigma)
+\end{equation}
+
+In the traditional mixture of Gaussians algorithm each model is ostensibly a Gaussian which may be multivariate on $x^{(i)}$.  One option to model time series data using a mixture of Gaussians is to use each residual input window as multi dimensional training data.  A set of K multi variate Gaussians would then be used to fit the training set.  This type of model does not work with our activity time series forecaster introduced later.  To make this algorithm work with time series data, we define the models instead by
+\begin{equation}
+\label{eq:model}
+p(r^{(i)}|z^{(i)} = k;\mu, \Sigma) = \prod_{n = 1}^{N}\mathcal{N}_{n}(r^{(i)}).
+\end{equation}
+\noindent
+In this equation, $N$ is the length of each time series instance.  Thus our model for each time series is $N$ independent Gaussians.
+
+Finally, to make our notation a bit easier we define a variable $w^{(i)}_{k}$.  
 \begin{equation}
 w_{k}^{(i)} = p(z^{(i)} = k|r^{(i)};\mu, \Sigma)
 \end{equation}
 \noindent
-where $K$ is the total number of Gaussians to train and $k$ is an index of $K$.  
+$w_{k}^{(i)}$ represents the probability of latent variable $z^{(i)}$ taking the value $j$ from our set of models defined in equation \ref{eq:model}
 
-The general equation for the likelihood of the models is: 
+Expectation maximization (EM) is a common technique to solve maximization problems of this kind.  Here we briefly derive the EM algorithm for our time series derivation of mixture of Gaussians.  Combining our equations so far, we can write the likelihood of the time series model as
+\begin{equation}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\log \sum_{k = 1}^{K}w_{k}^{(i)}\frac{p(r^{(i)}, z^{(i)}=k;\phi, \mu, \Sigma)}{w_{k}^{(i)}}
+\end{equation}
+
+
+
 \begin{equation}
 \label{eq:em_likelihood}
 \ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)}\log \{ \frac{p(r^{(i)}|z^{(i)}=k;\mu, \Sigma)p(z^{(i)} = k;\phi)}{w_{k}^{(i)}} \}
 \end{equation}
 
-In the traditional mixture of Gaussians algorithm each model is ostensibly a Gaussian.  To make this algorithm work with multi-dimensional time series, we define the models instead by
-\begin{equation}
-\label{eq:model}
-p(r^{(i)}|z^{(i)} = k;\mu, \Sigma) = \prod_{n = 1}^{N}\mathcal{N}_{n}(r^{(i)})
-\end{equation}
-\noindent
-where $N$ is the length of each time series instance.  Thus our model for each time series is $N$ independent multivariate Gaussians.
+
 
 Combining equations~\ref{eq:em_likelihood} and~\ref{eq:model} gives the following log likelihood
 \begin{equation}
@@ -391,7 +405,7 @@ The red line is the resulting ABCF forecast to the residual.  Ideally the residu
 
 The recursive nature of our likelihood time step propagation in the ABCF algorithm is apparent in the tan lines of this sample figure.  At time step 12, there is a slight perturbation in the top tan line.  This perturbation continues to rise both in value (indicating an increase in likelihood that this cluster is active) and time along the anomaly.  Finally at about time step 18, the model is finished.  At this point the likelihood of the background model begins to rise again and eventually the background model is once again the most prevalent model amongst all the extracted anomalies.
 
-\ref{fig:sample_abcf_residual} displays a significant improvement in SQEONAN.  While the early stages of the anomaly show no improvement, the residual error during the middle of the anomaly is roughly halved and the residual error at the end of the anomaly is nearly zero.  \ref{fig:sample_abcf_denver} shows the final result of this forecast window.  This figure shows clearly how ABCF improves an ARIMA forecaster for this data segment during the later parts of an anomaly.
+\ref{fig:sample_abcf_residual} displays a significant improvement in RMSE-ONAN.  While the early stages of the anomaly show no improvement, the residual error during the middle of the anomaly is roughly halved and the residual error at the end of the anomaly is nearly zero.  \ref{fig:sample_abcf_denver} shows the final result of this forecast window.  This figure shows clearly how ABCF improves an ARIMA forecaster for this data segment during the later parts of an anomaly.
 
 \begin{figure}[!h]
 	\begin{center}
@@ -412,7 +426,7 @@ Since the number of potential images to display about the improvements due to AB
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{sqeonan_average_abcf_Denver.png}
 	\end{center}
-	\caption{SQEONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset}
+	\caption{RMSE-ONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset}
 	\label{fig:average_abcf_denver}
 \end{figure}
 
@@ -421,7 +435,7 @@ Since the number of potential images to display about the improvements due to AB
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{sqeonan_arima_abcf_Merl.png}
 	\end{center}
-	\caption{SQEONAN vs forecasting horizon for ARIMA model and ARIMA + ABCF on the MERL dataset}
+	\caption{RMSE-ONAN vs forecasting horizon for ARIMA model and ARIMA + ABCF on the MERL dataset}
 	\label{fig:arima_merl_sqe}
 \end{figure}
 

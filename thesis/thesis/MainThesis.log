@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  5 SEP 2014 16:24
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  14 SEP 2014 14:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -933,31 +933,33 @@ put line 136.
  [55]
 File: ./images/arima_abcf_extracted_residuals_Merl.png Graphic file (type QTm)
  <use  "./images/arima_abcf_extracted_residuals_Merl.png" > [56]
-[57] [58]
+[57] [58] [59]
 File: ./images/merl_sample_clusters_svm.png Graphic file (type QTm)
  <use  "./images/merl_sample_clusters_svm.png" >
 File: ./images/brown_sample_clusters_arima.png Graphic file (type QTm)
 
-<use  "./images/brown_sample_clusters_arima.png" > [59] [60]
+<use  "./images/brown_sample_clusters_arima.png" > [60]
 File: ./images/denver_sample_clusters_tdnn.png Graphic file (type QTm)
 
-<use  "./images/denver_sample_clusters_tdnn.png" > [61] [62]
+<use  "./images/denver_sample_clusters_tdnn.png" > [61] [62] [63]
 File: ./images/sample_residual_plot_dataset_Denver.png Graphic file (type QTm)
 
-<use  "./images/sample_residual_plot_dataset_Denver.png" > [63]
+<use  "./images/sample_residual_plot_dataset_Denver.png" > [64]
 File: ./images/denver_sample_cluster.png Graphic file (type QTm)
 
 <use  "./images/denver_sample_cluster.png" >
-Underfull \hbox (badness 6608) in paragraph at lines 386--386
+Underfull \hbox (badness 6608) in paragraph at lines 402--402
 []\OT1/cmr/m/n/12 Figure 5.10: |Ex-tracted
  []
 
-[64]
 File: ./images/sample_plot_Denver.png Graphic file (type QTm)
- <use  "./images/sample_plot_Denver.png" >
-File: ./images/sqeonan_average_abcf_Denver.png Graphic file (type QTm)
+<use  "./images/sample_plot_Denver.png" >
 
-<use  "./images/sqeonan_average_abcf_Denver.png" >
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[65]
+File: ./images/sqeonan_average_abcf_Denver.png Graphic file (type QTm)
+ <use  "./images/sqeonan_average_abcf_Denver.png" >
 File: ./images/sqeonan_arima_abcf_Merl.png Graphic file (type QTm)
 
 <use  "./images/sqeonan_arima_abcf_Merl.png" >
@@ -967,7 +969,7 @@ File: ./images/rmse_arima_abcf_Merl.png Graphic file (type QTm)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[65] [66] [67]
+[66] [67]
 File: ./images/sqeonan_improvement_for_each_forecaster_for_Merl.png Graphic fil
 e (type QTm)
 
@@ -976,29 +978,32 @@ File: ./images/sqeonan_improvement_for_each_forecaster_for_Brown.png Graphic fi
 le (type QTm)
 
 <use  "./images/sqeonan_improvement_for_each_forecaster_for_Brown.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 File: ./images/sqeonan_improvement_for_each_forecaster_for_Denver.png Graphic f
 ile (type QTm)
-
 <use  "./images/sqeonan_improvement_for_each_forecaster_for_Denver.png" >
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[68]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 479.
+[68] [69]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 495.
 
  (/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 479.
- [69]
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 495.
 File: ./images/rmse_improvement_for_each_forecaster_for_Merl.png Graphic file (
 type QTm)
 
 <use  "./images/rmse_improvement_for_each_forecaster_for_Merl.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 File: ./images/rmse_improvement_for_each_forecaster_for_Brown.png Graphic file 
 (type QTm)
-
 <use  "./images/rmse_improvement_for_each_forecaster_for_Brown.png" >
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1230,7 +1235,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
 Here is how much of TeX's memory you used:
  12637 strings out of 494004
  192303 string characters out of 3150890
- 329097 words of memory out of 3000000
+ 330120 words of memory out of 3000000
  15591 multiletter control sequences out of 15000+200000
  8582 words of font info for 32 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
