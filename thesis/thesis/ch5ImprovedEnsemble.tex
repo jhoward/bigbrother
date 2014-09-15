@@ -209,10 +209,10 @@ As in traditional mixture of Gaussians formulation, we introduce a latent variab
 In the traditional mixture of Gaussians algorithm each model is ostensibly a Gaussian which may be multivariate on $x^{(i)}$.  One option to model time series data using a mixture of Gaussians is to use each residual input window as multi dimensional training data.  A set of K multi variate Gaussians would then be used to fit the training set.  This type of model does not work with our activity time series forecaster introduced later.  To make this algorithm work with time series data, we define the models instead by
 \begin{equation}
 \label{eq:model}
-p(r^{(i)}|z^{(i)} = k;\mu, \Sigma) = \prod_{n = 1}^{N}\mathcal{N}_{n}(r^{(i)}).
+p(r^{(i)}|z^{(i)} = k;\mu, \Sigma) = \prod_{n = 1}^{N}p(r^{(i)}_{n};\mu_{n}, \Sigma_{n}).
 \end{equation}
 \noindent
-In this equation, $N$ is the length of each time series instance.  Thus our model for each time series is $N$ independent Gaussians.
+In this equation, $N$ is the length of each time series instance.  Each $p(r^{(i)}_{n};\mu_{n}, \Sigma_{n})$ is computed by a different Gaussian at time offset $n$.  Thus our model for each time series is $N$ independent Gaussians.
 
 Finally, to make our notation a bit easier we define a variable $w^{(i)}_{k}$.  
 \begin{equation}
@@ -223,45 +223,45 @@ $w_{k}^{(i)}$ represents the probability of latent variable $z^{(i)}$ taking the
 
 Expectation maximization (EM) is a common technique to solve maximization problems of this kind.  Here we briefly derive the EM algorithm for our time series derivation of mixture of Gaussians.  Combining our equations so far, we can write the likelihood of the time series model as
 \begin{equation}
+\label{eq:pre_em}
 \ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\log \sum_{k = 1}^{K}w_{k}^{(i)}\frac{p(r^{(i)}, z^{(i)}=k;\phi, \mu, \Sigma)}{w_{k}^{(i)}}
 \end{equation}
-
-
-
-\begin{equation}
-\label{eq:em_likelihood}
-\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)}\log \{ \frac{p(r^{(i)}|z^{(i)}=k;\mu, \Sigma)p(z^{(i)} = k;\phi)}{w_{k}^{(i)}} \}
-\end{equation}
-
-
-
-Combining equations~\ref{eq:em_likelihood} and~\ref{eq:model} gives the following log likelihood
-\begin{equation}
-\label{eq:em_combined}
-\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)} (\log \{ \frac{p(z^{(i)} = k)}{w_{k}}\} +  \log \{ \frac{\sum_{n = 1}^{N} \log \mathcal{N}_{n}(r^{(i)})}{w_{k}}\})
-\end{equation}
+\noindent
+This is the equation we want to maximize.  The EM algorithm is computed in two steps, the E step which gives a lower bound on the equation we are trying to maximize and then the M step which maximizes for the current lower bound.  
 
 \bigskip
 \noindent
 \textbf{E-Step} \\
 The E-step hardly changes from the traditional EM mixture of Gaussians algorithm.  We simply need to calculate 
 \begin{equation}
-w^{(i)}_{k} = p(z^{(i)} = k|r^{(i)})
+w^{(i)}_{k} = p(z^{(i)} = k|r^{(i)}).
 \end{equation}
+\noindent
+This can be calculated directly from the data by applying Bayes rule.
 
-Applying Bayes rule, we can compute the $w^{(i)}_{k}$'s as:
 \begin{equation}
-w^{(i)}_{k} = p(z^{(i)} = j|r^{(i)}) = \frac{p(r^{(i)}|z^{(i)}=j)p(z^{(i)}=j)}
+w^{(i)}_{k} = p(z^{(i)} = k|r^{(i)}) = \frac{p(r^{(i)}|z^{(i)}=k)p(z^{(i)}=k)}
 						{\sum_{k=1}^{K}p(r^{(i)}|z^{(i)}=k)p(z^{(i)}=k)}
 \end{equation}
+
 
 \bigskip
 \noindent
 \textbf{M-Step} \\
-For the maximization step, it is assumed that we know the values of $w_{k}^{i}$.  Thus, we need to maximize equation~\ref{eq:em_combined} with respect to $\mu$, $\Sigma$, and $\phi$.
-The results of these maximizations are given below:
+For the maximization step it is assumed that we know the values of $w_{k}^{(i)}$.  Thus, we need to maximize equation \ref{eq:pre_em} with respect to $\mu$, $\Sigma$, and $\phi$.  However there is one more simplifying step which needs to be made prior to direct maximization.  This can be made according to Jensen's inequality, that is equation \ref{eq:pre_em} may be written as 
+\begin{equation}
+\label{eq:em_likelihood}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)}\log \frac{p(r^{(i)}|z^{(i)}=k;\mu, \Sigma)p(z^{(i)} = k;\phi)}{w_{k}^{(i)}}
+\end{equation}
+and still converge using the EM algorithm.
 
-TODO - REDERIVE WITH NEW NOTATION
+Combining equations~\ref{eq:em_likelihood} and~\ref{eq:model} gives the following log likelihood
+\begin{equation}
+\label{eq:em_combined}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)} [\log \frac{p(z^{(i)} = k)}{w_{k}} + \sum_{n = 1}^{N} \log \frac{p(r^{(i)}; \mu_{k, n}, \Sigma_{k, n})}{w_{k}}]
+\end{equation}
+
+Maximizing \ref{eq:em_combined} with respect to $\phi_{k}$, $\mu_{k, n}$ and $\Sigma_{k, n}$ yields the following update rules for each parameter in the M step.
 
 \begin{equation}
 \phi_{k} = \frac{1}{M}\sum_{i = 1}^{M}w_{k}^{(i)}
