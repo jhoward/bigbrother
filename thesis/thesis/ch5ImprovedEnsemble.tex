@@ -274,11 +274,42 @@ Maximizing \ref{eq:em_combined} with respect to $\phi_{k}$, $\mu_{k, n}$ and $\S
 \end{equation}
 
 
+\subsection{Selecting the number of clusters}
+
+Determining an appropriate number of clusters is an important task in cluster analysis.  Because of its importance for any clustering technique, the literature on this subject is extensive.  While there is no universal definition for determining the optimal number of clusters, there is a general similarity for most cluster analysis techniques.  That is, grouping objects (activity residuals for our dataset) which are as similar as possible into sets, while keeping the model representing the clusters as dissimilar as possible.    A full discussion of all of these approaches is too broad for our work.  Here we will discuss a few common approaches and describe the approach we take to clustering.
+
+\bigskip
+\noindent
+\textbf{Elbow}
+
+\begin{wrapfigure}{R}{0.4\textwidth}
+\centering
+\includegraphics[width=0.4\textwidth]{elbow_clusters.png}
+\caption{Demonstration of the elbow clustering selection [ref].}
+\label{fig:elbow_cluster}
+\end{wrapfigure}
+
+Developed by Robert Thorndike (TODO INSERT REFERENCE) in 1953, this approach looks to plot the inter-cluster sum of squared error verses the number of clusters.  In many clustering applications, the average inter-cluster error will begin to drop significantly and then begin to asymptotically decrease.  The number of clusters is chosen at this "elbow."  \ref{fig:elbow_cluster} demonstrates a this elbow.  In the image, the number of clusters selected is 2.  A common problem with this approach is that the elbow cannont always be unambiguously identified.
+
+\bigskip
+\noindent
+\textbf{Information criterion} \\
+DO DO DO
+
+\bigskip
+\noindent
+\textbf{Cross-validation} \\
+DO DO
+
+
+\bigskip
+\noindent
+\textbf{Silhouette} \\
+DO
+
 \subsection{Sample representative clusters and a discussion about them}
 
-TODO INSERT A DISCUSSION OF CLUSTER ASSIGNMENT AND SILHOUETTE SCORE MAXIMAZATION
-
-This section visually demonstrates a few of the clusters extracted from our datasets using the time series mixture of Gaussian's approach.  These residual clusters were chosen from each dataset and from different base forecasting approaches.  We chose the base forecasters from which we select the following clusters arbitrarily without regard to the forecaster's accuracy.  Such clusters have been generated for every combination of dataset and forecaster residuals.  
+This section visually demonstrates a few of the clusters extracted from our datasets using the time series mixture of Gaussian's approach.  These residual clusters were chosen from each dataset and from different base forecasting approaches.  The images shown here are from a mix of base forecasters without regard to the forecaster's accuracy.  Such clusters have been generated for every combination of dataset and forecaster residuals.
 
 \ref{fig:merl_clusters} is a set of clusters from a residual time series of MERL dataset extracted using the SVM forecaster.  The residuals are from a time series forecasting horizon of 20 minutes (two time steps).  The extracted window length is 70 minutes (seven time steps).  These clusters were taken from the top 10\% of the MERL data residuals.
 

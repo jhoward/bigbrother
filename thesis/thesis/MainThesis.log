@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  14 SEP 2014 19:45
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  21 SEP 2014 13:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -934,25 +934,28 @@ put line 136.
 File: ./images/arima_abcf_extracted_residuals_Merl.png Graphic file (type QTm)
  <use  "./images/arima_abcf_extracted_residuals_Merl.png" > [56]
 [57] [58] [59]
+File: ./images/elbow_clusters.png Graphic file (type QTm)
+ <use  "./images/elbow_clusters.png" > [60]
 File: ./images/merl_sample_clusters_svm.png Graphic file (type QTm)
- <use  "./images/merl_sample_clusters_svm.png" >
+
+<use  "./images/merl_sample_clusters_svm.png" >
 File: ./images/brown_sample_clusters_arima.png Graphic file (type QTm)
 
 <use  "./images/brown_sample_clusters_arima.png" >
 File: ./images/denver_sample_clusters_tdnn.png Graphic file (type QTm)
 
-<use  "./images/denver_sample_clusters_tdnn.png" > [60] [61] [62] [63]
+<use  "./images/denver_sample_clusters_tdnn.png" > [61] [62] [63] [64]
 File: ./images/sample_residual_plot_dataset_Denver.png Graphic file (type QTm)
 
-<use  "./images/sample_residual_plot_dataset_Denver.png" > [64]
+<use  "./images/sample_residual_plot_dataset_Denver.png" > [65]
 File: ./images/denver_sample_cluster.png Graphic file (type QTm)
 
 <use  "./images/denver_sample_cluster.png" >
-Underfull \hbox (badness 6608) in paragraph at lines 402--402
-[]\OT1/cmr/m/n/12 Figure 5.10: |Ex-tracted
+Underfull \hbox (badness 6608) in paragraph at lines 432--432
+[]\OT1/cmr/m/n/12 Figure 5.11: |Ex-tracted
  []
 
-[65]
+[66]
 File: ./images/sample_plot_Denver.png Graphic file (type QTm)
  <use  "./images/sample_plot_Denver.png" >
 File: ./images/sqeonan_average_abcf_Denver.png Graphic file (type QTm)
@@ -967,7 +970,7 @@ File: ./images/rmse_arima_abcf_Merl.png Graphic file (type QTm)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[66] [67] [68]
+[67] [68] [69]
 File: ./images/sqeonan_improvement_for_each_forecaster_for_Merl.png Graphic fil
 e (type QTm)
 
@@ -983,15 +986,15 @@ ile (type QTm)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[69]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 495.
+[70]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 525.
 
  (/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 495.
- [70]
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 525.
+ [71]
 File: ./images/rmse_improvement_for_each_forecaster_for_Merl.png Graphic file (
 type QTm)
 
@@ -1027,24 +1030,24 @@ File: ./images/mase_improvement_for_each_forecaster_for_Denver.png Graphic file
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[71] [72] [73] [74]) [75]
+[72] [73] [74] [75]) [76]
 \openout2 = `ch6Conclusion.aux'.
 
- (./ch6Conclusion.tex) [76
+ (./ch6Conclusion.tex) [77
 
 
 
-] (./MainThesis.bbl [77
+] (./MainThesis.bbl [78
 
 
 ]
-[78] [79]
+[79] [80]
 Underfull \hbox (badness 10000) in paragraph at lines 282--288
 \OT1/cmtt/m/n/12 Search&q = intitle : A + Sensor-[]Utility-[]Network + Method +
  for + Estimation + of +
  []
 
-[80] [81] [82]
+[81] [82] [83]
 Underfull \hbox (badness 5161) in paragraph at lines 553--558
 []\OT1/cmr/m/n/12 Mitja Lu^^Tstrek and Bo^^Tstjan Kalu^^Tza.  Fall de-tec-tion 
 and ac-tiv-ity recog-ni-
@@ -1062,13 +1065,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 553--558
 nd _ activity _ recognition _
  []
 
-[83]
+[84]
 Underfull \hbox (badness 10000) in paragraph at lines 615--624
 \OT1/cmtt/m/n/12 wrapper . htm ? arnumber = 757481http : / / www . computer . o
 rg / portal / web / csdl / doi /
  []
 
-[84]) [85]
+[85]) [86]
 \openout2 = `thesis_appendix.aux'.
 
  (./thesis_appendix.tex
@@ -1117,7 +1120,7 @@ File: ./images/sqe_denver_arima.png Graphic file (type QTm)
 <use  "./images/sqe_denver_arima.png" >
 File: ./images/sqe_denver_tdnn.png Graphic file (type QTm)
  <use  "./images/sqe_denver_tdnn.png" >
-[86
+[87
 
 
 ]
@@ -1204,8 +1207,8 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 246--249
 
 File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
  (type QTm)
-<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [87]
-[88] [89] [90] [91] [92] [93]) [94
+<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [88]
+[89] [90] [91] [92] [93] [94]) [95
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
@@ -1228,12 +1231,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12642 strings out of 494004
- 192382 string characters out of 3150890
- 329203 words of memory out of 3000000
- 15596 multiletter control sequences out of 15000+200000
+ 12651 strings out of 494004
+ 192556 string characters out of 3150890
+ 329864 words of memory out of 3000000
+ 15604 multiletter control sequences out of 15000+200000
  8582 words of font info for 32 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 142i,15n,643p,1252b,624s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 143i,15n,648p,1252b,624s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (109 pages).
+Output written on MainThesis.pdf (110 pages).
