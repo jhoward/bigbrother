@@ -289,23 +289,33 @@ Determining an appropriate number of clusters is an important task in cluster an
 \label{fig:elbow_cluster}
 \end{wrapfigure}
 
-Developed by Robert Thorndike (TODO INSERT REFERENCE) in 1953, this approach looks to plot the inter-cluster sum of squared error verses the number of clusters.  In many clustering applications, the average inter-cluster error will begin to drop significantly and then begin to asymptotically decrease.  The number of clusters is chosen at this "elbow."  \ref{fig:elbow_cluster} demonstrates a this elbow.  In the image, the number of clusters selected is 2.  A common problem with this approach is that the elbow cannont always be unambiguously identified.
+Developed by Robert Thorndike \cite{Thorndike1953} in 1953, this approach looks to plot the inter-cluster sum of squared error verses the number of clusters.  In many clustering applications, the average inter-cluster error will begin to drop significantly and then begin to asymptotically decrease.  The number of clusters is chosen at this "elbow."  \ref{fig:elbow_cluster} demonstrates a this elbow.  In the image, the number of clusters selected is 2.  A common problem with this approach is that the elbow can not always be unambiguously identified.
 
 \bigskip
 \noindent
 \textbf{Information criterion} \\
-DO DO DO
+An information based approach to selecting the number of clusters is to use either the Akaike information criterion \cite{Akaike1974} or the Bayesian information criterion \cite{Schwarz1978}.  There exist other information criterions, but they do not have the ubiquity of the prior two criterions.  Both the Akaike and the Bayesian criterion seek to determine the number of clusters by imposing a tradeoff between the goodness of fit and the number of model parameters.  For our work, goodness of fit can be measured by the log likelihood of the data to the Gaussian clusters and the number of model parameters is simply the number of models.  
 
 \bigskip
 \noindent
 \textbf{Cross-validation} \\
-DO DO
+
 
 
 \bigskip
 \noindent
 \textbf{Silhouette} \\
-DO
+Silhouette \cite{Rousseuw1987} scores are another method of selecting the number of clusters.  A silhouette score balances the tradeoff between the average dissimilarity between all data points for a given cluster and the average dissimilarity to the data points of the next nearest cluster.  The silhouette score is defined as
+
+\begin{equation}
+s(i) = \frac{b(i) - a(i)}{max\{a(i), b(i)\}}.
+\end{equation}
+
+$a(i)$ is the average dissimilarity between data point $i$ and all other points within the cluster $i$ is assigned.  $b(i)$ is the average dissimilarity between data point $i$ and all other points within the nearest cluster that does not contain $i$.  The optimal number of clusters is then chosen by finding the maximum silhouette score amongst multiple possible values of K.
+
+The best method for selecting the optimal number of clusters is an open problem.  Different datasets and different clustering methods may require different criterions to determine the optimal number of clusters.  Since our approach is mostly unsupervised, we do not have the luxury of determining what criterion works best for our data.   
+
+The doctoral thesis \cite{Yan2005} of Yan broached the topic of best clustering criterion and showed significant variation between clustering criterions.  Of these criterions, silhouette based cluster selection was consistently one of the best selection criterions.  Given the variability in selection techniques and combined with Yan's findings, we feel confident that Silhouette scores provide an adequate cluster selection criterion.
 
 \subsection{Sample representative clusters and a discussion about them}
 

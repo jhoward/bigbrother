@@ -1,4 +1,4 @@
-\begin{thebibliography}{87}
+\begin{thebibliography}{91}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -167,7 +167,7 @@ G.~M. Ljung and G.~E.~P. Box.
 \bibitem[Akaike(1974)]{Akaike1974}
 Hirotsugu Akaike.
 \newblock {A New Look at the Statistical Model Identification}.
-\newblock \emph{IEEE Transactions on Automatic Controll}, 19\penalty0
+\newblock \emph{IEEE Transactions on Automatic Control}, 19\penalty0
   (6):\penalty0 716--723, 1974.
 
 \bibitem[Smith and Demetsky(1997)]{Smith1997}
@@ -662,5 +662,28 @@ Emil Eirola and Amaury Lendasse.
 Leena Kalliovirta, Mika Meitz, and Pentti Saikkonen.
 \newblock {A Gaussian mixture autoregressive model for univariate time series}.
 \newblock Technical report, Helsinki Center of Economic Research, 2012.
+
+\bibitem[Thorndike(1953)]{Thorndike1953}
+Robert~L. Thorndike.
+\newblock {Who Belong in the Family?}
+\newblock \emph{Psychometrika}, 18\penalty0 (4):\penalty0 267--276, 1953.
+
+\bibitem[Schwarz(1978)]{Schwarz1978}
+Gideon~E. Schwarz.
+\newblock {Estimating the dimension of a model}.
+\newblock \emph{Annals of Statistics}, 6\penalty0 (2):\penalty0 461--464, 1978.
+
+\bibitem[Rousseuw(1987)]{Rousseuw1987}
+Peter~J. Rousseuw.
+\newblock {Silhouettes: a Graphical Aid to the Interpretation and Validation of
+  Cluster Analysis}.
+\newblock \emph{Computational and Applied Mathematics}, 20:\penalty0 53 -- 65,
+  1987.
+
+\bibitem[Yan(2005)]{Yan2005}
+Mingjin Yan.
+\newblock \emph{{Methods of Determining the Number of Clusters in a Data Set
+  and a New Clustering Criterion}}.
+\newblock PhD thesis, 2005.
 
 \end{thebibliography}
