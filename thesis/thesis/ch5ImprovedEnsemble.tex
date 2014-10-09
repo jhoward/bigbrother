@@ -489,9 +489,9 @@ Since the number of potential images to display about the improvements due to AB
 	\label{fig:arima_merl_rmse}
 \end{figure}
 
-\ref{fig:average_abcf_denver} demonstrate the improvements to the SQEONAN metric of applying our ABCF algorithm to the average forecasting algorithm for the Denver dataset.  Unsurprisingly we found our largest improvements came with the historic average model.  The reason for this is that any activities or consistent deviations from normal behavior show up in the average model.  These behaviors are well represented in the residuals and thus make good candidate models for our ABCF model.
+\ref{fig:average_abcf_denver} demonstrates the improvements to the RMSE-ONAN metric of applying our ABCF algorithm to the average forecasting algorithm for the Denver dataset.  Unsurprisingly we found our largest improvements came with the historic average model.  The reason for this is that any activities or consistent deviations from normal behavior show up in the average model.  These behaviors are well represented in the residuals and thus make good candidate models for our ABCF model.
 
-\ref{fig:arima_merl_sqe} and \ref{fig:arima_merl_rmse} display the improvement to both the SQEONAN metric and RMSE metric when applying ABCF to an ARIMA forecaster on the MERL dataset.  Notice that while the improvement to the SQEONAN metric is significant in \ref{fig:arima_merl_sqe}, the improvement to RMSE considerably smaller.  This result is expected.  ABCF improves forecasting during the presence of anomalies.  Due to the nature of anomalies being sufficiently rare, ABCF may not improve overall forecasting accuracy by a large margin.
+\ref{fig:arima_merl_sqe} and \ref{fig:arima_merl_rmse} display the improvement to both the RMSE-ONAN metric and RMSE metric when applying ABCF to an ARIMA forecaster on the MERL dataset.  Notice that while the improvement to the RMSE-ONAN metric is significant in \ref{fig:arima_merl_sqe}, the improvement to RMSE considerably smaller.  This result is expected.  ABCF improves forecasting during the presence of anomalies.  Due to the nature of anomalies being sufficiently rare, ABCF may not improve overall forecasting accuracy by a large margin.
 
 \newpage
 

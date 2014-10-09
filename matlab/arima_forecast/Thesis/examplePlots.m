@@ -583,12 +583,12 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 
 
 %==========================================================================
-% PLOT ABCF applied to each dataset for SQEONAN
+% PLOT ABCF applied to each dataset for RMSEONAN
 %==========================================================================
 %NOTE: Future forecasts beyond horizon 8 begin to get worse than just BCF 
 %       for dataset 3.
 
-dataSet = 3;
+dataSet = 1;
 trainTestSet = 3;
 horizon = 8;
 
@@ -603,126 +603,40 @@ fEnd = size(data.testData, 2);
 figsizeX = 1200;
 figsizeY = 550;
 
-plotTitle = ['BCF model SQEONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+plotTitle = ['BCF model RMSE-ONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
 %set(gca,'units','pix','pos',[100,100,100 + figsizeX, 100 + figsizeY])
 fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
-results.ABCF.ICCBCF.sqeonan(trainTestSet, 1) = results.IBCF.sqeonan(trainTestSet, 1)
+%results.ABCF.ICCBCF.rmseonan(trainTestSet, 1) = results.IBCF.rmseonan(trainTestSet, 1)
 
 %Plot metrics
-plot(results.IBCF.sqeonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
+plot(results.IBCF.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(1, :));
 hold on
-plot(results.ABCF.ICCBCF.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+plot(results.ABCF.ICCBCF.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
 
 
 xlim([1, horizon]);
+ylim([0, 1.1 * max(results.ABCF.ICCBCF.rmseonan(trainTestSet, 1:horizon))]);
+
 
 title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 set(gca,'XTick',[1:horizon])
-ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE-ONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 
 %legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
 ax = legend('BCF-TS', 'BCF-TS + ABCF')
 LEG = findobj(ax,'type','text');
-set(LEG,'FontSize',14)
+set(LEG,'FontSize',18)
 
-set(gca,'FontSize',14)
+set(gca,'FontSize',18)
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
-        'sqeonan_abcf_bcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+        'rmseonan_abcf_bcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
 
 
 
 %==========================================================================
-% PLOT Average + abcf applied to each dataset for  SQEONAN
-%==========================================================================
-dataSet = 3;
-trainTestSet = 3;
-horizon = 8;
-
-colors = linspecer(8);
-
-load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
-load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
-
-fStart = data.blocksInDay * 1;
-fEnd = size(data.testData, 2);
-
-figsizeX = 1200;
-figsizeY = 550;
-
-plotTitle = ['Average model SQEONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
-%set(gca,'units','pix','pos',[100,100,100 + figsizeX, 100 + figsizeY])
-fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
-
-%Plot metrics
-plot(results.average.sqeonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
-hold on
-plot(results.ABCF.average.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
-
-xlim([1, horizon]);
-ylim([1, results.average.sqeonan(trainTestSet, 1) + 5]);
-
-title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
-xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
-set(gca,'XTick',[1:horizon])
-ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
-
-set(gca,'FontSize',14)
-
-%legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
-ax = legend('Average', 'Average + ABCF')
-LEG = findobj(ax,'type','text');
-set(LEG,'FontSize',14)
-export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
-        'sqeonan_average_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
-
-
-%==========================================================================
-% PLOT SVM + abcf applied to each dataset for  SQEONAN
-%==========================================================================
-dataSet = 2;
-trainTestSet = 3;
-horizon = 8;
-
-colors = linspecer(8);
-
-load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
-load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
-
-fStart = data.blocksInDay * 1;
-fEnd = size(data.testData, 2);
-
-figsizeX = 1200;
-figsizeY = 550;
-
-plotTitle = ['SVM model SQEONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
-fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
-
-%Plot metrics
-plot(results.svm.sqeonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
-hold on
-plot(results.ABCF.csvm.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
-
-xlim([1, horizon]);
-
-title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
-xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
-set(gca,'XTick',[1:horizon])
-ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
-
-set(gca,'FontSize',14)
-
-ax = legend('SVM', 'SVM + ABCF')
-LEG = findobj(ax,'type','text');
-set(LEG,'FontSize',14)
-export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
-        'sqeonan_svm_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
-
-
-    
-%==========================================================================
-% PLOT ARIMA + abcf applied to each dataset for  SQEONAN
+% PLOT Average + abcf applied to each dataset for  RMSE-ONAN
 %==========================================================================
 dataSet = 1;
 trainTestSet = 3;
@@ -739,31 +653,165 @@ fEnd = size(data.testData, 2);
 figsizeX = 1200;
 figsizeY = 550;
 
-plotTitle = ['ARIMA model SQEONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+plotTitle = ['Average model RMSE-ONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+%set(gca,'units','pix','pos',[100,100,100 + figsizeX, 100 + figsizeY])
 fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
 %Plot metrics
-plot(results.arima.sqeonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
+plot(results.average.rmseonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
 hold on
-plot(results.ABCF.carima.sqeonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+plot(results.ABCF.average.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
 
 xlim([1, horizon]);
-ylim([0, 1.1*max(results.arima.sqeonan(trainTestSet, :))]);
+ylim([0, 1.1 * max(results.average.rmseonan(trainTestSet, 1:horizon))]);
+
+title(plotTitle, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+set(gca,'XTick',[1:horizon])
+ylabel('RMSE-ONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+set(gca,'FontSize',18)
+
+ax = legend('Average', 'Average + ABCF')
+LEG = findobj(ax,'type','text');
+set(LEG,'FontSize',18)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'rmseonan_average_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+
+
+%==========================================================================
+% PLOT SVM + abcf applied to each dataset for  RMSE-ONAN
+%==========================================================================
+dataSet = 3;
+trainTestSet = 3;
+horizon = 8;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+plotTitle = ['SVM model RMSE-ONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+%Plot metrics
+plot(results.svm.rmseonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
+hold on
+plot(results.ABCF.csvm.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+
+xlim([1, horizon]);
+ylim([0, 1.1 * max(results.svm.rmseonan(trainTestSet, 1:horizon))]);
+
+
+title(plotTitle, 'FontSize', 24, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+set(gca,'XTick',[1:horizon])
+ylabel('RMSE-ONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+set(gca,'FontSize',18)
+
+ax = legend('SVM', 'SVM + ABCF')
+LEG = findobj(ax,'type','text');
+set(LEG,'FontSize',18)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'rmseonan_svm_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+
+
+    
+%==========================================================================
+% PLOT ARIMA + abcf applied to each dataset for RMSE-ONAN
+%==========================================================================
+dataSet = 3;
+trainTestSet = 3;
+horizon = 8;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+plotTitle = ['ARIMA model RMSE-ONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+%Plot metrics
+plot(results.arima.rmseonan(trainTestSet, :), 'Linewidth', 2, 'Color', colors(1, :));
+hold on
+plot(results.ABCF.carima.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+
+xlim([1, horizon]);
+ylim([0, 1.1*max(results.arima.rmseonan(trainTestSet, 1:horizon))]);
 
 title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 set(gca,'XTick',[1:horizon])
-ylabel('SQEONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE-ONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 
-set(gca,'FontSize',14)
+set(gca,'FontSize',18)
 
 ax = legend('ARIMA', 'ARIMA + ABCF')
 LEG = findobj(ax,'type','text');
-set(LEG,'FontSize',14)
+set(LEG,'FontSize',18)
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
-        'sqeonan_arima_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+        'rmseonan_arima_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
 
 
+    
+%==========================================================================
+% PLOT TDNN + abcf applied to each dataset for RMSE-ONAN
+%==========================================================================
+dataSet = 1;
+trainTestSet = 3;
+horizon = 8;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
+
+fStart = data.blocksInDay * 1;
+fEnd = size(data.testData, 2);
+
+figsizeX = 1200;
+figsizeY = 550;
+
+plotTitle = ['TDNN model RMSE-ONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+%Plot metrics
+plot(results.tdnn.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(1, :));
+hold on
+plot(results.ABCF.ctdnn.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
+
+xlim([1, horizon]);
+ylim([0, 1.1*max(results.tdnn.rmseonan(trainTestSet, 1:horizon))]);
+
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+set(gca,'XTick',[1:horizon])
+ylabel('RMSE-ONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+set(gca,'FontSize',18)
+
+ax = legend('TDNN', 'TDNN + ABCF')
+LEG = findobj(ax,'type','text');
+set(LEG,'FontSize',18)
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'rmseonan_tdnn_abcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+    
+    
+    
     
 %==========================================================================
 % PLOT ARIMA + abcf applied to each dataset for RMSE
