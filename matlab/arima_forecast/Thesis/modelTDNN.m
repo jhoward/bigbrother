@@ -164,12 +164,15 @@ for h = 1:MyConstants.HORIZON
     
     %Performance metrics
     [ponanValue rmseonanValue sqeonan ~] = ponan(trainRes, stds);
+    rmseonanhist(1, h) = rmseonanValue;
     sqeonanhist(1, h) = sqeonan;
     
     [ponanValue rmseonanValue sqeonan ~] = ponan(validRes, stds);
+    rmseonanhist(2, h) = rmseonanValue;
     sqeonanhist(2, h) = sqeonan;
     
     [ponanValue rmseonanValue sqeonan ~] = ponan(testRes, stds);
+    rmseonanhist(3, h) = rmseonanValue;
     sqeonanhist(3, h) = sqeonan;
 
     %SQEONAN3

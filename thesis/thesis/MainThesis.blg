@@ -18,43 +18,43 @@ Warning--there's a number but no series in Huynh2005
 Warning--empty school in Yan2005
 You've used 91 entries,
             2481 wiz_defined-function locations,
-            1231 strings with 24512 characters,
-and the built_in function-call counts, 37119 in all, are:
-= -- 3423
-> -- 1627
-< -- 81
-+ -- 646
-- -- 462
-* -- 2707
-:= -- 5722
-add.period$ -- 373
+            1165 strings with 21053 characters,
+and the built_in function-call counts, 36669 in all, are:
+= -- 3260
+> -- 1667
+< -- 80
++ -- 657
+- -- 474
+* -- 2625
+:= -- 5587
+add.period$ -- 303
 call.type$ -- 91
 change.case$ -- 182
-chr.to.int$ -- 89
+chr.to.int$ -- 90
 cite$ -- 97
-duplicate$ -- 1972
-empty$ -- 3413
-format.name$ -- 619
-if$ -- 8157
-int.to.chr$ -- 3
+duplicate$ -- 1996
+empty$ -- 3447
+format.name$ -- 631
+if$ -- 8064
+int.to.chr$ -- 2
 int.to.str$ -- 92
-missing$ -- 84
-newline$ -- 549
+missing$ -- 86
+newline$ -- 479
 num.names$ -- 275
-pop$ -- 775
+pop$ -- 840
 preamble$ -- 1
 purify$ -- 91
 quote$ -- 0
-skip$ -- 1232
+skip$ -- 1247
 stack$ -- 0
-substring$ -- 1584
-swap$ -- 426
-text.length$ -- 31
+substring$ -- 1655
+swap$ -- 436
+text.length$ -- 32
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 625
 warning$ -- 6
-while$ -- 319
+while$ -- 324
 width$ -- 0
-write$ -- 1365
+write$ -- 1227
 (There were 6 warnings)

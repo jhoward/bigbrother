@@ -46,5 +46,5 @@
 \contentsline {subsection}{\numberline {5.11}Future unexplored work on ABCF}{74}{subsection.5.11}
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{78}{section*.62}
 \contentsline {section}{\texorpdfupper {References Cited}}{79}{section*.63}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{88}{section*.64}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{96}{section*.79}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{87}{section*.64}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{95}{section*.79}

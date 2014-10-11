@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  7 OCT 2014 22:57
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  9 OCT 2014 20:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1044,37 +1044,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 ]
-[80] [81]
-Underfull \hbox (badness 10000) in paragraph at lines 282--288
-\OT1/cmtt/m/n/12 Search&q = intitle : A + Sensor-[]Utility-[]Network + Method +
- for + Estimation + of +
- []
-
-[82] [83] [84]
-Underfull \hbox (badness 5161) in paragraph at lines 553--558
-[]\OT1/cmr/m/n/12 Mitja Lu^^Tstrek and Bo^^Tstjan Kalu^^Tza.  Fall de-tec-tion 
-and ac-tiv-ity recog-ni-
- []
-
-
-Underfull \hbox (badness 1668) in paragraph at lines 553--558
-\OT1/cmr/m/n/12 tion with ma-chine learn-ing.  \OT1/cmr/m/it/12 In-for-mat-ica\
-OT1/cmr/m/n/12 , 33(2):205--212, 2009.  URL []$\OT1/cmtt/m/n/12 http :
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 553--558
-\OT1/cmtt/m/n/12 / / dis . ijs . si / mitjal / documents / Fall _ detection _ a
-nd _ activity _ recognition _
- []
-
-[85]
-Underfull \hbox (badness 10000) in paragraph at lines 615--624
-\OT1/cmtt/m/n/12 wrapper . htm ? arnumber = 757481http : / / www . computer . o
-rg / portal / web / csdl / doi /
- []
-
-[86]) [87]
+[80] [81] [82] [83] [84] [85]) [86]
 \openout2 = `thesis_appendix.aux'.
 
  (./thesis_appendix.tex
@@ -1123,7 +1093,7 @@ File: ./images/sqe_denver_arima.png Graphic file (type QTm)
 <use  "./images/sqe_denver_arima.png" >
 File: ./images/sqe_denver_tdnn.png Graphic file (type QTm)
  <use  "./images/sqe_denver_tdnn.png" >
-[88
+[87
 
 
 ]
@@ -1210,8 +1180,8 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 246--249
 
 File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
  (type QTm)
-<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [89]
-[90] [91] [92] [93] [94] [95]) [96
+<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [88]
+[89] [90] [91] [92] [93] [94]) [95
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
@@ -1234,12 +1204,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12665 strings out of 494004
- 192824 string characters out of 3150890
- 330428 words of memory out of 3000000
- 15618 multiletter control sequences out of 15000+200000
- 8582 words of font info for 32 fonts, out of 3000000 for 9000
+ 12662 strings out of 494004
+ 192753 string characters out of 3150890
+ 330492 words of memory out of 3000000
+ 15616 multiletter control sequences out of 15000+200000
+ 8413 words of font info for 31 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 143i,15n,648p,1252b,624s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 143i,15n,648p,1252b,628s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (111 pages).
+Output written on MainThesis.pdf (110 pages).
