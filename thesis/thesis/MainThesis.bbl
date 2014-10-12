@@ -1,4 +1,4 @@
-\begin{thebibliography}{91}
+\begin{thebibliography}{92}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -264,7 +264,7 @@ CR~Wren, YA~Ivanov, Darren Leigh, and J~Westbues.
 William~A Hoff and James~W Howard.
 \newblock {Activity recognition in a dense sensor network}.
 \newblock In \emph{1st International Conference on Sensor Networks and
-  Applications (SNA2009)}, page~6, 2009.
+  Applications (SNA2009)}, pages 6--11, 2009.
 
 \bibitem[Wren and Rao(2003)]{Wren2003}
 Christopher~R. Wren and Srinivasa~G Rao.
@@ -591,5 +591,11 @@ Mingjin Yan.
 \newblock \emph{{Methods of Determining the Number of Clusters in a Data Set
   and a New Clustering Criterion}}.
 \newblock PhD thesis, 2005.
+
+\bibitem[Connor et~al.(1994)Connor, Martin, and Atlas]{connor1994}
+Jerome~T. Connor, Douglas~R. Martin, and L.~E. Atlas.
+\newblock {Recurrent Neural Networks and Robust Time Series Prediction}.
+\newblock \emph{IEEE Transactions on Neural Networks}, 5\penalty0 (2):\penalty0
+  240 -- 254, 1994.
 
 \end{thebibliography}

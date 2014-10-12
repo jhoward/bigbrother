@@ -141,7 +141,7 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
     
     
 %==========================================================================
-% PLOT Percent sqeonan improvement
+% PLOT Percent rmseonan improvement
 %==========================================================================
 %Display the improvement for a given forecaster using ABCF
 
@@ -160,12 +160,12 @@ fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
 hold on
 
-p_svm = (results.svm.sqeonan(3, :) - results.ABCF.csvm.sqeonan(3, :)) ./ results.svm.sqeonan(3, :);
-p_arima = (results.arima.sqeonan(3, :) - results.ABCF.carima.sqeonan(3, :)) ./ results.arima.sqeonan(3, :);
-p_tdnn = (results.tdnn.sqeonan(3, :) - results.ABCF.ctdnn.sqeonan(3, :)) ./ results.tdnn.sqeonan(3, :);
-p_avg = (results.average.sqeonan(3, :) - results.ABCF.caverage.sqeonan(3, :)) ./ results.average.sqeonan(3, :);
-p_bcf = (results.BCF.sqeonan(3, :) - results.ABCF.BCF.sqeonan(3, :)) ./ results.BCF.sqeonan(3, :);
-p_ibcf = (results.IBCF.sqeonan(3, :) - results.ABCF.ICCBCF.sqeonan(3, :)) ./ results.IBCF.sqeonan(3, :);
+p_svm = (results.svm.rmseonan(3, :) - results.ABCF.csvm.rmseonan(3, :)) ./ results.svm.rmseonan(3, :);
+p_arima = (results.arima.rmseonan(3, :) - results.ABCF.carima.rmseonan(3, :)) ./ results.arima.rmseonan(3, :);
+p_tdnn = (results.tdnn.rmseonan(3, :) - results.ABCF.ctdnn.rmseonan(3, :)) ./ results.tdnn.rmseonan(3, :);
+p_avg = (results.average.rmseonan(3, :) - results.ABCF.caverage.rmseonan(3, :)) ./ results.average.rmseonan(3, :);
+p_bcf = (results.BCF.rmseonan(3, :) - results.ABCF.BCF.rmseonan(3, :)) ./ results.BCF.rmseonan(3, :);
+p_ibcf = (results.ICBCF.rmseonan(3, :) - results.ABCF.ICCBCF.rmseonan(3, :)) ./ results.IBCF.rmseonan(3, :);
 
 plot(p_svm * 100, 'Color', colors(1, :), 'Linewidth', 2)
 plot(p_arima * 100, 'Color', colors(2, :), 'Linewidth', 2)
@@ -175,19 +175,19 @@ plot(p_bcf * 100, 'Color', colors(5, :), 'Linewidth', 2)
 plot(p_ibcf * 100, 'Color', colors(6, :), 'Linewidth', 2)
 
 xlim([1, horizon]);
-plotTitle = ['Improvment of SQEONAN due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+plotTitle = ['Improvment of RMSE-ONAN due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
 title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 set(gca,'XTick',[1:horizon])
-ylabel('SQEONAN improvement percentage', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE-ONAN improvement percentage', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 
-set(gca,'FontSize',14)
+set(gca,'FontSize',18)
 ax = legend('SVM', 'ARIMA', 'TDNN', 'Average', 'BCF', 'BCF-TS')
 LEG = findobj(ax,'type','text');
-set(LEG,'FontSize',14)
+set(LEG,'FontSize',18)
 
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
-        'sqeonan_improvement_for_each_forecaster_for_', ...
+        'rmseonan_improvement_for_each_forecaster_for_', ...
         MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
 
 
@@ -588,7 +588,7 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 %NOTE: Future forecasts beyond horizon 8 begin to get worse than just BCF 
 %       for dataset 3.
 
-dataSet = 1;
+dataSet = 2;
 trainTestSet = 3;
 horizon = 8;
 
@@ -603,33 +603,33 @@ fEnd = size(data.testData, 2);
 figsizeX = 1200;
 figsizeY = 550;
 
-plotTitle = ['BCF model RMSE-ONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+plotTitle = ['BCF-TS model RMSE-ONAN vs forecasting horizon for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
 %set(gca,'units','pix','pos',[100,100,100 + figsizeX, 100 + figsizeY])
 fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
 %results.ABCF.ICCBCF.rmseonan(trainTestSet, 1) = results.IBCF.rmseonan(trainTestSet, 1)
 
 %Plot metrics
-plot(results.IBCF.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(1, :));
+plot(results.ICBCF.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(1, :));
 hold on
 plot(results.ABCF.ICCBCF.rmseonan(trainTestSet, 1:horizon), 'Linewidth', 2, 'Color', colors(2, :));
 
 
 xlim([1, horizon]);
-ylim([0, 1.1 * max(results.ABCF.ICCBCF.rmseonan(trainTestSet, 1:horizon))]);
+ylim([0, 1.1 * max(results.ICBCF.rmseonan(trainTestSet, 1:horizon))]);
 
 
 title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
-xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+xlabel('Forecasting horizon', 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE)
 set(gca,'XTick',[1:horizon])
-ylabel('RMSE-ONAN', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE-ONAN', 'FontSize', 20, 'FontName', MyConstants.FONT_TYPE)
 
 %legend('Average', 'IBCF', 'BCF', 'SVM', 'TDNN', 'Arima');
 ax = legend('BCF-TS', 'BCF-TS + ABCF')
 LEG = findobj(ax,'type','text');
-set(LEG,'FontSize',18)
+set(LEG,'FontSize',20)
 
-set(gca,'FontSize',18)
+set(gca,'FontSize',20)
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
         'rmseonan_abcf_bcf_', MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
 
@@ -771,7 +771,7 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 %==========================================================================
 % PLOT TDNN + abcf applied to each dataset for RMSE-ONAN
 %==========================================================================
-dataSet = 1;
+dataSet = 3;
 trainTestSet = 3;
 horizon = 8;
 
