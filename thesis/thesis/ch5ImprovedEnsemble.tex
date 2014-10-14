@@ -463,6 +463,9 @@ The recursive nature of our likelihood time step propagation in the ABCF algorit
 \subsection{Results of ABCF}
 Because the results are given over multiple forecasting horizons with several base forecasters and multiple forecasting metrics, we believe that tables are not an adequate format to display our results.  Also, since the number of potential images to display about the improvements due to ABCF is quite large, we provide a few images here to demonstrate our results and put the remaining images in Appendix \ref{app:results} for the interested reader.  The images presented here first demonstrate our ABCF technique applied to the Denver dataset.  Later images in this section display more aggregated results for each of the datasets, forecasting models and forecasting metrics.
 
+\bigskip
+\noindent \textbf{Denver dataset results} 
+
 \begin{figure}[!b]
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{rmseonan_average_abcf_Denver.png}
@@ -515,35 +518,35 @@ Because the results are given over multiple forecasting horizons with several ba
 	\label{fig:rmseonan_improve_denver}
 \end{figure}
 
-\ref{fig:bcf_abcf_rmseonan_denver} shows the results of applying ABCF to the BCF-TS model introduced in the previous chapter.  In this ensemble forecaster, the ABCF technique is still able to find enough structured anomalies to reduce the RM.SE-ONAN metric.  Despite BCF-TS being an ensemble with TDNN included, the sensitivity to outliers has been reduced and ABCF demonstrates an improvement up to 6 forecasts into the future.  Forecasts 7 or 8 time steps appear to be slightly worse applying ABCF.  This is not a surprising result as the extracted activities for the Denver dataset were 6 time steps in length.
+\ref{fig:bcf_abcf_rmseonan_denver} shows the results of applying ABCF to the BCF-TS model introduced in the previous chapter.  In this ensemble forecaster, the ABCF technique is still able to find enough structured anomalies to reduce the RMSE-ONAN metric.  Despite BCF-TS being an ensemble with TDNN included, the sensitivity to outliers has been reduced and ABCF demonstrates an improvement up to 6 forecasts into the future.  Forecasts 7 or 8 time steps appear to be slightly worse applying ABCF.  This is not a surprising result as the extracted activities for the Denver dataset were 6 time steps in length.
 
-An aggregate of the prior graphs as a percentage of improvement if shown in \ref{fig:rmseonan_improve_denver}.  
+An aggregate of the prior graphs as a percentage of improvement if shown in \ref{fig:rmseonan_improve_denver}.  In almost all cases, applying ABCF to a base forecaster for the Denver dataset resulted in forecasting improvement to RMSE-ONAN.  The improvements generated from ABCF are highest on short forecasts and drop to roughly zero for forecasts longer than 6 time steps into the future.  For every forecaster we achieve an improvement of at least 20\% at one time step horizon.  This improvement is still 15-20\% for most forecasters at three time steps.  Put in context, the forecasting accuracy of many anomalous traffic events has improved 15 - 20\% over 3 hours into the future.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Aggregated Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bigskip
-\noindent \textbf{Aggregated Results} 
+\noindent \textbf{Remaining aggregated results} 
 
 \begin{figure}[!h]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{sqeonan_improvement_for_each_forecaster_for_Merl.png}
+		\includegraphics[width=1.0\textwidth]{rmseonan_improvement_for_each_forecaster_for_Merl.png}
 	\end{center}
 	\caption{}
-	\label{fig:sqe_improve_merl}
+	\label{fig:rmseonan_improve_merl}
 \end{figure}
 
 \begin{figure}[!h]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{sqeonan_improvement_for_each_forecaster_for_Brown.png}
+		\includegraphics[width=1.0\textwidth]{rmseonan_improvement_for_each_forecaster_for_Brown.png}
 	\end{center}
 	\caption{}
-	\label{fig:sqe_improve_brown}
+	\label{fig:rmseonan_improve_brown}
 \end{figure}
 
 
-\ref{fig:sqe_improve_merl}, \ref{fig:sqe_improve_brown}, and \ref{fig:rmseonan_improve_denver} shows the percentage improvement to the SQEONAN metric using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset.  As expected, ABCF improves a historic average forecaster by the largest margin.  The improvement is over 70\% on the Denver dataset and still over 25\% on the Brown hall set.
+\ref{fig:rmseonan_improve_merl}, and \ref{fig:rmseonan_improve_brown} shows the percentage improvement to the SQEONAN metric using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset.  As expected, ABCF improves a historic average forecaster by the largest margin.  The improvement is over 70\% on the Denver dataset and still over 25\% on the Brown hall set.
 
 At the one and two time step forecasting horizon, both BCF and our IBCF algorithm introduced in the last chapter are amongst the forecasters that benefit the least from applying ABCF.  We believe the smaller improvement margins are due the properties of ensemble forecasters.  Such forecasters will change forecasting models based on the structure of the dataset at any given time.  These changes may not lead to clusters which are clean and thus as easily able to be modeled.  I
 
