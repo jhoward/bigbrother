@@ -360,30 +360,35 @@ Finally, we believe that the structure demonstrated from these clusters again le
 \label{sec:abcf}
 Here we present the math behind our Anomaly Bayesian combined forecasting algorithm.  Similar to the Bayesian combined forecaster introduced in Chapter 4, our ABCF algorithm is recursive and computationally efficient.  
 
-We present the algorithm using two anomaly event models $a$ and $b$ with a background model $c$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $a$ and $b$ are modeled anomalies from our time series mixture of Gaussians; however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(x_{t} | a^{(i)}_{t})$.  Also, the model $c$ is assumed to be a background model which allows for the computation of $p(c_{t}|x_{t})$.  
+We present the algorithm using two anomaly event models $a$ and $b$ with a background model $c$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $a$ and $b$ are modeled anomalies from our time series mixture of Gaussians; however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(x_{t} | a^{(i)}_{t})$.  Finally, the model $c$ is assumed to be a background model which allows for the computation of $p(c_{t}|x_{t})$.  
 
-Let $a_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$ and $b_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$.  At any time $t$ we have one of ${a^{(i)}_{t}}$, ${b^{(i)}_{t}}$ or $c$.  From this we know that 
+Let $a_{t}^{(i)} = $ the event that model $a$ is active at time $t$ at index $i$ and $b_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$.  Both anomalies $a$ and $b$ have a known length defined by the function $len(a)$ or $len(b)$.  For each time $t$ we call the data that generated $t$ as event $e$.  Because $a$ and $b$ are the only anomalies modeled, $e$ can be either ${a^{(i)}_{t}}$, ${b^{(i)}_{t}}$ or $c$ for any $i$.
+
+Thus, we know that
 
 \begin{equation}
-\sum_{i}^{len(a)} p(a_{t}^{(i)}|x_{t}, \ldots, x_{1}) + \sum_{i}^{len(b)} p(b_{t}^{(i)}|x_{t}, \ldots, x_{1}) + p(c_{t}|x_{t}, \ldots, x_{1}).
+p(e_{t}) = 1.
 \end{equation}
 
-The goal of this forecaster is then to find each of $p(a_{t + 1}^{(i + 1)})$, $p(a_{t + 1}^{(i + 1)})$, and $p(c_{t + 1}).$  Given these model likelihoods, we can then produce a final forecast in a way similar to BCF in chapter 4.
+Since, every $e_{t}$ is generated from either $a$, $b$, or $c$, we force (through normalization)
 
-We know from Bayes rule 
+\begin{equation}
+\sum_{i}^{len(a)} p(a_{t}^{(i)}|x_{t}, \ldots, x_{1}) + \sum_{i}^{len(b)} p(b_{t}^{(i)}|x_{t}, \ldots, x_{1}) + p(c_{t}|x_{t}, \ldots, x_{1}) = 1.
+\label{eq:pabc}
+\end{equation}
+
+The goal of this forecaster is then to find each of $p(a_{t + 1}^{(i + 1)})$, $p(b_{t + 1}^{(i + 1)})$, and $p(c_{t + 1}).$  Given these model likelihoods, we can then produce a final forecast in a way similar to BCF in chapter 4 by either using the most likely model or producing an aggregate forecast from each model.
+
+From Bayes rule we have the following equation 
 
 \begin {equation}
 p(a_{t + 1}^{(i + 1)}|x_{t + 1}, \ldots, x_{1}) =
 		\frac{p(x_{t + 1}|a^{(i + 1)}_{t + 1}, x_{t}, \ldots, x_{1}) p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})}
-	       {p(x_{t + 1})}
+	       {p(x_{t + 1})}.
+\label{eq:update_bayes}
 \end{equation}
 
-Thus to find $p(a_{t + 1}^{(i + 1)}|x_{t + 1}, \ldots, x_{1})$ we need to compute:
-\begin{itemize}
-	\item $p(x_{t + 1}|a^{(i + 1)}_{t + 1}, x_{t}, \ldots, x_{1})$
-	\item $p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})$
-	\item $p(x_{t + 1})$
-\end{itemize} 
+To find $p(a_{t + 1}^{(i + 1)}|x_{t + 1}, \ldots, x_{1})$ we need to compute $p(x_{t + 1}|a^{(i + 1)}_{t + 1}, x_{t}, \ldots, x_{1})$,  $p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})$ and $p(x_{t + 1})$.
 
 Computing $p(x_{t + 1})$ is straight forward from the law of total probability
 
@@ -410,7 +415,7 @@ Finally, the calculation of $p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})$ is fro
 	%\right
 \end{equation}
 
-Thus in the present of an event we pass along the likelihood of that even to the next time step and recompute the posterior of that event.  The prior for the start of each event is a user tunable parameter.  
+In the present of an event we pass along the likelihood of that even to the next time step and recompute the posterior of that event.  The prior for the start of each event is a user tunable parameter.  
 
 \begin{equation}
 	\begin{split}
@@ -419,6 +424,18 @@ Thus in the present of an event we pass along the likelihood of that even to the
 	\end{split}
 \end{equation}
 
+\noindent
+Equation \ref{eq:update_bayes} now turns into 
+
+\begin{equation}
+p(a_{t + 1}^{(i + 1)}|x_{t + 1}, \ldots, x_{1}) =
+		\frac{p(x_{t + 1}|a^{(i + 1)}_{t + 1}, x_{t}, \ldots, x_{1}) p(a_{t + 1}^{(i)}|x_{t}, \ldots, x_{1})}
+	       {p(x_{t + 1})}.
+\label{eq:update_prior}
+\end{equation}
+
+\noindent
+The prior is now $p(a_{t + 1}^{(i)}|x_{t}, \ldots, x_{1})$ which does not depend on $x_{t + 1}$ or $a^{i + 1}$.  Performing equation \ref{eq:update_prior} on both $a$ and $b$ and computing $c$ directly yields equation \ref{eq:pabc} which, when normalized equals $1$.  The normalized values of $p(a_{t + 1}^{(i + 1)}$, $p(b_{t + 1}^{i + 1})$, and $p(c)$ are then used to produce either a most likely or weighted aggregate forecast.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Demonstration of ABCF

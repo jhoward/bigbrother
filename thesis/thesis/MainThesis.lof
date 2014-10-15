@@ -54,13 +54,13 @@
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.9}{\ignorespaces Extracted residuals from the Denver dataset. Data was taken from the top 10\% of the TDNN forecaster's residuals.\relax }}{64}{figure.caption.46}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.10}{\ignorespaces Sample residual and the respective probabilities of each time step for the base forecaster and the a single activity model. The teal line represents the likelihood of the background ARIMA model. The tan lines correspond to the likelihood each time step from one of the anomaly clusters.\relax }}{67}{figure.caption.47}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.11}{\ignorespaces Extracted sample clustered anomaly.\relax }}{68}{figure.caption.48}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.12}{\ignorespaces Two horizon time step results when applying ABCF to an ARIMA forecaster for a segment of the Denver dataset.\relax }}{68}{figure.caption.49}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.13}{\ignorespaces RMSE-ONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset\relax }}{69}{figure.caption.50}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.14}{\ignorespaces RMSE-ONAN vs forecasting horizon for ARIMA model and ARIMA + ABCF on the Denver dataset\relax }}{70}{figure.caption.51}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.12}{\ignorespaces Two horizon time step results when applying ABCF to an ARIMA forecaster for a segment of the Denver dataset.\relax }}{69}{figure.caption.49}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.13}{\ignorespaces RMSE-ONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset\relax }}{70}{figure.caption.50}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.14}{\ignorespaces RMSE-ONAN vs forecasting horizon for ARIMA model and ARIMA + ABCF on the Denver dataset\relax }}{71}{figure.caption.51}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.15}{\ignorespaces RMSE-ONAN vs forecasting horizon for SVM model and SVM + ABCF on the Denver dataset\relax }}{71}{figure.caption.52}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.16}{\ignorespaces RMSE-ONAN vs forecasting horizon for TDNN model and TDNN + ABCF on the Denver dataset\relax }}{71}{figure.caption.53}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.16}{\ignorespaces RMSE-ONAN vs forecasting horizon for TDNN model and TDNN + ABCF on the Denver dataset\relax }}{72}{figure.caption.53}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.17}{\ignorespaces RMSE-ONAN vs forecasting horizon for BCF-TS model and BCF-TS + ABCF on the Denver dataset\relax }}{72}{figure.caption.54}
-\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.18}{\ignorespaces \relax }}{72}{figure.caption.55}
+\contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.18}{\ignorespaces \relax }}{73}{figure.caption.55}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.19}{\ignorespaces \relax }}{73}{figure.caption.56}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.20}{\ignorespaces \relax }}{74}{figure.caption.57}
 \contentsline {figure}{\numberline {\relax Figure\nobreakspace {\relax 5}.21}{\ignorespaces \relax }}{75}{figure.caption.58}
