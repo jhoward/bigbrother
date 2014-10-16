@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  14 OCT 2014 19:50
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  15 OCT 2014 23:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1058,15 +1058,15 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [75] [76] [77] [78]) [79]
 \openout2 = `ch6Conclusion.aux'.
 
- (./ch6Conclusion.tex) [80
+ (./ch6Conclusion.tex [80
 
 
 
-] (./MainThesis.bbl [81
+]) [81] (./MainThesis.bbl
+[82
 
 
-]
-[82] [83] [84] [85] [86] [87]) [88]
+] [83] [84] [85] [86] [87] [88]) [89]
 \openout2 = `thesis_appendix.aux'.
 
  (./thesis_appendix.tex
@@ -1115,7 +1115,7 @@ File: ./images/sqe_denver_arima.png Graphic file (type QTm)
 <use  "./images/sqe_denver_arima.png" >
 File: ./images/sqe_denver_tdnn.png Graphic file (type QTm)
  <use  "./images/sqe_denver_tdnn.png" >
-[89
+[90
 
 
 ]
@@ -1202,8 +1202,8 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 246--249
 
 File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
  (type QTm)
-<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [90]
-[91] [92] [93] [94] [95] [96]) [97
+<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [91]
+[92] [93] [94] [95] [96] [97]) [98
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
@@ -1226,12 +1226,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12692 strings out of 494004
- 193405 string characters out of 3150890
- 332483 words of memory out of 3000000
- 15644 multiletter control sequences out of 15000+200000
+ 12694 strings out of 494004
+ 193448 string characters out of 3150890
+ 332496 words of memory out of 3000000
+ 15646 multiletter control sequences out of 15000+200000
  8413 words of font info for 31 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  145i,15n,658p,1252b,628s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (112 pages).
+Output written on MainThesis.pdf (113 pages).
