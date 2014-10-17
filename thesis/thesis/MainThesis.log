@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  15 OCT 2014 23:31
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  16 OCT 2014 16:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -854,13 +854,9 @@ File: ./images/rmse_for_bcf-ts_for_Brown.png Graphic file (type QTm)
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [42]
-
-LaTeX Warning: Reference `fig:maseplotbrown' on page 43 undefined on input line
- 154.
-
 File: ./images/BCF-TS_rmse_improvement_for_each_dataset.png Graphic file (type 
 QTm)
-<use  "./images/BCF-TS_rmse_improvement_for_each_dataset.png" >
+ <use  "./images/BCF-TS_rmse_improvement_for_each_dataset.png" >
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1228,7 +1224,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
 Here is how much of TeX's memory you used:
  12694 strings out of 494004
  193448 string characters out of 3150890
- 332496 words of memory out of 3000000
+ 333489 words of memory out of 3000000
  15646 multiletter control sequences out of 15000+200000
  8413 words of font info for 31 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191

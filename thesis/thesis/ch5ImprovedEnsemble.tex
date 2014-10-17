@@ -563,7 +563,7 @@ An aggregate of the prior graphs as a percentage of improvement if shown in \ref
 \end{figure}
 
 
-\ref{fig:rmseonan_improve_merl}, and \ref{fig:rmseonan_improve_brown} shows the percentage improvement to the SQEONAN metric using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset.  As expected, ABCF improves a historic average forecaster by the largest margin.  The improvement is over 70\% on the Denver dataset and still over 25\% on the Brown hall set.
+\ref{fig:rmseonan_improve_merl}, and \ref{fig:rmseonan_improve_brown} show the percentage improvement to the RMSE-ONAN metric using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset.  As expected, ABCF improves a historic average forecaster by the largest margin.  The improvement is over 70\% on the Denver dataset and still over 25\% on the Brown hall set.
 
 At the one and two time step forecasting horizon, both BCF and our IBCF algorithm introduced in the last chapter are amongst the forecasters that benefit the least from applying ABCF.  We believe the smaller improvement margins are due the properties of ensemble forecasters.  Such forecasters will change forecasting models based on the structure of the dataset at any given time.  These changes may not lead to clusters which are clean and thus as easily able to be modeled.  I
 

@@ -3,9 +3,10 @@
 The utility of time series forecasting is likely to continue to grow.  Fully automated heating and cooling systems utilizing multiple power sources are becoming more prevalent.  Autonomous vehicles may soon become ubiquitous instead of simply a science fiction fantasy.  Traffic light control centers are becoming centralized allowing for total control of a large system.  However, despite the growing need for time series forecasting of traffic systems, we found little literature on repeating anomalies or activities.  This dissertation focused on two essential areas of time series clustering: improved ensemble forecasts and improved detection and forecasting during the presence of anomalies.  
 
 \bigskip
-\noindent \textbf{Improved ensemble forecasts}
-TODO Discuss and summarize Chapter 4 here.
-INCLUDE Potential improvements
+\noindent \textbf{Improved ensemble forecasts}\\
+In \ref{ch:BCF} we gave an in-depth discussion of Bayesian Combined Forecasting and showed the results of that ensemble forecasting model when applied to three different traffic datasets (two building datasets and one vehicle dataset).  We demonstrated for most forecasting horizons and for each of our datasets that BCF is a good general purpose forecaster.  It obtained a forecasting accuracy that was nearly as good or better than the best component forecaster (SVM, ARIMA, TDNN, Average).  
+
+We then demonstrated a few modifications to BCF which were primarily targeted at improving the accuracy of forecasting horizons $ > 1$.  These changes involved computing a different model error distribution based on the forecasting horizon along with a model selection thresholding technique.  These implemented changed improved the accuracy of the BCF algorithm by approximately 5 - 10\% for both Brown and MERL datasets with the Denver dataset showing much higher improvements.  
 
  \bigskip
 \noindent \textbf{Anomaly forecasting}\\
@@ -13,6 +14,4 @@ In this work we looked to solve the problem of forecasting during the presence o
 
 This work built on the inaccuracies of other models during such activities to first detect and model these activities.  We described a simple activity extraction method using residual data.  We then modeled these activities using a time-series mixture of Gaussians.  These time-series Gaussian clusters were then incorporated into a new recursive ensemble model.  Because, by their very nature, these activities are uncommon in the data we saw little improvement in traditional forecasting metrics such as RMSE and MASE.  For this reason, to better represent these activities we introduced a new time-series forecasting metric RMSE-ONAN.  This metric measures the effects of these activities.  
 
-Using RMSE-ONAN we demonstrated significant forecasting improvements with our forecasting technique.  On some datasets and for some forecasting models the effects were over 50\%.  In almost all forecasting horizons on any model and dataset the results got better or stayed about the same using traditional forecasting metrics.  In our worse case we experienced about a 2\% decrease in overall accuracy.  From these results, we conclude that at least for these datasets there is little reason not to use our anomaly forecasting technique after training a forecasting model.  The accuracy during activities will likely increase significantly with a potential slight improvement in overall accuracy.
-
-INCLUDE POTENTIAL IMPROVEMENTS HERE
+Using RMSE-ONAN we demonstrated significant forecasting improvements with our ABCF technique.  On some datasets and for some forecasting models the effects were over 50\%.  In almost all forecasting horizons on any model and dataset the results were better or stayed about the same using traditional forecasting metrics.  In our worse case we experienced about a 2\% decrease in overall accuracy.  From these results, we conclude that at least for these datasets there is little reason not to use our anomaly forecasting technique after training a forecasting model.  The accuracy during activities will likely increase significantly with a potential slight improvement in overall accuracy.
