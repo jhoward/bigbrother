@@ -483,43 +483,43 @@ Because the results are given over multiple forecasting horizons with several ba
 \bigskip
 \noindent \textbf{Denver dataset results} 
 
-\begin{figure}[!b]
+\begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmseonan_average_abcf_Denver.png}
+		\includegraphics[width=1.1\textwidth]{rmseonan_average_abcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset}
 	\label{fig:average_abcf_rmseonan_denver}
 \end{figure}
 
-\ref{fig:average_abcf_rmseonan_denver} demonstrates the improvements to the RMSE-ONAN metric of applying our ABCF algorithm to the average forecasting algorithm for the Denver dataset.  We found our largest improvements came with the historic average model.  The reason likely being that any activities or consistent deviations from normal behavior show up in the average model.  These behaviors are well represented in the residuals and thus make good candidate models for our ABCF model.
-
-\begin{figure}[!h]
+\begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmseonan_arima_abcf_Denver.png}
+		\includegraphics[width=1.1\textwidth]{rmseonan_arima_abcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for ARIMA model and ARIMA + ABCF on the Denver dataset}
 	\label{fig:arima_abcf_rmseonan_denver}
 \end{figure}
 
-\begin{figure}[!h]
+
+\ref{fig:average_abcf_rmseonan_denver} demonstrates the improvements to the RMSE-ONAN metric of applying our ABCF algorithm to the average forecasting algorithm for the Denver dataset.  We found our largest improvements came with the historic average model.  The reason likely being that any activities or consistent deviations from normal behavior show up in the average model.  These behaviors are well represented in the residuals and thus make good candidate models for our ABCF model.
+
+
+\begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmseonan_svm_abcf_Denver.png}
+		\includegraphics[width=1.1\textwidth]{rmseonan_svm_abcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for SVM model and SVM + ABCF on the Denver dataset}
 	\label{fig:svm_abcf_rmseonan_denver}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmseonan_TDNN_abcf_Denver.png}
+		\includegraphics[width=1.1\textwidth]{rmseonan_TDNN_abcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for TDNN model and TDNN + ABCF on the Denver dataset}
 	\label{fig:tdnn_abcf_rmseonan_denver}
 \end{figure}
 
-\ref{fig:arima_abcf_rmseonan_denver}, \ref{fig:svm_abcf_rmseonan_denver}, and \ref{fig:tdnn_abcf_rmseonan_denver} display the improvement to the RMSE-ONAN metric when applying ABCF to an ARIMA, SVM and TDNN forecaster on the Denver dataset.  While smaller, the improvements are still significant and present out to roughly six time steps.  Interestingly, the TDNN model showed much more mixed results.  Generally applying ABCF resulted in better results, but this was not always the case.  We believe this is due to the significantly more volatile forecasting results of the TDNN model.  From \ref{fig:rmseplotdenver} we know that the TDNN model was generally the worst forecaster for the Denver dataset with substantial variance in forecasting.  Also, Neural Networks are known to suffer a lack of robustness to outliers \cite{connor1994}.  Techniques have been developed to increase outlier robustness, but we did not explore them for this work.
-
-\begin{figure}[!h]
+\begin{figure}[p]
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{rmseonan_abcf_bcf_Denver.png}
 	\end{center}
@@ -527,7 +527,25 @@ Because the results are given over multiple forecasting horizons with several ba
 	\label{fig:bcf_abcf_rmseonan_denver}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{rmseonan_improvement_for_each_forecaster_for_Denver.png}
+	\end{center}
+	\caption{}
+	\label{fig:rmseonan_improve_denver}
+\end{figure}
+
+\ref{fig:arima_abcf_rmseonan_denver}, \ref{fig:svm_abcf_rmseonan_denver}, and \ref{fig:tdnn_abcf_rmseonan_denver} display the improvement to the RMSE-ONAN metric when applying ABCF to an ARIMA, SVM and TDNN forecaster on the Denver dataset.  While smaller, the improvements are still significant and present out to roughly six time steps.  Interestingly, the TDNN model showed much more mixed results.  Generally applying ABCF resulted in better results, but this was not always the case.  We believe this is due to the significantly more volatile forecasting results of the TDNN model.  From \ref{fig:rmseplotdenver} we know that the TDNN model was generally the worst forecaster for the Denver dataset with substantial variance in forecasting.  Also, Neural Networks are known to suffer a lack of robustness to outliers \cite{connor1994}.  Techniques have been developed to increase outlier robustness, but we did not explore them for this work.
+
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{rmseonan_abcf_bcf_Denver.png}
+	\end{center}
+	\caption{RMSE-ONAN vs forecasting horizon for BCF-TS model and BCF-TS + ABCF on the Denver dataset}
+	\label{fig:bcf_abcf_rmseonan_denver}
+\end{figure}
+
+\begin{figure}[p]
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{rmseonan_improvement_for_each_forecaster_for_Denver.png}
 	\end{center}
@@ -540,11 +558,48 @@ Because the results are given over multiple forecasting horizons with several ba
 An aggregate of the prior graphs as a percentage of improvement if shown in \ref{fig:rmseonan_improve_denver}.  In almost all cases, applying ABCF to a base forecaster for the Denver dataset resulted in forecasting improvement to RMSE-ONAN.  The improvements generated from ABCF are highest on short forecasts and drop to roughly zero for forecasts longer than 6 time steps into the future.  For every forecaster we achieve an improvement of at least 20\% at one time step horizon.  This improvement is still 15-20\% for most forecasters at three time steps.  Put in context, the forecasting accuracy of many anomalous traffic events has improved 15 - 20\% over 3 hours into the future.
 
 
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{rmse_abcf_svm_arim_tdnn_for_Denver.png}
+	\end{center}
+	\caption{}
+	\label{fig:rmse_compare_denver_svm}
+\end{figure}
+
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{rmse_abcf_average_bcf_bcfts_for_Denver.png}
+	\end{center}
+	\caption{}
+	\label{fig:rmse_compare_denver_bcf}
+\end{figure}
+
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{mase_abcf_svm_arim_tdnn_for_Denver.png}
+	\end{center}
+	\caption{}
+	\label{fig:mase_compare_denver_svm}
+\end{figure}
+
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{mase_abcf_average_bcf_bcfts_for_Denver.png}
+	\end{center}
+	\caption{}
+	\label{fig:mase_compare_denver_bcf}
+\end{figure}
+
+Aggregated results using RMSE and MASE for application of ABCF for each of our forecasting models on the Denver dataset are given in \ref{fig:rmse_compare_denver_svm}, \ref{fig:rmse_compare_denver_bcf}, \ref{fig:mase_compare_denver_svm}, and \ref{fig:mase_compare_denver_bcf}.  The colors in these figures correspond to the forecasting algorithm used.  The dashed line is the application of ABCF to a given forecasting algorithm.  For most cases, there is little difference in RMSE or MASE performance when applying ABCF.  TDNN shows the biggest difference, but as explained before this is likely due to its sensitivity to outliers.  
+
+DISCUSS HOW NO MODEL GETS SIGNIFICANTLY WORSE - MOST GAIN A SLIGHT IMPROVEMENT. 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Aggregated Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bigskip
-\noindent \textbf{Remaining aggregated results} 
+\noindent \textbf{Remaining dataset results} 
 
 \begin{figure}[!h]
 	\begin{center}

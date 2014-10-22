@@ -43,8 +43,8 @@
 \contentsline {subsection}{\numberline {5.8}ABCF derived}{65}{subsection.5.8}
 \contentsline {subsection}{\numberline {5.9}Demonstration of ABCF}{67}{subsection.5.9}
 \contentsline {subsection}{\numberline {5.10}Results of ABCF}{68}{subsection.5.10}
-\contentsline {subsection}{\numberline {5.11}Future unexplored work on ABCF}{76}{subsection.5.11}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{80}{section*.64}
-\contentsline {section}{\texorpdfupper {References Cited}}{82}{section*.65}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{90}{section*.66}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{98}{section*.81}
+\contentsline {subsection}{\numberline {5.11}Future unexplored work on ABCF}{80}{subsection.5.11}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{83}{section*.70}
+\contentsline {section}{\texorpdfupper {References Cited}}{85}{section*.71}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{93}{section*.72}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{101}{section*.87}
