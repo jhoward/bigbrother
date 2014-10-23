@@ -152,8 +152,7 @@ colors = linspecer(8);
 
 load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
 load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
-fStart = data.blocksInDay * 1;
-fEnd = size(data.testData, 2);
+
 figsizeX = 1200;
 figsizeY = 550;
 fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
@@ -175,6 +174,7 @@ plot(p_bcf * 100, 'Color', colors(5, :), 'Linewidth', 2)
 plot(p_ibcf * 100, 'Color', colors(6, :), 'Linewidth', 2)
 
 xlim([1, horizon]);
+ylim([-10, 50]);
 plotTitle = ['Improvment of RMSE-ONAN due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
 title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
@@ -193,56 +193,61 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 
 
 %==========================================================================
-% PLOT Percent rmse improvement
+% PLOT Percent rmse improvement due to ABCF
 %==========================================================================
 %Display the improvement for a given forecaster using ABCF
-
-clear all
-dataSet = 3;
+clear all;
+dataSet = 1;
 horizon = 8;
+
 colors = linspecer(8);
 
 load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
-load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
 
-fStart = data.blocksInDay * 1;
-fEnd = size(data.testData, 2);
 figsizeX = 1200;
 figsizeY = 550;
+
+
+p_svm = (results.svm.rmse(3, 1:horizon) - results.ABCF.svm.rmse(3, 1:horizon)) ./ results.svm.rmse(3, 1:horizon);
+p_arima = (results.arima.rmse(3, 1:horizon) - results.ABCF.arima.rmse(3, 1:horizon)) ./ results.arima.rmse(3, 1:horizon);
+p_tdnn = (results.tdnn.rmse(3, 1:horizon) - results.ABCF.tdnn.rmse(3, 1:horizon)) ./ results.tdnn.rmse(3, 1:horizon);
+p_avg = (results.average.rmse(3, 1:horizon) - results.ABCF.average.rmse(3, 1:horizon)) ./ results.average.rmse(3, 1:horizon);
+p_bcf = (results.BCF.rmse(3, 1:horizon) - results.ABCF.BCF.rmse(3, 1:horizon)) ./ results.BCF.rmse(3, 1:horizon);
+p_ibcf = (results.IBCF.rmse(3, 1:horizon) - results.ABCF.IBCF.rmse(3, 1:horizon)) ./ results.IBCF.rmse(3, 1:horizon);
+
 fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
 
 hold on
 
-p_svm = (results.svm.rmse(3, :) - results.ABCF.svm.rmse(3, :)) ./ results.svm.rmse(3, :);
-p_arima = (results.arima.rmse(3, :) - results.ABCF.arima.rmse(3, :)) ./ results.arima.rmse(3, :);
-p_tdnn = (results.tdnn.rmse(3, :) - results.ABCF.tdnn.rmse(3, :)) ./ results.tdnn.rmse(3, :);
-p_avg = (results.average.rmse(3, :) - results.ABCF.average.rmse(3, :)) ./ results.average.rmse(3, :);
-p_bcf = (results.BCF.rmse(3, :) - results.ABCF.BCF.rmse(3, :)) ./ results.BCF.rmse(3, :);
-p_ibcf = (results.IBCF.rmse(3, :) - results.ABCF.IBCF.rmse(3, :)) ./ results.IBCF.rmse(3, :);
+t = 1:1:horizon;
+p(1) = patchline(t, p_svm * 100, 'linestyle','-', 'edgecolor', colors(1, :), 'linewidth', 2, 'edgealpha', 1.0);
+p(2) = patchline(t, p_arima * 100, 'linestyle', '-', 'edgecolor', colors(2, :), 'linewidth', 2, 'edgealpha', 1.0);
+p(3) = patchline(t, p_tdnn * 100, 'linestyle', '-', 'edgecolor', colors(3, :), 'Linewidth', 2, 'edgealpha', 1.0);
+p(4) = patchline(t, p_avg * 100, 'linestyle','-', 'edgecolor', colors(4, :), 'linewidth', 2, 'edgealpha', 1.0);
+p(5) = patchline(t, p_bcf * 100, 'linestyle', '-', 'edgecolor', colors(5, :), 'linewidth', 2, 'edgealpha', 1.0);
+p(6) = patchline(t, p_ibcf * 100, 'linestyle', '-', 'edgecolor', colors(6, :), 'Linewidth', 2, 'edgealpha', 1.0);
 
-plot(p_svm * 100, 'Color', colors(1, :), 'Linewidth', 2)
-plot(p_arima * 100, 'Color', colors(2, :), 'Linewidth', 2)
-plot(p_tdnn * 100, 'Color', colors(3, :), 'Linewidth', 2)
-plot(p_avg * 100, 'Color', colors(4, :), 'Linewidth', 2)
-plot(p_bcf * 100, 'Color', colors(5, :), 'Linewidth', 2)
-plot(p_ibcf * 100, 'Color', colors(6, :), 'Linewidth', 2)
+h_legend = legend('SVM', 'ARIMA', 'TDNN', 'Average', 'BCF', 'BCF-TS');
+tmp = sort(findobj(h_legend,'type','patch'));
+for ii = 1:numel(tmp)
+      set(tmp(ii),'facecolor',get(p(ii),'edgecolor'),'facealpha',get(p(ii),'edgealpha'),'edgecolor','none')
+end
+      
 
 xlim([1, horizon]);
+ylim([-10, 50]);
 
-ax = legend('SVM', 'ARIMA', 'TDNN', 'Average', 'BCF', 'BCF-TS');
-LEG = findobj(ax,'type','text');
-set(LEG,'FontSize',14)
+set(gca,'fontsize',18);
+set(h_legend,'FontSize',18);
 
-plotTitle = ['Improvment of RMSE due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+plotTitle = ['RMSE Percentage Improvement of Models ABCF for ', MyConstants.DATA_SETS{dataSet}, ' dataset  '];
 title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
-ylabel('RMSE improvement percentage', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE Improvement Percentage', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
-        'rmse_improvement_for_each_forecaster_for_', ...
+        'rmse_percent_improvement_for_each_forecaster_for_', ...
         MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
-
-
 
 %==========================================================================
 % PLOT Percent mase for ABCF improvement
@@ -251,13 +256,11 @@ export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
 
 clear all
 
-dataSet = 3;
+dataSet = 1;
 horizon = 8;
 colors = linspecer(8);
 load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
 load(MyConstants.FILE_LOCATIONS_CLEAN{dataSet});
-fStart = data.blocksInDay * 1;
-fEnd = size(data.testData, 2);
 figsizeX = 1200;
 figsizeY = 550;
 fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
@@ -279,18 +282,19 @@ plot(p_bcf * 100, 'Color', colors(5, :), 'Linewidth', 2)
 plot(p_ibcf * 100, 'Color', colors(6, :), 'Linewidth', 2)
 
 xlim([1, horizon]);
+ylim([-10, 50]);
 
 ax = legend('SVM', 'ARIMA', 'TDNN', 'Average', 'BCF', 'BCF-TS');
 LEG = findobj(ax,'type','text');
-set(LEG,'FontSize',14)
+set(LEG,'FontSize',18)
 
-plotTitle = ['Improvment of MASE due to ABCF for various forecasting techniques for the ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
+plotTitle = ['MASE Percentage Improvement of Models ABCF for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
 title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 ylabel('MASE improvement percentage', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
-        'mase_improvement_for_each_forecaster_for_', ...
+        'mase_percent_improvement_for_each_forecaster_for_', ...
         MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
     
     
@@ -399,6 +403,109 @@ ylabel('RMSE improvement percentage', 'FontSize', 14, 'FontName', MyConstants.FO
 export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
         'rmse_improvement_for_each_dataset.png'), fig, '-transparent', '-nocrop');
 
+
+%==========================================================================
+% PLOT RMSE-ONAN FOR SOME FORECASTERS AND SOME FORECASTERS + ABCF
+%==========================================================================
+clear all;
+dataSet = 3;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+
+figsizeX = 1200;
+figsizeY = 550;
+horizon = 8;
+
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+hold on
+
+t = 1:1:horizon;
+p(1) = patchline(t, results.svm.rmseonan(3, 1:horizon), 'linestyle','-', 'edgecolor', colors(1, :), 'linewidth', 2, 'edgealpha', 0.5);
+p(2) = patchline(t, results.ABCF.svm.rmseonan(3, 1:horizon), 'linestyle', '-.', 'edgecolor', colors(1, :), 'linewidth', 2, 'edgealpha', 1.0);
+p(3) = patchline(t, results.arima.rmseonan(3, 1:horizon), 'linestyle', '-', 'edgecolor', colors(2, :), 'Linewidth', 2, 'edgealpha', 0.5);
+p(4) = patchline(t, results.ABCF.arima.rmseonan(3, 1:horizon), 'linestyle', '-.', 'edgecolor', colors(2, :), 'Linewidth', 2, 'edgealpha', 1.0);
+p(5) = patchline(t, results.tdnn.rmseonan(3, 1:horizon), 'linestyle', '-', 'edgecolor', colors(3, :), 'Linewidth', 2, 'edgealpha', 0.5);
+p(6) = patchline(t, results.ABCF.tdnn.rmseonan(3, 1:horizon), 'linestyle', '-.', 'edgecolor', colors(3, :), 'Linewidth', 2, 'edgealpha', 1.0);
+
+h_legend = legend('SVM', 'SVM + ABCF', 'ARIMA', 'ARIMA + ABCF', 'TDNN', 'TDNN + ABCF');
+tmp = sort(findobj(h_legend,'type','patch'));
+for ii = 1:numel(tmp)
+      set(tmp(ii),'facecolor',get(p(ii),'edgecolor'),'facealpha',get(p(ii),'edgealpha'),'edgecolor','none')
+end
+      
+
+xlim([1, horizon]);
+ylim([0, 1.1 * max(results.tdnn.rmseonan(3, 1:horizon))]);
+
+set(gca,'fontsize',18);
+set(h_legend,'FontSize',18);
+
+plotTitle = ['RMSE of models with and without ABCF for ', MyConstants.DATA_SETS{dataSet}, ' dataset  '];
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE value', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'rmse_abcf_svm_arim_tdnn_for_', ...
+        MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+
+%==========================================================================
+% PLOT RMSE-ONAN FOR REMAINING FORECASTERS AND REMAINING FORECASTERS + ABCF
+%==========================================================================
+clear all;
+dataSet = 3;
+
+colors = linspecer(8);
+
+load(MyConstants.RESULTS_DATA_LOCATIONS{dataSet});
+
+figsizeX = 1200;
+figsizeY = 550;
+horizon = 8;
+
+fig = figure('Position', [100, 100, 100 + figsizeX, 100 + figsizeY]);
+
+hold on
+
+t = 1:1:horizon;
+p(1) = patchline(t, results.average.rmseonan(3, 1:horizon), 'linestyle','-', 'edgecolor', colors(1, :), 'linewidth', 2, 'edgealpha', 0.5);
+p(2) = patchline(t, results.ABCF.average.rmseonan(3, 1:horizon), 'linestyle', '-.', 'edgecolor', colors(1, :), 'linewidth', 2, 'edgealpha', 1.0);
+p(3) = patchline(t, results.BCF.rmseonan(3, 1:horizon), 'linestyle', '-', 'edgecolor', colors(2, :), 'Linewidth', 2, 'edgealpha', 0.5);
+p(4) = patchline(t, results.ABCF.BCF.rmseonan(3, 1:horizon), 'linestyle', '-.', 'edgecolor', colors(2, :), 'Linewidth', 2, 'edgealpha', 1.0);
+p(5) = patchline(t, results.ICBCF.rmseonan(3, 1:horizon), 'linestyle', '-', 'edgecolor', colors(3, :), 'Linewidth', 2, 'edgealpha', 0.5);
+p(6) = patchline(t, results.ABCF.ICCBCF.rmseonan(3, 1:horizon), 'linestyle', '-.', 'edgecolor', colors(3, :), 'Linewidth', 2, 'edgealpha', 1.0);
+
+h_legend = legend('Average', 'Average + ABCF', 'BCF', 'BCF + ABCF', 'BCF-TS', 'BCF-TS + ABCF');
+tmp = sort(findobj(h_legend,'type','patch'));
+for ii = 1:numel(tmp)
+      set(tmp(ii),'facecolor',get(p(ii),'edgecolor'),'facealpha',get(p(ii),'edgealpha'),'edgecolor','none')
+end
+
+xlim([1, horizon]);
+ylim([0, 1.1 * max(results.tdnn.rmse(3, 1:horizon))]);
+
+set(gca,'fontsize',18);
+set(h_legend,'FontSize',18);
+
+plotTitle = ['RMSE of models with and without ABCF for ', MyConstants.DATA_SETS{dataSet}, ' dataset  '];
+title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
+xlabel('Forecasting horizon', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+ylabel('RMSE value', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+
+export_fig(strcat(MyConstants.FINAL_IMAGE_DIR, ...
+        'rmse_abcf_average_bcf_bcfts_for_', ...
+        MyConstants.DATA_SETS{dataSet}, '.png'), fig, '-transparent', '-nocrop');
+    
+
+    
+    
+    
+    
+    
+    
 %==========================================================================
 % PLOT RMSE FOR SOME FORECASTERS AND SOME FORECASTERS + ABCF
 %==========================================================================

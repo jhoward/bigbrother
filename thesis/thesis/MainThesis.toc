@@ -1,8 +1,8 @@
 \contentsline {section}{\texorpdfupper {Abstract}}{iii}{section*.1}
 \contentsline {section}{\texorpdfupper {List of Figures and Tables}}{vii}{section*.2}
-\contentsline {section}{\texorpdfupper {List of Abbreviations}}{xii}{section*.3}
-\contentsline {section}{\texorpdfupper {Acknowledgments}}{xiii}{section*.4}
-\contentsline {section}{\texorpdfupper {Dedication}}{xiv}{section*.5}
+\contentsline {section}{\texorpdfupper {List of Abbreviations}}{xiii}{section*.3}
+\contentsline {section}{\texorpdfupper {Acknowledgments}}{xiv}{section*.4}
+\contentsline {section}{\texorpdfupper {Dedication}}{xv}{section*.5}
 \contentsline {chapter}{\texorpdfupper {\numberline {Chapter 1}Introduction}}{1}{section*.6}
 \contentsline {subsection}{\numberline {1.1}Problem and objective}{3}{subsection.1.1}
 \contentsline {subsubsection}{\numberline {1.1.1}A motivating example}{3}{subsubsection.1.1.1}
@@ -44,7 +44,7 @@
 \contentsline {subsection}{\numberline {5.9}Demonstration of ABCF}{67}{subsection.5.9}
 \contentsline {subsection}{\numberline {5.10}Results of ABCF}{68}{subsection.5.10}
 \contentsline {subsection}{\numberline {5.11}Future unexplored work on ABCF}{80}{subsection.5.11}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{83}{section*.70}
-\contentsline {section}{\texorpdfupper {References Cited}}{85}{section*.71}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{93}{section*.72}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{101}{section*.87}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{84}{section*.70}
+\contentsline {section}{\texorpdfupper {References Cited}}{86}{section*.71}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{94}{section*.72}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{102}{section*.87}

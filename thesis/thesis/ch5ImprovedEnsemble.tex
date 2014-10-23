@@ -485,7 +485,7 @@ Because the results are given over multiple forecasting horizons with several ba
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.1\textwidth]{rmseonan_average_abcf_Denver.png}
+		\includegraphics[width=\textwidth]{rmseonan_average_abcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for Average model and Average + ABCF on the Denver dataset}
 	\label{fig:average_abcf_rmseonan_denver}
@@ -493,7 +493,7 @@ Because the results are given over multiple forecasting horizons with several ba
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.1\textwidth]{rmseonan_arima_abcf_Denver.png}
+		\includegraphics[width=\textwidth]{rmseonan_arima_abcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for ARIMA model and ARIMA + ABCF on the Denver dataset}
 	\label{fig:arima_abcf_rmseonan_denver}
@@ -505,7 +505,7 @@ Because the results are given over multiple forecasting horizons with several ba
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.1\textwidth]{rmseonan_svm_abcf_Denver.png}
+		\includegraphics[width=\textwidth]{rmseonan_svm_abcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for SVM model and SVM + ABCF on the Denver dataset}
 	\label{fig:svm_abcf_rmseonan_denver}
@@ -513,7 +513,7 @@ Because the results are given over multiple forecasting horizons with several ba
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.1\textwidth]{rmseonan_TDNN_abcf_Denver.png}
+		\includegraphics[width=\textwidth]{rmseonan_TDNN_abcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for TDNN model and TDNN + ABCF on the Denver dataset}
 	\label{fig:tdnn_abcf_rmseonan_denver}
@@ -521,7 +521,7 @@ Because the results are given over multiple forecasting horizons with several ba
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmseonan_abcf_bcf_Denver.png}
+		\includegraphics[width=\textwidth]{rmseonan_abcf_bcf_Denver.png}
 	\end{center}
 	\caption{RMSE-ONAN vs forecasting horizon for BCF-TS model and BCF-TS + ABCF on the Denver dataset}
 	\label{fig:bcf_abcf_rmseonan_denver}
@@ -529,7 +529,7 @@ Because the results are given over multiple forecasting horizons with several ba
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmseonan_improvement_for_each_forecaster_for_Denver.png}
+		\includegraphics[width=\textwidth]{rmseonan_improvement_for_each_forecaster_for_Denver.png}
 	\end{center}
 	\caption{}
 	\label{fig:rmseonan_improve_denver}
@@ -539,30 +539,9 @@ Because the results are given over multiple forecasting horizons with several ba
 
 \begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmseonan_abcf_bcf_Denver.png}
-	\end{center}
-	\caption{RMSE-ONAN vs forecasting horizon for BCF-TS model and BCF-TS + ABCF on the Denver dataset}
-	\label{fig:bcf_abcf_rmseonan_denver}
-\end{figure}
-
-\begin{figure}[p]
-	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmseonan_improvement_for_each_forecaster_for_Denver.png}
-	\end{center}
-	\caption{}
-	\label{fig:rmseonan_improve_denver}
-\end{figure}
-
-\ref{fig:bcf_abcf_rmseonan_denver} shows the results of applying ABCF to the BCF-TS model introduced in the previous chapter.  In this ensemble forecaster, the ABCF technique is still able to find enough structured anomalies to reduce the RMSE-ONAN metric.  Despite BCF-TS being an ensemble with TDNN included, the sensitivity to outliers has been reduced and ABCF demonstrates an improvement up to 6 forecasts into the future.  Forecasts 7 or 8 time steps appear to be slightly worse applying ABCF.  This is not a surprising result as the extracted activities for the Denver dataset were 6 time steps in length.
-
-An aggregate of the prior graphs as a percentage of improvement if shown in \ref{fig:rmseonan_improve_denver}.  In almost all cases, applying ABCF to a base forecaster for the Denver dataset resulted in forecasting improvement to RMSE-ONAN.  The improvements generated from ABCF are highest on short forecasts and drop to roughly zero for forecasts longer than 6 time steps into the future.  For every forecaster we achieve an improvement of at least 20\% at one time step horizon.  This improvement is still 15-20\% for most forecasters at three time steps.  Put in context, the forecasting accuracy of many anomalous traffic events has improved 15 - 20\% over 3 hours into the future.
-
-
-\begin{figure}[p]
-	\begin{center}
 		\includegraphics[width=1.0\textwidth]{rmse_abcf_svm_arim_tdnn_for_Denver.png}
 	\end{center}
-	\caption{}
+	\caption{RMSE value of SVM, ARIMA, and TDNN models with and without ABCF on the Denver dataset}
 	\label{fig:rmse_compare_denver_svm}
 \end{figure}
 
@@ -570,7 +549,7 @@ An aggregate of the prior graphs as a percentage of improvement if shown in \ref
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{rmse_abcf_average_bcf_bcfts_for_Denver.png}
 	\end{center}
-	\caption{}
+	\caption{RMSE value of Average, BCF and BCF-TS models with and without ABCF on the Denver dataset}
 	\label{fig:rmse_compare_denver_bcf}
 \end{figure}
 
@@ -578,7 +557,7 @@ An aggregate of the prior graphs as a percentage of improvement if shown in \ref
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{mase_abcf_svm_arim_tdnn_for_Denver.png}
 	\end{center}
-	\caption{}
+	\caption{MASE value of SVM, ARIMA, and TDNN models with and without ABCF on the Denver dataset}
 	\label{fig:mase_compare_denver_svm}
 \end{figure}
 
@@ -586,13 +565,36 @@ An aggregate of the prior graphs as a percentage of improvement if shown in \ref
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{mase_abcf_average_bcf_bcfts_for_Denver.png}
 	\end{center}
-	\caption{}
+	\caption{MASE value of Average, BCF and BCF-TS with and without ABCF on the Denver database}
 	\label{fig:mase_compare_denver_bcf}
 \end{figure}
 
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{rmse_percent_improvement_for_each_forecaster_for_Denver.png}
+	\end{center}
+	\caption{Percentage improvement using ABCF to RMSE on the Denver dataset for each forecaster}
+	\label{fig:rmse_improvement_percent_denver}
+\end{figure}
+
+\begin{figure}[p]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{mase_percent_improvement_for_each_forecaster_for_Denver.png}
+	\end{center}
+	\caption{Percentage improvement using ABCF to MASE on the Denver dataset for each forecaster}
+	\label{fig:mase_improvement_percent_denver}
+\end{figure}
+
+
+
+\ref{fig:bcf_abcf_rmseonan_denver} shows the results of applying ABCF to the BCF-TS model introduced in the previous chapter.  In this ensemble forecaster, the ABCF technique is still able to find enough structured anomalies to reduce the RMSE-ONAN metric.  Despite BCF-TS being an ensemble with TDNN included, the sensitivity to outliers has been reduced and ABCF demonstrates an improvement up to 6 forecasts into the future.  Forecasts of 7 or 8 time steps appear to be slightly worse applying ABCF.  This is not a surprising result as the extracted activities for the Denver dataset were 6 time steps in length.
+
+An aggregate of the prior graphs as a percentage of improvement is shown in \ref{fig:rmseonan_improve_denver}.  In almost all cases, applying ABCF to a base forecaster for the Denver dataset resulted in forecasting improvement to RMSE-ONAN.  The improvements generated from ABCF are highest on short forecasts and drop to roughly zero for forecasts longer than 6 time steps into the future.  For every forecaster we achieve an improvement of at least 20\% at one time step horizon.  This improvement is still 15-20\% for most forecasters at three time steps.  Put in context, the forecasting accuracy of many anomalous traffic events has improved 15 - 20\% over 3 hours into the future.
+
 Aggregated results using RMSE and MASE for application of ABCF for each of our forecasting models on the Denver dataset are given in \ref{fig:rmse_compare_denver_svm}, \ref{fig:rmse_compare_denver_bcf}, \ref{fig:mase_compare_denver_svm}, and \ref{fig:mase_compare_denver_bcf}.  The colors in these figures correspond to the forecasting algorithm used.  The dashed line is the application of ABCF to a given forecasting algorithm.  For most cases, there is little difference in RMSE or MASE performance when applying ABCF.  TDNN shows the biggest difference, but as explained before this is likely due to its sensitivity to outliers.  
 
-DISCUSS HOW NO MODEL GETS SIGNIFICANTLY WORSE - MOST GAIN A SLIGHT IMPROVEMENT. 
+Finally, the percent improvement gained by ABCF as measured by RMSE and MASE is shown in \ref{fig:rmse_improvement_percent_denver} and \ref{fig:mase_improvement_percent_denver}.  When compared to \ref{fig:rmseonan_improve_denver} the improvement is much less significant, however in most forecasters a noticeable improvement is still present.  The average forecaster outside of the oddly unpredictable TDNN forecaster tends to show the largest improvement.  The stronger forecasters (SVM, ARIMA and BCF) show little change to both MASE and RMSE values at forecasting horizons greater than three.  This result is to be expected as ABCF only attempts to improve upon anomalous forecasts.  By their very definition, anomalous forecasts represent a relatively small percentage of the overall dataset.  Perhaps most important is that ABCF showed essentially no decrease in forecasting performance in nearly all models and forecasting horizons (again with the exception of TDNN).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
