@@ -129,7 +129,7 @@ Accurately identifying the required order of differencing will lead to a station
 	\label{fig:denver_raw_data}
 \end{figure}
 
-In general it is difficult to prove stationarity, but there exists a number of methods which assist in determining if a time series is close enough to stationary to be modeled by an ARMA model.  Visual inspection of both the raw data and the autocorrelation function is a useful tool to test for stationarity.  \ref{fig:denver_raw_data} shows the raw counts values at hourly lags of vehicle counts for one sensor over a two week period from the Denver dataset.  The data shows no constant mean and thus can not be stationary.  The graph of autocorrelation values shows local peaks every 24 hours with a significant peak at one week of lag (168 hours).
+In general it is difficult to prove stationarity, but there exists a number of methods which assist in determining if a time series is close enough to stationary to be modeled by an ARMA model.  Visual inspection of both the raw data and the autocorrelation function is a useful tool to test for stationarity.  \ref{fig:denver_raw_data} shows the raw counts values at hourly intervals of vehicle counts for one sensor over a two week period from the Denver dataset.  The data shows no constant mean and thus can not be stationary.  There are two competing trends in this data.  One is a daily trend which is shown strongly by the self similarity of the data on weekdays.  The other trend is a weekly trend (Mondays are similar to other Mondays.  Tuesdays similar to Tuesdays, etc).
 
 \begin{figure}[!t]
 \begin{center}
@@ -162,15 +162,15 @@ In general it is difficult to prove stationarity, but there exists a number of m
 \end{figure}
 
 
-Intuitively a one week seasonal difference should yield a stationary time series and visually, outside of an anomalous reading, \ref{fig:lag_data} shows such stationarity.  Applying the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) \cite{Kwiatkowski1992} test for stationarity on the seasonally differenced data confirms the visual inspection.  Using R's implementation of KPSS gives a p-value greater than 0.1.  This is significantly higher than the standard value to reject the stationarity hypothesis of 0.05.  
+Intuitively a one week seasonal difference should yield a stationary time series and visually, outside of an anomalous reading at hour 76, \ref{fig:lag_data} shows such stationarity.  Applying the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) \cite{Kwiatkowski1992} test for stationarity on the seasonally differenced data confirms the visual inspection.  Using R's implementation of KPSS gives a p-value greater than 0.1.  This is significantly higher than the standard value to reject the stationarity hypothesis of 0.05.  
 
-As a verification of our model, we applied the LJung-Box test \cite{Ljung1978} on our set of residual data for each model.  This tests if any of the auto correlation values on the residual dataset are significantly different from 0.  To be valid, the LJung-Box test should return a value of $p > 0.05$.  All of our residual sets passed: $p = 0.9964$ for MERL and $p = 0.1072$ for CSMBB and $p = 0.1266$ for Denver.  
+As a verification of our model, we applied the LJung-Box test \cite{Ljung1978} on our set of residual data for each model.  This tests if any of the auto correlation values on the residual dataset are significantly different from 0.  To be valid, the LJung-Box test should return a value of $p > 0.05$.  All of our residual sets passed: $p = 0.0964$ for MERL and $p = 0.1072$ for CSMBB and $p = 0.1266$ for Denver.  
 
 \bigskip
 \noindent \textbf{Determining auto regressive and moving average parameters} \\
-The autoregressive, moving average, differencing parameter and their respective seasonal parameter values for ARIMA models tend to be 0, 1, 2, or 3 \cite{Box2008}.  Due to this small range of input values the total input space is relatively small (six parameters with four possible values equates to $4^6 = 4096$) allowing us to apply a brute-force search for the best model.  Model performance is determined by the Akaike information criterion (AIC) \cite{Akaike1974}.  Our optimal model is a seasonal ARIMA $(1,0,1)(0,1,1)_{168}$.      This model is very similar to \cite{Williams2003} who also fit a seasonal ARIMA model to traffic data.
+The autoregressive, moving average, differencing parameter and their respective seasonal parameter values for ARIMA models tend to be 0, 1, 2, or 3 \cite{Box2008}.  Due to this small range of input values the total input space is relatively small (six parameters with four possible values equates to $4^6 = 4096$) allowing us to apply a brute-force search for the best model.  Model performance is determined by the Akaike information criterion (AIC) \cite{Akaike1974}.  Our optimal model is a seasonal ARIMA $(1,0,1)(0,1,1)_{336}$.  This model is very similar to \cite{Williams2003} who also fit a seasonal ARIMA model to traffic data.
 
-For datasets where such brute force methods are not possible, a visual analysis of the residual plots is suggested.  This analysis relies on looking a various residual autocorrelation and partial autocorrelation plots.  \ref{fig:fit_lag_data} displays the plots for our fit seasonal ARIMA model.  Ideally these plots should so no correlation between the lags of the data.  Our plots display a strong correlation on lag 48.  This correlation is due daily seasonality (one day is similar to another day).  However this correlation was weaker than our weekly seasonality and thus our introduced seasonal difference was for one week instead of one day.  Because our data exhibited little lag correlation with one large blip at lag 48 instead of the common slow decay of lag values, we believe this fit to be sufficient.  
+For datasets where such brute force methods are not possible, a visual analysis of the residual plots is suggested.  This analysis relies on looking a various residual autocorrelation and partial autocorrelation plots.  \ref{fig:fit_lag_data} displays the plots for our fit seasonal ARIMA model.  Ideally these plots should so no correlation between the lags of the data.  Our plots display a strong correlation on lag 48.  This correlation is due daily seasonality.  For reasons described in the next chapter, the Denver dataset has interpolated points every 30 minutes instead of every hour.  Thus lag 48 corresponds to a single day.  This daily correlation was weaker than our weekly seasonality and thus our introduced seasonal difference was for one week instead of one day.  Because our data exhibited little lag correlation with one large blip at lag 48 instead of the common slow decay of lag values, we believe this fit to be sufficient.  
 
 \begin{figure}[!h]
 \begin{center}
@@ -187,14 +187,14 @@ To verify our seasonal ARIMA fit is accurate \ref{fig:arima_prediction} shows an
 \caption{The parameter values that were fit for MERL and CSMBB datasets for a Seasonal ARIMA model}
 \begin{tabular}{|c|c|c|c|c|c|c|c|} \hline
 Dataset & $p$ & $d$ & $q$ & $P$ & $D$ & $Q$ & $s$\\ \hline
-MERL & 0 & 0 & 1 & 0 & 1 & 5 & 78\\ \hline
-CSMBB & 0 & 1 & 1 & 0 & 1 & 3 & 72\\ \hline
-DENVER & 1 & 0 & 1 & 0 & 1 & 1 & 168\\ \hline
+MERL & 0 & 0 & 1 & 0 & 1 & 3 & 78\\ \hline
+CSMBB & 1 & 1 & 0 & 0 & 1 & 1 & 72\\ \hline
+DENVER & 1 & 0 & 1 & 0 & 1 & 1 & 336\\ \hline
 \end{tabular}
 \label{fig:sarimatab}
 \end{table}
 
-Our final model parameters can be seen in \ref{fig:sarimatab}.  Each dataset we have for analysis has a strong weekly trend and a weaker daily trend, \textit{i.e.\ } Mondays from one week should be similar to Mondays from another week, but Mondays may not necessarily be similar to Tuesdays, Wednesdays or Fridays.  We see that the best fit ARIMA models for each dataset find this weekly trend with the season parameter (s).  Note, the season is different for each model due to a difference in number of readings for each day that we extracted data.
+Our final model parameters can be seen in \ref{fig:sarimatab}.  Each dataset we have for analysis has a strong weekly trend and a weaker daily trend, \textit{i.e.} Mondays from one week should be similar to Mondays from another week, but Mondays may not necessarily be similar to Tuesdays, Wednesdays or Fridays.  We see that the best fit ARIMA models for each dataset find this weekly trend with the seasonal differencing parameter.  The season is different for each model due to a difference in number of readings for each day that we extracted data.
 
 
 \subsection{Historic average}

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  23 OCT 2014 16:29
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  3 NOV 2014 14:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -703,12 +703,12 @@ LaTeX Warning: No positions in optional float specifier.
                Default added (so using `htbp') on input line 124.
 
 File: ./images/denver_counts.png Graphic file (type QTm)
-<use  "./images/denver_counts.png" >
+<use  "./images/denver_counts.png" > [14]
 File: ./images/lag_counts.png Graphic file (type QTm)
  <use  "./images/lag_counts.png" >
 File: ./images/autocorrelation_denver.png Graphic file (type QTm)
 
-<use  "./images/autocorrelation_denver.png" > [14]
+<use  "./images/autocorrelation_denver.png" >
 File: ./images/autocorrelation_residual_denver.png Graphic file (type QTm)
 
 <use  "./images/autocorrelation_residual_denver.png" >
@@ -721,11 +721,7 @@ LaTeX Warning: Text page 16 contains only floats.
 
 [16]
 File: ./images/broncos_predicted.png Graphic file (type QTm)
- <use  "./images/broncos_predicted.png" >
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[17] [18]
+ <use  "./images/broncos_predicted.png" > [17] [18]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `!htbp') on input line 214.
@@ -1015,65 +1011,44 @@ File: ./images/rmseonan_improvement_for_each_forecaster_for_Brown.png Graphic f
 ile (type QTm)
 
 <use  "./images/rmseonan_improvement_for_each_forecaster_for_Brown.png" >
+File: ./images/rmse_percent_improvement_for_each_forecaster_for_Merl.png Graphi
+c file (type QTm)
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+<use  "./images/rmse_percent_improvement_for_each_forecaster_for_Merl.png" >
+File: ./images/rmse_percent_improvement_for_each_forecaster_for_Brown.png Graph
+ic file (type QTm)
 
-[77]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 631.
+<use  "./images/rmse_percent_improvement_for_each_forecaster_for_Brown.png" >
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 642.
 
- (/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 631.
- [78]
-File: ./images/rmse_improvement_for_each_forecaster_for_Merl.png Graphic file (
-type QTm)
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 642.
+ [77] [78]
+[79]
+File: ./images/mase_percent_improvement_for_each_forecaster_for_Merl.png Graphi
+c file (type QTm)
 
-<use  "./images/rmse_improvement_for_each_forecaster_for_Merl.png" >
-File: ./images/rmse_improvement_for_each_forecaster_for_Brown.png Graphic file 
-(type QTm)
+<use  "./images/mase_percent_improvement_for_each_forecaster_for_Merl.png" >
+File: ./images/mase_percent_improvement_for_each_forecaster_for_Brown.png Graph
+ic file (type QTm)
 
-<use  "./images/rmse_improvement_for_each_forecaster_for_Brown.png" >
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
- (type QTm)
-<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" >
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-File: ./images/mase_improvement_for_each_forecaster_for_Merl.png Graphic file (
-type QTm)
-<use  "./images/mase_improvement_for_each_forecaster_for_Merl.png" >
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-File: ./images/mase_improvement_for_each_forecaster_for_Brown.png Graphic file 
-(type QTm)
-<use  "./images/mase_improvement_for_each_forecaster_for_Brown.png" >
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-File: ./images/mase_improvement_for_each_forecaster_for_Denver.png Graphic file
- (type QTm)
-<use  "./images/mase_improvement_for_each_forecaster_for_Denver.png" >
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[79] [80] [81] [82]) [83]
+<use  "./images/mase_percent_improvement_for_each_forecaster_for_Brown.png" >
+[80] [81]) [82]
 \openout2 = `ch6Conclusion.aux'.
 
- (./ch6Conclusion.tex [84
+ (./ch6Conclusion.tex [83
 
 
 
-]) [85] (./MainThesis.bbl
-[86
+]) [84] (./MainThesis.bbl [85
 
 
-] [87] [88] [89] [90] [91] [92]) [93]
+] [86]
+[87] [88] [89] [90] [91]) [92]
 \openout2 = `thesis_appendix.aux'.
 
  (./thesis_appendix.tex
@@ -1122,7 +1097,7 @@ File: ./images/sqe_denver_arima.png Graphic file (type QTm)
 <use  "./images/sqe_denver_arima.png" >
 File: ./images/sqe_denver_tdnn.png Graphic file (type QTm)
  <use  "./images/sqe_denver_tdnn.png" >
-[94
+[93
 
 
 ]
@@ -1203,14 +1178,14 @@ File: ./images/rmse_improvement_for_each_forecaster_for_Brown.png Graphic file
 (type QTm)
 
 <use  "./images/rmse_improvement_for_each_forecaster_for_Brown.png" >
-Overfull \hbox (6.27654pt too wide) in paragraph at lines 246--249
+Overfull \hbox (6.27654pt too wide) in paragraph at lines 247--250
  [][][] 
  []
 
 File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
  (type QTm)
-<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [95]
-[96] [97] [98] [99] [100] [101]) [102
+<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [94]
+[95] [96] [97] [98] [99] [100]) [101
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
@@ -1233,12 +1208,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 12745 strings out of 494004
+ 12738 strings out of 494004
  194847 string characters out of 3150890
- 337074 words of memory out of 3000000
- 15691 multiletter control sequences out of 15000+200000
+ 337068 words of memory out of 3000000
+ 15683 multiletter control sequences out of 15000+200000
  8413 words of font info for 31 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 162i,15n,697p,1252b,628s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 159i,15n,682p,1252b,628s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (118 pages).
+Output written on MainThesis.pdf (117 pages).

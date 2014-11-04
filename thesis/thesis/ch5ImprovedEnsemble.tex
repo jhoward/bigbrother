@@ -36,7 +36,7 @@ When analyzing the residual datasets of these ensemble forecasts, we noticed a f
 			\includegraphics[width=0.49\textwidth]{denver_bcf_residual_38.png}
 		}
 	\end{center}
-	\caption{Scaled histogram of IBCF residual values for the Denver traffic dataset at various daily time steps.  The red line is the corresponding best fit Normal distribution.  Notice how in all plots there exist data points which exist after the tails of the Normal distributions have approached zero.}
+	\caption{Scaled histogram of BCF-TS residual values for the Denver traffic dataset at various daily time steps.  The red line is the corresponding best fit Normal distribution.  Notice how in all plots there exist data points which exist after the tails of the Normal distributions have approached zero.}
 	\label{fig:denver_bcf_residual}
 \end{figure}
 
@@ -603,80 +603,64 @@ Finally, the percent improvement gained by ABCF as measured by RMSE and MASE is 
 \bigskip
 \noindent \textbf{Remaining dataset results} 
 
-\begin{figure}[!h]
+\begin{figure}[p]
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{rmseonan_improvement_for_each_forecaster_for_Merl.png}
 	\end{center}
-	\caption{}
+	\caption{Percentage improvement using ABCF to RMSE-ONAN on the MERL dataset for each forecaster}
 	\label{fig:rmseonan_improve_merl}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[p]
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{rmseonan_improvement_for_each_forecaster_for_Brown.png}
 	\end{center}
-	\caption{}
+	\caption{Percentage improvement using ABCF to RMSE-ONAN on the Brown dataset for each forecaster}
 	\label{fig:rmseonan_improve_brown}
 \end{figure}
 
-
-\ref{fig:rmseonan_improve_merl}, and \ref{fig:rmseonan_improve_brown} show the percentage improvement to the RMSE-ONAN metric using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset.  As expected, ABCF improves a historic average forecaster by the largest margin.  The improvement is over 70\% on the Denver dataset and still over 25\% on the Brown hall set.
-
-At the one and two time step forecasting horizon, both BCF and our IBCF algorithm introduced in the last chapter are amongst the forecasters that benefit the least from applying ABCF.  We believe the smaller improvement margins are due the properties of ensemble forecasters.  Such forecasters will change forecasting models based on the structure of the dataset at any given time.  These changes may not lead to clusters which are clean and thus as easily able to be modeled.  I
-
-As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.  For forecasts one time step ahead using the SQEONAN metric on the Brown Hall dataset, the BCF forecaster out performed a hybrid BCF + ABCF forecast.  From our results, we found that such negative effects on forecasting performance were rare, occurring in only a few of our examples.
-
-\ref{fig:rmse_improve_merl}, \ref{fig:rmse_improve_brown}, and \ref{fig:rmse_improve_denver} show the improvement of applying ABCF to each model using RMSE. \ref{fig:mase_improve_merl}, \ref{fig:mase_improve_brown}, and \ref{fig:mase_improve_denver} show the improvements of ABCF using MASE.  These images demonstrate that our forecasting improvements when applying ABCF are typically quite small (<5\%) when considering the entire time series.  These improvements are tied to the density of anomalies within the dataset.  A dataset with more anomalies relative to the forecaster will experience a larger overall improvement in forecasting error.
-
-Overall these results demonstrate that ABCF has the power to improve anomaly forecasting while having a little to no detrimental effect on the overall forecasting performance of our forecaster.  Our worse case scenario occurred when applying ABCF to an SVM forecaster on the MERL dataset and for a forecasting horizon of 2 and 3 we experienced 3 - 4\% error in forecasting performance.  However, in almost all other scenarios ABCF improved the overall forecasting accuracy and greatly improved the accuracy of anomaly forecasting as measured by our SQEONAN metric.
-
-  
-\begin{figure}[!h]
+\begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmse_improvement_for_each_forecaster_for_Merl.png}
+		\includegraphics[width=1.0\textwidth]{rmse_percent_improvement_for_each_forecaster_for_Merl.png}
 	\end{center}
-	\caption{}
+	\caption{Percentage improvement using ABCF to RMSE on the MERL dataset for each forecaster}
 	\label{fig:rmse_improve_merl}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmse_improvement_for_each_forecaster_for_Brown.png}
+		\includegraphics[width=1.0\textwidth]{rmse_percent_improvement_for_each_forecaster_for_Brown.png}
 	\end{center}
-	\caption{}
+	\caption{Percentage improvement using ABCF to RMSE on the Brown dataset for each forecaster}
 	\label{fig:rmse_improve_brown}
 \end{figure}
 
-\begin{figure}[!h]
-	\begin{center}
-		\includegraphics[width=1.0\textwidth]{rmse_improvement_for_each_forecaster_for_Denver.png}
-	\end{center}
-	\caption{}
-	\label{fig:rmse_improve_denver}
-\end{figure}
+\ref{fig:rmseonan_improve_merl}, and \ref{fig:rmseonan_improve_brown} show the percentage improvement to the RMSE-ONAN metric using ABCF to supplement a given base forecaster.  The improvement due to ABCF varies greatly based on both forecaster and dataset, however some similarities arose.  SVM and BCF forecasters generally did not improve as much as other forecasters.  TDNN still shows the most fluctuation compared to other forecasters in RMSE-ONAN improvement.
 
-\begin{figure}[!h]
+As ABCF is an ensemble forecaster, it can make no guarantees on its improvement.  Despite this lack of guarantee, in nearly all situations on the RMSE-ONAN metric, ABCF demonstrated improved results.  Negative effects on forecasting performance were rare occurring mostly with the TDNN forecaster whose potential deficiencies to our ABCF were described earlier.
+
+\ref{fig:rmse_improve_merl} and \ref{fig:rmse_improve_brown} show the improvement of applying ABCF to each model using RMSE. \ref{fig:mase_improve_merl} and \ref{fig:mase_improve_brown} show the improvements of ABCF using MASE.  These images demonstrate that our forecasting improvements when applying ABCF are typically quite small (<5\%) when considering the entire time series.  These improvements are tied to the density of anomalies within the dataset.  A dataset with more anomalies relative to the forecaster will have the potential to experience a larger overall improvement in forecasting error.
+
+Overall these results demonstrate that ABCF has the power to improve anomaly forecasting while having a little to no detrimental effect on the overall forecasting performance of our forecaster.  Discounting the erratic TDNN forecaster, our worse case scenario occurred when applying ABCF to an SVM forecaster on the MERL dataset and for a forecasting horizon of 2 and 3 we experienced 3 - 4\% error in overall forecasting performance as measured by MASE and RMSE.  However, in almost all other scenarios ABCF improved the overall forecasting accuracy and greatly improved the accuracy of anomaly forecasting as measured by our RMSE-ONAN metric.
+
+Based on these results, for similar datasets, we anticipate no reason why applying ABCF on top of another forecaster wouldn't improve anomaly forecasting with minimal effect on overall forecasting accuracy.  
+
+
+
+\begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{mase_improvement_for_each_forecaster_for_Merl.png}
+		\includegraphics[width=1.0\textwidth]{mase_percent_improvement_for_each_forecaster_for_Merl.png}
 	\end{center}
-	\caption{}
+	\caption{Percentage improvement using ABCF to MASE on the MERL dataset for each forecaster}
 	\label{fig:mase_improve_merl}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[p]
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{mase_improvement_for_each_forecaster_for_Brown.png}
+		\includegraphics[width=1.0\textwidth]{mase_percent_improvement_for_each_forecaster_for_Brown.png}
 	\end{center}
-	\caption{}
+	\caption{Percentage improvement using ABCF to MASE on the Brown dataset for each forecaster}
 	\label{fig:mase_improve_brown}
-\end{figure}
-
-\begin{figure}[!h]
-	\begin{center}
-		\includegraphics[width=1.0\textwidth]{mase_improvement_for_each_forecaster_for_Denver.png}
-	\end{center}
-	\caption{}
-	\label{fig:mase_improve_denver}
 \end{figure}
 
 \newpage
@@ -694,5 +678,7 @@ While we are happy with the current status of the ABCF algorithm, we would recom
 	\item Acquire and test with other datasets.  The datasets presented here give a baseline to test from, but we realize that it does not represent all types of human traffic data.  We would like to test from a traffic dataset with shorter time scales (recall that the Denver dataset is every 30 minutes).  Also we would like to have other types of building data.  Do our approaches work with apartments or government buildings?  Rich building datasets would allow us to answer this question and may lead to improvements in our approach based on the results.
 	
 	\item Test with additional forecasters.  The four base forecasters we've selected represent a good base, but other forecasters, such as wavelet based or Markov based, may produce some unintuitive results.  We are especially interested in a forecaster or cluster which has a non-Gaussian noise distribution.  Our algorithm allows for any noise distribution, but all of our tests have only been with Gaussian noise.
+	
+	\item Explore different distributions for ABCF derivation.  Selection of clustered anomalies superficially seems like a topic selection problem \cite{McNamara2007}.  The anomalies could be modeled using a Dirchilet prior instead of a Gaussian prior.  The recursive Bayesian derivation would likely be similar to the current ABCF algorithm. 
 \end{enumerate}
 

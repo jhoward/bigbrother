@@ -286,6 +286,7 @@ ylim([-10, 50]);
 
 ax = legend('SVM', 'ARIMA', 'TDNN', 'Average', 'BCF', 'BCF-TS');
 LEG = findobj(ax,'type','text');
+set(gca,'fontsize',18);
 set(LEG,'FontSize',18)
 
 plotTitle = ['MASE Percentage Improvement of Models ABCF for ', MyConstants.DATA_SETS{dataSet}, ' dataset'];
@@ -1228,7 +1229,7 @@ plot(test_data(1, startTime:endTime), 'Color', [0, 0, 0], 'Linewidth', 2)
 
 title(plotTitle, 'FontSize', 22, 'FontName', MyConstants.FONT_TYPE);
 xlabel('Time', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
-ylabel('Scaled sensor counts', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
+yaaulabel('Scaled sensor counts', 'FontSize', 18, 'FontName', MyConstants.FONT_TYPE)
 xlim([1 96])
 
 %set(gca,'XTick','')

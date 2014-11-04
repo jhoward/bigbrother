@@ -49,7 +49,9 @@ classdef MyConstants
         TEST_PROBS_INDEX = 12;
         
         %MODEL PARAMETERS
-        ARIMA_PARAMETERS = {[1 1 1 0 78 3], [1 1 0 0 78 1], [1 1 2 0 48 1]};
+        ARIMA_PARAMETERS = {[1 1 1 0 78 3], [1 1 0 0 78 1], [1 0 1 0 336 1]};
+        %ARIMA_PARAMETERS = {[1 1 1 0 78 3], [1 1 0 0 78 1], [1 1 2 0 48 1]};
+        
         SVM_PARAMETERS = {'-s 4 -t 2 -q', '-s 4 -t 2 -q', '-s 4 -t 2 -q'};
         SVM_WINDOW = {5, 5, 5};
         TDNN_PARAMETERS = {[10, 8], [10, 8], [6, 6]};

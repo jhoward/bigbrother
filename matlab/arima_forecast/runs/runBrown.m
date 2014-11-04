@@ -141,7 +141,6 @@ for i = 1:floor(size(input, 2)/pwidth) - 1
 end
 % =========================END ARIMA=========================
 
-=======
 myModel = bcf.models.Arima(model);
 %myModel.calculateNoiseDistribution(input);
 predInput = myModel.forecastAll(input, 1);

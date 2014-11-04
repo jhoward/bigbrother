@@ -1,4 +1,4 @@
-\begin{thebibliography}{92}
+\begin{thebibliography}{93}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -597,5 +597,10 @@ Jerome~T. Connor, Douglas~R. Martin, and L.~E. Atlas.
 \newblock {Recurrent Neural Networks and Robust Time Series Prediction}.
 \newblock \emph{IEEE Transactions on Neural Networks}, 5\penalty0 (2):\penalty0
   240 -- 254, 1994.
+
+\bibitem[McNamara et~al.(2007)McNamara, Dennis, and Kintsch]{McNamara2007}
+D~McNamara, S~Dennis, and W~Kintsch.
+\newblock \emph{{Handbook of Latent Semantic Analysis}}.
+\newblock 2007.
 
 \end{thebibliography}
