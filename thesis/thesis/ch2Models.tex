@@ -200,20 +200,26 @@ Our final model parameters can be seen in \ref{fig:sarimatab}.  Each dataset we 
 \subsection{Historic average}
 This model is simply the per day average of readings at each time step.  For certain types of data this model is has been shown to be more accurate than seasonal ARIMA forecasting \cite{Newsham2010}, specifically when the data has a strong historic correlation.  Average forecasts have the advantage of being extremely computationally fast and having a forecast accuracy that does not depend on the forecasting horizon.  This result will be shown later.
 
-TODO Explain this math quickly
+Assuming each day is broken into $D$ time blocks, the historic mean forecaster is represented as
 
 \begin{equation}
-Enter equation here \\
+y_{t + 1} = m((t + 1) \% D).
 \end{equation}
 
+$(t + 1) \% D$ gives the time block for a given day.  The $\%$ denotes the modulus operator.
+
+$m(d)$ is a function computing the historic mean for a given daily time block.  $m(d)$ is defined as
+
 \begin{equation}
-This will take a bit more explanation here \\
+m(d) = \frac{\Sigma_{t = 1}^{N}\mathbbm{1}{[(t \% D) = d]}x_{t}}{\Sigma_{t = 1}^{N}\mathbbm{1}{[(t \% D) = d]}1}.
 \end{equation}
+
+If the mean for each time block is precomputed, then the mean forecaster is nothing more than a static table entry.
 
 
 \begin{figure}[!]
 	\centering
-		\includegraphics[width = .7\linewidth]{time_delay_neural_network.png}
+		\includegraphics[width = .9\linewidth]{tdnn_overview.png}
 		\caption{Architecture of a time delayed neural network with $m + 1$ inputs and J outputs \cite{Hansen2003}.}
 	\label{fig:tdnnarch}
 \end{figure}

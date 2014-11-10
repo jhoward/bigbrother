@@ -72,7 +72,7 @@ The counts of sensor activations have been aggregated every 10 minutes.  Because
 
 Peak motion unsurprisingly occurs during the middle of the day corresponding to lunch time.  Peak standard deviation appears to occur near noon and 4pm.  The noon variation is unsurprising as people will commonly skip lunch for various reasons.  The 3pm variation is more surprising.  This seems earlier than expected for daily departure, but perhaps it is at the early window of when people will begin to depart for the day.  
 
-An image representing sample values throughout two days is given in \ref{fig:merl_scaled}(b).  Despite the mean appearing smooth in \ref{fig:merl_scaled}(a), we see how volatile sensor activation readings are though out the day.
+An image representing sample values throughout two days is given in \ref{fig:merl_scaled}(b).  Despite the mean appearing smooth in \ref{fig:merl_scaled}(a), we see how volatile sensor activation readings are throughout the day.
 
 
 \subsubsection{Colorado School of Mines dataset}
@@ -127,7 +127,7 @@ In contrast to building occupancy datasets used for forecasting, there exist num
 \end{figure}
 
 \subsubsection{Denver traffic dataset}
-The Denver traffic dataset is collected from many doppler radar vehicle counters which count the number of vehicles passing through a small region of road throughout the day.  Data is available from 2008 to 2013 on most days of the week.  The data is nearly 1 million readings for the sensors we extracted and approximately 33,000 readings for any one sensor.  For this work we use a freeway sensor near downtown Denver, closely located to Mile High Stadium; the home of the Denver Broncos.  The sensor is located on \ref{fig:denvertraffic} represented by a red rectangle.
+The Denver traffic dataset is collected from many doppler radar vehicle counters which count the number of vehicles passing through a small region of road throughout the day.  Data is available from 2008 to 2013 on most days of the week.  The data is nearly 1 million readings for the sensors we extracted and approximately 33,000 readings for any one sensor.  For this work we use a freeway sensor near downtown Denver, closely located to Mile High Stadium; the home of the Denver Broncos.  The sensor is located on \ref{fig:denvertraffic} represented by a red circle.
 
 \begin{figure}[t]
 	\begin{center}
@@ -176,8 +176,4 @@ We believe the same results hold when it comes to building datasets instead of v
 
 \noindent
 \textbf{Missing values in the dataset} \\
-Due to data collection problems with sensors, the raw data from all of our datasets all had segments with missing values.  These missing values were replaced with the historic average value for that sensor at that time on that day.  For example a missing value at 3pm on a Tuesday in the Denver dataset would be replaced by the average value of all Tuesdays at 3pm.
-
-
-
-
+Due to data collection problems with sensors, the raw data from all of our datasets had segments with missing values.  These missing values were replaced with the historic average value for that sensor at that time on that day.  For example a missing value at 3pm on a Tuesday in the Denver dataset would be replaced by the average value of all Tuesdays at 3pm.
