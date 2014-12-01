@@ -1,4 +1,4 @@
-\begin{thebibliography}{93}
+\begin{thebibliography}{94}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -568,6 +568,12 @@ Emil Eirola and Amaury Lendasse.
 Leena Kalliovirta, Mika Meitz, and Pentti Saikkonen.
 \newblock {A Gaussian mixture autoregressive model for univariate time series}.
 \newblock Technical report, Helsinki Center of Economic Research, 2012.
+
+\bibitem[Jensen(1906)]{Jensen1906}
+J.~L. W.~V. Jensen.
+\newblock {Sur les fonctions convexes et les in\'{e}galit\'{e}s entre les
+  valeurs moyennes}.
+\newblock \emph{Acta Mathematica}, 30\penalty0 (1):\penalty0 175 -- 193, 1906.
 
 \bibitem[Thorndike(1953)]{Thorndike1953}
 Robert~L. Thorndike.

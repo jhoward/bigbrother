@@ -29,22 +29,22 @@
 \contentsline {subsection}{\numberline {4.2}Bayesian combined forecasting}{35}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}BCF modifications}{37}{subsection.4.3}
 \contentsline {subsubsection}{\numberline {4.3.1}Forecast $\delta $ time steps into the future}{37}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}Improving model error distributions}{38}{subsubsection.4.3.2}
-\contentsline {subsubsection}{\numberline {4.3.3}Model selection thresholding}{39}{subsubsection.4.3.3}
+\contentsline {subsubsection}{\numberline {4.3.2}Improving model error distributions based on time of day}{39}{subsubsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.3}Model selection thresholding}{40}{subsubsection.4.3.3}
 \contentsline {subsection}{\numberline {4.4}Results of BCF and BCF-TS}{41}{subsection.4.4}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}ACTIVITY RECOGNITION ENSEMBLE FORECASTING}}{46}{section*.37}
-\contentsline {subsection}{\numberline {5.1}The need for another ensemble forecaster}{46}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Bayesian combined forecasting with activity and anomaly modeling (ABCF)}{48}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Background literature on activity recognition and anomaly detection}{49}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{54}{subsection.5.4}
-\contentsline {subsection}{\numberline {5.5}Time series mixture of Gaussians derivation}{56}{subsection.5.5}
-\contentsline {subsection}{\numberline {5.6}Selecting the number of clusters}{60}{subsection.5.6}
-\contentsline {subsection}{\numberline {5.7}Sample representative clusters and a discussion about them}{62}{subsection.5.7}
-\contentsline {subsection}{\numberline {5.8}ABCF derived}{65}{subsection.5.8}
-\contentsline {subsection}{\numberline {5.9}Demonstration of ABCF}{67}{subsection.5.9}
-\contentsline {subsection}{\numberline {5.10}Results of ABCF}{68}{subsection.5.10}
-\contentsline {subsection}{\numberline {5.11}Future unexplored work on ABCF}{82}{subsection.5.11}
-\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{83}{section*.68}
-\contentsline {section}{\texorpdfupper {References Cited}}{85}{section*.69}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{93}{section*.70}
-\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{101}{section*.85}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 5}ACTIVITY RECOGNITION ENSEMBLE FORECASTING}}{47}{section*.37}
+\contentsline {subsection}{\numberline {5.1}The need for another ensemble forecaster}{47}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Bayesian combined forecasting with activity and anomaly modeling (ABCF)}{49}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Background literature on activity recognition and anomaly detection}{50}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Anomaly extraction and representation}{55}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Time series mixture of Gaussians derivation}{57}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}Selecting the number of clusters}{61}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}Sample representative clusters and a discussion about them}{63}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.8}ABCF derived}{66}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.9}Demonstration of ABCF}{68}{subsection.5.9}
+\contentsline {subsection}{\numberline {5.10}Results of ABCF}{70}{subsection.5.10}
+\contentsline {subsection}{\numberline {5.11}Future unexplored work on ABCF}{84}{subsection.5.11}
+\contentsline {chapter}{\texorpdfupper {\numberline {Chapter 6}conclusion}}{85}{section*.68}
+\contentsline {section}{\texorpdfupper {References Cited}}{87}{section*.69}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix A} -}Other results}}{95}{section*.70}
+\contentsline {appendix}{\texorpdfupper {\numberline {{Appendix B} -}Figure references}}{103}{section*.85}

@@ -30,7 +30,7 @@
 \BOOKMARK [2][-]{subsection.4.2}{Bayesian\040combined\040forecasting}{section*.28}% 30
 \BOOKMARK [2][-]{subsection.4.3}{BCF\040modifications}{section*.28}% 31
 \BOOKMARK [3][-]{subsubsection.4.3.1}{Forecast\040\040time\040steps\040into\040the\040future}{subsection.4.3}% 32
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Improving\040model\040error\040distributions}{subsection.4.3}% 33
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Improving\040model\040error\040distributions\040based\040on\040time\040of\040day}{subsection.4.3}% 33
 \BOOKMARK [3][-]{subsubsection.4.3.3}{Model\040selection\040thresholding}{subsection.4.3}% 34
 \BOOKMARK [2][-]{subsection.4.4}{Results\040of\040BCF\040and\040BCF-TS}{section*.28}% 35
 \BOOKMARK [1][-]{section*.37}{ACTIVITY\040RECOGNITION\040ENSEMBLE\040FORECASTING}{}% 36

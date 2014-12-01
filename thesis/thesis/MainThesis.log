@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  10 NOV 2014 13:39
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  30 NOV 2014 18:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -828,27 +828,32 @@ File: ./images/posterior_probs.png Graphic file (type QTm)
 [36]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 62.
+(hyperref)                removing `math shift' on input line 64.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\delta' on input line 62.
+(hyperref)                removing `\delta' on input line 64.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 62.
+(hyperref)                removing `math shift' on input line 64.
 
 [37]
 File: ./images/svm_standard_deviations_vs_horizon.png Graphic file (type QTm)
  <use  "./images/svm_standard_deviations_vs_horizon.png" > [38] [39]
 [40]
 File: ./images/real_forecasts_bcf.png Graphic file (type QTm)
- <use  "./images/real_forecasts_bcf.png" > [41]
+ <use  "./images/real_forecasts_bcf.png" >
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[41]
 File: ./images/real_forecasts_bcf_svm.png Graphic file (type QTm)
+ <use  "./images/real_forecasts_bcf_svm.png" >
 
-<use  "./images/real_forecasts_bcf_svm.png" >
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 File: ./images/rmse_for_bcf-ts_for_Merl.png Graphic file (type QTm)
-
 <use  "./images/rmse_for_bcf-ts_for_Merl.png" >
 File: ./images/rmse_for_bcf-ts_for_Denver.png Graphic file (type QTm)
 
@@ -861,19 +866,19 @@ File: ./images/rmse_for_bcf-ts_for_Brown.png Graphic file (type QTm)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[42]
+[42] [43]
 File: ./images/BCF-TS_rmse_improvement_for_each_dataset.png Graphic file (type 
 QTm)
  <use  "./images/BCF-TS_rmse_improvement_for_each_dataset.png" >
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[43]
+[44] [45]
 
-LaTeX Warning: Reference `fig:maseplotbrown' on page 44 undefined on input line
- 170.
+LaTeX Warning: Reference `fig:maseplotbrown' on page 46 undefined on input line
+ 174.
 
-) [44] [45]
+) [46]
 \openout2 = `ch5ImprovedEnsemble.aux'.
 
  (./ch5ImprovedEnsemble.tex
@@ -887,7 +892,7 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 8--12
  [][][] 
  []
 
-[46
+[47
 
 
 
@@ -910,15 +915,15 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 34--38
  [][][][] 
  []
 
-[47]
+[48]
 Overfull \hbox (0.61028pt too wide) in paragraph at lines 53--53
 []\OT1/cmr/bx/n/12 Bayesian com-bined fore-cast-ing with ac-tiv-ity and anomaly
  mod-el-ing (ABCF) 
  []
 
 File: ./images/simple_approach_overview.png Graphic file (type QTm)
-<use  "./images/simple_approach_overview.png" > [48] [49] [50] [51] [52]
-[53]
+<use  "./images/simple_approach_overview.png" > [49] [50] [51] [52] [53]
+[54]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `htbp') on input line 118.
@@ -931,15 +936,15 @@ Overfull \hbox (15.66649pt too wide) in paragraph at lines 122--126
  [][][] 
  []
 
-[54]
+[55]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 136.
- [55]
+put line 138.
+ [56]
 File: ./images/arima_abcf_extracted_residuals_Merl.png Graphic file (type QTm)
- <use  "./images/arima_abcf_extracted_residuals_Merl.png" > [56]
-[57] [58] [59]
+ <use  "./images/arima_abcf_extracted_residuals_Merl.png" > [57]
+[58] [59] [60] [61]
 File: ./images/elbow_clusters.png Graphic file (type QTm)
- <use  "./images/elbow_clusters.png" > [60] [61]
+ <use  "./images/elbow_clusters.png" > [62] [63]
 File: ./images/merl_sample_clusters_svm.png Graphic file (type QTm)
 
 <use  "./images/merl_sample_clusters_svm.png" >
@@ -948,8 +953,8 @@ File: ./images/brown_sample_clusters_arima.png Graphic file (type QTm)
 <use  "./images/brown_sample_clusters_arima.png" >
 File: ./images/denver_sample_clusters_tdnn.png Graphic file (type QTm)
 
-<use  "./images/denver_sample_clusters_tdnn.png" > [62] [63] [64]
-Overfull \hbox (13.73216pt too wide) in paragraph at lines 391--392
+<use  "./images/denver_sample_clusters_tdnn.png" > [64] [65] [66]
+Overfull \hbox (13.73216pt too wide) in paragraph at lines 394--395
 []\OT1/cmr/m/n/12 To find $\OML/cmm/m/it/12 p\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 
 a[]\OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 x[]; [] ; x[]\OT1/cmr/m/n/12 )$ we need t
 o com-pute $\OML/cmm/m/it/12 p\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]\OMS/cmsy/m/
@@ -958,24 +963,22 @@ p\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 a[]\OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 x[]; [
 ] ; x[]\OT1/cmr/m/n/12 )$
  []
 
-[65]
+[67]
 File: ./images/sample_residual_plot_dataset_Denver.png Graphic file (type QTm)
- <use  "./images/sample_residual_plot_dataset_Denver.png" > [66] [67]
+ <use  "./images/sample_residual_plot_dataset_Denver.png" > [68]
 File: ./images/denver_sample_cluster.png Graphic file (type QTm)
 
 <use  "./images/denver_sample_cluster.png" >
-Underfull \hbox (badness 6608) in paragraph at lines 460--460
+Underfull \hbox (badness 6608) in paragraph at lines 463--463
 []\OT1/cmr/m/n/12 Figure 5.11: |Ex-tracted
  []
 
+[69]
 File: ./images/sample_plot_Denver.png Graphic file (type QTm)
-<use  "./images/sample_plot_Denver.png" >
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[68]
+ <use  "./images/sample_plot_Denver.png" > [70]
 File: ./images/rmseonan_average_abcf_Denver.png Graphic file (type QTm)
- <use  "./images/rmseonan_average_abcf_Denver.png" >
+
+<use  "./images/rmseonan_average_abcf_Denver.png" >
 File: ./images/rmseonan_arima_abcf_Denver.png Graphic file (type QTm)
 
 <use  "./images/rmseonan_arima_abcf_Denver.png" >
@@ -992,9 +995,9 @@ File: ./images/rmseonan_improvement_for_each_forecaster_for_Denver.png Graphic
 file (type QTm)
 
 <use  "./images/rmseonan_improvement_for_each_forecaster_for_Denver.png" >
-[69] [70] [71] [72]
 File: ./images/rmse_abcf_svm_arim_tdnn_for_Denver.png Graphic file (type QTm)
- <use  "./images/rmse_abcf_svm_arim_tdnn_for_Denver.png" >
+
+<use  "./images/rmse_abcf_svm_arim_tdnn_for_Denver.png" >
 File: ./images/rmse_abcf_average_bcf_bcfts_for_Denver.png Graphic file (type QT
 m)
 
@@ -1014,7 +1017,7 @@ File: ./images/mase_percent_improvement_for_each_forecaster_for_Denver.png Grap
 hic file (type QTm)
 
 <use  "./images/mase_percent_improvement_for_each_forecaster_for_Denver.png" >
-[73] [74] [75] [76]
+[71] [72] [73] [74] [75] [76] [77] [78]
 File: ./images/rmseonan_improvement_for_each_forecaster_for_Merl.png Graphic fi
 le (type QTm)
 
@@ -1031,16 +1034,16 @@ File: ./images/rmse_percent_improvement_for_each_forecaster_for_Brown.png Graph
 ic file (type QTm)
 
 <use  "./images/rmse_percent_improvement_for_each_forecaster_for_Brown.png" >
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 642.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 645.
 
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 642.
- [77] [78]
-[79]
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 645.
+ [79] [80]
+[81]
 File: ./images/mase_percent_improvement_for_each_forecaster_for_Merl.png Graphi
 c file (type QTm)
 
@@ -1049,18 +1052,18 @@ File: ./images/mase_percent_improvement_for_each_forecaster_for_Brown.png Graph
 ic file (type QTm)
 
 <use  "./images/mase_percent_improvement_for_each_forecaster_for_Brown.png" >
-[80] [81]) [82]
+[82] [83]) [84]
 \openout2 = `ch6Conclusion.aux'.
 
- (./ch6Conclusion.tex [83
+ (./ch6Conclusion.tex [85
 
 
 
-]) [84] (./MainThesis.bbl [85
+]) [86] (./MainThesis.bbl [87
 
 
-] [86]
-[87] [88] [89] [90] [91]) [92]
+] [88]
+[89] [90] [91] [92] [93]) [94]
 \openout2 = `thesis_appendix.aux'.
 
  (./thesis_appendix.tex
@@ -1109,7 +1112,7 @@ File: ./images/sqe_denver_arima.png Graphic file (type QTm)
 <use  "./images/sqe_denver_arima.png" >
 File: ./images/sqe_denver_tdnn.png Graphic file (type QTm)
  <use  "./images/sqe_denver_tdnn.png" >
-[93
+[95
 
 
 ]
@@ -1196,15 +1199,16 @@ Overfull \hbox (6.27654pt too wide) in paragraph at lines 247--250
 
 File: ./images/rmse_improvement_for_each_forecaster_for_Denver.png Graphic file
  (type QTm)
-<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [94]
-[95] [96] [97] [98] [99] [100]) [101
+<use  "./images/rmse_improvement_for_each_forecaster_for_Denver.png" > [96]
+[97] [98] [99] [100] [101] [102]) [103
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 143.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 143.
- (./MainThesis.aux (./ch1Introduction.aux) (./ch2Models.aux) (./ch3Datasets.aux
-) (./ch4Ensemble.aux)
-(./ch5ImprovedEnsemble.aux) (./ch6Conclusion.aux) (./thesis_appendix.aux)
+ (./MainThesis.aux
+(./ch1Introduction.aux) (./ch2Models.aux) (./ch3Datasets.aux)
+(./ch4Ensemble.aux) (./ch5ImprovedEnsemble.aux) (./ch6Conclusion.aux)
+(./thesis_appendix.aux)
 \csm@redefined@appendix@saved=\count194
 \csm@appendicies=\count195
 )
@@ -1220,12 +1224,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 143.
  ) 
 Here is how much of TeX's memory you used:
- 12782 strings out of 494004
- 195813 string characters out of 3150890
- 337292 words of memory out of 3000000
- 15714 multiletter control sequences out of 15000+200000
+ 12790 strings out of 494004
+ 195965 string characters out of 3150890
+ 337370 words of memory out of 3000000
+ 15722 multiletter control sequences out of 15000+200000
  9203 words of font info for 37 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  159i,15n,682p,1252b,628s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on MainThesis.pdf (117 pages).
+Output written on MainThesis.pdf (119 pages).

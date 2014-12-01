@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  4 JUN 2014 21:51
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  19 NOV 2014 16:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -19,12 +19,11 @@ lovak, slovenian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian,
 welsh, loaded.
 ./ch4Ensemble.tex:1: Undefined control sequence.
 l.1 \chapter
-            {BUILDING A NEW ENSEMBLE FORECASTER - IMPROVED LONG TERM FORECAS...
-
+            {TESTING AND BUILDING A BETTER ENSEMBLE FORECASTER}
 ? 
 ./ch4Ensemble.tex:1: Emergency stop.
 l.1 \chapter
-            {BUILDING A NEW ENSEMBLE FORECASTER - IMPROVED LONG TERM FORECAS...
+            {TESTING AND BUILDING A BETTER ENSEMBLE FORECASTER}
 End of file on the terminal!
 
  
@@ -35,5 +34,5 @@ Here is how much of TeX's memory you used:
  3367 multiletter control sequences out of 15000+200000
  3640 words of font info for 14 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 5i,0n,1p,95b,8s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 5i,0n,1p,77b,8s stack positions out of 5000i,500n,10000p,200000b,50000s
 No pages of output.

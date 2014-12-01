@@ -4,7 +4,7 @@ The utility of time series forecasting is likely to continue to grow.  Fully aut
 
 \bigskip
 \noindent \textbf{Improved ensemble forecasts}\\
-In \ref{ch:BCF} we gave an in-depth discussion of Bayesian Combined Forecasting and showed the results of that ensemble forecasting model when applied to three different traffic datasets (two building datasets and one vehicle dataset).  We demonstrated for most forecasting horizons and for each of our datasets that BCF is a good general purpose forecaster.  It obtained a forecasting accuracy that was nearly as good or better than the best component forecaster (SVM, ARIMA, TDNN, Average).  
+In chapter \ref{ch:BCF} we gave an in-depth discussion of Bayesian Combined Forecasting and showed the results of that ensemble forecasting model when applied to three different traffic datasets (two building datasets and one vehicle dataset).  We demonstrated for most forecasting horizons and for each of our datasets that BCF is a good general purpose forecaster.  It obtained a forecasting accuracy that was nearly as good or better than the best component forecaster (SVM, ARIMA, TDNN, Average).  
 
 We then demonstrated a few modifications to BCF which were primarily targeted at improving the accuracy of forecasting horizons $ > 1$.  These changes involved computing a different model error distribution based on the forecasting horizon along with a model selection thresholding technique.  These implemented changed improved the accuracy of the BCF algorithm by approximately 5 - 10\% for both Brown and MERL datasets with the Denver dataset showing much higher improvements.  
 

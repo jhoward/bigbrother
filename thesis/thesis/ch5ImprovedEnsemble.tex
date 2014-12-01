@@ -1,5 +1,5 @@
 \chapter{ACTIVITY RECOGNITION ENSEMBLE FORECASTING}
-In the past chapter, we showed that a few changes can lead to some significant improvements in multi-step forecasting accuracy when ensemble Bayesian combined forecasting is applied to our traffic datasets.  This chapter initially investigates BCF further by exposing some potential problem scenarios.  We look at some related work into potentially solving these problems through the identification and modeling of activities and finally introduce a new ensemble forecasting technique which solves many of these problems.  
+In the past chapter, we described an improved ensemble Bayesian combined forecasting algorithm that showed significant improvements in multi-step forecasting accuracy when applied to our traffic datasets.  This chapter initially investigates BCF further by exposing some potential problem scenarios.  We look at some related work into potentially solving these problems through the identification and modeling of activities and finally introduce a new ensemble forecasting technique which solves many of these problems.  
 
 \begin{figure}[!b]
 	\begin{center}
@@ -132,6 +132,8 @@ As we showed earlier in this section with ~\ref{fig:denver_bcf_residual}, the ta
 \noindent \textbf{Sliding window data extraction} \\
 Given a time series of residual data, we extract the top $k\%$ of the maximum residual data as measured by a fixed length sliding window.  ~\ref{fig:sliding_window} demonstrates visually our method of potential candidate residual data segments to model.  In this example, the fixed length window is slid along a time series and windows with large total residual deviation are selected.  These windows are then centered around the largest peak within the window.  This is done to ensure an easier time clustering as similar extracted residual segments will typically line up with each other.
 
+To find the maximum peak within the window, we first consider only the absolute value of the data.  We then find the largest value in the window and center our window around this peak.  Any new peaks which occur due to window re-centering are not considered.  The final data is then the raw residual data from the re-centered window (This final data does not have the absolute value function applied to it.)
+
 \begin{algorithm}
 	\caption{Algorithm for candidate data extraction}
    	\label{alg:dataextract}
@@ -143,8 +145,8 @@ Given a time series of residual data, we extract the top $k\%$ of the maximum re
 		\State final\_data = []
    		\State 
 				
-		\For{$t = 0$; $t <=$ residual\_data.length - window\_width; $t +=$ window\_width}
-		\State	window\_sum = sum(abs(residual\_data[$t$:$t +$ window\_width]))
+		\For{$t = 0$; $t <=$ residual\_data.length - window\_width; $t+=1$}
+		\State	window\_sum = sum(abs(residual\_data[$t$:$t+$window\_width]))
 		\State 	extracted\_lengths.append((window\_sum, $t$))
 		\EndFor
 		
@@ -156,7 +158,7 @@ Given a time series of residual data, we extract the top $k\%$ of the maximum re
 		\State
 		\State \#Center all the extracted residuals by local peaks
 		
-		\For {$t = 0$; $t < num\_to\_extract$; $t++$}
+		\For {$t = 0$; $t <$ num\_to\_extract; $t+=1$}
 		\State 	dind = extracted\_lengths[t][1]
 		\State	\#Max peak on local window
 		\State	mp = find\_max\_peak(abs(residual\_data[dind:dind + window\_width]))
@@ -170,12 +172,11 @@ Given a time series of residual data, we extract the top $k\%$ of the maximum re
 	\end{algorithmic}
 \end{algorithm}
 
+Algorithm \ref{alg:dataextract} precisely describes our approach.  The input parameter $k$ is chosen empirically for each dataset and underlying forecasting model.  Appropriate values of k\% vary based on dataset size and anomaly frequency.  Our anomaly modeling and clustering technique relies on sufficient data to create accurate representative clusters.  If too few windows are extracted, then there will not be sufficient data to produce an accurate anomaly model.  If too much of the data is extracted, we found (for our datasets) problems where we experience multiple clusters which occurred seemingly few times.  It is likely for these instances that we were extracting anomalies that were not associated with recurring events, but instead due to some other unexplained noise event.  
 
-Algorithm \ref{alg:dataextract} precisely describes our approach.  The input parameter $k$ is chosen empirically for each dataset and underlying forecasting model.  The effects of this parameter $k$ are discussed later.  A sample of the top 10\% extracted residuals for the MERL dataset is displayed in \ref{fig:extracted_residuals}.
+Our anomaly modeling technique relies on rarely reoccurring anomalies.  Such one time events in our extracted data lead to poor clusters and thus poor anomaly models.  We found that extracting approximately 5 - 10\% of the extracted residuals yields accurate clusters.  A sample of the top 10\% extracted residuals for the MERL dataset is displayed in \ref{fig:extracted_residuals}.  
 
-On additional possible technique for data extraction is sparse dictionary coding.  This technique finds a set of primitives (in this case small representations of the time series residual data) which can be used to best approximate the original dataset.  We believe it likely that primitives with the largest residual values would most likely correspond to the anomalies we would like to find.  This technique has been extensively to find primitives activations on time series EMG data \cite{Kim2010} and for image reconstructions \cite{Mairal2009}.  
-
-For this work however, we believe that our constant length anomaly extraction is sufficient to show the strength of our combined forecasting approach.
+One additional possible technique for data extraction is sparse dictionary coding.  This technique finds a set of primitives (in this case small representations of the time series residual data) which can be used to best approximate the original dataset.  We believe it likely that primitives with the largest residual values would most likely correspond to the anomalies we would like to find.  This technique has been extensively to find primitives activations on time series EMG data \cite{Kim2010} and for image reconstructions \cite{Mairal2009}.  For this work however, we believe that our constant length anomaly extraction is sufficient to show the strength of our combined forecasting approach.
 
 \begin{figure}
 	\begin{center}
@@ -187,47 +188,49 @@ For this work however, we believe that our constant length anomaly extraction is
 
 
 \subsection{Time series mixture of Gaussians derivation}
-A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  This technique models a set of data by positing that each data point ($x_{i}$) is generated from one of $K$ Gaussians.  Borrowing partially the notation of Andrew Ng \cite{Ng2008}, a mixture of Gaussians is described mathematically by specifying a joint distribution $p(x_{i}, z_{i}) = p(x_{i}|z_{i})p(z_{i})$.  $z_{i}$ is multinomial on parameter $\phi$  ($\phi_{j} \ge 0$,  $\sum_{j=1}^{K}{ \phi_{j}} = 1$ and $p(z_{i} = j)$).  Each $x_{i}|z_{i} = j \sim \mathcal{N}(\mu_{j}, \Sigma_{j})$.  From this derivation, the $z_{i}$'s are latent variables which makes the estimation of the Gaussian models more difficult.  The result of mixture of Gaussian training is to produce a soft clustering of every datapoint $x_{i}$ to each trained Gaussian distribution.
+A mixture of Gaussians is a strongly supported stochastic data clustering technique used in activity recognition.  This technique models a set of data by positing that each data point ($x_{i}$) is generated from one of $K$ Gaussians.  Borrowing partially the notation of Andrew Ng \cite{Ng2008}, a mixture of Gaussians is described mathematically by specifying a joint distribution $p(x_{i}, z_{i}) = p(x_{i}|z_{i})p(z_{i})$ between the data and a latent variable $z_{i}$.  The $z_{i}$'s are introduced to estimate the class assignment of each of the $K$ Gaussians for each datapoint.  This latent variable is necessary because we don't know a priori the proper Gaussian model assignment for each datapoint.  $z_{i}$ is multinomial on parameter $\phi$  ($\phi_{k} \ge 0$,  $\sum_{k=1}^{K}{ \phi_{k}} = 1$ and $p(z_{i} = k)$).  Each $x_{i}|z_{i} = k \sim \mathcal{N}(\mu_{k}, \Sigma_{k})$.  From this derivation, the introduction of latent variable $z_{i}$ makes the estimation of the Gaussian models more difficult.  The result of mixture of Gaussian training is to produce a soft clustering of every datapoint $x_{i}$ to each trained Gaussian distribution.
 
 Traditionally, a mixture of Gaussians is for data vectors with no time element, but some research has been done on using a mixture of Gaussians for time series data clustering.  In one paper \cite{Eirola2013}, the authors create a design matrix to construct a delayed embedding of the original time series.  Each row in the matrix corresponds to a fixed length vector selected from the input time series.  All of the rows together contain all data from the time series with each row over containing overlapping data with one new time series element.  From this embedding, the authors compute a mixture of Gaussians to approximately reconstruct the time series.  In another paper \cite{Kalliovirta2012} Gaussian mixture models are used to mix the weights of an autoregressive model in an attempt to reconstruct the original time series.
 
-Here we introduce another technique for modeling time series data were we assume the presence of multiple short (typically fewer than 10 time steps) residual time series.  These time series are assumed to be derived from a set of $K$ unique time series.  In each of these time series, we model the time steps as Gaussians, each with their own unique mean and covariance.   For our work, the input time series are those candidate extracted anomalies from the previous section (i.e. we are attempting to model and cluster data from \ref{fig:extracted_residuals}).  The following is our derivation of this approach.
+Here we introduce another technique for modeling time series data where we assume the presence of multiple short (typically fewer than 10 time steps) residual time series.  These time series are assumed to be derived from a set of $K$ unique time series.  In each of these time series, we model the time steps as Gaussians, each with their own unique mean and covariance.   For our work, the input time series are those candidate extracted anomalies from the previous section (i.e. we are attempting to model and cluster data from \ref{fig:extracted_residuals}).  The following is our derivation of this approach.
 
-The goal of mixture of Gaussians is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given dataset (in this case a dataset of residuals) $\{r^{(i)}\}$ we maximize
+When fitting a mixture of Gaussians, our goal is to find a set of models which will maximize the log likelihood of the parameters of some models to the dataset.  Given a dataset (in this case a dataset of residuals) $\{r^{(i)}\}$ we maximize
 \begin{equation}
 \ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}log\{p(r^{(i)};\phi, \mu, \Sigma)\}
 \end{equation}
 \noindent 
-where ${M}$ is the total number of time series instances.  In this equation, the $r^{(i)}$'s are each time series slices from the candidate residuals.  The $(i)$ represents the $i$th residual candidate time series - we use the $(i)$ notation to distinguish from the exponent operator.  For this work, each $r^{(i)}$ is of fixed length $N$.  $\phi, \mu,$ and $\Sigma$ are the parameters to optimize for each time series Gaussian.  Each $r^{(i)}$ is roughly analogous to $x_{i}$ in the typical derivation of a mixture of gaussians with the difference here that each $r^{(i)}$ is $N$ readings in length.
+where ${M}$ is the total number of time series instances.  In this equation, the $r^{(i)}$'s are each time series slices from the candidate residuals.  The $(i)$ represents the $i$th residual candidate time series - we use the $(i)$ notation to distinguish from the exponent operator.  For this work, each $r^{(i)}$ is of fixed length $N$.  $\phi, \mu,$ and $\Sigma$ are the parameters to optimize for each time series Gaussian.  Each $r^{(i)}$ is roughly analogous to $x_{i}$ in the typical derivation of a mixture of Gaussians with the difference here that each $r^{(i)}$ is $N$ readings in length.
 
-As in traditional mixture of Gaussians formulation, we introduce a latent variable $z^{(i)}$ which is multinomial on parameter $\phi$ ($\phi_{j} \ge 0$,  $\sum_{j=1}^{K}{ \phi_{j}} = 1$ and $p(z_{i} = j)$).  With this latent variable $z^{(i)}$ we now maximize the likelihood of the joint distribution of $r$ and $z$.  This equation is given as 
+As in the traditional mixture of Gaussians formulation, we introduce a latent variable $z^{(i)}$ which is multinomial on parameter $\phi$ ($\phi_{k} \ge 0$,  $\sum_{k=1}^{K}{ \phi_{k}} = 1$ and $p(z_{i} = k)$).  With this latent variable $z^{(i)}$ we now maximize the likelihood of the joint distribution of $r$ and $z$.  This equation is given as 
 
 \begin{equation}
-\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\log \sum_{k = 1}^{K}p(r^{(i)}, z^{(i)} = k;\phi, \mu, \Sigma)
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\log \sum_{k = 1}^{K}p(r^{(i)}, z^{(i)} = k;\phi, \mu_{k}, \Sigma_{k})
 \end{equation}
 
-In the traditional mixture of Gaussians algorithm each model is ostensibly a Gaussian which may be multivariate on $x^{(i)}$.  One option to model time series data using a mixture of Gaussians is to use each residual input window as multi dimensional training data.  A set of K multi variate Gaussians would then be used to fit the training set.  This type of model does not work with our activity time series forecaster introduced later.  To make this algorithm work with time series data, we define the models instead by
+To make our model work with time series data, we use a simple formulation of modeling each residual with N independent one dimensional Gaussians.  A more complex model would be to model the series as a single multi-dimensional Gaussian with dimension N, however this approach does not lend itself to the recursive feed forward activity forecasting technique which we introduce later in this chapter.  Thus our simple model is defined by
+
 \begin{equation}
 \label{eq:model}
 p(r^{(i)}|z^{(i)} = k;\mu, \Sigma) = \prod_{n = 1}^{N}p(r^{(i)}_{n};\mu_{n}, \Sigma_{n}).
 \end{equation}
 \noindent
-In this equation, $N$ is the length of each time series instance.  Each $p(r^{(i)}_{n};\mu_{n}, \Sigma_{n})$ is computed by a different Gaussian at time offset $n$.  Thus our model for each time series is $N$ independent Gaussians.
+
+In this equation, $N$ is the length of each time series instance.  Each $p(r^{(i)}_{n};\mu_{n}, \Sigma_{n})$ is computed by a different Gaussian at time offset $n$. 
 
 Finally, to make our notation a bit easier we define a variable $w^{(i)}_{k}$.  
 \begin{equation}
-w_{k}^{(i)} = p(z^{(i)} = k|r^{(i)};\mu, \Sigma)
+w_{k}^{(i)} = p(z^{(i)} = k|r^{(i)};\mu_{k}, \Sigma_{k})
 \end{equation}
 \noindent
-$w_{k}^{(i)}$ represents the probability of latent variable $z^{(i)}$ taking the value $j$ from our set of models defined in equation \ref{eq:model}
+$w_{k}^{(i)}$ represents the probability of latent variable $z^{(i)}$ taking the value $k$ from our set of models defined in equation \ref{eq:model}
 
 Expectation maximization (EM) is a common technique to solve maximization problems of this kind.  Here we briefly derive the EM algorithm for our time series derivation of mixture of Gaussians.  Combining our equations so far, we can write the likelihood of the time series model as
 \begin{equation}
 \label{eq:pre_em}
-\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\log \sum_{k = 1}^{K}w_{k}^{(i)}\frac{p(r^{(i)}, z^{(i)}=k;\phi, \mu, \Sigma)}{w_{k}^{(i)}}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\log \sum_{k = 1}^{K}w_{k}^{(i)}\frac{p(r^{(i)}, z^{(i)}=k;\phi, \mu_{k}, \Sigma_{k})}{w_{k}^{(i)}}
 \end{equation}
 \noindent
-This is the equation we want to maximize.  The EM algorithm is computed in two steps, the E step which gives a lower bound on the equation we are trying to maximize and then the M step which maximizes for the current lower bound.  
+This is the equation we want to maximize.  The EM algorithm is computed in two steps; the E step computes the conditional probabilities of each time series to belong to each model  (assuming the model parameters are known), and the M step computes the model parameters, assuming the conditional probabilities are known.
 
 \bigskip
 \noindent
@@ -248,20 +251,20 @@ w^{(i)}_{k} = p(z^{(i)} = k|r^{(i)}) = \frac{p(r^{(i)}|z^{(i)}=k)p(z^{(i)}=k)}
 \bigskip
 \noindent
 \textbf{M-Step} \\
-For the maximization step it is assumed that we know the values of $w_{k}^{(i)}$.  Thus, we need to maximize equation \ref{eq:pre_em} with respect to $\mu$, $\Sigma$, and $\phi$.  However there is one more simplifying step which needs to be made prior to direct maximization.  This can be made according to Jensen's inequality, that is equation \ref{eq:pre_em} may be written as 
+For the maximization step it is assumed that we know the values of $w_{k}^{(i)}$.  Thus, we need to maximize equation \ref{eq:pre_em} with respect to $\mu$, $\Sigma$, and $\phi$.  However there is one more simplifying step which needs to be made prior to direct maximization.  This can be made according to Jensen's inequality \cite{Jensen1906}, that is equation \ref{eq:pre_em} may be written as 
 \begin{equation}
 \label{eq:em_likelihood}
-\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)}\log \frac{p(r^{(i)}|z^{(i)}=k;\mu, \Sigma)p(z^{(i)} = k;\phi)}{w_{k}^{(i)}}
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)}\log \frac{p(r^{(i)}|z^{(i)}=k;\mu_{k}, \Sigma_{k})p(z^{(i)} = k;\phi)}{w_{k}^{(i)}}
 \end{equation}
 and still converge using the EM algorithm.
 
 Combining equations~\ref{eq:em_likelihood} and~\ref{eq:model} gives the following log likelihood
 \begin{equation}
 \label{eq:em_combined}
-\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)} [\log \frac{p(z^{(i)} = k)}{w_{k}} + \sum_{n = 1}^{N} \log \frac{p(r^{(i)}; \mu_{k, n}, \Sigma_{k, n})}{w_{k}}]
+\ell(\phi, \mu, \Sigma) = \sum_{i = 1}^{M}\sum_{k = 1}^{K}w_{k}^{(i)} [\log \frac{p(z^{(i)} = k; \phi)}{w_{k}} + \sum_{n = 1}^{N} \log \frac{p(r^{(i)}; \mu_{k, n}, \Sigma_{k, n})}{w_{k}}]
 \end{equation}
 
-Maximizing \ref{eq:em_combined} with respect to $\phi_{k}$, $\mu_{k, n}$ and $\Sigma_{k, n}$ yields the following update rules for each parameter in the M step.
+Maximizing \ref{eq:em_combined} with respect to $\phi$, $\mu_{k, n}$ and $\Sigma_{k, n}$ yields the following update rules for each parameter in the M step.
 
 \begin{equation}
 \phi_{k} = \frac{1}{M}\sum_{i = 1}^{M}w_{k}^{(i)}
@@ -276,7 +279,7 @@ Maximizing \ref{eq:em_combined} with respect to $\phi_{k}$, $\mu_{k, n}$ and $\S
 
 \subsection{Selecting the number of clusters}
 
-Determining an appropriate number of clusters is an important task in cluster analysis.  Because of its importance for any clustering technique, the literature on this subject is extensive.  While there is no universal definition for determining the optimal number of clusters, there is a general similarity for most cluster analysis techniques.  That is, grouping objects (activity residuals for our dataset) which are as similar as possible into sets, while keeping the model representing the clusters as dissimilar as possible.    A full discussion of all of these approaches is too broad for our work.  Here we will discuss a few common approaches and describe the approach we take to clustering.
+Determining an appropriate number of clusters is an important task in cluster analysis.  Because of its importance for any clustering technique, the literature on this subject is extensive.  While there is no universal definition for determining the optimal number of clusters, there is a general similarity for most cluster analysis techniques.  That is, grouping objects (activity residuals for our dataset) which are as similar as possible into sets, while keeping the model representing the clusters as dissimilar as possible.  A full discussion of all of these approaches is too broad for our work.  Here we will discuss a few common approaches and describe the approach we take to clustering.
 
 \bigskip
 \noindent

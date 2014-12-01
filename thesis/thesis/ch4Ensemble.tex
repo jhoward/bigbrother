@@ -11,10 +11,12 @@ Because ensemble forecasting accounts for the uncertainties of its component mod
 \subsection{Bayesian combined forecasting}
 The BCF approach \cite{Petridis2001} is one of several types of methods which attempt to combine other forecasting models for time series. We selected this forecasting method over other multiple model forecasting methods (such as mixture of experts or ensembles of neural networks) due to its modularity and strong statistical backing.  BCF is modular in that it allows for the component forecasting models to come from any trained forecaster with a well defined distribution of the forecaster's mis-forecasts.  Its statistical backing comes from its direct derivation from Bayes' rule.
 
-To derive BCF we first assume the existence of $K$ models.  From these $K$ models, we want to create a probability distribution on a new random variable $z$ that is used to determine if model $k$ is the correct model from which to forecast at time $t$.  To do this we use the notation of Petridis \cite{Petridis2001} and define $p_{t}^{k}$ as follows
+To derive BCF we first assume the existence of $K$ models.  From these $K$ models, we want to create a probability distribution on a new random variable $z$ that is used to determine if model $k$ is the correct model from which to forecast at time $t$.  To do this we borrow partially the notation of Petridis \cite{Petridis2001} and define $p_{t}^{k}$ as follows
 \begin{equation}
-p_{t}^{k} = p(z = k | x_{t}, ..., x_{1}).
+p_{t}^{k} = p(z = k | x_{t}, ..., x_{1};\omega_{k}).
 \end{equation}
+
+Here the probability distribution $p_{t}^{k}$ is defined by parameters $\omega_{k}$.  For the Gaussian distribution, $\omega_{k}$ is a vector representing the mean ($\mu_{k}$) and covariance ($\Sigma_{k}$) of the distribution.  $p_{t}^{k}$ can be read as the probability random variable $z$ equals model $k$ given prior data $x_{t}, ..., x_{1}$ parameterized by $\omega_{k}$.  We typically drop the $\omega_{k}$ for brevity.
 
 From here we apply Bayes rule and get
 \begin{equation}
@@ -40,7 +42,7 @@ We use the empirically observed forecasting error for each model to estimate $p(
 e_{t}^{k} = y_{t}^{k} - x_{t}.
 \end{equation}
 \noindent
-We can use these forecasting errors to estimate a probability distribution for each model on the random variable $e_{t}^{k}$.  We allow this distribution to take on a set of parameters represented by $\omega_{k}$.  Thus for each model the probability error distribution function on the model error random variable is given by $q(e_{t}^{k};\omega_{k})$.  In practice, this error is  typically modeled as a white noise zero mean Gaussian process.  For our work, we also assume Gaussian noise and hence our parameterization we are searching for is simply the mean and standard deviation of our noise.  
+We can use these forecasting errors to estimate a probability distribution for each model on the random variable $e_{t}^{k}$.  Thus for each model the probability error distribution function on the model error random variable is given by $q(e_{t}^{k}) = p(e_{t}^{k}|z = k, x_{t - 1}, ..., x_{1})$.  In practice, this error is typically modeled as a white noise zero mean Gaussian process.  For our work, we also assume Gaussian noise and hence the parameterization for each distribution we wish to characterize is simply the mean and covariance of our noise.  However, nothing in this derivation eliminates the possibility of using a different noise distribution.
 
 The final equation for the posterior probability of a given model $k$ is
 \begin{equation}
@@ -48,9 +50,9 @@ The final equation for the posterior probability of a given model $k$ is
 p_{t}^{k} = p(z = k|x_{t}, ..., x_{1}) = \frac{p_{t - 1}^{K} \cdot q(x_{t} - y_{t}^{k}; \omega_{k})}{\sum_{j=1}^{K}p_{t - 1}^{j} \cdot q(x_{t}^{j} - y_{t}^{j}; \omega_{j})}.
 \end{equation}
 
-Forecasting using BCF is done by either computing a weighted forecast $\delta$ time steps into the future for each forecasting model or by simply selecting the model with the highest likelihood.  For this paper we forecast using a weighted forecast of all models.  The forecasting equation is
+Forecasting using BCF is done by either computing a weighted forecast $1$ time step into the future for each forecasting model or by simply selecting the model with the highest likelihood.  For this paper we forecast using a weighted forecast of all models.  The forecasting equation is
 \begin{equation}
-x_{t + \delta}^{ALL} = \sum_{k=1}^{K}p_{t}^{k} \cdot y_{t + \delta}^{k}.
+x_{t + 1}^{ALL} = \sum_{k=1}^{K}p_{t}^{k} \cdot y_{t + 1}^{k}.
 \end{equation}
 
 An example of these changing normalized posterior probabilities for a small section of the MERL dataset is shown in \ref{fig:probsmerl}.  In this figure, we perform a forecast using four base models: Seasonal ARIMA, TDNN, SVM and Historic Average.  Our BCF forecaster is forecasting one time step into the future for each time index 1 to 50.  This figure demonstrates that each of the component models applies a weighted forecast to the final forecast.  This forecast changes over time according to how accurate that individual model was in a recent set of forecasts.
@@ -69,11 +71,11 @@ The error distribution is instead generated from
 \begin{equation}
 e_{t}^{k} = f(y_{t - 1}, ..., y_{t - \delta + 1}, x_{t - \delta}, ..., x_{1};\theta_{k}) - x_{t}.
 \end{equation}
-The reason for this change is due to the assumption that our error distribution is an accurate representation of forecasting accuracy.  Notice that the primary difference between these equations is that the output of $f()$ is fed back into the function to "feed forward" ahead further forecasts.  
+The reason for this change is due to the assumption that our error distribution is an accurate representation of forecasting accuracy.  Notice that the primary difference between these equations is that the output of $f()$ is fed back into the function to "feed forward" further forecasts.  
 The forecasting error distribution for models at $1$ time step into the future is not necessarily the same as models at $\delta$ time steps.  To account for this we compute a different error distribution for each forecast time step.
 
 
-\subsubsection{Improving model error distributions}
+\subsubsection{Improving model error distributions based on time of day}
 
 \begin{figure*}[t]
 \centering
@@ -86,12 +88,14 @@ The standard implementation of BCF assumes a single fixed error distribution for
 
 To represent a more realistic error distribution instead of a fixed white noise Gaussian that is commonly used in the literature, we fit a Gaussian for each slice of a day.  For example, the data from the MERL dataset was used from 6:00am to 7:00pm. The thirteen hours of data used per day represent 78 time slices.  These Gaussians are computed from a validation set representing 20\% of our data.  It is from this set of model error distributions that we compute BCF.
 
-As a possible improvement to this set of error distributions, we note that using a generalized autoregressive conditional heteroskedastic (GARCH) model \cite{Box2008} or some other appropriate model to forecast future variance based on local and historic changes in variance would likely outperform our time based average Gaussian models.  GARCH models are similar to seasonal autoregressive moving average models which we use as one of our component forecasting models except that they are regressive on the local residual terms of the model.
+Both the suggested improvement to forecast $\delta$ time steps into the future and this improvement about modifying the error distribution based on time of day suggest the need to compute considerably more models than the naive approach of one model for each forecaster.  Due to the number of new models, these changes require significantly more training data training data that is necessary with the standard implementation of BCF.  In practice, most traffic datasets seem to have an abundance of data instead of too little.  We don't foresee this extra demand on data to be a problem, but feel it should be noted.
+
+Further, as a possible improvement to this set of error distributions, we believe that using a generalized autoregressive conditional heteroskedastic (GARCH) model \cite{Box2008} or some other appropriate model to forecast future variance based on local and historic changes in variance would likely outperform our time based average Gaussian models.  GARCH models are similar to seasonal autoregressive moving average models which we use as one of our component forecasting models except that they are regressive on the local residual terms of the model.
 
 \subsubsection{Model selection thresholding}
-Diebold \cite{Diebold1991} cautions against the use of forecasting using a Bayesian combination of models in all cases.  Diebold points out that under certain situations a convex combination of forecasts for models may not be optimal, and cases exist where taking negative likelihood weighting may be optimal.  These conditions are likely to arise during instances where the data may not be accurately described by any of the forecasting models.  
+Diebold \cite{Diebold1991} cautions against the use of forecasting using a Bayesian combination of models in all cases.  Diebold points out that under certain situations a convex combination of forecasts for models may not be optimal, and other non-convex combinations of models may better describe the current data.  Conditions such as these are likely to arise during instances where the data may not be accurately described by any of the forecasting models.  
 
-Furthermore, due to noise in the data, there exist short windows of the data where no model is able to provide a sufficiently accurate forecast.  During these windows of time, forecasts will often come from the historically worst model.  The reason for this phenomenon is due to the way in which BCF performs model selection.  The forecasting residuals of each model is trained by the BCF forecast for each base model.  The model with the worst forecasting performance will often have a large range of residuals and thus have the highest forecasting variance.  Because the this variance is much higher, the likelihood of the worst historic model is typically higher than any of the more accurate models with a  lower forecasting variance.  This leads to the worst forecasters doing most of the forecasting during noisy events.  
+In such instances where no model exists to provide sufficiently accurate forecasts, BCF forecasts will often come from the historically worst model.  The reason for this phenomenon is due to the way in which BCF performs model selection.  The forecasting residuals of each model is trained by the BCF forecast for each base model.  The model with the worst forecasting performance will often have a large range of residuals and thus have the highest forecasting variance.  Because the this variance is much higher, the likelihood of the worst model is typically higher than any of the more accurate models with a lower forecasting variance.  This leads to the worst forecasters doing most of the forecasting during noisy events.  
 
 The behavior of the worst forecasters having the largest forecasting weight during noisy events is not problematic for that individual forecast from which a noisy event happened, as no forecaster is likely to forecast accurately a single blip of noise.  The problem is that each forecaster's posterior probability is recursive and uses the likelihood of prior forecasts to determine the likelihood of a future forecast.  This means that each time there is a blip in the data, the worst forecasters will typically be given the most weight for the next few forecasts until enough time has passed for the posterior probability of each forecasting model to return to typical ranges.
 
