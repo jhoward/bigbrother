@@ -1,4 +1,4 @@
-\begin{thebibliography}{94}
+\begin{thebibliography}{95}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -584,6 +584,10 @@ Robert~L. Thorndike.
 Gideon~E. Schwarz.
 \newblock {Estimating the dimension of a model}.
 \newblock \emph{Annals of Statistics}, 6\penalty0 (2):\penalty0 461--464, 1978.
+
+\bibitem[Statsoft(2010)]{Statsoft2010}
+Statsoft.
+\newblock {Cluster Analysis}, 2010.
 
 \bibitem[Rousseuw(1987)]{Rousseuw1987}
 Peter~J. Rousseuw.

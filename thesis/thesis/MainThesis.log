@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  30 NOV 2014 18:00
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012) (format=xelatex 2012.6.30)  1 DEC 2014 21:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -950,11 +950,11 @@ File: ./images/merl_sample_clusters_svm.png Graphic file (type QTm)
 <use  "./images/merl_sample_clusters_svm.png" >
 File: ./images/brown_sample_clusters_arima.png Graphic file (type QTm)
 
-<use  "./images/brown_sample_clusters_arima.png" >
+<use  "./images/brown_sample_clusters_arima.png" > [64]
 File: ./images/denver_sample_clusters_tdnn.png Graphic file (type QTm)
 
-<use  "./images/denver_sample_clusters_tdnn.png" > [64] [65] [66]
-Overfull \hbox (13.73216pt too wide) in paragraph at lines 394--395
+<use  "./images/denver_sample_clusters_tdnn.png" > [65] [66]
+Overfull \hbox (13.73216pt too wide) in paragraph at lines 393--394
 []\OT1/cmr/m/n/12 To find $\OML/cmm/m/it/12 p\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 
 a[]\OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 x[]; [] ; x[]\OT1/cmr/m/n/12 )$ we need t
 o com-pute $\OML/cmm/m/it/12 p\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]\OMS/cmsy/m/
@@ -969,16 +969,18 @@ File: ./images/sample_residual_plot_dataset_Denver.png Graphic file (type QTm)
 File: ./images/denver_sample_cluster.png Graphic file (type QTm)
 
 <use  "./images/denver_sample_cluster.png" >
-Underfull \hbox (badness 6608) in paragraph at lines 463--463
+Underfull \hbox (badness 6608) in paragraph at lines 462--462
 []\OT1/cmr/m/n/12 Figure 5.11: |Ex-tracted
  []
 
 [69]
 File: ./images/sample_plot_Denver.png Graphic file (type QTm)
- <use  "./images/sample_plot_Denver.png" > [70]
-File: ./images/rmseonan_average_abcf_Denver.png Graphic file (type QTm)
+ <use  "./images/sample_plot_Denver.png" >
 
-<use  "./images/rmseonan_average_abcf_Denver.png" >
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./images/rmseonan_average_abcf_Denver.png Graphic file (type QTm)
+<use  "./images/rmseonan_average_abcf_Denver.png" > [70]
 File: ./images/rmseonan_arima_abcf_Denver.png Graphic file (type QTm)
 
 <use  "./images/rmseonan_arima_abcf_Denver.png" >
@@ -995,9 +997,9 @@ File: ./images/rmseonan_improvement_for_each_forecaster_for_Denver.png Graphic
 file (type QTm)
 
 <use  "./images/rmseonan_improvement_for_each_forecaster_for_Denver.png" >
+[71] [72] [73] [74]
 File: ./images/rmse_abcf_svm_arim_tdnn_for_Denver.png Graphic file (type QTm)
-
-<use  "./images/rmse_abcf_svm_arim_tdnn_for_Denver.png" >
+ <use  "./images/rmse_abcf_svm_arim_tdnn_for_Denver.png" >
 File: ./images/rmse_abcf_average_bcf_bcfts_for_Denver.png Graphic file (type QT
 m)
 
@@ -1017,7 +1019,7 @@ File: ./images/mase_percent_improvement_for_each_forecaster_for_Denver.png Grap
 hic file (type QTm)
 
 <use  "./images/mase_percent_improvement_for_each_forecaster_for_Denver.png" >
-[71] [72] [73] [74] [75] [76] [77] [78]
+[75] [76] [77] [78]
 File: ./images/rmseonan_improvement_for_each_forecaster_for_Merl.png Graphic fi
 le (type QTm)
 
@@ -1034,14 +1036,14 @@ File: ./images/rmse_percent_improvement_for_each_forecaster_for_Brown.png Graph
 ic file (type QTm)
 
 <use  "./images/rmse_percent_improvement_for_each_forecaster_for_Brown.png" >
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 645.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 644.
 
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 645.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 644.
  [79] [80]
 [81]
 File: ./images/mase_percent_improvement_for_each_forecaster_for_Merl.png Graphi
@@ -1224,10 +1226,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 143.
  ) 
 Here is how much of TeX's memory you used:
- 12790 strings out of 494004
- 195965 string characters out of 3150890
- 337370 words of memory out of 3000000
- 15722 multiletter control sequences out of 15000+200000
+ 12793 strings out of 494004
+ 196025 string characters out of 3150890
+ 337398 words of memory out of 3000000
+ 15725 multiletter control sequences out of 15000+200000
  9203 words of font info for 37 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  159i,15n,682p,1252b,628s stack positions out of 5000i,500n,10000p,200000b,50000s

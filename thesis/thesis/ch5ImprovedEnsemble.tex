@@ -302,8 +302,7 @@ An information based approach to selecting the number of clusters is to use eith
 \bigskip
 \noindent
 \textbf{Cross-validation} \\
-TODO WRITE ON CROSS-VALIDATION METHOD
-
+Another common, but computationally intensive approach to selecting the number of clusters is cross validation.  This technique involves splitting the data into $v$ parts.  Each of these parts is then individually used as a test set with the remaining $v-1$ parts used to cluster the data.  A common scoring function such as mean squared distance to nearest cluster center is then computed for each datapoint.  This scoring is done for many potential cluster values for each of the $v$ parts.  The final number of clusters selected is the value that minimizes the scoring function.  A more detailed description of this method can be found here \cite{Statsoft2010}
 
 \bigskip
 \noindent
@@ -322,7 +321,7 @@ The doctoral thesis \cite{Yan2005} of Yan broached the topic of best clustering 
 
 \subsection{Sample representative clusters and a discussion about them}
 
-This section visually demonstrates a few of the clusters extracted from our datasets using the time series mixture of Gaussian's approach.  These residual clusters were chosen from each dataset and from different base forecasting approaches.  The images shown here are from a mix of base forecasters without regard to the forecaster's accuracy.  Such clusters have been generated for every combination of dataset and forecaster residuals.
+This section visually demonstrates a few of the clusters extracted from our datasets using the time series mixture of Gaussians approach.  These residual clusters were chosen from each dataset and from different base forecasting approaches.  The images shown here are from a mix of base forecasters without regard to the forecaster's accuracy.  Such clusters have been generated for every combination of dataset and forecaster residuals.
 
 \ref{fig:merl_clusters} is a set of clusters from a residual time series of MERL dataset extracted using the SVM forecaster.  The residuals are from a time series forecasting horizon of 20 minutes (two time steps).  The extracted window length is 70 minutes (seven time steps).  These clusters were taken from the top 10\% of the MERL data residuals.
 
@@ -342,7 +341,7 @@ This section visually demonstrates a few of the clusters extracted from our data
 	\label{fig:brown_clusters}
 \end{figure}
 
-\ref{fig:brown_clusters} is the set of clusters from the Brown dataset extracted from the ARIMA forecaster.  The clusters from the dataset were taken from the top 10\% of the Brown data residuals.  Notice how these clusters, unlike the clusters from \ref{fig:merl_clusters} do not begin nor end with a residual value of zero.  This likely means that the true residuals are longer in length than those displayed here.  However, our method of silhouette score maximization returned this set as the best.  Most likely this is due to non-consistent residual behavior if the extracted residual window is increased.
+\ref{fig:brown_clusters} is the set of clusters from the Brown dataset extracted from the ARIMA forecaster.  The clusters from the dataset were taken from the top 10\% of the Brown data residuals and each extracted time series is 50 minutes (five time steps) in length.  Notice how these clusters, unlike the clusters from \ref{fig:merl_clusters} do not begin nor end with a residual value of zero.  This likely means that the true residuals are longer in length than those displayed here.  However, our method of silhouette score maximization returned this set as the best.  Most likely this is due to non-consistent residual behavior if the extracted residual window is increased.
   
 \begin{figure}
 	\begin{center}
