@@ -364,7 +364,7 @@ Here we present the math behind our Anomaly Bayesian combined forecasting algori
 
 We present the algorithm using two anomaly event models $a$ and $b$ with a background model $c$.  Extending the algorithm to work for any number of algorithms is apparent from this presentation.  For our work, the models $a$ and $b$ are modeled anomalies from our time series mixture of Gaussians; however this derivation allows the models to be any of a stochastic time series model such that it is possible to compute $p(x_{t} | a^{(i)}_{t})$.  Finally, the model $c$ is assumed to be a background model which allows for the computation of $p(c_{t}|x_{t})$.  
 
-Let $a_{t}^{(i)} = $ the event that model $a$ is active at time $t$ at index $i$ and $b_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$.  Both anomalies $a$ and $b$ have a known length defined by the function $len(a)$ or $len(b)$.  For each time $t$ we call the data that generated $t$ as event $e$.  Because $a$ and $b$ are the only anomalies modeled, $e$ can be either ${a^{(i)}_{t}}$, ${b^{(i)}_{t}}$ or $c$ for any $i$.
+Let $a_{t}^{(i)} = $ the event that model $a$ is active at time $t$ at index $i$ and $b_{t}^{(i)} = $ the event that model $b$ is active at time $t$ at index $i$.  Both anomalies $a$ and $b$ have a known length defined by the function $len(a)$ or $len(b)$.  For each time $t$ there is some model that is active, which we call $e_{t}.  Because $a$ and $b$ are the only anomalies considered, $e$ can be either ${a^{(i)}_{t}}$, ${b^{(i)}_{t}}$ or $c_{t}$ for any $t$.
 
 Thus, we know that
 
@@ -379,7 +379,7 @@ Since, every $e_{t}$ is generated from either $a$, $b$, or $c$, we force (throug
 \label{eq:pabc}
 \end{equation}
 
-The goal of this forecaster is then to find each of $p(a_{t + 1}^{(i + 1)})$, $p(b_{t + 1}^{(i + 1)})$, and $p(c_{t + 1}).$  Given these model likelihoods, we can then produce a final forecast in a way similar to BCF in chapter 4 by either using the most likely model or producing an aggregate forecast from each model.
+The goal of this forecaster is then to find each of $p(a_{t + 1}^{(i + 1)})$, $p(b_{t + 1}^{(i + 1)})$, and $p(c_{t + 1}).$  Given these model likelihoods, we can then produce a final forecast in a way similar to BCF in Chapter 4 by either using the most likely model or producing an aggregate forecast from each model.
 
 From Bayes rule we have the following equation 
 
@@ -417,7 +417,7 @@ Finally, the calculation of $p(a_{t + 1}^{(i + 1)}|x_{t}, \ldots, x_{1})$ is fro
 	%\right
 \end{equation}
 
-In the present of an event we pass along the likelihood of that even to the next time step and recompute the posterior of that event.  The prior for the start of each event is a user tunable parameter.  
+In the presence of an event we pass along the likelihood of that event to the next time step and recompute the posterior of that event.  The prior for the start of each event is an empirically tuned parameter.  
 
 \begin{equation}
 	\begin{split}
@@ -452,9 +452,9 @@ The prior is now $p(a_{t + 1}^{(i)}|x_{t}, \ldots, x_{1})$ which does not depend
 \end{figure}
 
 \subsection{Demonstration of ABCF}
-\ref{fig:sample_abcf_residual} is a demonstration of ABCF.  This figure displays a sample time frame (in blue) from the Denver dataset along with the corresponding region for one standard deviation of noise from a best fit ARIMA forecaster with a horizon of two time steps.  The teal line below the graph is the likelihood of the background ARIMA model accurately representing the residual data from the set of clustered anomalies.  The remaining tan lines are the individual likelihoods of each time step of a given clustered anomaly shown in \ref{fig:sample_cluster}  
+\ref{fig:sample_abcf_residual} is a demonstration of ABCF.  This figure displays a sample time frame (in blue) from the Denver dataset along with the corresponding region for one standard deviation of noise from a best fit ARIMA forecaster with a horizon of two time steps.  The teal line below the graph is the likelihood of the background ARIMA model accurately representing the residual data from the set of clustered anomalies.  The remaining tan lines are the individual likelihoods of each time step of a given clustered anomaly shown in \ref{fig:sample_cluster}.  
 
-The red line is the resulting ABCF forecast to the residual.  Ideally the residual should be completely zero, thus resulting in no forecasting error.  At approximately time 10, an anomalous event begins to occur.  The ABCF algorithm takes a few time steps to identify this anomaly and determine that the background ARIMA forecaster is no longer accurate.  We see this effect by noticing the teal line's reduction in likelihood from approximately time step 12 to time step 17.  During this time all other extracted clusters are attempting to fit the anomaly.
+The blue line is the resulting ABCF forecast and the red line is the original residual.  Ideally the residual should be completely zero, thus resulting in no forecasting error.  At approximately time 11, an anomalous event begins to occur.  The ABCF algorithm takes a few time steps to identify this anomaly and determine that the background ARIMA forecaster is no longer accurate.  We see this effect by noticing the teal line's reduction in likelihood from approximately time step 12 to time step 17.  During this time all other extracted clusters are attempting to fit the anomaly.
 
 \begin{wrapfigure}{R}{0.3\textwidth}
 \centering
@@ -671,7 +671,7 @@ Based on these results, for similar datasets, we anticipate no reason why applyi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Future work
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Future unexplored work on ABCF}
+\subsection{Suggestions for future work}
 While we are happy with the current status of the ABCF algorithm, we would recommend the following potential avenues for improvement.
 
 \begin{enumerate}
